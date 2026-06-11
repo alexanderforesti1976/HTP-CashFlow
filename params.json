@@ -1,6 +1,6 @@
 {
   "_note": "HTP CashFlow & PL \u2014 parametri aggiornati. Modifica questo file per aggiornare il modello.",
-  "_updated": "2026-06-11",
+  "_updated": "2026-06-11c",
   "rev26": 2350,
   "growth27": -15,
   "dso": 62,
@@ -32,5 +32,310 @@
   "cigH27": 50,
   "startCash": 1464,
   "openRec": 480,
-  "openPay": 293
+  "openPay": 293,
+  "OREV": {
+    "0": 292.6,
+    "1": 92.9,
+    "2": 120.9,
+    "3": 73.9,
+    "4": 52.6,
+    "5": 34.0,
+    "6": 24.9,
+    "7": 20.5,
+    "8": 0.6,
+    "11": 11.8
+  },
+  "OBACKLOG": [
+    {
+      "m": "Giu 26",
+      "t": 252.1,
+      "c": [
+        [
+          "Lav.El.Gomma",
+          31.3
+        ],
+        [
+          "Dichtungspartner",
+          50.9
+        ],
+        [
+          "Argomm",
+          16.2
+        ],
+        [
+          "T.Erre",
+          45.3
+        ],
+        [
+          "Enextras",
+          58.3
+        ],
+        [
+          "Watts",
+          5.4
+        ],
+        [
+          "Serotti",
+          12.8
+        ],
+        [
+          "Breka",
+          9.9
+        ],
+        [
+          "Sagom",
+          12.0
+        ],
+        [
+          "Dubhe",
+          3.5
+        ],
+        [
+          "Kongsberg",
+          1.0
+        ],
+        [
+          "OMR",
+          1.5
+        ],
+        [
+          "E.B.",
+          4.0
+        ]
+      ]
+    },
+    {
+      "m": "Lug 26",
+      "t": 292.6,
+      "c": [
+        [
+          "T.Erre",
+          100.0
+        ],
+        [
+          "Enextras",
+          49.0
+        ],
+        [
+          "Lav.El.Gomma",
+          28.0
+        ],
+        [
+          "Dichtungspartner",
+          21.7
+        ],
+        [
+          "OMECA",
+          26.7
+        ],
+        [
+          "Argomm",
+          16.2
+        ],
+        [
+          "Scaligera",
+          14.9
+        ],
+        [
+          "Eurgomma",
+          19.5
+        ],
+        [
+          "Watts",
+          5.4
+        ],
+        [
+          "Dubhe",
+          5.3
+        ],
+        [
+          "E.B.",
+          6.0
+        ]
+      ]
+    },
+    {
+      "m": "Ago 26",
+      "t": 92.9,
+      "c": [
+        [
+          "Enextras",
+          58.3
+        ],
+        [
+          "Serotti",
+          13.8
+        ],
+        [
+          "Watts",
+          20.7
+        ]
+      ]
+    },
+    {
+      "m": "Set 26",
+      "t": 120.9,
+      "c": [
+        [
+          "Enextras",
+          49.0
+        ],
+        [
+          "T.Erre",
+          33.6
+        ],
+        [
+          "Eurgomma",
+          19.8
+        ],
+        [
+          "Lav.El.Gomma",
+          10.8
+        ],
+        [
+          "Watts",
+          7.7
+        ]
+      ]
+    },
+    {
+      "m": "Ott 26",
+      "t": 73.9,
+      "c": [
+        [
+          "Lav.El.Gomma",
+          24.9
+        ],
+        [
+          "Argomm",
+          24.3
+        ],
+        [
+          "T.Erre",
+          24.0
+        ],
+        [
+          "Kongsberg",
+          0.7
+        ]
+      ]
+    },
+    {
+      "m": "Nov 26",
+      "t": 52.6,
+      "c": [
+        [
+          "T.Erre",
+          28.4
+        ],
+        [
+          "OMECA",
+          11.5
+        ],
+        [
+          "Dubhe",
+          8.8
+        ],
+        [
+          "Edscha",
+          4.0
+        ]
+      ]
+    },
+    {
+      "m": "Dic 26",
+      "t": 34.0,
+      "c": [
+        [
+          "Dichtungspartner",
+          25.1
+        ],
+        [
+          "OMECA",
+          8.9
+        ]
+      ]
+    },
+    {
+      "m": "Gen 27",
+      "t": 24.9,
+      "c": [
+        [
+          "T.Erre",
+          24.9
+        ]
+      ]
+    },
+    {
+      "m": "Feb 27",
+      "t": 20.5,
+      "c": [
+        [
+          "T.Erre",
+          15.6
+        ],
+        [
+          "Edscha",
+          4.0
+        ],
+        [
+          "Kongsberg",
+          1.0
+        ]
+      ]
+    },
+    {
+      "m": "Mar 27",
+      "t": 0.6,
+      "c": [
+        [
+          "T.Erre",
+          0.6
+        ]
+      ]
+    }
+  ],
+  "loans": [
+    {
+      "name": "BCC Brescia 1066083",
+      "monthly": 2.4,
+      "from": 0,
+      "to": 8,
+      "color": "#4ade80"
+    },
+    {
+      "name": "Credito Emiliano",
+      "monthly": 8.69,
+      "from": 0,
+      "to": 19,
+      "color": "#f59e0b"
+    },
+    {
+      "name": "BCC Brescia 1071107",
+      "monthly": 5.23,
+      "from": 0,
+      "to": 23,
+      "color": "#f59e0b"
+    },
+    {
+      "name": "Unicredit 2529480",
+      "monthly": 36.5,
+      "quarters": [
+        2,
+        5,
+        8,
+        11,
+        14,
+        17,
+        20
+      ],
+      "color": "#ef4444"
+    },
+    {
+      "name": "BCC Sebino (x2)",
+      "single": 80.0,
+      "at": 3,
+      "color": "#22d3ee"
+    }
+  ]
 }
