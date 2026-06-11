@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>HTP Cash Flow & P&L</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f172a;color:#e2e8f0;font-family:system-ui,sans-serif;font-size:14px}
+input[type=range]{width:100%;cursor:pointer;accent-color:#6366f1;height:6px}
+.sl-row{position:relative}
+.sl-ctrl{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.sl-ctrl input[type=range]{flex:1}
+.pm-btn{width:32px;height:32px;border-radius:8px;border:none;background:#334155;color:#e2e8f0;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.pm-btn:active{background:#6366f1}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:#1e293b}
+::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}
+.topbar{background:#0d1426;border-bottom:1px solid #1e293b;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:14px;font-weight:800}
+.topbar small{font-size:9px;color:#475569;display:block;margin-top:2px}
+.btn{padding:7px 14px;border-radius:10px;border:none;cursor:pointer;font-size:12px;font-weight:600}
+.params-panel{background:#0d1426;border-bottom:2px solid #6366f1;padding:16px;max-height:72vh;overflow-y:auto;display:none}
+.params-panel.open{display:block}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.grp{margin-bottom:14px}
+.glabel{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.sl{margin-bottom:14px}
+.sl-hd{display:flex;justify-content:space-between;margin-bottom:2px}
+.sl-lbl{font-size:11px;color:#94a3b8}
+.sl-val{font-size:12px;font-weight:700;color:#e2e8f0;font-family:monospace}
+.sl-note{font-size:9px;color:#64748b;margin-bottom:3px}
+.main{padding:14px 14px 30px}
+.vbar{display:flex;gap:4px;margin-bottom:10px;background:#1e293b;border-radius:10px;padding:4px}
+.vbtn{flex:1;padding:7px 4px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:#94a3b8}
+.vbtn.active{background:#6366f1;color:#fff}
+.rev-bar{display:flex;gap:8px;margin-bottom:12px;background:#1e293b;border-radius:12px;padding:10px 14px;align-items:center;flex-wrap:wrap}
+.rev-item{flex:1;min-width:110px}
+.rev-item .label{font-size:9px;color:#64748b;margin-bottom:2px}
+.rev-item .value{font-size:16px;font-weight:800;font-family:monospace}
+.rev-divider{width:1px;background:#334155;align-self:stretch}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kcard{border-radius:12px;padding:12px 14px;border:1px solid #334155;background:#1e293b}
+.kcard.ok{background:#052e16;border-color:#166534}
+.kcard.warn{background:#431407;border-color:#9a3412}
+.klabel{font-size:10px;color:#64748b}
+.kval{font-size:18px;font-weight:800;font-family:monospace;letter-spacing:-1px;margin-top:2px;color:#e2e8f0}
+.kcard.ok .kval{color:#4ade80}
+.kcard.warn .kval{color:#fb923c}
+.ksub{font-size:10px;color:#475569;margin-top:2px}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:14px;background:#1e293b;border-radius:10px;padding:4px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;border:none;background:transparent;color:#94a3b8}
+.tab.active{background:#6366f1;color:#fff}
+.card{background:#1e293b;border-radius:14px;padding:16px 14px;margin-bottom:14px}
+.card-title{font-size:12px;font-weight:700;margin-bottom:12px}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:11px;min-width:560px}
+th{padding:8px 10px;text-align:left;color:#64748b;font-weight:600;font-size:10px;white-space:nowrap;background:#0f172a}
+td{padding:7px 10px;white-space:nowrap}
+tr:nth-child(even) td{background:#162032}
+.mono{font-family:monospace}
+.bold{font-weight:700}
+.info-box{border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:10px}
+.strip{display:flex;gap:2px;margin-top:10px;overflow-x:auto}
+.footer{font-size:9px;color:#334155;margin-top:16px;text-align:center}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><h1>HTP &middot; Cash Flow &amp; P&amp;L</h1><small>Lug 2026 &ndash; Dic 2027 (18 mesi)</small></div>
+  <button class="btn" id="btn-params" style="background:#1e293b;color:#94a3b8" onclick="toggleParams()">&#9881;&#65039; Parametri</button>
+</div>
+
+<div class="params-panel" id="ppanel">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:0 0 12px 0;border-bottom:1px solid #334155;margin-bottom:14px"><span style="font-size:11px;color:#64748b">Modifica i parametri delle proiezioni</span><button class="btn" onclick="resetAll()" style="background:#ef4444;color:#fff;font-size:12px;font-weight:700;padding:8px 16px">↺ Reimposta tutto</button></div>
+<div class="pgrid">
+<div>
+<div class="grp"><div class="glabel" style="color:#6366f1">RICAVI</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2026</span><span class="sl-val" id="lv-r26">2350k&euro;</span></div><div class="sl-note">Da ordini confermati: ~&euro;1.790k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1500.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev26',v)" type="button">&minus;</button><input type="range" min="1500" max="5000" step="50" value="2350" oninput="upd('rev26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev26',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Crescita 2027 vs 2026</span><span class="sl-val" id="lv-g27">-15%</span></div><div class="sl-note" id="n-g27">2026: &euro;2350k &rarr; 2027: &euro;2000k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-30.0,+(+el.value-5).toFixed(2));el.value=v;upd('growth27',v)" type="button">&minus;</button><input type="range" min="-30" max="60" step="5" value="-15" oninput="upd('growth27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(60.0,+(+el.value+5).toFixed(2));el.value=v;upd('growth27',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#22d3ee">DILAZIONI</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">DSO &ndash; Incasso clienti</span><span class="sl-val" id="lv-dso">62gg</span></div><div class="sl-note">Reale: ~62gg ponderato su termini clienti</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('dso',v)" type="button">&minus;</button><input type="range" min="30" max="150" step="1" value="62" oninput="upd('dso',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+1).toFixed(2));el.value=v;upd('dso',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">DPO &ndash; Pag. fornitori</span><span class="sl-val" id="lv-dpo">83gg</span></div><div class="sl-note">Reale: 83gg su tutti i costi esterni</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(15.0,+(+el.value-1).toFixed(2));el.value=v;upd('dpo',v)" type="button">&minus;</button><input type="range" min="15" max="150" step="1" value="83" oninput="upd('dpo',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+1).toFixed(2));el.value=v;upd('dpo',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#fb923c">MAGAZZINO</div>
+  <div class="info-box" style="background:#1a1000;color:#fdba74">2024: &euro;265k &rarr; 2025: &euro;168k (&minus;&euro;97k smaltiti)</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">&Delta; Magazzino 2026</span><span class="sl-val" id="lv-di26">0k&euro;</span></div><div class="sl-note">+ ricostruisce &middot; &minus; smaltisce</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-100.0,+(+el.value-5).toFixed(2));el.value=v;upd('di26',v)" type="button">&minus;</button><input type="range" min="-100" max="150" step="5" value="0" oninput="upd('di26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+5).toFixed(2));el.value=v;upd('di26',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">&Delta; Magazzino 2027</span><span class="sl-val" id="lv-di27">0k&euro;</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-100.0,+(+el.value-5).toFixed(2));el.value=v;upd('di27',v)" type="button">&minus;</button><input type="range" min="-100" max="150" step="5" value="0" oninput="upd('di27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+5).toFixed(2));el.value=v;upd('di27',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#a3e635">COSTI NON MONETARI</div>
+  <div class="info-box" style="background:#1a2a1a;color:#86efac">Non escono dalla cassa &middot; riducono il reddito imponibile</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Ammortamenti 2026</span><span class="sl-val" id="lv-a26">110k&euro;</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(50.0,+(+el.value-5).toFixed(2));el.value=v;upd('amm26',v)" type="button">&minus;</button><input type="range" min="50" max="200" step="5" value="110" oninput="upd('amm26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(200.0,+(+el.value+5).toFixed(2));el.value=v;upd('amm26',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Ammortamenti 2027</span><span class="sl-val" id="lv-a27">100k&euro;</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(50.0,+(+el.value-5).toFixed(2));el.value=v;upd('amm27',v)" type="button">&minus;</button><input type="range" min="50" max="200" step="5" value="100" oninput="upd('amm27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(200.0,+(+el.value+5).toFixed(2));el.value=v;upd('amm27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">TFM Admin. (% EBT)</span><span class="sl-val" id="lv-tfm">20%</span></div><div class="sl-note">20% utile lordo pre-TFM</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-1).toFixed(2));el.value=v;upd('tfmPct',v)" type="button">&minus;</button><input type="range" min="0" max="40" step="1" value="20" oninput="upd('tfmPct',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(40.0,+(+el.value+1).toFixed(2));el.value=v;upd('tfmPct',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#10b981">CIG 2026</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Lavoratori in CIG 2026</span><span class="sl-val" id="lv-cig">0</span></div><div class="sl-note">Organico ~20 persone totali</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-1).toFixed(2));el.value=v;upd('cigW',v)" type="button">&minus;</button><input type="range" min="0" max="20" step="1" value="0" oninput="upd('cigW',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20.0,+(+el.value+1).toFixed(2));el.value=v;upd('cigW',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">% ore sospese 2026</span><span class="sl-val" id="lv-cigh">50%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(10.0,+(+el.value-5).toFixed(2));el.value=v;upd('cigH',v)" type="button">&minus;</button><input type="range" min="10" max="100" step="5" value="50" oninput="upd('cigH',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(100.0,+(+el.value+5).toFixed(2));el.value=v;upd('cigH',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#10b981">CIG 2027</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Lavoratori in CIG 2027</span><span class="sl-val" id="lv-cig27">0</span></div><div class="sl-note">Organico ~20 persone totali</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-1));el.value=v;upd('cigW27',v)" type="button">&minus;</button><input type="range" min="0" max="20" step="1" value="0" oninput="upd('cigW27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20,+(+el.value+1));el.value=v;upd('cigW27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">% ore sospese 2027</span><span class="sl-val" id="lv-cigh27">50%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(10,+(+el.value-5));el.value=v;upd('cigH27',v)" type="button">&minus;</button><input type="range" min="10" max="100" step="5" value="50" oninput="upd('cigH27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(100,+(+el.value+5));el.value=v;upd('cigH27',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#fbbf24">IMPOSTE</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">IRES</span><span class="sl-val" id="lv-ires">24%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(20.0,+(+el.value-1).toFixed(2));el.value=v;upd('iresR',v)" type="button">&minus;</button><input type="range" min="20" max="28" step="1" value="24" oninput="upd('iresR',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(28.0,+(+el.value+1).toFixed(2));el.value=v;upd('iresR',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">IRAP</span><span class="sl-val" id="lv-irap">3.9%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('irapR',v)" type="button">&minus;</button><input type="range" min="3" max="5" step="0.1" value="3.9" oninput="upd('irapR',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('irapR',v)" type="button">+</button></div></div>
+</div>
+</div>
+<div>
+<div class="grp"><div class="glabel" style="color:#f472b6">COSTI CASH 2026</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Acquisti MP</span><span class="sl-val" id="lv-mat">21%</span></div><div class="sl-note">2025: 19% &middot; 2024: 24%</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(10.0,+(+el.value-1).toFixed(2));el.value=v;upd('matPct',v)" type="button">&minus;</button><input type="range" min="10" max="45" step="1" value="21" oninput="upd('matPct',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(45.0,+(+el.value+1).toFixed(2));el.value=v;upd('matPct',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Lavorazioni c/terzi</span><span class="sl-val" id="lv-sub">5%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-1).toFixed(2));el.value=v;upd('subPct',v)" type="button">&minus;</button><input type="range" min="0" max="15" step="1" value="11" oninput="upd('subPct',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(15.0,+(+el.value+1).toFixed(2));el.value=v;upd('subPct',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Personale (all-in)</span><span class="sl-val" id="lv-lab">44k&euro;/m</span></div><div class="sl-note">YTD reale ~&euro;41.7k + TFR &euro;1.9k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('laborK',v)" type="button">&minus;</button><input type="range" min="30" max="130" step="1" value="54" oninput="upd('laborK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(130.0,+(+el.value+1).toFixed(2));el.value=v;upd('laborK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Affitti</span><span class="sl-val" id="lv-rent">8.1k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('rentK',v)" type="button">&minus;</button><input type="range" min="5" max="15" step="0.1" value="8.3" oninput="upd('rentK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(15.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('rentK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Energia (% fatturato)</span><span class="sl-val" id="lv-enrg">3.3%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-1).toFixed(2));el.value=v;upd('energyK',v)" type="button">&minus;</button><input type="range" min="3" max="20" step="1" value="8" oninput="upd('energyPct',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20.0,+(+el.value+1).toFixed(2));el.value=v;upd('energyK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Provvigioni agenti</span><span class="sl-val" id="lv-comm">2.2%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('commPct',v)" type="button">&minus;</button><input type="range" min="0" max="5" step="0.1" value="2.2" oninput="upd('commPct',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('commPct',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Royalties (% fatt.)</span><span class="sl-val" id="lv-roy">1.5%</span></div><div class="sl-note">1% brand + 0.5% blog</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('royPct',v)" type="button">&minus;</button><input type="range" min="0" max="4" step="0.1" value="1.5" oninput="upd('royPct',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(4.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('royPct',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri costi fissi</span><span class="sl-val" id="lv-oth">11k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-1).toFixed(2));el.value=v;upd('otherFixedK',v)" type="button">&minus;</button><input type="range" min="10" max="40" step="1" value="20" oninput="upd('otherFixedK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30.0,+(+el.value+1).toFixed(2));el.value=v;upd('otherFixedK',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#f472b6">COSTI 2027 (se diversi)</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Personale 2027</span><span class="sl-val" id="lv-lab27">44k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('labor27',v)" type="button">&minus;</button><input type="range" min="30" max="130" step="1" value="54" oninput="upd('labor27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(130.0,+(+el.value+1).toFixed(2));el.value=v;upd('labor27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Affitti 2027</span><span class="sl-val" id="lv-rent27">8.1k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('rent27',v)" type="button">&minus;</button><input type="range" min="5" max="15" step="0.1" value="8.3" oninput="upd('rent27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(15.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('rent27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Energia 2027 (% fatt.)</span><span class="sl-val" id="lv-enrg27">3.3%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-1).toFixed(2));el.value=v;upd('energy27',v)" type="button">&minus;</button><input type="range" min="3" max="20" step="1" value="8" oninput="upd('energyPct27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20.0,+(+el.value+1).toFixed(2));el.value=v;upd('energy27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri costi variabili</span><span class="sl-val" id="lv-othv">3%</span></div><div class="sl-note">Variabili: manut.extra, smaltimento, carburante, viaggi, trasporto</div></div>
+<div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri fissi 2027</span><span class="sl-val" id="lv-oth27">20k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-1).toFixed(2));el.value=v;upd('otherFixedK27',v)" type="button">&minus;</button><input type="range" min="10" max="40" step="1" value="20" oninput="upd('otherFixedK27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30.0,+(+el.value+1).toFixed(2));el.value=v;upd('otherFixedK27',v)" type="button">+</button></div></div>
+</div>
+<div class="grp"><div class="glabel" style="color:#38bdf8">SALDI APERTURA GIU 2026</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Cassa operativa</span><span class="sl-val" id="lv-cash">1464k&euro;</span></div><div class="sl-note">Cassa operativa 30/06/2026: &euro;1.464k (excl. depositi &euro;623k)</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(500.0,+(+el.value-10).toFixed(2));el.value=v;upd('startCash',v)" type="button">&minus;</button><input type="range" min="500" max="3000" step="10" value="1464" oninput="upd('startCash',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(3000.0,+(+el.value+10).toFixed(2));el.value=v;upd('startCash',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Crediti clienti</span><span class="sl-val" id="lv-rec">480k&euro;</span></div><div class="sl-note">30/06/2026: ~&euro;480k (fatture Giu+DI &euro;105k)</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(200.0,+(+el.value-10).toFixed(2));el.value=v;upd('openRec',v)" type="button">&minus;</button><input type="range" min="200" max="1500" step="10" value="480" oninput="upd('openRec',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(1500.0,+(+el.value+10).toFixed(2));el.value=v;upd('openRec',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Debiti fornitori</span><span class="sl-val" id="lv-pay">293k&euro;</span></div><div class="sl-note">04/06/2026: &euro;293k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(50.0,+(+el.value-10).toFixed(2));el.value=v;upd('openPay',v)" type="button">&minus;</button><input type="range" min="50" max="600" step="10" value="293" oninput="upd('openPay',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(600.0,+(+el.value+10).toFixed(2));el.value=v;upd('openPay',v)" type="button">+</button></div></div>
+<div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri variabili 2027</span><span class="sl-val" id="lv-othv27">3%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-1).toFixed(1));el.value=v;upd('otherVarPct27',v)" type="button">&minus;</button><input type="range" min="0" max="10" step="0.5" value="3" oninput="upd('otherVarPct27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(10,+(+el.value+1).toFixed(1));el.value=v;upd('otherVarPct27',v)" type="button">+</button></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="main">
+<div class="vbar">
+  <button class="vbtn" onclick="setView('2026')">2026</button>
+  <button class="vbtn" onclick="setView('2027')">2027</button>
+  <button class="vbtn active" onclick="setView('both')">Entrambi</button>
+</div>
+
+<div class="rev-bar">
+  <div class="rev-item"><div class="label">FATTURATO 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569">Da ordini confermati</div></div>
+  <div class="rev-divider"></div>
+  <div class="rev-item"><div class="label">FATTURATO 2027</div><div class="value" id="rv27" style="color:#22d3ee">1.980k</div><div style="font-size:9px;color:#475569" id="rv27-sub">+10% vs 2026</div></div>
+  <div class="rev-divider"></div>
+  <div class="rev-item"><div class="label">CRESCITA</div><div class="value" id="rv-growth" style="color:#f87171">-15%</div><div style="font-size:9px;color:#475569">2027 vs 2026</div></div>
+</div>
+
+<div class="kgrid" id="kgrid"></div>
+
+<div class="tabs">
+  <button class="tab active" onclick="setTab('chart')">&#128202; Cash Flow</button>
+  <button class="tab" onclick="setTab('breakdown')">&#128269; Uscite</button>
+  <button class="tab" onclick="setTab('ce')">&#128202; Conto Econ.</button>
+  <button class="tab" onclick="setTab('table')">&#128203; Tabella CF</button>
+  <button class="tab" onclick="setTab('orders')">&#128230; Ordini</button>
+  <button class="tab" onclick="setTab('loans')">&#127984; Mutui</button>
+  <button class="tab" onclick="setTab('ratios')">&#128202; Indici</button>
+</div>
+
+<div id="content"></div>
+<div class="footer">HTP S.r.l. &middot; Aggiornato al 30/06/2026 &middot; Cassa &euro;1.548k &middot; Ordini confermati Giu-Dic &euro;977k &middot; Ammortamenti &euro;110k/&euro;100k &middot; TFM 20% EBT</div>
+</div>
+
+<script>
+// === DATI ===
+const SEAS=[.80,.78,.90,.90,.78,.92,.85,1.00,1.02,1.08,1.12,1.05];
+const FCAL={1:.4,3:1.56,4:3.28,5:.02,6:6.79,7:2.53,8:5.22,9:3.74,10:1.24,12:8.41};
+const ACT={
+  2024:{rev:4456,mat:1184,sub:226,labor:1062,tfm:151.6,energy:138,rent:96,comm:95,roy:72.9,other:655,amm:118,intInc:28.6,intExp:31.6,taxes:193,di:-48},
+  2025:{rev:3060,mat:642,sub:144,labor:847,tfm:74,energy:102,rent:97,comm:68,roy:38.5,other:536,amm:124,intInc:36.2,intExp:30.1,taxes:124,di:-97}
+};
+const MONTHS=[
+  {l:"Lug 26",c:7,y:2026},{l:"Ago 26",c:8,y:2026},{l:"Set 26",c:9,y:2026},
+  {l:"Ott 26",c:10,y:2026},{l:"Nov 26",c:11,y:2026},{l:"Dic 26",c:12,y:2026},
+  {l:"Gen 27",c:1,y:2027},{l:"Feb 27",c:2,y:2027},{l:"Mar 27",c:3,y:2027},
+  {l:"Apr 27",c:4,y:2027},{l:"Mag 27",c:5,y:2027},{l:"Giu 27",c:6,y:2027},
+  {l:"Lug 27",c:7,y:2027},{l:"Ago 27",c:8,y:2027},{l:"Set 27",c:9,y:2027},
+  {l:"Ott 27",c:10,y:2027},{l:"Nov 27",c:11,y:2027},{l:"Dic 27",c:12,y:2027}
+];
+// Ordini confermati (k euro) - offset 0=Giu26
+const OREV={0:287.3,1:92.9,2:120.9,3:73.9,4:52.6,5:34.0,6:24.9,7:20.5,8:0.6,11:11.8}; // aggiornato 09/06/2026
+const OBACKLOG=[
+  {m:"Giu 26",t:304,c:[["Lav.El.Gomma",32.6],["Dichtungspartner",50.9],["Argomm",32.4],["T.Erre",45.3],["Enextras",58.3],["Watts",5.5],["Serotti",12.8],["Breka",9.9],["Sagom",12.0],["Altri",44.3]]},
+  {m:"Lug 26",t:287.3,c:[["T.Erre",100.0],["Enextras",49.0],["Lav.El.Gomma",28.0],["Dichtungspartner",21.7],["OMECA",14.5+12.2],["Argomm",16.2],["Scaligera",14.9],["Eurgomma",19.5],["Watts",5.4],["E.B.",6.0]]},
+  {m:"Ago 26",t:92.9,c:[["Enextras",58.3],["Serotti",13.8],["Watts",20.7]]},
+  {m:"Set 26",t:120.9,c:[["Enextras",49.0],["T.Erre",33.6],["Eurgomma",19.8],["Lav.El.Gomma",10.8],["Watts",7.7]]},
+  {m:"Ott 26",t:73.9,c:[["Lav.El.Gomma",24.9],["Argomm",24.3],["T.Erre",24.0],["Kongsberg",0.7]]},
+  {m:"Nov 26",t:52.6,c:[["T.Erre",28.4],["OMECA",11.5],["Dubhe",8.8],["Edscha",4.0]]},
+  {m:"Dic 26",t:34.0,c:[["Dichtungspartner",25.1],["OMECA",8.9]]},
+  {m:"Gen 27",t:24.9,c:[["T.Erre",24.9]]},
+  {m:"Feb 27",t:20.5,c:[["T.Erre",15.6],["Edscha",4.0],["Kongsberg",1.0]]},
+  {m:"Mar 27",t:0.6,c:[["T.Erre",0.6]]}
+];
+
+// === LOANS (offset 0 = Giu 2026) ===
+function loanPayment(i) {
+  // i=0 = Luglio 2026 — saldi da SP seconda bozza 31/03/2026 (definitivo con risconti)
+  var p=0;
+  if(i>=0&&i<=8)  p+=2.4;    // BCC Brescia 1066083: Lug26-Mar27 (9 rate, saldo €21.7k)
+  if(i>=0&&i<=19) p+=8.69;   // Credito Emiliano: Lug26-Feb28 (20 rate, saldo €176.6k)
+  if(i>=0&&i<=23) p+=5.23;   // BCC Brescia 1071107: Lug26-Giu28 (24 rate, saldo €123.9k)
+  if([2,5,8,11,14,17,20].indexOf(i)>=0) p+=36.5; // Unicredit 2529480 trim (saldo €263.5k)
+  if(i===3) p+=80.0;          // BCC Sebino (8021 €60k + Finlombarda €20k): Ottobre 2026
+  return p;
+}
+
+// === STATE ===
+var P={
+  rev26:2350, growth27:-15,
+  dso:62, dpo:83,
+  matPct:21, subPct:5,
+  laborK:54, rentK:8.3, energyPct:4.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
+  labor27:54, rent27:8.3, energyPct27:4.7, otherFixedK27:20, otherVarPct27:3,
+  di26:0, di27:0,
+  amm26:110, amm27:100, tfmPct:20,
+  iresR:24, irapR:3.9,
+  cigW:0, cigH:50, cigW27:0, cigH27:50,
+  startCash:1464, openRec:480, openPay:293
+};
+var VIEW='both', TAB='chart';
+
+// === P&L CALC ===
+function calcPL(year, actual) {
+  var d=actual?ACT[year]:null;
+  var rev=d?d.rev:(year===2026?P.rev26:P.rev26*(1+P.growth27/100));
+  var mat=d?d.mat:rev*P.matPct/100;
+  var sub=d?d.sub:rev*P.subPct/100;
+  var di=d?d.di:(year===2026?P.di26:P.di27);
+  var is27=year===2027;
+  var lk=d?null:(is27?P.labor27:P.laborK);
+  var cigS=d?0:(is27?P.cigW27:P.cigW)/20*lk*(is27?P.cigH27:P.cigH)/100*0.80*12;
+  var labor=d?d.labor:Math.max(0,lk*12-cigS);
+  var energy=d?d.energy:rev*(is27?P.energyPct27:P.energyPct)/100;
+  var rent=d?d.rent:(is27?P.rent27:P.rentK)*12;
+  var comm=d?d.comm:rev*P.commPct/100;
+  var roy=d?d.roy:rev*P.royPct/100;
+  var other=d?d.other:(is27?P.otherFixedK27:P.otherFixedK)*12+rev*(is27?P.otherVarPct27:P.otherVarPct)/100;
+  var amm=d?(d.amm||0):(year===2026?P.amm26:P.amm27);
+  var intInc=d?d.intInc:(year===2026?10:8);
+  var intExp=d?d.intExp:25;
+  var ebitda=rev+di-mat-sub-labor-energy-rent-comm-roy-other;
+  var ebit=ebitda-amm;
+  var ebt=ebit+intInc-intExp;
+  var tfm=d?(d.tfm!=null?d.tfm:Math.max(0,ebt*P.tfmPct/100)):Math.max(0,ebt*P.tfmPct/100);
+  var taxBase=Math.max(0,ebt-tfm);
+  var irapBase=Math.max(0,taxBase); // IRAP: base ≈ EBT-TFM (deduzione cuneo fiscale labor permanenti)
+  var ires=d?(d.taxes!=null?d.taxes*.79:taxBase*P.iresR/100):taxBase*P.iresR/100;
+  var irap=d?(d.taxes!=null?d.taxes*.21:irapBase*P.irapR/100):irapBase*P.irapR/100;
+  var taxes=ires+irap;
+  return {rev:rev,mat:mat,sub:sub,di:di,labor:labor,energy:energy,rent:rent,
+    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,
+    valProd:rev+di,ebitda:ebitda,ebit:ebit,
+    intInc:intInc,intExp:intExp,ebt:ebt,taxes:taxes,net:ebt-tfm-taxes};
+}
+
+// === CASHFLOW CALC ===
+function calcCF() {
+  var n=MONTHS.length;
+  var cd=Math.max(1,Math.round(P.dso/30));
+  var pd=Math.max(1,Math.round(P.dpo/30));
+  var s26=0,s27=0;
+  for(var j=0;j<n;j++){
+    if(MONTHS[j].y===2026) s26+=SEAS[MONTHS[j].c-1];
+    else s27+=SEAS[MONTHS[j].c-1];
+  }
+  var rev27=P.rev26*(1+P.growth27/100);
+  var revPlan=MONTHS.map(function(m,i){
+    if(OREV[i]!==undefined) return OREV[i];
+    var a=m.y===2026?P.rev26:rev27;
+    var s=m.y===2026?s26:s27;
+    return a*SEAS[m.c-1]/s;
+  });
+  var purchPlan=revPlan.map(function(r,i){
+    var delta=MONTHS[i].y===2026?P.di26:P.di27;
+    return r*(P.matPct+P.subPct)/100+delta/12;
+  });
+  // Preceding months for lag (Apr=122k, May=120k from YTD bilancio)
+  var mayRev=120, junRev=350; // Mag e Giu 2026 da bilancio/ordini
+  var extR=[mayRev,junRev].concat(revPlan);
+  var extP=[mayRev*.27,junRev*.27,mayRev*.27].concat(purchPlan);
+  var t26=calcPL(2026,false).taxes;
+  var t27=calcPL(2027,false).taxes;
+  var rPm=P.openRec/Math.max(1,cd);
+  var payPm=P.openPay/Math.max(1,pd);
+  var bal=P.startCash;
+  return MONTHS.map(function(m,i){
+    var ri=(i+2)-cd;
+    var col=(ri>=0?extR[ri]:0)+(i<cd?rPm:0);
+    var pi=(i+2)-pd;
+    var sup=(pi>=0?extP[pi]:0)+(i<pd?payPm:0);
+    var is27m=m.y===2027;
+    var lk=is27m?P.labor27:P.laborK;
+    var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
+    var effL=Math.max(0,lk-cigS);
+    var royM=revPlan[i]*P.royPct/100;
+    var commM=revPlan[i]*P.commPct/100;
+    var fc=FCAL[m.c]||0;
+    var energyM=revPlan[i]*(is27m?P.energyPct27:P.energyPct)/100;
+var otherM=(is27m?P.otherFixedK27:P.otherFixedK)+revPlan[i]*(is27m?P.otherVarPct27:P.otherVarPct)/100;
+var fixed=effL+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
+    var loans=loanPayment(i);
+    var taxes=0;
+    if(m.y===2026&&m.c===6) taxes=t26*.5;
+    if(m.y===2026&&m.c===11) taxes=t26*.5;
+    if(m.y===2027&&m.c===6) taxes=t27*.5;
+    if(m.y===2027&&m.c===11) taxes=t27*.5;
+    var out=sup+fixed+loans+taxes;
+    var net=col-out;
+    bal+=net;
+    return {l:m.l,c:m.c,y:m.y,
+      rev:+revPlan[i].toFixed(1),col:+col.toFixed(1),
+      sup:+sup.toFixed(1),fixed:+fixed.toFixed(1),
+      loans:+loans.toFixed(1),taxes:+taxes.toFixed(1),
+      out:+out.toFixed(1),net:+net.toFixed(1),bal:+bal.toFixed(1)};
+  });
+}
+
+// === SVG CHART ===
+function svgChart(rows, mode) {
+  var W=Math.max(document.getElementById('content').offsetWidth-28,300);
+  var H=260,PL=40,PR=48,PT=10,PB=28;
+  var cW=W-PL-PR, cH=H-PT-PB;
+  var n=rows.length, bG=cW/n;
+  var maxY=0,minB=1e9,maxB=-1e9;
+  rows.forEach(function(d){
+    maxY=Math.max(maxY,d.col,d.out);
+    minB=Math.min(minB,d.bal); maxB=Math.max(maxB,d.bal);
+  });
+  maxY*=1.1;
+  var bRange=Math.max(maxB-minB,100),bPad=bRange*.1;
+  var bMin=minB-bPad, bMax=maxB+bPad;
+  function yB(v){return PT+cH-(v/maxY*cH);}
+  function yL(v){return PT+cH-((v-bMin)/(bMax-bMin)*cH);}
+  function xP(i){return PL+i*bG+bG/2;}
+  var svg='';
+  // Grid lines
+  for(var t=0;t<=4;t++){
+    var yy=PT+cH*t/4;
+    svg+='<line x1="'+PL+'" y1="'+yy+'" x2="'+(W-PR)+'" y2="'+yy+'" stroke="#1e3a5a" stroke-width="0.5" stroke-dasharray="4,4"/>';
+  }
+  svg+='<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+(PT+cH)+'" stroke="#2d3f5a" stroke-width="1"/>';
+  svg+='<line x1="'+PL+'" y1="'+(PT+cH)+'" x2="'+(W-PR)+'" y2="'+(PT+cH)+'" stroke="#2d3f5a" stroke-width="1"/>';
+  // Y axis labels
+  for(var t=0;t<=4;t++){
+    var v=maxY*t/4;
+    var yy=yB(v);
+    var lbl=v>=1000?(v/1000).toFixed(1)+'M':v.toFixed(0)+'k';
+    svg+='<text x="'+(PL-4)+'" y="'+(yy+4)+'" text-anchor="end" font-size="9" fill="#64748b">'+lbl+'</text>';
+    var vl=bMin+(bMax-bMin)*t/4;
+    svg+='<text x="'+(W-PR+4)+'" y="'+(yL(vl)+4)+'" text-anchor="start" font-size="9" fill="#4ade80">'+vl.toFixed(0)+'k</text>';
+  }
+  // Bars
+  var bw=Math.max(4,Math.floor(bG*.7));
+  if(mode==='stack'){
+    rows.forEach(function(d,i){
+      var x=xP(i)-bw/2, acc=0;
+      [[d.sup,'#f97316'],[d.fixed,'#38bdf8'],[d.loans,'#f43f5e'],[d.taxes,'#fbbf24']].forEach(function(pt){
+        if(pt[0]<=0)return;
+        var hh=pt[0]/maxY*cH;
+        var yy=PT+cH-acc/maxY*cH-hh;
+        svg+='<rect x="'+x+'" y="'+yy+'" width="'+bw+'" height="'+hh+'" fill="'+pt[1]+'" rx="2"/>';
+        acc+=pt[0];
+      });
+    });
+  } else {
+    rows.forEach(function(d,i){
+      var x=xP(i), hw=bw*.46;
+      var hC=d.col/maxY*cH, hO=d.out/maxY*cH;
+      svg+='<rect x="'+(x-hw-1)+'" y="'+yB(d.col)+'" width="'+hw+'" height="'+hC+'" fill="#6366f1" rx="2"/>';
+      svg+='<rect x="'+(x+1)+'" y="'+yB(d.out)+'" width="'+hw+'" height="'+hO+'" fill="#ef4444" rx="2"/>';
+    });
+  }
+  // Line
+  var pts=rows.map(function(d,i){return (i===0?'M':'L')+xP(i)+','+(mode==='stack'?yB(d.col):yL(d.bal));}).join('');
+  var lc=mode==='stack'?'#4ade80':'#4ade80';
+  svg+='<path d="'+pts+'" fill="none" stroke="'+lc+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  if(mode!=='stack'){
+    rows.forEach(function(d,i){ svg+='<circle cx="'+xP(i)+'" cy="'+yL(d.bal)+'" r="2.5" fill="#4ade80"/>'; });
+  }
+  // X labels
+  var every=n>15?3:n>9?2:1;
+  rows.forEach(function(d,i){ if(i%every===0) svg+='<text x="'+xP(i)+'" y="'+(H-4)+'" text-anchor="middle" font-size="8" fill="#94a3b8">'+d.l.slice(0,3)+'</text>'; });
+  return '<svg width="'+W+'" height="'+H+'" style="display:block;overflow:visible">'+svg+'</svg>';
+}
+
+// === RENDER ===
+function fmt(v){return v>=1000?'€'+(v/1000).toFixed(1)+'M':'€'+v.toFixed(0)+'k';}
+function fmtEK(v){return '€'+Math.abs(v).toFixed(0)+'k';}
+
+function renderKPIs(cf){
+  var endB=cf[cf.length-1].bal;
+  var minB=Math.min.apply(null,cf.map(function(d){return d.bal;}));
+  var totL=cf.reduce(function(s,d){return s+d.loans;},0);
+  var totT=cf.reduce(function(s,d){return s+d.taxes;},0);
+  var kpis=[
+    {icon:'💰',lbl:'Cassa Giu 2026',val:'€'+P.startCash.toLocaleString()+'k',sub:'Conti operativi',cls:'ok'},
+    {icon:'📅',lbl:'Saldo Dic 2027',val:fmt(endB),sub:'Proiezione',cls:endB>1200?'ok':endB<600?'warn':''},
+    {icon:'⚠️',lbl:'Minimo Periodo',val:fmt(minB),sub:'Punto critico',cls:minB>800?'ok':minB<400?'warn':''},
+    {icon:'🏦',lbl:'Rate + Imposte',val:'€'+(totL+totT).toFixed(0)+'k',sub:'Rate €'+totL.toFixed(0)+'k · Imp €'+totT.toFixed(0)+'k',cls:''}
+  ];
+  document.getElementById('kgrid').innerHTML=kpis.map(function(k){
+    return '<div class="kcard '+k.cls+'"><div class="klabel">'+k.icon+' '+k.lbl+'</div><div class="kval">'+k.val+'</div><div class="ksub">'+k.sub+'</div></div>';
+  }).join('');
+}
+
+function getRows(cf){
+  return VIEW==='2026'?cf.slice(0,6):VIEW==='2027'?cf.slice(6):cf;
+}
+
+function renderChart(cf){
+  var rows=getRows(cf);
+  var strip=rows.map(function(d){
+    var a=Math.min(.9,Math.abs(d.net)/150);
+    var bg=d.net>=0?'rgba(74,222,128,'+a+')':'rgba(248,113,113,'+a+')';
+    var w=Math.max(22,Math.floor(300/rows.length));
+    return '<div style="flex:0 0 auto;width:'+w+'px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;background:'+bg+'"><span style="font-size:8px;font-weight:700;color:#fff;font-family:monospace">'+(d.net>=0?'+':'')+d.net.toFixed(0)+'</span></div>';
+  }).join('');
+  return '<div class="card"><div class="card-title">Incassi vs Uscite · Saldo di Cassa</div>'+svgChart(rows,'main')+'<div class="strip">'+strip+'</div><p style="font-size:9px;color:#475569;margin-top:3px;text-align:center">CF netto mensile (k€)</p></div>';
+}
+
+function renderBreakdown(cf){
+  var rows=getRows(cf);
+  var legend='<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:10px">';
+  [['Fornitori','#f97316'],['Costi fissi','#38bdf8'],['Rate fin.','#f43f5e'],['Imposte','#fbbf24'],['Incassi','#4ade80']].forEach(function(x){
+    legend+='<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:'+x[1]+';display:inline-block"></span>'+x[0]+'</span>';
+  });
+  legend+='</div>';
+  return '<div class="card"><div class="card-title">Composizione Uscite Mensili</div>'+svgChart(rows,'stack')+legend+'</div>';
+}
+
+function renderCE(){
+  var cols=[
+    {y:2024,l:'2024',s:'Consuntivo',act:true,col:'#64748b'},
+    {y:2025,l:'2025',s:'Consuntivo',act:true,col:'#94a3b8'},
+    {y:2026,l:'2026',s:'Proiezione',act:false,col:'#6366f1'},
+    {y:2027,l:'2027',s:'Proiezione',act:false,col:'#22d3ee'}
+  ];
+  var pls=cols.map(function(c){return {col:c,pl:calcPL(c.y,c.act)};});
+  function pct(v,r){return r>0?(Math.abs(v)/r*100).toFixed(1)+'%':'--';}
+  function fv(v){return v!=null?'€'+Math.abs(v).toFixed(0)+'k':'--';}
+  function row(lbl,fn,bold,sep,indent,nc){
+    var vals=pls.map(function(p){return fn(p.pl);});
+    var tds=vals.map(function(v,i){
+      var c=bold?(v>=0?'#4ade80':'#f87171'):(nc?'#475569':'#94a3b8');
+      return '<td style="text-align:right;color:'+c+';font-weight:'+(bold?700:400)+';font-family:monospace;padding:'+(sep?'8':'5')+'px 10px">'+fv(v)+'</td>';
+    }).join('');
+    var pcts=vals.map(function(v,i){
+      return '<td style="text-align:right;font-size:10px;color:#334155;padding:'+(sep?'8':'5')+'px 8px">'+pct(v,pls[i].pl.rev)+'</td>';
+    }).join('');
+    var pad=indent?20:10;
+    return '<tr style="background:'+(sep?'#162032':'transparent')+';border-top:'+(sep?'1px solid #334155':'none')+'"><td style="padding:'+(sep?'8':'5')+'px 12px;padding-left:'+pad+'px;font-size:11px;color:'+(bold?'#e2e8f0':'#94a3b8')+';font-weight:'+(bold?700:400)+';font-style:'+(nc?'italic':'normal')+';white-space:nowrap">'+lbl+(nc?' *':'')+'</td>'+tds+pcts+'</tr>';
+  }
+  var heads=cols.map(function(c){return '<th style="text-align:right;color:'+c.col+';font-size:10px;padding:10px 10px;white-space:nowrap">'+c.l+'<div style="font-size:9px;color:#475569;font-weight:400">'+c.s+'</div></th>';}).join('');
+  var pctH=cols.map(function(c){return '<th style="text-align:right;color:#334155;font-size:9px">%'+c.l.slice(2)+'</th>';}).join('');
+  var kpis=pls.map(function(p){
+    var pl=p.pl; var c=p.col;
+    var me=pl.rev>0?(pl.ebitda/pl.rev*100):0;
+    var mn=pl.rev>0?(pl.net/pl.rev*100):0;
+    return '<div style="background:#0f172a;border-radius:10px;padding:10px 12px;border-top:2px solid '+c.col+'"><div style="font-size:10px;color:'+c.col+';font-weight:700;margin-bottom:4px">'+c.l+' '+(c.act?'&#10003;':'&#8599;')+'</div><div style="font-size:11px;color:#94a3b8;margin-bottom:2px">Ricavi: <span style="color:#e2e8f0;font-weight:700;font-family:monospace">€'+pl.rev.toFixed(0)+'k</span></div><div style="font-size:11px;color:#94a3b8;margin-bottom:2px">EBITDA: <span style="color:'+(me>=0?'#4ade80':'#f87171')+';font-weight:700;font-family:monospace">'+me.toFixed(1)+'%</span></div><div style="font-size:11px;color:#94a3b8">Utile: <span style="color:'+(mn>=0?'#4ade80':'#f87171')+';font-weight:700;font-family:monospace">'+mn.toFixed(1)+'%</span></div></div>';
+  }).join('');
+  return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:14px 16px;border-bottom:1px solid #334155"><div style="font-size:13px;font-weight:700">Conto Economico Riclassificato</div><div style="font-size:10px;color:#64748b;margin-top:3px">2024-2025 reali · 2026-2027 proiezioni · k€ · % su ricavi</div></div><div class="tbl-wrap"><table><thead><tr><th style="min-width:175px">VOCE</th>'+heads+pctH+'</tr></thead><tbody>'
+    +row('Ricavi netti',function(pl){return pl.rev;},true,true,false,false)
+    +row('  Variazione rimanenze',function(pl){return pl.di;},false,false,true,false)
+    +row('= Valore Produzione',function(pl){return pl.valProd;},true,true,false,false)
+    +row('  - Acquisti MP',function(pl){return pl.mat;},false,false,true,false)
+    +row('  - Lavorazioni c/terzi',function(pl){return pl.sub;},false,false,true,false)
+    +row('  - Costo del personale',function(pl){return pl.labor;},false,false,true,false)
+    +row('  - Energia',function(pl){return pl.energy;},false,false,true,false)
+    +row('  - Affitti',function(pl){return pl.rent;},false,false,true,false)
+    +row('  - Provvigioni agenti',function(pl){return pl.comm;},false,false,true,false)
+    +row('  - Royalties',function(pl){return pl.roy;},false,false,true,false)
+    +row('  - Altri servizi/oneri',function(pl){return pl.other;},false,false,true,false)
+    +row('= EBITDA',function(pl){return pl.ebitda;},true,true,false,false)
+    +row('  - Ammortamenti',function(pl){return pl.amm;},false,false,true,true)
+    +row('= EBIT',function(pl){return pl.ebit;},true,true,false,false)
+    +row('  + Interessi attivi',function(pl){return pl.intInc;},false,false,true,false)
+    +row('  - Interessi passivi',function(pl){return pl.intExp;},false,false,true,false)
+    +row('= EBT (pre TFM)',function(pl){return pl.ebt;},true,true,false,false)
+    +row('  - TFM Amministratore',function(pl){return pl.tfm;},false,false,true,true)
+    +row('  - IRES + IRAP',function(pl){return pl.taxes;},false,false,true,false)
+    +row('= UTILE NETTO',function(pl){return pl.net;},true,true,false,false)
+    +'</tbody></table></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px;border-top:1px solid #334155">'+kpis+'</div><div style="padding:8px 14px 12px;font-size:9px;color:#334155">* Non monetari (non uscite di cassa) · 2025: imposte non finalizzate</div></div>';
+}
+
+function renderTable(cf){
+  var rows=getRows(cf);
+  var trs=rows.map(function(d,i){
+    return '<tr><td style="font-weight:700;color:#cbd5e1">'+d.l+'</td><td class="mono" style="color:#94a3b8">'+d.rev.toFixed(0)+'</td><td class="mono" style="color:#818cf8;font-weight:600">'+d.col.toFixed(0)+'</td><td class="mono" style="color:#fb923c">'+d.sup.toFixed(0)+'</td><td class="mono" style="color:#38bdf8">'+d.fixed.toFixed(0)+'</td><td class="mono" style="color:#f43f5e;font-weight:'+(d.loans>50?700:400)+'">'+d.loans.toFixed(0)+'</td><td class="mono" style="color:#fbbf24">'+(d.taxes>0?d.taxes.toFixed(0):'--')+'</td><td class="mono bold" style="color:'+(d.net>=0?'#4ade80':'#f87171')+'">'+(d.net>=0?'+':'')+d.net.toFixed(0)+'</td><td class="mono bold" style="color:'+(d.bal>1200?'#4ade80':d.bal>600?'#fbbf24':'#f87171')+'">'+d.bal.toFixed(0)+'</td></tr>';
+  }).join('');
+  return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:12px 14px;border-bottom:1px solid #334155;font-size:12px;font-weight:700">Dettaglio Cash Flow (k€)</div><div class="tbl-wrap"><table><thead><tr>'
+    +'<th>Mese</th><th>Ricavi</th><th>Incassi</th><th>Fornit.</th><th>Fissi</th><th>Rate</th><th>Imp.</th><th>CF Netto</th><th>Saldo</th>'
+    +'</tr></thead><tbody>'+trs+'</tbody></table></div></div>';
+}
+
+function renderOrders(){
+  var t26=0,t27=0;
+  OBACKLOG.forEach(function(r){ if(r.m.indexOf('26')>=0) t26+=r.t; else t27+=r.t; });
+  var rows=OBACKLOG.map(function(row){
+    var bar='<div style="background:#0f172a;border-radius:4px;height:4px;margin-bottom:6px"><div style="height:100%;background:linear-gradient(90deg,#6366f1,#22d3ee);border-radius:4px;width:'+Math.min(100,row.t/3.5)+'%"></div></div>';
+    var chips=row.c.map(function(x){ return '<span style="font-size:9px;background:#0f172a;border:1px solid #334155;border-radius:4px;padding:2px 5px;color:#94a3b8">'+x[0]+' <b style="color:#c7d2fe">€'+x[1].toFixed(0)+'k</b></span>'; }).join('');
+    return '<div style="padding:10px 16px;border-bottom:1px solid #162032"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;font-weight:700;color:#e2e8f0">'+row.m+'</span><span style="font-size:14px;font-weight:800;color:#6366f1;font-family:monospace">€'+row.t+'k</span></div>'+bar+'<div style="display:flex;flex-wrap:wrap;gap:3px">'+chips+'</div></div>';
+  }).join('');
+  var recurring='<div style="display:flex;flex-wrap:wrap;gap:6px">'+[['Argomm SpA','~€16k/m'],['Enextras OU','~€49k/m'],['Lav.El. Gomma','~€15k/m'],['T.Erre Srl','~€30k/m'],['Dichtungspartner','PRV']].map(function(x){return '<div style="background:#0f172a;border-radius:8px;padding:7px 10px;flex:1;min-width:100px"><div style="font-size:10px;color:#e2e8f0;font-weight:600">'+x[0]+'</div><div style="font-size:9px;color:#64748b">'+x[1]+'</div></div>';}).join('')+'</div>';
+  return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:14px 16px;border-bottom:1px solid #334155"><div style="font-size:13px;font-weight:700">Portafoglio Ordini &ndash; 04/06/2026</div><div style="font-size:10px;color:#64748b;margin-top:3px">H2 2026: €'+t26+'k confermato · 2027: €'+t27+'k confermato</div></div>'+rows+'</div><div class="card" style="padding:12px 14px"><div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:8px">Clienti ricorrenti senza ordini confermati oltre Feb 2027:</div>'+recurring+'<div style="font-size:10px;color:#64748b;margin-top:8px">Usa lo slider Crescita 2027 per stimarli.</div></div>';
+}
+
+
+function getRating(score){
+  if(score<=1.5) return {c:'C2',s:'A / BBB+',col:'#22d3ee',desc:'Rischio basso'};
+  if(score<=2.0) return {c:'C3',s:'A / BBB+',col:'#22d3ee',desc:'Rischio contenuto'};
+  if(score<=2.8) return {c:'C4',s:'BBB / BB+',col:'#4ade80',desc:'Rischio moderato'};
+  if(score<=3.5) return {c:'C5',s:'BB',col:'#f59e0b',desc:'Rischio medio'};
+  return {c:'C6+',s:'B',col:'#ef4444',desc:'Rischio elevato'};
+}
+
+function calcRating(pfnEbitda, debtEq, intCov, currRatio, ebitdaM, roe, roa, netM, wcTa){
+  function sc(v,thrs){ for(var i=0;i<thrs.length;i++) if(v<=thrs[i][0]) return thrs[i][1]; return thrs[thrs.length-1][1]; }
+  var scores=[
+    sc(pfnEbitda, [[0,1],[1,2],[2,3],[3.5,4],[99,5]]),
+    sc(debtEq,    [[0.3,1],[0.7,2],[1.2,3],[2,4],[99,5]]),
+    sc(intCov,    [[3,5],[5,4],[8,3],[15,2],[99,1]]),
+    sc(currRatio, [[1,5],[1.5,4],[2,3],[3,2],[99,1]]),
+    sc(ebitdaM,   [[10,5],[13,4],[18,3],[25,2],[99,1]]),
+    sc(roe,       [[5,5],[8,4],[12,3],[20,2],[99,1]]),
+    sc(roa,       [[2,5],[4,4],[7,3],[12,2],[99,1]]),
+    sc(netM,      [[3,5],[5,4],[9,3],[15,2],[99,1]]),
+    sc(wcTa,      [[0.1,5],[0.2,4],[0.3,3],[0.5,2],[99,1]])
+  ];
+  return scores.reduce(function(a,b){return a+b;},0)/scores.length;
+}
+
+function renderIndici(){
+  var pl26=calcPL(2026,false), pl27=calcPL(2027,false);
+  var cf=calcCF();
+
+  // Annual debt service 2026 (full year: H1 estimated + H2 from model)
+  var ds26h2=0; for(var i=0;i<6;i++) ds26h2+=loanPayment(i);
+  // H1 2026 estimated from Jan-Jun (before model start)
+  var ds26h1=(8.69+5.23+2.4)*6 + 36.5*2 + 5.59; // H1 reale: mensili×6 + Unicredit trim Mar+Giu + Unicredit8823 estinto // CE+BCC1071+BCC1066 monthly + 2 Unicredit quarterly
+  var ds26=ds26h1+ds26h2;
+
+  // Annual debt service 2027 (offsets 6-17)
+  var ds27=0; for(var i=6;i<18;i++) ds27+=loanPayment(i);
+
+  // Remaining debt estimates (rough but consistent)
+  // Start Jul26: €631.5k, pay down over months
+  var debtJul26=665.7; // da SP seconda bozza 31/03/2026 (definitivo)
+  var debtDec26=debtJul26-ds26h2*0.92; // 92% is principal (8% approx interest)
+  var debtDec27=Math.max(0,debtDec26-ds27*0.92);
+
+  // Cash from CF projections (Dec 2026 and Dec 2027)
+  var cf26=cf.filter(function(m){return m.y===2026;}); 
+  var cf27=cf.filter(function(m){return m.y===2027;});
+  var cashDec26=cf26.length?cf26[cf26.length-1].bal:P.startCash;
+  var cashDec27=cf27.length?cf27[cf27.length-1].bal:cashDec26;
+
+  // Net Financial Position (PFN) = Debito finanziario - Cassa
+  var pfn26=debtDec26-cashDec26;
+  var pfn27=debtDec27-cashDec27;
+
+  // Equity (2025 SP: ~€1.655M + accumulated profits)
+  var equity25=1655; // from SP 2025
+  var equity26=equity25+pl26.net;
+  var equity27=equity26+pl27.net;
+
+  // KEY RATIOS
+  var ratios=[
+    {
+      name:'DSCR 2026',
+      full:'Debt Service Coverage Ratio',
+      formula:'EBITDA / Rate annuali',
+      val26: pl26.ebitda/ds26,
+      val27: null,
+      unit:'x',
+      thresholds:[{v:1.0,c:'#ef4444',t:'Critico — banche possono rifiutare'},{v:1.25,c:'#f59e0b',t:'Accettabile ma sotto soglia ideale'},{v:2.0,c:'#4ade80',t:'Buono — copri agevolmente le rate'},{v:999,c:'#22d3ee',t:'Eccellente — solidità finanziaria ottima'}],
+      note:'Quanto l\'EBITDA copre le rate. Banche vogliono >1.25x'
+    },
+    {
+      name:'DSCR 2027',
+      full:'Debt Service Coverage Ratio',
+      formula:'EBITDA / Rate annuali',
+      val26: null,
+      val27: pl27.ebitda/ds27,
+      unit:'x',
+      thresholds:[{v:1.0,c:'#ef4444',t:'Critico — banche possono rifiutare'},{v:1.25,c:'#f59e0b',t:'Accettabile ma sotto soglia ideale'},{v:2.0,c:'#4ade80',t:'Buono — copri agevolmente le rate'},{v:999,c:'#22d3ee',t:'Eccellente — solidità finanziaria ottima'}],
+      note:'Quanto l\'EBITDA copre le rate. Banche vogliono >1.25x'
+    },
+    {
+      name:'PFN / EBITDA 2026',
+      full:'Posizione Finanziaria Netta / EBITDA',
+      formula:'(Debito fin. - Cassa) / EBITDA',
+      val26: pfn26/pl26.ebitda,
+      val27: null,
+      unit:'x',
+      thresholds:[{v:0,c:'#22d3ee',t:'Eccellente — posizione netta di cassa (PFN < 0)!'},{v:1.0,c:'#4ade80',t:'Ottimo — debito coperto dalla cassa'},{v:2.0,c:'#4ade80',t:'Buono — leverage contenuto'},{v:3.5,c:'#f59e0b',t:'Accettabile — monitorare andamento'},{v:999,c:'#ef4444',t:'Elevato — banche potrebbero chiedere garanzie'}],
+      note:'PFN negativa = più cassa che debiti → eccellente per le banche'
+    },
+    {
+      name:'PFN / EBITDA 2027',
+      full:'Posizione Finanziaria Netta / EBITDA',
+      formula:'(Debito fin. - Cassa) / EBITDA',
+      val26: null,
+      val27: pfn27/pl27.ebitda,
+      unit:'x',
+      thresholds:[{v:0,c:'#22d3ee',t:'Eccellente — posizione netta di cassa (PFN < 0)!'},{v:1.0,c:'#4ade80',t:'Ottimo — debito coperto dalla cassa'},{v:2.0,c:'#4ade80',t:'Buono — leverage contenuto'},{v:3.5,c:'#f59e0b',t:'Accettabile — monitorare andamento'},{v:999,c:'#ef4444',t:'Elevato — banche potrebbero chiedere garanzie'}],
+      note:'PFN negativa = più cassa che debiti → eccellente per le banche'
+    },
+    {
+      name:'Interest Coverage 2026',
+      full:'Copertura Interessi Passivi',
+      formula:'EBIT / Interessi passivi',
+      val26: pl26.ebit/pl26.intExp,
+      val27: null,
+      unit:'x',
+      thresholds:[{v:3,c:'#ef4444',t:'Insufficiente — rischio insolvenza interessi'},{v:5,c:'#f59e0b',t:'Accettabile'},{v:10,c:'#4ade80',t:'Buono — ampio margine sulla copertura interessi'},{v:999,c:'#22d3ee',t:'Eccellente'}],
+      note:'Quante volte l\'EBIT copre gli interessi. Banche vogliono >3x'
+    },
+    {
+      name:'Interest Coverage 2027',
+      full:'Copertura Interessi Passivi',
+      formula:'EBIT / Interessi passivi',
+      val26: null,
+      val27: pl27.ebit/pl27.intExp,
+      unit:'x',
+      thresholds:[{v:3,c:'#ef4444',t:'Insufficiente — rischio insolvenza interessi'},{v:5,c:'#f59e0b',t:'Accettabile'},{v:10,c:'#4ade80',t:'Buono — ampio margine sulla copertura interessi'},{v:999,c:'#22d3ee',t:'Eccellente'}],
+      note:'Quante volte l\'EBIT copre gli interessi. Banche vogliono >3x'
+    },
+    {
+      name:'EBITDA Margin 2026',
+      full:'Margine EBITDA',
+      formula:'EBITDA / Ricavi',
+      val26: pl26.ebitda/pl26.rev*100,
+      val27: null,
+      unit:'%',
+      thresholds:[{v:10,c:'#ef4444',t:'Marginale — struttura costi da rivedere'},{v:15,c:'#f59e0b',t:'Accettabile per manifatturiero'},{v:20,c:'#4ade80',t:'Buono'},{v:999,c:'#22d3ee',t:'Eccellente per il settore'}],
+      note:'Benchmark manifatturiero gomma: 12-18%. Oltre 20% = eccellente'
+    },
+    {
+      name:'EBITDA Margin 2027',
+      full:'Margine EBITDA',
+      formula:'EBITDA / Ricavi',
+      val26: null,
+      val27: pl27.ebitda/pl27.rev*100,
+      unit:'%',
+      thresholds:[{v:10,c:'#ef4444',t:'Marginale — struttura costi da rivedere'},{v:15,c:'#f59e0b',t:'Accettabile per manifatturiero'},{v:20,c:'#4ade80',t:'Buono'},{v:999,c:'#22d3ee',t:'Eccellente per il settore'}],
+      note:'Benchmark manifatturiero gomma: 12-18%. Oltre 20% = eccellente'
+    },
+    {
+      name:'Debt / Equity 2026',
+      full:'Leverage Finanziario',
+      formula:'Debito finanziario / Patrimonio netto',
+      val26: debtDec26/equity26,
+      val27: null,
+      unit:'x',
+      thresholds:[{v:0.5,c:'#22d3ee',t:'Eccellente — azienda quasi debt-free'},{v:1.0,c:'#4ade80',t:'Ottimo — debito sotto il patrimonio'},{v:2.0,c:'#4ade80',t:'Buono'},{v:3.0,c:'#f59e0b',t:'Accettabile — banche richiedono garanzie'},{v:999,c:'#ef4444',t:'Elevato — rischio per i finanziatori'}],
+      note:'Banche vogliono <2x. Sotto 1x = molto solido'
+    },
+    {
+      name:'Debt / Equity 2027',
+      full:'Leverage Finanziario',
+      formula:'Debito finanziario / Patrimonio netto',
+      val26: null,
+      val27: debtDec27/equity27,
+      unit:'x',
+      thresholds:[{v:0.5,c:'#22d3ee',t:'Eccellente — azienda quasi debt-free'},{v:1.0,c:'#4ade80',t:'Ottimo — debito sotto il patrimonio'},{v:2.0,c:'#4ade80',t:'Buono'},{v:3.0,c:'#f59e0b',t:'Accettabile — banche richiedono garanzie'},{v:999,c:'#ef4444',t:'Elevato — rischio per i finanziatori'}],
+      note:'Banche vogliono <2x. Sotto 1x = molto solido'
+    },
+    {
+      name:'Utile Netto / Ricavi 2026',
+      full:'Net Profit Margin',
+      formula:'Utile netto / Ricavi',
+      val26: pl26.net/pl26.rev*100,
+      val27: null,
+      unit:'%',
+      thresholds:[{v:3,c:'#ef4444',t:'Basso — rischio in caso di shock'},{v:7,c:'#f59e0b',t:'Accettabile'},{v:12,c:'#4ade80',t:'Buono'},{v:999,c:'#22d3ee',t:'Eccellente'}],
+      note:'Quanto rimane netto dopo tutto. Buono per manifatturiero: >7%'
+    },
+    {
+      name:'Utile Netto / Ricavi 2027',
+      full:'Net Profit Margin',
+      formula:'Utile netto / Ricavi',
+      val26: null,
+      val27: pl27.net/pl27.rev*100,
+      unit:'%',
+      thresholds:[{v:3,c:'#ef4444',t:'Basso — rischio in caso di shock'},{v:7,c:'#f59e0b',t:'Accettabile'},{v:12,c:'#4ade80',t:'Buono'},{v:999,c:'#22d3ee',t:'Eccellente'}],
+      note:'Quanto rimane netto dopo tutto. Buono per manifatturiero: >7%'
+    }
+  ];
+
+  function getColor(v, thresholds, invert){
+    if(invert){
+      for(var i=thresholds.length-1;i>=0;i--){ if(v<=thresholds[i].v) return thresholds[i]; }
+      return thresholds[thresholds.length-1];
+    }
+    for(var i=0;i<thresholds.length;i++){ if(v<=thresholds[i].v) return thresholds[i]; }
+    return thresholds[thresholds.length-1];
+  }
+
+  var cards=ratios.map(function(r){
+    var v=r.val26!==null?r.val26:r.val27;
+    if(v===null||!isFinite(v)) return '';
+    var th=getColor(v,r.thresholds,r.invert);
+    var valStr=Math.abs(v)<100?v.toFixed(2):v.toFixed(1);
+    var yr=r.val26!==null?'2026':'2027';
+    return '<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:12px;border-left:4px solid '+th.c+'">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+        +'<div><div style="font-size:12px;font-weight:700;color:#e2e8f0">'+r.name+'</div>'
+        +'<div style="font-size:9px;color:#64748b;margin-top:2px">'+r.formula+'</div></div>'
+        +'<div style="font-size:22px;font-weight:800;font-family:monospace;color:'+th.c+'">'+(v<0?'':'')+valStr+(r.unit==='%'?'%':'x')+'</div>'
+      +'</div>'
+      +'<div style="background:#0f172a;border-radius:8px;padding:8px 10px;margin-bottom:6px">'
+        +'<div style="font-size:10px;font-weight:700;color:'+th.c+'">'+getSemaforo(th.c)+' '+th.t+'</div>'
+      +'</div>'
+      +'<div style="font-size:9px;color:#475569">'+r.note+'</div>'
+      +'</div>';
+  }).join('');
+
+  // ─── RATING STORICO E PROIETTATO ─────────────────────────
+  // 2024 (reali da SP definitivo)
+  var r24score=calcRating(-0.85,0.42,24.1,2.35,19.7,20.8,13.6,9.3,0.29);
+  var r24=getRating(r24score);
+  // 2025 (reali da SP definitivo)
+  var r25score=calcRating(-1.72,0.50,12.1,4.09,15.9,10.4,6.6,5.6,0.43);
+  var r25=getRating(r25score);
+  // 2026 proiettato
+  var ta26=5500; // stima totale attivo 2026
+  var r26score=calcRating(pfn26/pl26.ebitda, debtDec26/equity26, pl26.ebit/pl26.intExp,
+    (cashDec26+debtDec26)/Math.max(1,debtDec26+200), pl26.ebitda/pl26.rev*100,
+    pl26.net/equity26*100, pl26.ebit/ta26*100, pl26.net/pl26.rev*100, 0.38);
+  var r26=getRating(r26score);
+  // 2027 proiettato
+  var ta27=5200;
+  var r27score=calcRating(pfn27/pl27.ebitda, debtDec27/equity27, pl27.ebit/pl27.intExp,
+    (cashDec27+debtDec27)/Math.max(1,debtDec27+200), pl27.ebitda/pl27.rev*100,
+    pl27.net/equity27*100, pl27.ebit/ta27*100, pl27.net/pl27.rev*100, 0.40);
+  var r27=getRating(r27score);
+
+  function ratingCard(year, r, score, extra){
+    return '<div style="flex:1;min-width:130px;background:#0f172a;border-radius:12px;padding:12px;border-top:3px solid '+r.col+';text-align:center">'
+      +'<div style="font-size:11px;color:#64748b;margin-bottom:4px">'+year+'</div>'
+      +'<div style="font-size:28px;font-weight:900;color:'+r.col+';font-family:monospace">'+r.c+'</div>'
+      +'<div style="font-size:10px;color:#94a3b8;margin:2px 0">'+r.s+'</div>'
+      +'<div style="font-size:9px;color:'+r.col+'">'+r.desc+'</div>'
+      +(extra?'<div style="font-size:8px;color:#475569;margin-top:4px">'+extra+'</div>':'')
+      +'</div>';
+  }
+
+  var ratingSection='<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:14px">'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:4px">🏦 Rating Bancario Cerved</div>'
+    +'<div style="font-size:9px;color:#64748b;margin-bottom:12px">Scala C1 (eccellente) → C9 (insolvente) · Basato su bilanci definitivi 2024-2025 + proiezioni 2026-2027</div>'
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+      +ratingCard('2024',r24,r24score,'Bilancio definitivo')
+      +ratingCard('2025',r25,r25score,'Bilancio definitivo')
+      +ratingCard('2026 ▶',r26,r26score,'Proiezione €2.35M')
+      +ratingCard('2027 ▶',r27,r27score,'Proiezione €2.00M')
+    +'</div>'
+    +'<div style="margin-top:12px;padding:10px;background:#0f172a;border-radius:8px">'
+      +'<div style="font-size:10px;color:#94a3b8;margin-bottom:6px;font-weight:700">Punti di forza strutturali (invariati 2024→2025→2026):</div>'
+      +'<div style="font-size:10px;color:#64748b">🔵 PFN negativa — più cassa che debiti in tutti gli anni &nbsp;|&nbsp; '
+      +'🟢 Debt/Equity &lt;0.5x — leverage minimo &nbsp;|&nbsp; '
+      +'🟢 Equity €1.6-2.0M — patrimonio netto solidissimo</div>'
+    +'</div>'
+    +'</div>';
+
+  var pfnBar='<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:10px">Posizione Finanziaria Netta (PFN)</div>'
+    +'<div style="display:flex;gap:10px">'
+      +pfnBlock('Dic 2026',debtDec26,cashDec26,pfn26)
+      +pfnBlock('Dic 2027',debtDec27,cashDec27,pfn27)
+    +'</div>'
+    +'<div style="font-size:9px;color:#475569;margin-top:8px">PFN negativa = più cassa che debiti finanziari = posizione netta creditrice ✓</div>'
+    +'</div>';
+
+  return ratingSection+pfnBar+cards;
+}
+
+function getSemaforo(c){
+  if(c==='#22d3ee') return '🔵';
+  if(c==='#4ade80') return '🟢';
+  if(c==='#f59e0b') return '🟡';
+  return '🔴';
+}
+
+function pfnBlock(label,debt,cash,pfn){
+  var col=pfn<0?'#4ade80':'#f87171';
+  return '<div style="flex:1;background:#0f172a;border-radius:8px;padding:10px;text-align:center">'
+    +'<div style="font-size:10px;color:#64748b;margin-bottom:4px">'+label+'</div>'
+    +'<div style="font-size:9px;color:#94a3b8">Debito: <b>€'+debt.toFixed(0)+'k</b></div>'
+    +'<div style="font-size:9px;color:#94a3b8">Cassa: <b>€'+cash.toFixed(0)+'k</b></div>'
+    +'<div style="font-size:14px;font-weight:800;font-family:monospace;color:'+col+';margin-top:4px">'+(pfn<0?'−€'+Math.abs(pfn).toFixed(0)+'k':'€'+pfn.toFixed(0)+'k')+'</div>'
+    +'<div style="font-size:9px;color:'+col+'">'+(pfn<0?'Netta positiva ✓':'Netta negativa')+'</div>'
+    +'</div>';
+}
+
+function renderLoans(){
+  var loans=[
+    {n:'Unicredit 2529480',a:'€36.5k trimestrale',r:'€300k',e:'Mar 2028',col:'#f43f5e',note:'Giu/Set/Dic 26 · Mar/Giu/Set/Dic 27 · Mar 28'},
+    {n:'Credito Emiliano',a:'€8.69k/mese',r:'€128k',e:'Mar 2028',col:'#fb923c',note:'22 rate mensili da Giu 2026'},
+    {n:'BCC Brescia 1071107',a:'€5.23k/mese',r:'€129k',e:'Mag 2028',col:'#fbbf24',note:'24 rate mensili da Giu 2026'},
+    {n:'BCC Brescia 1066083',a:'€2.4k/mese',r:'€24k',e:'Mar 2027',col:'#4ade80',note:'10 rate rimanenti'},
+    {n:'BCC Sebino 8021',a:'€30.4k (ultima)',r:'€30k',e:'Ott 2026',col:'#38bdf8',note:'Unica rata rimanente'},
+    {n:'BCC Sebino Finlombarda',a:'€20.2k (ultima)',r:'€20k',e:'Ott 2026',col:'#818cf8',note:'Unica rata rimanente'}
+  ];
+  var cards=loans.map(function(lo){
+    return '<div style="background:#1e293b;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:3px solid '+lo.col+'"><div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:6px">'+lo.n+'</div><div style="display:flex;gap:20px;margin-bottom:4px;flex-wrap:wrap"><div><div style="font-size:9px;color:#64748b">IMPORTO</div><div style="font-size:12px;font-weight:700;color:'+lo.col+'">'+lo.a+'</div></div><div><div style="font-size:9px;color:#64748b">RESIDUO</div><div style="font-size:12px;color:#94a3b8">'+lo.r+'</div></div><div><div style="font-size:9px;color:#64748b">SCADENZA</div><div style="font-size:12px;color:#94a3b8">'+lo.e+'</div></div></div><div style="font-size:10px;color:#475569">'+lo.note+'</div></div>';
+  }).join('');
+  return cards+'<div style="background:#1e293b;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:#94a3b8">Debito residuo totale al 04/06/2026</span><span style="font-size:16px;font-weight:800;color:#f43f5e;font-family:monospace">€631.5k</span></div>';
+}
+
+// === STATE UPDATE ===
+var lblMap={rev26:'lv-r26',growth27:'lv-g27',dso:'lv-dso',dpo:'lv-dpo',di26:'lv-di26',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
+var fmtP={rev26:function(v){return v+'k€';},growth27:function(v){return (v>=0?'+':'')+v+'%';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},di26:function(v){return v+'k€';},di27:function(v){return v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
+
+function upd(k,v){
+  P[k]=v;
+  var el=document.getElementById(lblMap[k]);
+  if(el && fmtP[k]) el.textContent=fmtP[k](v);
+  // Revenue summary bar
+  var r27=Math.round(P.rev26*(1+P.growth27/100));
+  var d26=document.getElementById('rv26');
+  var d27=document.getElementById('rv27');
+  var dg=document.getElementById('rv-growth');
+  var ds=document.getElementById('rv27-sub');
+  var ng=document.getElementById('n-g27');
+  if(d26) d26.textContent='€'+P.rev26.toLocaleString()+'k';
+  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=P.growth27>=0?'#22d3ee':'#f87171'; }
+  if(dg){ dg.textContent=(P.growth27>=0?'+':'')+P.growth27+'%'; dg.style.color=P.growth27>=0?'#4ade80':'#f87171'; }
+  if(ds) ds.textContent=(P.growth27>=0?'+':'')+P.growth27+'% vs 2026';
+  if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
+  render();
+
+  try { localStorage.setItem('HTP_P', JSON.stringify(P)); } catch(e){}
+}
+
+function setView(v){
+  VIEW=v;
+  document.querySelectorAll('.vbtn').forEach(function(b,i){ b.classList.toggle('active',['2026','2027','both'][i]===v); });
+  render();
+}
+
+function setTab(t){
+  TAB=t;
+  document.querySelectorAll('.tab').forEach(function(b,i){ b.classList.toggle('active',['chart','breakdown','ce','table','orders','loans','ratios'][i]===t); });
+  render();
+}
+
+function toggleParams(){
+  var p=document.getElementById('ppanel');
+  var b=document.getElementById('btn-params');
+  var o=p.classList.toggle('open');
+  b.textContent=o?'✕ Chiudi':'⚙️ Parametri';
+  b.style.background=o?'#6366f1':'#1e293b';
+  b.style.color=o?'#fff':'#94a3b8';
+}
+
+function render(){
+  var cf=calcCF();
+  renderKPIs(cf);
+  var el=document.getElementById('content');
+  if(TAB==='chart') el.innerHTML=renderChart(cf);
+  else if(TAB==='breakdown') el.innerHTML=renderBreakdown(cf);
+  else if(TAB==='ce') el.innerHTML=renderCE();
+  else if(TAB==='table') el.innerHTML=renderTable(cf);
+  else if(TAB==='orders') el.innerHTML=renderOrders();
+  else if(TAB==='ratios') el.innerHTML=renderIndici();
+  else el.innerHTML=renderLoans();
+}
+
+function resetAll(){
+  var defaults={
+    rev26:2350,growth27:-15,dso:62,dpo:83,
+    matPct:21,subPct:5,
+    laborK:54,rentK:8.3,energyPct:4.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
+    labor27:54,rent27:8.3,energyPct27:4.7,otherFixedK27:20,otherVarPct27:3,
+    di26:0,di27:0,amm26:110,amm27:100,tfmPct:20,
+    iresR:24,irapR:3.9,
+    cigW:0,cigH:50,cigW27:0,cigH27:50,
+    startCash:1464,openRec:480,openPay:293
+  };
+  Object.keys(defaults).forEach(function(k){
+    P[k]=defaults[k];
+    // Update sliders
+    var inputs=document.querySelectorAll('input[type=range]');
+    inputs.forEach(function(inp){
+      if(inp.getAttribute('oninput')&&inp.getAttribute('oninput').indexOf("'"+k+"'")>=0){
+        inp.value=defaults[k];
+      }
+    });
+    // Update labels
+    var el=document.getElementById(lblMap[k]);
+    if(el&&fmtP[k]) el.textContent=fmtP[k](defaults[k]);
+  });
+  render();
+  try { localStorage.removeItem('HTP_P'); } catch(e){}
+}
+
+// === CARICAMENTO PARAMETRI DA params.json ===
+function applyRemoteParams(data) {
+  var keys = Object.keys(P);
+  keys.forEach(function(k) {
+    if (data[k] !== undefined) {
+      P[k] = data[k];
+      // Update sliders
+      var inputs = document.querySelectorAll('input[type=range]');
+      inputs.forEach(function(inp) {
+        var oi = inp.getAttribute('oninput') || '';
+        if (oi.indexOf("'" + k + "'") >= 0) inp.value = data[k];
+      });
+      // Update labels
+      var el = document.getElementById(lblMap[k]);
+      if (el && fmtP[k]) el.textContent = fmtP[k](data[k]);
+    }
+  });
+}
+
+// Carica prima params.json come baseline, poi sovrascrive con localStorage (modifiche utente)
+fetch('./params.json?v=' + Date.now())
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    // Prima applica il baseline da params.json
+    applyRemoteParams(data);
+    // Poi sovrascrive con i valori salvati dall'utente (localStorage ha priorità)
+    try {
+      var saved = localStorage.getItem('HTP_P');
+      if(saved) {
+        var savedP = JSON.parse(saved);
+        applyRemoteParams(savedP);
+        console.log('✓ Parametri ripristinati dalla sessione precedente');
+      } else {
+        console.log('✓ Parametri caricati da params.json (' + (data._updated || 'n/d') + ')');
+      }
+    } catch(e) {}
+    render();
+  })
+  .catch(function() {
+    // Nessun params.json — prova localStorage
+    try {
+      var saved = localStorage.getItem('HTP_P');
+      if(saved) applyRemoteParams(JSON.parse(saved));
+    } catch(e) {}
+    render();
+  });
+
+</script>
+</body>
+</html>
