@@ -85,8 +85,8 @@ tr:nth-child(even) td{background:#162032}
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">DPO &ndash; Pag. fornitori</span><span class="sl-val" id="lv-dpo">83gg</span></div><div class="sl-note">Reale: 83gg su tutti i costi esterni</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(15.0,+(+el.value-1).toFixed(2));el.value=v;upd('dpo',v)" type="button">&minus;</button><input type="range" min="15" max="150" step="1" value="83" oninput="upd('dpo',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+1).toFixed(2));el.value=v;upd('dpo',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#fb923c">MAGAZZINO</div>
-  <div class="info-box" style="background:#1a1000;color:#fdba74">2024: &euro;265k &rarr; 2025: &euro;168k (&minus;&euro;97k smaltiti)</div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">&Delta; Magazzino 2026</span><span class="sl-val" id="lv-di26">0k&euro;</span></div><div class="sl-note">+ ricostruisce &middot; &minus; smaltisce</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-100.0,+(+el.value-5).toFixed(2));el.value=v;upd('di26',v)" type="button">&minus;</button><input type="range" min="-100" max="150" step="5" value="0" oninput="upd('di26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+5).toFixed(2));el.value=v;upd('di26',v)" type="button">+</button></div></div>
+  <div class="info-box" style="background:#1a1000;color:#fdba74">2024: &euro;265k &rarr; 2025: &euro;168k &rarr; Q1&rsquo;26: &euro;220k (prudenziale) &middot; &Delta; = +ricostruzione scorte</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">&Delta; Magazzino 2026</span><span class="sl-val" id="lv-di26">52k&euro;</span></div><div class="sl-note">Q1&rsquo;26: &euro;220k (da &euro;168k) &middot; + ricostruisce &middot; &minus; smaltisce</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-100.0,+(+el.value-5).toFixed(2));el.value=v;upd('di26',v)" type="button">&minus;</button><input type="range" min="-100" max="150" step="5" value="52" oninput="upd('di26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+5).toFixed(2));el.value=v;upd('di26',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">&Delta; Magazzino 2027</span><span class="sl-val" id="lv-di27">0k&euro;</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-100.0,+(+el.value-5).toFixed(2));el.value=v;upd('di27',v)" type="button">&minus;</button><input type="range" min="-100" max="150" step="5" value="0" oninput="upd('di27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+5).toFixed(2));el.value=v;upd('di27',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#a3e635">COSTI NON MONETARI</div>
@@ -225,7 +225,7 @@ var P={
   matPct:21, subPct:5,
   laborK:54, rentK:8.3, energyPct:4.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
   labor27:54, rent27:8.3, energyPct27:4.7, otherFixedK27:20, otherVarPct27:3,
-  di26:0, di27:0,
+  di26:52, di27:0,
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
@@ -900,7 +900,7 @@ function resetAll(){
     matPct:21,subPct:5,
     laborK:54,rentK:8.3,energyPct:4.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
     labor27:54,rent27:8.3,energyPct27:4.7,otherFixedK27:20,otherVarPct27:3,
-    di26:0,di27:0,amm26:110,amm27:100,tfmPct:20,
+    di26:52,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
     startCash:1464,openRec:480,openPay:293

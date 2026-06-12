@@ -1,6 +1,6 @@
 {
-  "_note": "HTP CashFlow & PL \u2014 parametri aggiornati. Modifica questo file per aggiornare il modello.",
-  "_updated": "2026-06-11e",
+  "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
+  "_updated": "2026-06-12",
   "rev26": 2350,
   "growth27": -5,
   "dso": 62,
@@ -19,7 +19,7 @@
   "energyPct27": 4.7,
   "otherFixedK27": 20,
   "otherVarPct27": 3,
-  "di26": 0,
+  "di26": 52,
   "di27": 0,
   "amm26": 110,
   "amm27": 100,
