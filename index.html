@@ -145,7 +145,7 @@ tr:nth-child(even) td{background:#162032}
 </div>
 
 <div class="rev-bar">
-  <div class="rev-item"><div class="label">FATTURATO 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569">Da ordini confermati</div></div>
+  <div class="rev-item"><div class="label">FATTURATO 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569">Stima anno · ordini H2: €926k</div></div>
   <div class="rev-divider"></div>
   <div class="rev-item"><div class="label">FATTURATO 2027</div><div class="value" id="rv27" style="color:#22d3ee">1.980k</div><div style="font-size:9px;color:#475569" id="rv27-sub">+10% vs 2026</div></div>
   <div class="rev-divider"></div>
@@ -165,7 +165,7 @@ tr:nth-child(even) td{background:#162032}
 </div>
 
 <div id="content"></div>
-<div class="footer">HTP S.r.l. &middot; Aggiornato al 30/06/2026 &middot; Cassa &euro;1.548k &middot; Ordini confermati Giu-Dic &euro;977k &middot; Ammortamenti &euro;110k/&euro;100k &middot; TFM 20% EBT</div>
+<div class="footer">HTP S.r.l. &middot; Aggiornato al 18/06/2026 &middot; Cassa &euro;1.572k &middot; Ordini confermati H2 2026 &euro;926k · 2027 €87k &middot; Ammortamenti &euro;110k/&euro;100k &middot; TFM 20% EBT</div>
 </div>
 
 <script>
@@ -508,15 +508,132 @@ function renderTable(cf){
 }
 
 function renderOrders(){
+  var TODAY = new Date(2026,5,18); // 18 giugno 2026 (mese 0-indexed)
+  var FINE_MESE = new Date(2026,5,30); // fine giugno 2026
+
+  // Ordini critici a breve (da aggiornare manualmente con i dati reali dal PDF)
+  var CRITICI = [
+    {ord:'260134',cliente:'Lav.El. Gomma',articolo:'WYA204',residuo:349.6,spedizione:'18/06/2026',note:'Consegna OGGI'},
+    {ord:'260082',cliente:'Lav.El. Gomma',articolo:'ULA121',residuo:10800,spedizione:'26/06/2026',note:'8gg'},
+    {ord:'260084',cliente:'Lav.El. Gomma',articolo:'WBA118',residuo:2493.6,spedizione:'26/06/2026',note:'8gg'},
+    {ord:'260109',cliente:'Lav.El. Gomma',articolo:'SYA186',residuo:12000,spedizione:'26/06/2026',note:'8gg'},
+    {ord:'260007',cliente:'Dichtungspartner',articolo:'1257557+1257556',residuo:50850,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
+    {ord:'260070',cliente:'Watts Industries',articolo:'416020358-1',residuo:5400,spedizione:'25/06/2026',note:'7gg'},
+    {ord:'260028',cliente:'Serotti & Ghidini',articolo:'BYPASS 25',residuo:8388.6,spedizione:'25/06/2026',note:'7gg'},
+    {ord:'260029',cliente:'Serotti & Ghidini',articolo:'BYPASS 75',residuo:4370,spedizione:'25/06/2026',note:'7gg'},
+    {ord:'260100',cliente:'Breka',articolo:'P0000227+P0000228',residuo:9920,spedizione:'30/06/2026',note:'12gg'},
+    {ord:'260103',cliente:'Enextras OÜ',articolo:'vari (6 art.)',residuo:58324,spedizione:'30/06/2026',note:'12gg'},
+    {ord:'260105',cliente:'E.B. S.r.l.',articolo:'STELL 004+005',residuo:3994,spedizione:'26/06/2026',note:'8gg'},
+    {ord:'260065',cliente:'Sagom Tubi',articolo:'YGU0011',residuo:12000,spedizione:'26/06/2026',note:'8gg'},
+    {ord:'260015',cliente:'Dubhe',articolo:'LEM10733',residuo:3511.96,spedizione:'15/06/2026',note:'GIÀ SCADUTO'},
+    {ord:'260053',cliente:'T.Erre',articolo:'TX5005639/A',residuo:31587.5,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
+    {ord:'260115',cliente:'T.Erre',articolo:'TX5011467',residuo:5292,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
+    {ord:'260093',cliente:'T.Erre',articolo:'TX5011467',residuo:141.4,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
+    {ord:'250253',cliente:'OMR S.p.A.',articolo:'A10007172857',residuo:1124.55,spedizione:'15/06/2026',note:'GIÀ SCADUTO'},
+    {ord:'260092',cliente:'Kongsberg',articolo:'211132V',residuo:304.8,spedizione:'25/06/2026',note:'7gg'},
+    {ord:'260015b',cliente:'Dubhe',articolo:'LEM10733',residuo:3511.96,spedizione:'15/06/2026',note:'GIÀ SCADUTO'},
+  ];
+
+  // Dedup e colore semaforo
+  var seen = {};
+  CRITICI = CRITICI.filter(function(o){
+    if(seen[o.ord]) return false;
+    seen[o.ord] = true;
+    return true;
+  });
+
+  function semaforoCol(note){
+    if(note.indexOf('GIÀ SCADUTO')>=0) return '#ef4444';
+    if(note==='Consegna OGGI') return '#f59e0b';
+    var gg=parseInt(note);
+    if(gg<=7) return '#f59e0b';
+    return '#4ade80';
+  }
+  function semaforoDot(note){
+    var c=semaforoCol(note);
+    return '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+c+';margin-right:5px;flex-shrink:0"></span>';
+  }
+
+  // Sezione 1: Alert ordini critici giugno
+  var alertRows = CRITICI.map(function(o){
+    var col=semaforoCol(o.note);
+    var tagCol = o.note.indexOf('GIÀ SCADUTO')>=0?'#ef4444':(o.note==='Consegna OGGI'?'#f59e0b':'#4ade80');
+    return '<div style="display:flex;align-items:center;gap:8px;padding:7px 14px;border-bottom:1px solid #1e293b;flex-wrap:wrap">'
+      +'<span style="font-size:9px;background:'+tagCol+';color:#0f172a;border-radius:4px;padding:1px 6px;font-weight:700;min-width:90px;text-align:center">'+o.note+'</span>'
+      +'<span style="font-size:10px;font-weight:700;color:#e2e8f0;min-width:120px">'+o.cliente+'</span>'
+      +'<span style="font-size:9px;color:#94a3b8;flex:1">'+o.articolo+'</span>'
+      +'<span style="font-size:9px;color:#64748b">Sped. '+o.spedizione+'</span>'
+      +'<span style="font-size:10px;font-weight:700;color:#6366f1;font-family:monospace;min-width:60px;text-align:right">€'+Math.round(o.residuo/1000*10)/10+'k</span>'
+      +'</div>';
+  }).join('');
+
+  // Sezione 2: Concentrazione cliente (totale portafoglio)
+  var clienteTot = {};
+  var grandTotal = 0;
+  OBACKLOG.forEach(function(row){
+    row.c.forEach(function(x){
+      clienteTot[x[0]] = (clienteTot[x[0]]||0) + x[1];
+      grandTotal += x[1];
+    });
+  });
+  var clienteSorted = Object.keys(clienteTot).map(function(k){ return [k,clienteTot[k]]; });
+  clienteSorted.sort(function(a,b){ return b[1]-a[1]; });
+  var top3 = clienteSorted.slice(0,3).reduce(function(s,x){ return s+x[1]; },0);
+  var concRows = clienteSorted.slice(0,8).map(function(x){
+    var pct = grandTotal>0?x[1]/grandTotal*100:0;
+    var barW = Math.round(pct);
+    return '<div style="margin-bottom:7px">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:2px">'
+      +'<span style="font-size:10px;color:#e2e8f0;font-weight:600">'+x[0]+'</span>'
+      +'<span style="font-size:10px;color:#6366f1;font-family:monospace">€'+x[1].toFixed(0)+'k &nbsp;<span style="color:#64748b">'+pct.toFixed(0)+'%</span></span>'
+      +'</div>'
+      +'<div style="background:#1e293b;border-radius:3px;height:5px">'
+      +'<div style="height:100%;border-radius:3px;width:'+barW+'%;background:linear-gradient(90deg,#6366f1,#22d3ee)"></div>'
+      +'</div></div>';
+  }).join('');
+  var top3pct = grandTotal>0?(top3/grandTotal*100).toFixed(0):0;
+
+  // Sezione 3: Riepilogo per mese
   var t26=0,t27=0;
   OBACKLOG.forEach(function(r){ if(r.m.indexOf('26')>=0) t26+=r.t; else t27+=r.t; });
-  var rows=OBACKLOG.map(function(row){
+  var meseRows = OBACKLOG.map(function(row){
+    var isPassato = row.m==='Giu 26';
     var bar='<div style="background:#0f172a;border-radius:4px;height:4px;margin-bottom:6px"><div style="height:100%;background:linear-gradient(90deg,#6366f1,#22d3ee);border-radius:4px;width:'+Math.min(100,row.t/3.5)+'%"></div></div>';
     var chips=row.c.map(function(x){ return '<span style="font-size:9px;background:#0f172a;border:1px solid #334155;border-radius:4px;padding:2px 5px;color:#94a3b8">'+x[0]+' <b style="color:#c7d2fe">€'+x[1].toFixed(0)+'k</b></span>'; }).join('');
-    return '<div style="padding:10px 16px;border-bottom:1px solid #162032"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;font-weight:700;color:#e2e8f0">'+row.m+'</span><span style="font-size:14px;font-weight:800;color:#6366f1;font-family:monospace">€'+row.t+'k</span></div>'+bar+'<div style="display:flex;flex-wrap:wrap;gap:3px">'+chips+'</div></div>';
+    var meseCol = isPassato?'#f59e0b':'#e2e8f0';
+    return '<div style="padding:10px 16px;border-bottom:1px solid #162032">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:5px">'
+      +'<span style="font-size:12px;font-weight:700;color:'+meseCol+'">'+row.m+(isPassato?' ⚠':'')+'</span>'
+      +'<span style="font-size:14px;font-weight:800;color:#6366f1;font-family:monospace">€'+row.t+'k</span>'
+      +'</div>'+bar+'<div style="display:flex;flex-wrap:wrap;gap:3px">'+chips+'</div></div>';
   }).join('');
-  var recurring='<div style="display:flex;flex-wrap:wrap;gap:6px">'+[['Argomm SpA','~€16k/m'],['Enextras OU','~€49k/m'],['Lav.El. Gomma','~€15k/m'],['T.Erre Srl','~€30k/m'],['Dichtungspartner','PRV']].map(function(x){return '<div style="background:#0f172a;border-radius:8px;padding:7px 10px;flex:1;min-width:100px"><div style="font-size:10px;color:#e2e8f0;font-weight:600">'+x[0]+'</div><div style="font-size:9px;color:#64748b">'+x[1]+'</div></div>';}).join('')+'</div>';
-  return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:14px 16px;border-bottom:1px solid #334155"><div style="font-size:13px;font-weight:700">Portafoglio Ordini &ndash; 18/06/2026</div><div style="font-size:10px;color:#64748b;margin-top:3px">H2 2026: €'+t26+'k confermato · 2027: €'+t27+'k confermato</div></div>'+rows+'</div><div class="card" style="padding:12px 14px"><div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:8px">Clienti ricorrenti senza ordini confermati oltre Feb 2027:</div>'+recurring+'<div style="font-size:10px;color:#64748b;margin-top:8px">Usa lo slider Crescita 2027 per stimarli.</div></div>';
+
+  return ''
+    // -- CARD ALERT --
+    +'<div class="card" style="padding:0;overflow:hidden;margin-bottom:12px">'
+    +'<div style="padding:11px 14px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center">'
+    +'<div style="font-size:13px;font-weight:700">🚦 Alert Consegne Giugno 2026</div>'
+    +'<div style="font-size:10px;color:#64748b">Al 18/06/2026</div>'
+    +'</div>'
+    +'<div style="padding:6px 0;font-size:9px;color:#64748b;padding-left:14px;border-bottom:1px solid #1e293b">STATO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ARTICOLO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SPEDIZIONE &nbsp;&nbsp;&nbsp;&nbsp; RESIDUO</div>'
+    +alertRows
+    +'</div>'
+
+    // -- CARD CONCENTRAZIONE --
+    +'<div class="card" style="padding:14px;margin-bottom:12px">'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:4px">📊 Concentrazione Cliente</div>'
+    +'<div style="font-size:10px;color:#f59e0b;margin-bottom:12px">Top 3 clienti = <b>'+top3pct+'%</b> del portafoglio (€'+top3.toFixed(0)+'k / €'+grandTotal.toFixed(0)+'k totale)</div>'
+    +concRows
+    +'</div>'
+
+    // -- CARD RIEPILOGO MESI --
+    +'<div class="card" style="padding:0;overflow:hidden">'
+    +'<div style="padding:14px 16px;border-bottom:1px solid #334155">'
+    +'<div style="font-size:13px;font-weight:700">📦 Portafoglio Ordini &ndash; 18/06/2026</div>'
+    +'<div style="font-size:10px;color:#64748b;margin-top:3px">H2 2026: €'+t26.toFixed(0)+'k confermato · 2027: €'+t27.toFixed(0)+'k confermato</div>'
+    +'</div>'
+    +meseRows
+    +'</div>';
 }
 
 
