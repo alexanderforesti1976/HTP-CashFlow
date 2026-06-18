@@ -1071,6 +1071,18 @@ function applyRemoteParams(data) {
       if (el && fmtP[k]) el.textContent = fmtP[k](data[k]);
     }
   });
+  // Aggiorna KPI card fatturato in cima
+  var r27=Math.round(P.rev26*(1+P.growth27/100));
+  var d26=document.getElementById('rv26');
+  var d27=document.getElementById('rv27');
+  var dg=document.getElementById('rv-growth');
+  var ds=document.getElementById('rv27-sub');
+  var ng=document.getElementById('n-g27');
+  if(d26) d26.textContent='€'+P.rev26.toLocaleString()+'k';
+  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=P.growth27>=0?'#22d3ee':'#f87171'; }
+  if(dg){ dg.textContent=(P.growth27>=0?'+':'')+P.growth27+'%'; dg.style.color=P.growth27>=0?'#4ade80':'#f87171'; }
+  if(ds) ds.textContent=(P.growth27>=0?'+':'')+P.growth27+'% vs 2026';
+  if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
 }
 
 // Caricamento parametri con gestione versioni
