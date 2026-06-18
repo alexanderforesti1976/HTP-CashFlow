@@ -1,6 +1,6 @@
 {
   "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
-  "_updated": "2026-06-12",
+  "_updated": "2026-06-18",
   "rev26": 2350,
   "growth27": -5,
   "dso": 62,
@@ -30,7 +30,7 @@
   "cigH": 50,
   "cigW27": 0,
   "cigH27": 50,
-  "startCash": 1464,
+  "startCash": 1572,
   "openRec": 480,
   "openPay": 293,
   "OREV": {
