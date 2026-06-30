@@ -1102,8 +1102,6 @@ fetch('./params.json?nocache=' + Date.now())
       try {
         localStorage.setItem('HTP_P', JSON.stringify(P));
         localStorage.setItem('HTP_ver', remoteVer);
-        // Aggiorna il timestamp condiviso letto dalla HTP-Hub (stesso dominio github.io) — solo quando i dati cambiano davvero
-        localStorage.setItem('htp_cf_last_modified', new Date().toISOString());
       } catch(e){}
       console.log('✓ Nuovi parametri da params.json (' + remoteVer + ') — localStorage aggiornato');
     } else {
@@ -1115,6 +1113,15 @@ fetch('./params.json?nocache=' + Date.now())
         applyRemoteParams(data);
       }
     }
+    // Timestamp condiviso per HTP-Hub (stesso dominio github.io) — tracciato a parte,
+    // indipendente da HTP_ver, così si autoripara anche se HTP_ver era già allineato
+    try {
+      var hubVer = localStorage.getItem('htp_cf_last_modified_ver') || '';
+      if (remoteVer !== hubVer) {
+        localStorage.setItem('htp_cf_last_modified', new Date().toISOString());
+        localStorage.setItem('htp_cf_last_modified_ver', remoteVer);
+      }
+    } catch(e){}
     render();
   })
   .catch(function() {
