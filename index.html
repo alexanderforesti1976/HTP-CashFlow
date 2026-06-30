@@ -1119,6 +1119,19 @@ fetch('./params.json?nocache=' + Date.now())
       if (Object.keys(overrides).length) {
         console.log('✓ Ripristinate ' + Object.keys(overrides).length + ' modifiche manuali utente');
       }
+      // Ricalcola la card KPI "Fatturato 2026/2027" con i valori utente appena ripristinati
+      // (applyRemoteParams l'aveva già disegnata, ma con i default di params.json)
+      var r27b = Math.round(P.rev26 * (1 + P.growth27 / 100));
+      var d26b = document.getElementById('rv26');
+      var d27b = document.getElementById('rv27');
+      var dgb  = document.getElementById('rv-growth');
+      var dsb  = document.getElementById('rv27-sub');
+      var ngb  = document.getElementById('n-g27');
+      if (d26b) d26b.textContent = '€' + P.rev26.toLocaleString() + 'k';
+      if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = P.growth27 >= 0 ? '#22d3ee' : '#f87171'; }
+      if (dgb)  { dgb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '%'; dgb.style.color = P.growth27 >= 0 ? '#4ade80' : '#f87171'; }
+      if (dsb)  dsb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '% vs 2026';
+      if (ngb)  ngb.textContent = '2026: €' + P.rev26 + 'k → 2027: €' + r27b + 'k';
     } catch(e) {}
 
     // 3) Salva lo stato corrente (dati ufficiali + override utente) come nuova baseline
