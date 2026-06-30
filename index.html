@@ -961,6 +961,12 @@ function upd(k,v){
 
   try {
     localStorage.setItem('HTP_P', JSON.stringify(P));
+    // Traccia che questo parametro è stato modificato manualmente dall'utente:
+    // non verrà mai più sovrascritto da un futuro aggiornamento di params.json
+    var ov = {};
+    try { ov = JSON.parse(localStorage.getItem('HTP_overrides') || '{}'); } catch(e2){}
+    ov[k] = true;
+    localStorage.setItem('HTP_overrides', JSON.stringify(ov));
     // Mostra indicatore verde "Salvato"
     var ind = document.getElementById('save-ind');
     if(!ind) {
@@ -1035,7 +1041,7 @@ function resetAll(){
     if(el&&fmtP[k]) el.textContent=fmtP[k](defaults[k]);
   });
   render();
-  try { localStorage.removeItem('HTP_P'); } catch(e){}
+  try { localStorage.removeItem('HTP_P'); localStorage.removeItem('HTP_overrides'); } catch(e){}
 }
 
 // === CARICAMENTO PARAMETRI DA params.json ===
@@ -1083,36 +1089,45 @@ function applyRemoteParams(data) {
   if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
 }
 
-// Caricamento parametri con gestione versioni
+// Caricamento parametri: i dati ufficiali (backlog, default) si aggiornano sempre,
+// le modifiche manuali dell'utente agli slider non vengono MAI cancellate da un
+// aggiornamento dati — restano finché non si preme "Reimposta tutto".
 fetch('./params.json?nocache=' + Date.now())
   .then(function(r) { return r.json(); })
   .then(function(data) {
     var remoteVer = data._updated || '2020-01-01';
-    var localVer  = '';
-    var savedStr  = null;
+
+    // 1) Parte sempre dai valori ufficiali più recenti (backlog OREV/OBACKLOG, loans, default P)
+    applyRemoteParams(data);
+
+    // 2) Riapplica SOPRA solo i parametri che l'utente ha effettivamente modificato a mano,
+    //    leggendoli dal salvataggio locale precedente — indipendentemente da quanto "vecchio" sia.
     try {
-      localVer = localStorage.getItem('HTP_ver') || '';
-      savedStr = localStorage.getItem('HTP_P');
+      var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
+      var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
+      var inputs = document.querySelectorAll('input[type=range]');
+      Object.keys(overrides).forEach(function(k) {
+        if (savedP[k] === undefined) return;
+        P[k] = savedP[k];
+        inputs.forEach(function(inp) {
+          var oi = inp.getAttribute('oninput') || '';
+          if (oi.indexOf("'" + k + "'") >= 0) inp.value = savedP[k];
+        });
+        var el = document.getElementById(lblMap[k]);
+        if (el && fmtP[k]) el.textContent = fmtP[k](savedP[k]);
+      });
+      if (Object.keys(overrides).length) {
+        console.log('✓ Ripristinate ' + Object.keys(overrides).length + ' modifiche manuali utente');
+      }
     } catch(e) {}
 
-    if(remoteVer > localVer) {
-      // params.json è più nuovo → cancella localStorage e usa params.json
-      try { localStorage.removeItem('HTP_P'); localStorage.removeItem('HTP_ver'); } catch(e){}
-      applyRemoteParams(data);
-      try {
-        localStorage.setItem('HTP_P', JSON.stringify(P));
-        localStorage.setItem('HTP_ver', remoteVer);
-      } catch(e){}
-      console.log('✓ Nuovi parametri da params.json (' + remoteVer + ') — localStorage aggiornato');
-    } else {
-      // localStorage è aggiornato → usalo (preserva modifiche utente)
-      if(savedStr) {
-        try { applyRemoteParams(JSON.parse(savedStr)); } catch(e){}
-        console.log('✓ Parametri da localStorage (versione ' + localVer + ')');
-      } else {
-        applyRemoteParams(data);
-      }
-    }
+    // 3) Salva lo stato corrente (dati ufficiali + override utente) come nuova baseline
+    try {
+      localStorage.setItem('HTP_P', JSON.stringify(P));
+      localStorage.setItem('HTP_ver', remoteVer);
+    } catch(e){}
+    console.log('✓ Parametri caricati — params.json (' + remoteVer + ') + eventuali modifiche utente');
+
     // Timestamp condiviso per HTP-Hub (stesso dominio github.io) — tracciato a parte,
     // indipendente da HTP_ver, così si autoripara anche se HTP_ver era già allineato
     try {
