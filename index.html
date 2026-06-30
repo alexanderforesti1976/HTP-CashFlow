@@ -1102,6 +1102,8 @@ fetch('./params.json?nocache=' + Date.now())
       try {
         localStorage.setItem('HTP_P', JSON.stringify(P));
         localStorage.setItem('HTP_ver', remoteVer);
+        // Aggiorna il timestamp condiviso letto dalla HTP-Hub (stesso dominio github.io) — solo quando i dati cambiano davvero
+        localStorage.setItem('htp_cf_last_modified', new Date().toISOString());
       } catch(e){}
       console.log('✓ Nuovi parametri da params.json (' + remoteVer + ') — localStorage aggiornato');
     } else {
@@ -1122,6 +1124,7 @@ fetch('./params.json?nocache=' + Date.now())
     } catch(e) {}
     render();
   });
+
 
 </script>
 </body>
