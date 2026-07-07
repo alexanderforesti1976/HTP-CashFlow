@@ -299,23 +299,23 @@ function calcCF() {
   var n=MONTHS.length;
   var cd=Math.max(1,Math.round(P.dso/30));
   var pd=Math.max(1,Math.round(P.dpo/30));
-  // Stagionalità: calcolata SOLO sui mesi senza backlog confermato (OREV),
-  // così i mesi override non "rubano" quota stagionale ai mesi liberi —
-  // il target annuo (rev26/rev27) viene sempre raggiunto in pieno.
-  var s26=0,s27=0,ov26=0,ov27=0;
-  for(var j=0;j<n;j++){
-    if(MONTHS[j].y===2026){
-      if(OREV[j]!==undefined) ov26+=OREV[j]; else s26+=SEAS[MONTHS[j].c-1];
-    } else {
-      if(OREV[j]!==undefined) ov27+=OREV[j]; else s27+=SEAS[MONTHS[j].c-1];
-    }
-  }
+  // Ogni mese usa il MASSIMO tra backlog confermato e quota stagionale attesa dal
+  // target annuo: se il backlog reale supera già l'atteso (domanda forte, ordini
+  // arrivati presto) resta quello; se è ancora incompleto perché la data è lontana
+  // e i clienti non hanno ancora confermato, il modello sale alla quota attesa
+  // invece di restare artificialmente basso. Vale sia per il 2026 (H2, quota
+  // calcolata come % del target annuo secondo la stagionalità Lug-Dic vs Gen-Dic)
+  // sia per il 2027 (anno pieno).
+  var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
+  var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
   var rev27=P.rev26*(1+P.growth27/100);
+  var target26=P.rev26*seasH2/fullYearSeas;
   var revPlan=MONTHS.map(function(m,i){
-    if(OREV[i]!==undefined) return OREV[i];
-    var a=(m.y===2026?P.rev26-ov26:rev27-ov27);
-    var s=m.y===2026?s26:s27;
-    return s>0?a*SEAS[m.c-1]/s:0;
+    var target=m.y===2026?target26:rev27;
+    var seasSum=m.y===2026?seasH2:fullYearSeas;
+    var quota=target*SEAS[m.c-1]/seasSum;
+    var conf=OREV[i];
+    return conf!==undefined?Math.max(conf,quota):quota;
   });
   var purchPlan=revPlan.map(function(r,i){
     var delta=MONTHS[i].y===2026?P.di26:P.di27;
@@ -1063,34 +1063,28 @@ function toggleParams(){
 }
 
 function renderGapWarning(){
-  var THRESH=20; // soglia di segnalazione, in % di scostamento
-  var years=[2026,2027];
+  var THRESH=70; // soglia: se il backlog confermato copre meno di questa % del target, avviso
+  var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
+  var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
+  var rev27=P.rev26*(1+P.growth27/100);
+  var target26=P.rev26*seasH2/fullYearSeas;
   var msgs=[];
-  years.forEach(function(yr){
-    var totMonths=0, ovMonths=0, totSeas=0, ovSeas=0, ovSum=0;
+  [{yr:2026,target:target26,label:'2026 (H2)'},{yr:2027,target:rev27,label:'2027'}].forEach(function(y){
+    var conf=0;
     for(var j=0;j<MONTHS.length;j++){
-      var m=MONTHS[j];
-      if(m.y!==yr) continue;
-      totMonths++; totSeas+=SEAS[m.c-1];
-      if(OREV[j]!==undefined){ ovMonths++; ovSeas+=SEAS[m.c-1]; ovSum+=OREV[j]; }
+      if(MONTHS[j].y===y.yr && OREV[j]!==undefined) conf+=OREV[j];
     }
-    // Il confronto ha senso solo se l'anno è "misto": alcuni mesi con backlog
-    // confermato e altri ancora stimati per stagionalità. Se tutti i mesi sono
-    // confermati (es. 2026, H2 interamente da ordini) non c'è un "atteso" da confrontare.
-    if(ovMonths===0 || ovMonths===totMonths) return;
-    var target=yr===2026?P.rev26:P.rev26*(1+P.growth27/100);
-    var quota=target*ovSeas/totSeas;
-    if(quota<=0) return;
-    var pct=(ovSum-quota)/quota*100;
-    if(Math.abs(pct)>=THRESH){
-      msgs.push(yr+': backlog confermato '+(pct>=0?'+':'')+pct.toFixed(0)+'% vs quota attesa dal target annuale ('+fmtEK(ovSum)+' vs '+fmtEK(quota)+' atteso per gli stessi mesi)');
+    if(y.target<=0) return;
+    var pct=conf/y.target*100;
+    if(pct<THRESH){
+      msgs.push(y.label+': solo '+pct.toFixed(0)+'% del fatturato atteso è backlog confermato ('+fmtEK(conf)+' su '+fmtEK(y.target)+') — il resto è stima, i mesi senza ordini reali sono stati portati alla quota attesa');
     }
   });
   var el=document.getElementById('gapWarning');
   if(!el) return;
   if(msgs.length===0){ el.innerHTML=''; return; }
   el.innerHTML='<div style="background:#451a03;border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:11px;color:#fcd34d;line-height:1.5">'
-    +'<b>⚠️ Scostamento backlog confermato vs target annuale:</b><br>'
+    +'<b>⚠️ Copertura backlog vs target annuale:</b><br>'
     +msgs.join('<br>')
     +'</div>';
 }
