@@ -927,7 +927,28 @@ function renderIndici(){
     +'<div style="font-size:9px;color:#475569;margin-top:8px">PFN negativa = più cassa che debiti finanziari = posizione netta creditrice ✓</div>'
     +'</div>';
 
-  return ratingSection+pfnBar+cards;
+  var extraAssets=[
+    {name:'Deposito "Cedola Long" (BCC Brescia) · cedola sem. 3%, scad. 03/27', val:400.00},
+    {name:'Deposito fondo BTP (BCC Brescia)', val:147.91},
+    {name:'Polizza Assimoco Vita (03/25–03/55, valore reale)', val:75.00},
+    {name:'Fondo riserva TFR dipendenti (Unicredit)', val:44.72},
+    {name:'Titoli/prodotti d\'investimento', val:74.90},
+    {name:'Altre partecipazioni', val:1.00}
+  ];
+  var extraTotal=extraAssets.reduce(function(s,a){return s+a.val;},0);
+  var extraRows=extraAssets.map(function(a){
+    return '<div style="display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;padding:4px 0;border-bottom:1px solid #1e293b">'
+      +'<span>'+a.name+'</span><span style="color:#e2e8f0;font-weight:700">€'+a.val.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+'k</span></div>';
+  }).join('');
+  var extraAssetsCard='<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:2px">💼 Patrimonio finanziario extra-operativo</div>'
+    +'<div style="font-size:9px;color:#64748b;margin-bottom:10px">Asset esclusi dalla cassa operativa (non in Cassa Giu 2026) · Riconciliato con mastrini al 30/06/2026</div>'
+    +extraRows
+    +'<div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#4ade80;padding-top:8px;margin-top:4px">'
+    +'<span>Totale</span><span>€'+extraTotal.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+'k</span></div>'
+    +'</div>';
+
+  return ratingSection+pfnBar+extraAssetsCard+cards;
 }
 
 function getSemaforo(c){
