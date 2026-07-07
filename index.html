@@ -995,6 +995,8 @@ function upd(k,v){
     localStorage.setItem('HTP_overrides', JSON.stringify(ov));
     // Sincronizza su Firebase: visibile su ogni dispositivo/browser, in automatico
     fbSaveState();
+    // Avvisa l'Hub che c'è stata una modifica (non solo sugli aggiornamenti ufficiali)
+    try { localStorage.setItem('htp_cf_last_modified', new Date().toISOString()); } catch(e){}
     // Mostra indicatore "Sincronizzato"
     var ind = document.getElementById('save-ind');
     if(!ind) {
