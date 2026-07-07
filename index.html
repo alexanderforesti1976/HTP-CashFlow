@@ -260,10 +260,35 @@ var P={
 };
 var VIEW='both', TAB='chart';
 
+// === FONTE UNICA: fatturato mensile/annuo (backlog + quota stagionale + capacità ago/dic) ===
+// Usata sia da calcPL (Conto Economico, Indici, Rating) sia da calcCF (Cash Flow),
+// così tutte le tab restano sempre coerenti tra loro.
+function getRevTotals(){
+  var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
+  var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
+  var rev27base=P.rev26*(1+P.growth27/100);
+  var target26=P.rev26*seasH2/fullYearSeas;
+  var revPlan=MONTHS.map(function(m,i){
+    var target=m.y===2026?target26:rev27base;
+    var seasSum=m.y===2026?seasH2:fullYearSeas;
+    var quota=target*SEAS[m.c-1]/seasSum;
+    var conf=OREV[i];
+    return conf!==undefined?Math.max(conf,quota):quota;
+  });
+  var sumH2_26=0, sum27=0;
+  MONTHS.forEach(function(m,i){ if(m.y===2026) sumH2_26+=revPlan[i]; else sum27+=revPlan[i]; });
+  // Fatturato annuo pieno 2026 = quota H1 implicita (non modellata mese per mese) +
+  // H2 reale (backlog/quota/capacità). Per il 2027 il modello copre l'intero anno.
+  var revFull26=(P.rev26-target26)+sumH2_26;
+  var revFull27=sum27;
+  return {revPlan:revPlan, revFull26:revFull26, revFull27:revFull27};
+}
+
 // === P&L CALC ===
 function calcPL(year, actual) {
   var d=actual?ACT[year]:null;
-  var rev=d?d.rev:(year===2026?P.rev26:P.rev26*(1+P.growth27/100));
+  var rt=getRevTotals();
+  var rev=d?d.rev:(year===2026?rt.revFull26:rt.revFull27);
   var mat=d?d.mat:rev*P.matPct/100;
   var sub=d?d.sub:rev*P.subPct/100;
   var di=d?d.di:(year===2026?P.di26:P.di27);
@@ -299,24 +324,7 @@ function calcCF() {
   var n=MONTHS.length;
   var cd=Math.max(1,Math.round(P.dso/30));
   var pd=Math.max(1,Math.round(P.dpo/30));
-  // Ogni mese usa il MASSIMO tra backlog confermato e quota stagionale attesa dal
-  // target annuo: se il backlog reale supera già l'atteso (domanda forte, ordini
-  // arrivati presto) resta quello; se è ancora incompleto perché la data è lontana
-  // e i clienti non hanno ancora confermato, il modello sale alla quota attesa
-  // invece di restare artificialmente basso. Vale sia per il 2026 (H2, quota
-  // calcolata come % del target annuo secondo la stagionalità Lug-Dic vs Gen-Dic)
-  // sia per il 2027 (anno pieno).
-  var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
-  var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
-  var rev27=P.rev26*(1+P.growth27/100);
-  var target26=P.rev26*seasH2/fullYearSeas;
-  var revPlan=MONTHS.map(function(m,i){
-    var target=m.y===2026?target26:rev27;
-    var seasSum=m.y===2026?seasH2:fullYearSeas;
-    var quota=target*SEAS[m.c-1]/seasSum;
-    var conf=OREV[i];
-    return conf!==undefined?Math.max(conf,quota):quota;
-  });
+  var revPlan=getRevTotals().revPlan;
   var purchPlan=revPlan.map(function(r,i){
     var delta=MONTHS[i].y===2026?P.di26:P.di27;
     return r*(P.matPct+P.subPct)/100+delta/12;
