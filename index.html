@@ -297,17 +297,23 @@ function calcCF() {
   var n=MONTHS.length;
   var cd=Math.max(1,Math.round(P.dso/30));
   var pd=Math.max(1,Math.round(P.dpo/30));
-  var s26=0,s27=0;
+  // Stagionalità: calcolata SOLO sui mesi senza backlog confermato (OREV),
+  // così i mesi override non "rubano" quota stagionale ai mesi liberi —
+  // il target annuo (rev26/rev27) viene sempre raggiunto in pieno.
+  var s26=0,s27=0,ov26=0,ov27=0;
   for(var j=0;j<n;j++){
-    if(MONTHS[j].y===2026) s26+=SEAS[MONTHS[j].c-1];
-    else s27+=SEAS[MONTHS[j].c-1];
+    if(MONTHS[j].y===2026){
+      if(OREV[j]!==undefined) ov26+=OREV[j]; else s26+=SEAS[MONTHS[j].c-1];
+    } else {
+      if(OREV[j]!==undefined) ov27+=OREV[j]; else s27+=SEAS[MONTHS[j].c-1];
+    }
   }
   var rev27=P.rev26*(1+P.growth27/100);
   var revPlan=MONTHS.map(function(m,i){
     if(OREV[i]!==undefined) return OREV[i];
-    var a=m.y===2026?P.rev26:rev27;
+    var a=(m.y===2026?P.rev26-ov26:rev27-ov27);
     var s=m.y===2026?s26:s27;
-    return a*SEAS[m.c-1]/s;
+    return s>0?a*SEAS[m.c-1]/s:0;
   });
   var purchPlan=revPlan.map(function(r,i){
     var delta=MONTHS[i].y===2026?P.di26:P.di27;
