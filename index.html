@@ -168,7 +168,33 @@ tr:nth-child(even) td{background:#162032}
 <div class="footer">HTP S.r.l. &middot; Aggiornato al 30/06/2026 &middot; Cassa &euro;1.572k &middot; Ordini confermati H2 2026 &euro;754k · 2027 €80k &middot; Ammortamenti &euro;110k/&euro;100k &middot; TFM 20% EBT</div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
 <script>
+// === FIREBASE: sincronizzazione automatica dei parametri in tempo reale ===
+const firebaseConfig = {
+  apiKey: "AIzaSyBe67BsxZ4P_fNTJf8e-rrBJZXW3qPva6c",
+  authDomain: "htp-tools.firebaseapp.com",
+  databaseURL: "https://htp-tools-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "htp-tools",
+  storageBucket: "htp-tools.firebasestorage.app",
+  messagingSenderId: "268687559840",
+  appId: "1:268687559840:web:8668ba2f584bcd73574dc5"
+};
+var fbApp = firebase.initializeApp(firebaseConfig);
+var fbDb = firebase.database();
+var fbRef = fbDb.ref('htp_cashflow/state');
+var fbSaveTimer = null;
+function fbSaveState(){
+  clearTimeout(fbSaveTimer);
+  fbSaveTimer = setTimeout(function(){
+    try {
+      var ov = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
+      fbRef.set({ P: P, overrides: ov, ts: Date.now() });
+    } catch(e){}
+  }, 400); // debounce: aspetta che l'utente finisca di trascinare lo slider
+}
+
 // === DATI ===
 const SEAS=[.80,.78,.90,.90,.78,.92,.85,1.00,1.02,1.08,1.12,1.05];
 const FCAL={1:.4,3:1.56,4:3.28,5:.02,6:6.79,7:2.53,8:5.22,9:3.74,10:1.24,12:8.41};
@@ -967,7 +993,9 @@ function upd(k,v){
     try { ov = JSON.parse(localStorage.getItem('HTP_overrides') || '{}'); } catch(e2){}
     ov[k] = true;
     localStorage.setItem('HTP_overrides', JSON.stringify(ov));
-    // Mostra indicatore verde "Salvato"
+    // Sincronizza su Firebase: visibile su ogni dispositivo/browser, in automatico
+    fbSaveState();
+    // Mostra indicatore "Sincronizzato"
     var ind = document.getElementById('save-ind');
     if(!ind) {
       ind = document.createElement('div');
@@ -975,7 +1003,7 @@ function upd(k,v){
       ind.style.cssText = 'position:fixed;top:16px;right:16px;background:#22c55e;color:#fff;padding:6px 18px;border-radius:20px;font-size:12px;font-weight:700;z-index:9999;opacity:1;transition:opacity 1.5s';
       document.body.appendChild(ind);
     }
-    ind.textContent = '✓ Salvato';
+    ind.textContent = '☁ Sincronizzato';
     ind.style.opacity = '1';
     clearTimeout(window._saveTimer);
     window._saveTimer = setTimeout(function(){ ind.style.opacity = '0'; }, 1500);
@@ -1042,6 +1070,7 @@ function resetAll(){
   });
   render();
   try { localStorage.removeItem('HTP_P'); localStorage.removeItem('HTP_overrides'); } catch(e){}
+  try { fbRef.remove(); } catch(e){}
 }
 
 // === CARICAMENTO PARAMETRI DA params.json ===
@@ -1089,9 +1118,56 @@ function applyRemoteParams(data) {
   if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
 }
 
-// Caricamento parametri: i dati ufficiali (backlog, default) si aggiornano sempre,
-// le modifiche manuali dell'utente agli slider non vengono MAI cancellate da un
-// aggiornamento dati — restano finché non si preme "Reimposta tutto".
+// Riapplica SOPRA ai dati ufficiali solo i parametri che l'utente ha modificato a mano
+function applyOverrides(overrides, savedP) {
+  try {
+    var inputs = document.querySelectorAll('input[type=range]');
+    Object.keys(overrides || {}).forEach(function(k) {
+      if (!savedP || savedP[k] === undefined) return;
+      P[k] = savedP[k];
+      inputs.forEach(function(inp) {
+        var oi = inp.getAttribute('oninput') || '';
+        if (oi.indexOf("'" + k + "'") >= 0) inp.value = savedP[k];
+      });
+      var el = document.getElementById(lblMap[k]);
+      if (el && fmtP[k]) el.textContent = fmtP[k](savedP[k]);
+    });
+    if (Object.keys(overrides || {}).length) {
+      console.log('✓ Ripristinate ' + Object.keys(overrides).length + ' modifiche manuali utente');
+    }
+    var r27b = Math.round(P.rev26 * (1 + P.growth27 / 100));
+    var d26b = document.getElementById('rv26');
+    var d27b = document.getElementById('rv27');
+    var dgb  = document.getElementById('rv-growth');
+    var dsb  = document.getElementById('rv27-sub');
+    var ngb  = document.getElementById('n-g27');
+    if (d26b) d26b.textContent = '€' + P.rev26.toLocaleString() + 'k';
+    if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = P.growth27 >= 0 ? '#22d3ee' : '#f87171'; }
+    if (dgb)  { dgb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '%'; dgb.style.color = P.growth27 >= 0 ? '#4ade80' : '#f87171'; }
+    if (dsb)  dsb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '% vs 2026';
+    if (ngb)  ngb.textContent = '2026: €' + P.rev26 + 'k → 2027: €' + r27b + 'k';
+  } catch(e) {}
+}
+
+function finishLoad(remoteVer) {
+  try {
+    localStorage.setItem('HTP_P', JSON.stringify(P));
+    localStorage.setItem('HTP_ver', remoteVer);
+  } catch(e){}
+  try {
+    var hubVer = localStorage.getItem('htp_cf_last_modified_ver') || '';
+    if (remoteVer !== hubVer) {
+      localStorage.setItem('htp_cf_last_modified', new Date().toISOString());
+      localStorage.setItem('htp_cf_last_modified_ver', remoteVer);
+    }
+  } catch(e){}
+  render();
+}
+
+// Caricamento parametri: i dati ufficiali (backlog, default) si aggiornano sempre da params.json.
+// Le modifiche manuali dell'utente agli slider vivono su Firebase (sincronizzate su ogni
+// dispositivo in tempo reale) e non vengono MAI cancellate da un aggiornamento dati —
+// restano finché non si preme "Reimposta tutto". localStorage resta come cache offline.
 fetch('./params.json?nocache=' + Date.now())
   .then(function(r) { return r.json(); })
   .then(function(data) {
@@ -1099,58 +1175,29 @@ fetch('./params.json?nocache=' + Date.now())
 
     // 1) Parte sempre dai valori ufficiali più recenti (backlog OREV/OBACKLOG, loans, default P)
     applyRemoteParams(data);
+    console.log('✓ Parametri caricati — params.json (' + remoteVer + ')');
 
-    // 2) Riapplica SOPRA solo i parametri che l'utente ha effettivamente modificato a mano,
-    //    leggendoli dal salvataggio locale precedente — indipendentemente da quanto "vecchio" sia.
-    try {
-      var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
-      var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
-      var inputs = document.querySelectorAll('input[type=range]');
-      Object.keys(overrides).forEach(function(k) {
-        if (savedP[k] === undefined) return;
-        P[k] = savedP[k];
-        inputs.forEach(function(inp) {
-          var oi = inp.getAttribute('oninput') || '';
-          if (oi.indexOf("'" + k + "'") >= 0) inp.value = savedP[k];
-        });
-        var el = document.getElementById(lblMap[k]);
-        if (el && fmtP[k]) el.textContent = fmtP[k](savedP[k]);
-      });
-      if (Object.keys(overrides).length) {
-        console.log('✓ Ripristinate ' + Object.keys(overrides).length + ' modifiche manuali utente');
+    // 2) Legge lo stato condiviso da Firebase (fonte di verità cross-device).
+    //    Se non raggiungibile (offline), usa la cache locale come fallback.
+    fbRef.once('value').then(function(snap) {
+      var remote = snap.val();
+      if (remote && remote.P) {
+        applyOverrides(remote.overrides || {}, remote.P);
+        try { localStorage.setItem('HTP_overrides', JSON.stringify(remote.overrides || {})); } catch(e){}
+      } else {
+        var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
+        var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
+        applyOverrides(overrides, savedP);
       }
-      // Ricalcola la card KPI "Fatturato 2026/2027" con i valori utente appena ripristinati
-      // (applyRemoteParams l'aveva già disegnata, ma con i default di params.json)
-      var r27b = Math.round(P.rev26 * (1 + P.growth27 / 100));
-      var d26b = document.getElementById('rv26');
-      var d27b = document.getElementById('rv27');
-      var dgb  = document.getElementById('rv-growth');
-      var dsb  = document.getElementById('rv27-sub');
-      var ngb  = document.getElementById('n-g27');
-      if (d26b) d26b.textContent = '€' + P.rev26.toLocaleString() + 'k';
-      if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = P.growth27 >= 0 ? '#22d3ee' : '#f87171'; }
-      if (dgb)  { dgb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '%'; dgb.style.color = P.growth27 >= 0 ? '#4ade80' : '#f87171'; }
-      if (dsb)  dsb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '% vs 2026';
-      if (ngb)  ngb.textContent = '2026: €' + P.rev26 + 'k → 2027: €' + r27b + 'k';
-    } catch(e) {}
-
-    // 3) Salva lo stato corrente (dati ufficiali + override utente) come nuova baseline
-    try {
-      localStorage.setItem('HTP_P', JSON.stringify(P));
-      localStorage.setItem('HTP_ver', remoteVer);
-    } catch(e){}
-    console.log('✓ Parametri caricati — params.json (' + remoteVer + ') + eventuali modifiche utente');
-
-    // Timestamp condiviso per HTP-Hub (stesso dominio github.io) — tracciato a parte,
-    // indipendente da HTP_ver, così si autoripara anche se HTP_ver era già allineato
-    try {
-      var hubVer = localStorage.getItem('htp_cf_last_modified_ver') || '';
-      if (remoteVer !== hubVer) {
-        localStorage.setItem('htp_cf_last_modified', new Date().toISOString());
-        localStorage.setItem('htp_cf_last_modified_ver', remoteVer);
-      }
-    } catch(e){}
-    render();
+      finishLoad(remoteVer);
+    }).catch(function() {
+      try {
+        var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
+        var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
+        applyOverrides(overrides, savedP);
+      } catch(e) {}
+      finishLoad(remoteVer);
+    });
   })
   .catch(function() {
     try {
