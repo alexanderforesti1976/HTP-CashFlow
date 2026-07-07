@@ -152,6 +152,8 @@ tr:nth-child(even) td{background:#162032}
   <div class="rev-item"><div class="label">CRESCITA</div><div class="value" id="rv-growth" style="color:#f87171">-15%</div><div style="font-size:9px;color:#475569">2027 vs 2026</div></div>
 </div>
 
+<div id="gapWarning"></div>
+
 <div class="kgrid" id="kgrid"></div>
 
 <div class="tabs">
@@ -1060,9 +1062,43 @@ function toggleParams(){
   b.style.color=o?'#fff':'#94a3b8';
 }
 
+function renderGapWarning(){
+  var THRESH=20; // soglia di segnalazione, in % di scostamento
+  var years=[2026,2027];
+  var msgs=[];
+  years.forEach(function(yr){
+    var totMonths=0, ovMonths=0, totSeas=0, ovSeas=0, ovSum=0;
+    for(var j=0;j<MONTHS.length;j++){
+      var m=MONTHS[j];
+      if(m.y!==yr) continue;
+      totMonths++; totSeas+=SEAS[m.c-1];
+      if(OREV[j]!==undefined){ ovMonths++; ovSeas+=SEAS[m.c-1]; ovSum+=OREV[j]; }
+    }
+    // Il confronto ha senso solo se l'anno è "misto": alcuni mesi con backlog
+    // confermato e altri ancora stimati per stagionalità. Se tutti i mesi sono
+    // confermati (es. 2026, H2 interamente da ordini) non c'è un "atteso" da confrontare.
+    if(ovMonths===0 || ovMonths===totMonths) return;
+    var target=yr===2026?P.rev26:P.rev26*(1+P.growth27/100);
+    var quota=target*ovSeas/totSeas;
+    if(quota<=0) return;
+    var pct=(ovSum-quota)/quota*100;
+    if(Math.abs(pct)>=THRESH){
+      msgs.push(yr+': backlog confermato '+(pct>=0?'+':'')+pct.toFixed(0)+'% vs quota attesa dal target annuale ('+fmtEK(ovSum)+' vs '+fmtEK(quota)+' atteso per gli stessi mesi)');
+    }
+  });
+  var el=document.getElementById('gapWarning');
+  if(!el) return;
+  if(msgs.length===0){ el.innerHTML=''; return; }
+  el.innerHTML='<div style="background:#451a03;border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:11px;color:#fcd34d;line-height:1.5">'
+    +'<b>⚠️ Scostamento backlog confermato vs target annuale:</b><br>'
+    +msgs.join('<br>')
+    +'</div>';
+}
+
 function render(){
   var cf=calcCF();
   renderKPIs(cf);
+  renderGapWarning();
   var el=document.getElementById('content');
   if(TAB==='chart') el.innerHTML=renderChart(cf);
   else if(TAB==='breakdown') el.innerHTML=renderBreakdown(cf);
