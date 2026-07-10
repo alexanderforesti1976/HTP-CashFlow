@@ -5,8 +5,8 @@
   "growth27": -5,
   "dso": 62,
   "dpo": 83,
-  "matPct": 21,
-  "subPct": 5,
+  "matPct": 18,
+  "subPct": 4,
   "laborK": 58,
   "rentK": 8.3,
   "energyPct": 3.3,
@@ -19,7 +19,6 @@
   "energyPct27": 2.35,
   "otherFixedK27": 21.4,
   "otherVarPct27": 3,
-  "di26": 52,
   "di27": 0,
   "amm26": 110,
   "amm27": 100,
@@ -294,5 +293,6 @@
       "at": 3,
       "color": "#22d3ee"
     }
-  ]
+  ],
+  "inventoryK": 188
 }
