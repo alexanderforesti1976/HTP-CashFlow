@@ -495,12 +495,13 @@ function renderCE(){
   ];
   var pls=cols.map(function(c){return {col:c,pl:calcPL(c.y,c.act)};});
   function pct(v,r){return r>0?(Math.abs(v)/r*100).toFixed(1)+'%':'--';}
-  function fv(v){return v!=null?'€'+Math.abs(v).toFixed(0)+'k':'--';}
-  function row(lbl,fn,bold,sep,indent,nc){
+  function fv(v,signed){if(v==null)return '--';var s=signed?(v>=0?'+':'-'):'';return s+'€'+Math.abs(v).toFixed(0)+'k';}
+  function row(lbl,fn,bold,sep,indent,nc,signed){
     var vals=pls.map(function(p){return fn(p.pl);});
     var tds=vals.map(function(v,i){
-      var c=bold?(v>=0?'#4ade80':'#f87171'):(nc?'#475569':'#94a3b8');
-      return '<td style="text-align:right;color:'+c+';font-weight:'+(bold?700:400)+';font-family:monospace;padding:'+(sep?'8':'5')+'px 10px">'+fv(v)+'</td>';
+      var colored=bold||signed;
+      var c=colored?(v>=0?'#4ade80':'#f87171'):(nc?'#475569':'#94a3b8');
+      return '<td style="text-align:right;color:'+c+';font-weight:'+(bold?700:400)+';font-family:monospace;padding:'+(sep?'8':'5')+'px 10px">'+fv(v,signed)+'</td>';
     }).join('');
     var pcts=vals.map(function(v,i){
       return '<td style="text-align:right;font-size:10px;color:#334155;padding:'+(sep?'8':'5')+'px 8px">'+pct(v,pls[i].pl.rev)+'</td>';
@@ -518,7 +519,7 @@ function renderCE(){
   }).join('');
   return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:14px 16px;border-bottom:1px solid #334155"><div style="font-size:13px;font-weight:700">Conto Economico Riclassificato</div><div style="font-size:10px;color:#64748b;margin-top:3px">2024-2025 reali · 2026-2027 proiezioni · k€ · % su ricavi</div></div><div class="tbl-wrap"><table><thead><tr><th style="min-width:175px">VOCE</th>'+heads+pctH+'</tr></thead><tbody>'
     +row('Ricavi netti',function(pl){return pl.rev;},true,true,false,false)
-    +row('  Variazione rimanenze',function(pl){return pl.di;},false,false,true,false)
+    +row('  Variazione rimanenze',function(pl){return pl.di;},false,false,true,false,true)
     +row('= Valore Produzione',function(pl){return pl.valProd;},true,true,false,false)
     +row('  - Acquisti MP',function(pl){return pl.mat;},false,false,true,false)
     +row('  - Lavorazioni c/terzi',function(pl){return pl.sub;},false,false,true,false)
