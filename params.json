@@ -294,5 +294,7 @@
       "color": "#22d3ee"
     }
   ],
-  "inventoryK": 188
+  "invMPK": 137,
+  "invSLK": 26,
+  "invPFK": 25
 }
