@@ -501,7 +501,7 @@ function renderCE(){
     var tds=vals.map(function(v,i){
       var colored=bold||signed;
       var c=colored?(v>=0?'#4ade80':'#f87171'):(nc?'#475569':'#94a3b8');
-      return '<td style="text-align:right;color:'+c+';font-weight:'+(bold?700:400)+';font-family:monospace;padding:'+(sep?'8':'5')+'px 10px">'+fv(v,signed)+'</td>';
+      return '<td style="text-align:right;color:'+c+';font-weight:'+(bold?700:400)+';font-family:monospace;padding:'+(sep?'8':'5')+'px 10px">'+fv(v,colored)+'</td>';
     }).join('');
     var pcts=vals.map(function(v,i){
       return '<td style="text-align:right;font-size:10px;color:#334155;padding:'+(sep?'8':'5')+'px 8px">'+pct(v,pls[i].pl.rev)+'</td>';
