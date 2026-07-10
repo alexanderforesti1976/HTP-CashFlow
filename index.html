@@ -85,10 +85,11 @@ tr:nth-child(even) td{background:#162032}
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">DPO &ndash; Pag. fornitori</span><span class="sl-val" id="lv-dpo">83gg</span></div><div class="sl-note">Reale: 83gg su tutti i costi esterni</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(15.0,+(+el.value-1).toFixed(2));el.value=v;upd('dpo',v)" type="button">&minus;</button><input type="range" min="15" max="150" step="1" value="83" oninput="upd('dpo',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+1).toFixed(2));el.value=v;upd('dpo',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#fb923c">MAGAZZINO</div>
-  <div class="info-box" style="background:#1a1000;color:#fdba74">Inserisci i valori correnti — Δ calcolato su aperture 2026 (bilancio 01/01): MP &euro;122,5k &middot; SL &euro;23,7k &middot; PF &euro;22,2k</div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Materie Prime (k&euro;)</span><span class="sl-val" id="lv-invMP">137k&euro;</span></div><div class="sl-note" id="note-invMP">Ap. 2026: &euro;122,5k &middot; &Delta;: +14,5k&euro; &rarr; guida acquisti CF</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(20,+(+el.value-5));el.value=v;upd('invMPK',v)" type="button">&minus;</button><input type="range" min="20" max="300" step="5" value="137" oninput="upd('invMPK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(300,+(+el.value+5));el.value=v;upd('invMPK',v)" type="button">+</button></div></div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Semilavorati (k&euro;)</span><span class="sl-val" id="lv-invSL">26k&euro;</span></div><div class="sl-note" id="note-invSL">Ap. 2026: &euro;23,7k &middot; &Delta;: +2,3k&euro; &rarr; solo P&amp;L</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-2));el.value=v;upd('invSLK',v)" type="button">&minus;</button><input type="range" min="0" max="80" step="2" value="26" oninput="upd('invSLK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(80,+(+el.value+2));el.value=v;upd('invSLK',v)" type="button">+</button></div></div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Prodotti Finiti (k&euro;)</span><span class="sl-val" id="lv-invPF">25k&euro;</span></div><div class="sl-note" id="note-invPF">Ap. 2026: &euro;22,2k &middot; &Delta;: +2,8k&euro; &rarr; solo P&amp;L</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-2));el.value=v;upd('invPFK',v)" type="button">&minus;</button><input type="range" min="0" max="100" step="2" value="25" oninput="upd('invPFK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(100,+(+el.value+2));el.value=v;upd('invPFK',v)" type="button">+</button></div></div>
+  <div class="info-box" style="background:#1a1000;color:#fdba74">Aperture bilancio 01/01/2026: MP &euro;119k &middot; Imb &euro;3,5k &middot; SL &euro;23,7k &middot; PF &euro;22,2k &middot; Tot &euro;168,4k &mdash; inserisci valori correnti</div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Materie Prime (k&euro;)</span><span class="sl-val" id="lv-invMP">113k&euro;</span></div><div class="sl-note" id="note-invMP">Ap. 2026: &euro;119k &middot; &Delta;: &minus;6k&euro; &rarr; guida acquisti CF</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-1));el.value=v;upd('invMPK',v)" type="button">&minus;</button><input type="range" min="0" max="300" step="1" value="113" oninput="upd('invMPK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(300,+(+el.value+1));el.value=v;upd('invMPK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Imballi / Mat.Consumo (k&euro;)</span><span class="sl-val" id="lv-invIMB">5k&euro;</span></div><div class="sl-note" id="note-invIMB">Ap. 2026: &euro;3,5k &middot; &Delta;: +1,5k&euro; &rarr; guida acquisti CF</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-1));el.value=v;upd('invIMBK',v)" type="button">&minus;</button><input type="range" min="0" max="30" step="1" value="5" oninput="upd('invIMBK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30,+(+el.value+1));el.value=v;upd('invIMBK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Semilavorati (k&euro;)</span><span class="sl-val" id="lv-invSL">58k&euro;</span></div><div class="sl-note" id="note-invSL">Ap. 2026: &euro;23,7k &middot; &Delta;: +34,3k&euro; &rarr; solo P&amp;L</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-1));el.value=v;upd('invSLK',v)" type="button">&minus;</button><input type="range" min="0" max="150" step="1" value="58" oninput="upd('invSLK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150,+(+el.value+1));el.value=v;upd('invSLK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Prodotti Finiti (k&euro;)</span><span class="sl-val" id="lv-invPF">17k&euro;</span></div><div class="sl-note" id="note-invPF">Ap. 2026: &euro;22,2k &middot; &Delta;: &minus;5,2k&euro; &rarr; solo P&amp;L</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0,+(+el.value-1));el.value=v;upd('invPFK',v)" type="button">&minus;</button><input type="range" min="0" max="100" step="1" value="17" oninput="upd('invPFK',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(100,+(+el.value+1));el.value=v;upd('invPFK',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">&Delta; Magazzino 2027</span><span class="sl-val" id="lv-di27">0k&euro;</span></div><div class="sl-note">Variazione prevista scorte totali 2027 vs fine 2026</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-100.0,+(+el.value-5).toFixed(2));el.value=v;upd('di27',v)" type="button">&minus;</button><input type="range" min="-100" max="150" step="5" value="0" oninput="upd('di27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+5).toFixed(2));el.value=v;upd('di27',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#a3e635">COSTI NON MONETARI</div>
@@ -254,7 +255,7 @@ var P={
   matPct:18, subPct:4,
   laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
   labor27:58, rent27:8.3, energyPct27:2.35, otherFixedK27:21.4, otherVarPct27:3,
-  invMPK:137, invSLK:26, invPFK:25, di27:0,
+  invMPK:113, invIMBK:5, invSLK:58, invPFK:17, di27:0,
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
@@ -293,7 +294,7 @@ function calcPL(year, actual) {
   var rev=d?d.rev:(year===2026?rt.revFull26:rt.revFull27);
   var mat=d?d.mat:rev*P.matPct/100;
   var sub=d?d.sub:rev*P.subPct/100;
-  var di=d?d.di:(year===2026?((P.invMPK+P.invSLK+P.invPFK)-168.4):P.di27);
+  var di=d?d.di:(year===2026?((P.invMPK+P.invIMBK+P.invSLK+P.invPFK)-168.4):P.di27);
   var is27=year===2027;
   var lk=d?null:(is27?P.labor27:P.laborK);
   var cigS=d?0:(is27?P.cigW27:P.cigW)/20*lk*(is27?P.cigH27:P.cigH)/100*0.80*12;
@@ -328,7 +329,7 @@ function calcCF() {
   var pd=Math.max(1,Math.round(P.dpo/30));
   var revPlan=getRevTotals().revPlan;
   var purchPlan=revPlan.map(function(r,i){
-    var delta=MONTHS[i].y===2026?(P.invMPK-122.5):P.di27;
+    var delta=MONTHS[i].y===2026?((P.invMPK+P.invIMBK)-122.5):P.di27;
     return r*(P.matPct+P.subPct)/100+delta/12;
   });
   // Preceding months for lag (Apr=122k, May=120k from YTD bilancio)
@@ -1003,8 +1004,8 @@ function renderLoans(){
 }
 
 // === STATE UPDATE ===
-var lblMap={rev26:'lv-r26',growth27:'lv-g27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
-var fmtP={rev26:function(v){return v+'k€';},growth27:function(v){return (v>=0?'+':'')+v+'%';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
+var lblMap={rev26:'lv-r26',growth27:'lv-g27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
+var fmtP={rev26:function(v){return v+'k€';},growth27:function(v){return (v>=0?'+':'')+v+'%';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
 
 function upd(k,v){
   P[k]=v;
@@ -1023,7 +1024,8 @@ function upd(k,v){
   if(ds) ds.textContent=(P.growth27>=0?'+':'')+P.growth27+'% vs 2026';
   if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
   // Aggiorna note magazzino con Δ calcolato in tempo reale
-  if(k==='invMPK'){var ni=document.getElementById('note-invMP');if(ni){var d=v-122.5;ni.textContent='Ap. 2026: \u20ac122,5k \u00b7 \u0394: '+(d>=0?'+':'')+d.toFixed(1)+'k\u20ac \u2192 guida acquisti CF';}}
+  if(k==='invMPK'){var ni=document.getElementById('note-invMP');if(ni){var d=v-119.0;ni.textContent='Ap. 2026: \u20ac119k \u00b7 \u0394: '+(d>=0?'+':'')+d.toFixed(1)+'k\u20ac \u2192 guida acquisti CF';}}
+  if(k==='invIMBK'){var ni=document.getElementById('note-invIMB');if(ni){var d=v-3.5;ni.textContent='Ap. 2026: \u20ac3,5k \u00b7 \u0394: '+(d>=0?'+':'')+d.toFixed(1)+'k\u20ac \u2192 guida acquisti CF';}}
   if(k==='invSLK'){var ni=document.getElementById('note-invSL');if(ni){var d=v-23.7;ni.textContent='Ap. 2026: \u20ac23,7k \u00b7 \u0394: '+(d>=0?'+':'')+d.toFixed(1)+'k\u20ac \u2192 solo P&L';}}
   if(k==='invPFK'){var ni=document.getElementById('note-invPF');if(ni){var d=v-22.2;ni.textContent='Ap. 2026: \u20ac22,2k \u00b7 \u0394: '+(d>=0?'+':'')+d.toFixed(1)+'k\u20ac \u2192 solo P&L';}}
   render();
@@ -1123,7 +1125,7 @@ function resetAll(){
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
     labor27:58,rent27:8.3,energyPct27:2.35,otherFixedK27:21.4,otherVarPct27:3,
-    invMPK:137,invSLK:26,invPFK:25,di27:0,amm26:110,amm27:100,tfmPct:20,
+    invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
     startCash:1572,openRec:480,openPay:293
