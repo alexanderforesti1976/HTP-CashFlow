@@ -1,22 +1,22 @@
 {
   "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
-  "_updated": "2026-07-07",
+  "_updated": "2026-07-10",
   "rev26": 2350,
   "growth27": -5,
   "dso": 62,
   "dpo": 83,
   "matPct": 21,
   "subPct": 5,
-  "laborK": 54,
+  "laborK": 58,
   "rentK": 8.3,
-  "energyPct": 4.3,
+  "energyPct": 3.3,
   "commPct": 2.2,
   "royPct": 1.5,
   "otherFixedK": 20,
   "otherVarPct": 3,
-  "labor27": 54,
+  "labor27": 58,
   "rent27": 8.3,
-  "energyPct27": 4.7,
+  "energyPct27": 3.5,
   "otherFixedK27": 20,
   "otherVarPct27": 3,
   "di26": 52,
@@ -30,15 +30,15 @@
   "cigH": 50,
   "cigW27": 0,
   "cigH27": 50,
-  "startCash": 1504.25,
+  "startCash": 1572,
   "openRec": 480,
   "openPay": 293,
   "OREV": {
-    "0": 204.1,
-    "1": 148.4,
-    "2": 201.8,
-    "3": 86.3,
-    "4": 59.8,
+    "0": 316.4,
+    "1": 118.8,
+    "2": 145.8,
+    "3": 74.5,
+    "4": 63.8,
     "5": 34.8,
     "6": 32.8,
     "7": 20.0,
@@ -47,107 +47,208 @@
   "OBACKLOG": [
     {
       "m": "Lug 26",
-      "t": 204.1,
+      "t": 316.4,
       "c": [
-        ["ENEXTRAS OÜ", 51.96],
-        ["T.Erre", 47.1],
-        ["Dichtungspartner", 23.95],
-        ["Lav.El.Gomma", 22.0],
-        ["Scaligera", 14.85],
-        ["Argomm", 16.2],
-        ["Eurgomma", 10.0],
-        ["OMECA", 6.86],
-        ["E.B. S.r.l.", 5.98],
-        ["Dubhe", 5.27]
+        [
+          "T.Erre",
+          99.3
+        ],
+        [
+          "Enextras",
+          51.2
+        ],
+        [
+          "Lav.El.Gomma",
+          47.4
+        ],
+        [
+          "Eurgomma",
+          24.0
+        ],
+        [
+          "Dichtungspartner",
+          24.0
+        ],
+        [
+          "OMECA",
+          22.7
+        ],
+        [
+          "Argomm",
+          16.2
+        ],
+        [
+          "Scaligera",
+          14.9
+        ],
+        [
+          "E.B.",
+          6.0
+        ],
+        [
+          "Watts",
+          5.4
+        ],
+        [
+          "Dubhe",
+          5.3
+        ]
       ]
     },
     {
       "m": "Ago 26",
-      "t": 148.4,
+      "t": 118.8,
       "c": [
-        ["ENEXTRAS OÜ", 61.55],
-        ["T.Erre", 52.25],
-        ["Watts Industries", 20.72],
-        ["Serotti & Ghidini", 13.83]
+        [
+          "Enextras",
+          60.6
+        ],
+        [
+          "Watts",
+          20.7
+        ],
+        [
+          "Eurgomma",
+          20.0
+        ],
+        [
+          "Serotti",
+          13.8
+        ],
+        [
+          "OMECA",
+          3.7
+        ]
       ]
     },
     {
       "m": "Set 26",
-      "t": 201.8,
+      "t": 145.8,
       "c": [
-        ["Eurgomma", 54.8],
-        ["ENEXTRAS OÜ", 51.96],
-        ["T.Erre", 34.1],
-        ["Lav.El.Gomma", 43.93],
-        ["Watts Industries", 13.34],
-        ["OMECA", 3.68]
+        [
+          "Enextras",
+          51.2
+        ],
+        [
+          "T.Erre",
+          34.1
+        ],
+        [
+          "Lav.El.Gomma",
+          32.0
+        ],
+        [
+          "Eurgomma",
+          20.8
+        ],
+        [
+          "Watts",
+          7.7
+        ]
       ]
     },
     {
       "m": "Ott 26",
-      "t": 86.3,
+      "t": 74.5,
       "c": [
-        ["Argomm", 24.3],
-        ["T.Erre", 24.65],
-        ["Lav.El.Gomma", 32.78],
-        ["Edscha", 3.85],
-        ["Kongsberg Automotive", 0.72]
+        [
+          "Lav.El.Gomma",
+          24.9
+        ],
+        [
+          "T.Erre",
+          24.6
+        ],
+        [
+          "Argomm",
+          24.3
+        ],
+        [
+          "Kongsberg",
+          0.7
+        ]
       ]
     },
     {
       "m": "Nov 26",
-      "t": 59.8,
+      "t": 63.8,
       "c": [
-        ["T.Erre", 27.55],
-        ["OMECA (PRV)", 11.47],
-        ["Sagom Tubi", 12.0],
-        ["Dubhe", 8.78]
+        [
+          "T.Erre",
+          27.6
+        ],
+        [
+          "Sagom Tubi",
+          12.0
+        ],
+        [
+          "OMECA",
+          11.5
+        ],
+        [
+          "Dubhe",
+          8.8
+        ],
+        [
+          "Edscha",
+          3.9
+        ]
       ]
     },
     {
       "m": "Dic 26",
       "t": 34.8,
       "c": [
-        ["Dichtungspartner (PRV)", 25.1],
-        ["OMECA (PRV)", 9.31],
-        ["T.Erre", 0.42]
+        [
+          "Dichtungspartner",
+          25.1
+        ],
+        [
+          "OMECA",
+          9.3
+        ],
+        [
+          "T.Erre",
+          0.4
+        ]
       ]
     },
     {
       "m": "Gen 27",
       "t": 32.8,
       "c": [
-        ["T.Erre", 32.8]
+        [
+          "T.Erre",
+          32.8
+        ]
       ]
     },
     {
       "m": "Feb 27",
       "t": 20.0,
       "c": [
-        ["T.Erre", 19.0],
-        ["Kongsberg Power", 0.96]
+        [
+          "T.Erre",
+          19.0
+        ],
+        [
+          "Kongsberg",
+          1.0
+        ]
       ]
     },
     {
       "m": "Mar 27",
       "t": 27.5,
       "c": [
-        ["T.Erre", 23.63],
-        ["Edscha", 3.85]
-      ]
-    },
-    {
-      "m": "Giu 27",
-      "t": 7.8,
-      "c": [
-        ["OMECA (PRV)", 7.84]
-      ]
-    },
-    {
-      "m": "Dic 27",
-      "t": 77.0,
-      "c": [
-        ["OMECA (PRV)", 76.96]
+        [
+          "T.Erre",
+          23.6
+        ],
+        [
+          "Edscha",
+          3.9
+        ]
       ]
     }
   ],
