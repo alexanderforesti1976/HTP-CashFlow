@@ -1108,6 +1108,9 @@ function renderGapWarning(){
 }
 
 function render(){
+  // Colora sempre il display di27 in base al segno
+  var el27=document.getElementById('lv-di27');
+  if(el27){var c27=P.di27>=0?'#4ade80':'#f87171';el27.innerHTML='<span style="color:'+c27+'">'+(P.di27>=0?'+':'')+P.di27+'k\u20ac</span>';}
   var cf=calcCF();
   renderKPIs(cf);
   renderGapWarning();
