@@ -300,7 +300,7 @@
   "invIMBK": 5,
   "H1_2026_reale": {
     "_fonte": "HTP_-_BILANCIO_30-06-26_-_BOZZA_13-07-26.pdf (bozza 13/07/2026)",
-    "_nota": "Dati reali gen-giu 2026. Ammortamenti/TFM/imposte NON inclusi (stimati da amm26/tfmPct/iresR/irapR sopra). NOTA: la voce 07011300 'Variazione ricavi x resi e premi' (EUR 41.502,04, nota di credito a Terra Verde poi rifatturata ad altro cliente) e' stata ESCLUSA da altriGA: e' una correzione a somma zero tra clienti (fattura stornata e rifatturata), non un costo operativo reale.",
+    "_nota": "Dati reali gen-giu 2026, aggiornare qui quando arriva bilancio piu preciso. Ammortamenti/TFM/imposte NON inclusi (stimati da amm26/tfmPct/iresR/irapR sopra). La voce 07011300 'Variazione ricavi x resi e premi' (EUR 41.502,04) e' lo storno di una fattura errata (nc a Terra Verde), contabilizzato come costo per convenzione aziendale; la rifatturazione al cliente corretto e' un ricavo separato gia' incluso in Vendite Prodotti. Le due voci NON vanno nettate tra loro.",
     "ricavi": 1231150.31,
     "ricaviDiversi": 547.26,
     "ricaviStampi": 17300.0,
@@ -328,7 +328,7 @@
     "compensoAmm": 11977.61,
     "revisore": 3121.27,
     "speseBancarie": 3375.77,
-    "altriGA": 77665.95,
+    "altriGA": 119167.99,
     "interessi": 12761.42,
     "ricaviTitoli": 5950.68,
     "intAttiviCC": 2078.47,
