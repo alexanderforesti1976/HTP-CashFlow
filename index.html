@@ -255,6 +255,7 @@ var P={
   matPct:18, subPct:4,
   laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
   labor27:58, rent27:8.3, energyPct27:2.35, otherFixedK27:21.4, otherVarPct27:3,
+  tredK:38, tredK27:38,
   invMPK:113, invIMBK:5, invSLK:58, invPFK:17, di27:0,
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
@@ -350,12 +351,15 @@ function calcCF() {
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
     var effL=Math.max(0,lk-cigS);
+    // 13esima: accantonata nel P&L 1/12 al mese, ma cash esce solo a dicembre
+    var tredK=is27m?P.tredK27:P.tredK;
+    var effLcf=m.c===11?(effL+tredK*11/12):(effL-tredK/12);
     var royM=revPlan[i]*P.royPct/100;
     var commM=revPlan[i]*P.commPct/100;
     var fc=FCAL[m.c]||0;
     var energyM=revPlan[i]*(is27m?P.energyPct27:P.energyPct)/100;
 var otherM=(is27m?P.otherFixedK27:P.otherFixedK)+revPlan[i]*(is27m?P.otherVarPct27:P.otherVarPct)/100;
-var fixed=effL+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
+var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     var loans=loanPayment(i);
     var taxes=0;
     if(m.y===2026&&m.c===6) taxes=t26*.5;
@@ -1131,6 +1135,7 @@ function resetAll(){
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
     labor27:58,rent27:8.3,energyPct27:2.35,otherFixedK27:21.4,otherVarPct27:3,
+    tredK:38,tredK27:38,
     invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
