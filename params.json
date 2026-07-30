@@ -1,0 +1,340 @@
+{
+  "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
+  "_updated": "2026-08-01",
+  "rev26": 2350,
+  "growth27": -5,
+  "dso": 62,
+  "dpo": 83,
+  "matPct": 18,
+  "subPct": 4,
+  "laborK": 58,
+  "rentK": 8.3,
+  "energyPct": 3.3,
+  "commPct": 2.8,
+  "royPct": 1.5,
+  "otherFixedK": 20,
+  "otherVarPct": 3,
+  "labor27": 58,
+  "rent27": 8.3,
+  "energyPct27": 2.35,
+  "otherFixedK27": 21.4,
+  "otherVarPct27": 3,
+  "di27": 0,
+  "amm26": 110,
+  "amm27": 100,
+  "tfmPct": 20,
+  "iresR": 24,
+  "irapR": 3.9,
+  "cigW": 0,
+  "cigH": 50,
+  "cigW27": 0,
+  "cigH27": 50,
+  "startCash": 1480,
+  "openRec": 480,
+  "openPay": 150,
+  "OREV": {
+    "0": 316.4,
+    "1": 118.8,
+    "2": 145.8,
+    "3": 74.5,
+    "4": 63.8,
+    "5": 34.8,
+    "6": 32.8,
+    "7": 20.0,
+    "8": 27.5
+  },
+  "OBACKLOG": [
+    {
+      "m": "Lug 26",
+      "t": 316.4,
+      "c": [
+        [
+          "T.Erre",
+          99.3
+        ],
+        [
+          "Enextras",
+          51.2
+        ],
+        [
+          "Lav.El.Gomma",
+          47.4
+        ],
+        [
+          "Eurgomma",
+          24.0
+        ],
+        [
+          "Dichtungspartner",
+          24.0
+        ],
+        [
+          "OMECA",
+          22.7
+        ],
+        [
+          "Argomm",
+          16.2
+        ],
+        [
+          "Scaligera",
+          14.9
+        ],
+        [
+          "E.B.",
+          6.0
+        ],
+        [
+          "Watts",
+          5.4
+        ],
+        [
+          "Dubhe",
+          5.3
+        ]
+      ]
+    },
+    {
+      "m": "Ago 26",
+      "t": 118.8,
+      "c": [
+        [
+          "Enextras",
+          60.6
+        ],
+        [
+          "Watts",
+          20.7
+        ],
+        [
+          "Eurgomma",
+          20.0
+        ],
+        [
+          "Serotti",
+          13.8
+        ],
+        [
+          "OMECA",
+          3.7
+        ]
+      ]
+    },
+    {
+      "m": "Set 26",
+      "t": 145.8,
+      "c": [
+        [
+          "Enextras",
+          51.2
+        ],
+        [
+          "T.Erre",
+          34.1
+        ],
+        [
+          "Lav.El.Gomma",
+          32.0
+        ],
+        [
+          "Eurgomma",
+          20.8
+        ],
+        [
+          "Watts",
+          7.7
+        ]
+      ]
+    },
+    {
+      "m": "Ott 26",
+      "t": 74.5,
+      "c": [
+        [
+          "Lav.El.Gomma",
+          24.9
+        ],
+        [
+          "T.Erre",
+          24.6
+        ],
+        [
+          "Argomm",
+          24.3
+        ],
+        [
+          "Kongsberg",
+          0.7
+        ]
+      ]
+    },
+    {
+      "m": "Nov 26",
+      "t": 63.8,
+      "c": [
+        [
+          "T.Erre",
+          27.6
+        ],
+        [
+          "Sagom Tubi",
+          12.0
+        ],
+        [
+          "OMECA",
+          11.5
+        ],
+        [
+          "Dubhe",
+          8.8
+        ],
+        [
+          "Edscha",
+          3.9
+        ]
+      ]
+    },
+    {
+      "m": "Dic 26",
+      "t": 34.8,
+      "c": [
+        [
+          "Dichtungspartner",
+          25.1
+        ],
+        [
+          "OMECA",
+          9.3
+        ],
+        [
+          "T.Erre",
+          0.4
+        ]
+      ]
+    },
+    {
+      "m": "Gen 27",
+      "t": 32.8,
+      "c": [
+        [
+          "T.Erre",
+          32.8
+        ]
+      ]
+    },
+    {
+      "m": "Feb 27",
+      "t": 20.0,
+      "c": [
+        [
+          "T.Erre",
+          19.0
+        ],
+        [
+          "Kongsberg",
+          1.0
+        ]
+      ]
+    },
+    {
+      "m": "Mar 27",
+      "t": 27.5,
+      "c": [
+        [
+          "T.Erre",
+          23.6
+        ],
+        [
+          "Edscha",
+          3.9
+        ]
+      ]
+    }
+  ],
+  "loans": [
+    {
+      "name": "BCC Brescia 1066083",
+      "monthly": 2.4,
+      "from": 0,
+      "to": 8,
+      "color": "#4ade80"
+    },
+    {
+      "name": "Credito Emiliano",
+      "monthly": 8.69,
+      "from": 0,
+      "to": 19,
+      "color": "#f59e0b"
+    },
+    {
+      "name": "BCC Brescia 1071107",
+      "monthly": 5.23,
+      "from": 0,
+      "to": 23,
+      "color": "#f59e0b"
+    },
+    {
+      "name": "Unicredit 2529480",
+      "monthly": 36.5,
+      "quarters": [
+        2,
+        5,
+        8,
+        11,
+        14,
+        17,
+        20
+      ],
+      "color": "#ef4444"
+    },
+    {
+      "name": "BCC Sebino (x2)",
+      "single": 80.0,
+      "at": 3,
+      "color": "#22d3ee"
+    }
+  ],
+  "invMPK": 113,
+  "invSLK": 58,
+  "invPFK": 17,
+  "invIMBK": 5,
+  "H1_2026_reale": {
+    "_fonte": "HTP_-_BILANCIO_30-06-26_-_BOZZA_13-07-26.pdf (bozza 13/07/2026)",
+    "_nota": "Dati reali gen-giu 2026, aggiornare qui quando arriva bilancio piu preciso. Ammortamenti/TFM/imposte NON inclusi (stimati da amm26/tfmPct/iresR/irapR sopra). La voce 07011300 'Variazione ricavi x resi e premi' (EUR 41.502,04) e' lo storno di una fattura errata (nc a Terra Verde), contabilizzato come costo per convenzione aziendale; la rifatturazione al cliente corretto e' un ricavo separato gia' incluso in Vendite Prodotti. Le due voci NON vanno nettate tra loro.",
+    "ricavi": 1231150.31,
+    "ricaviDiversi": 547.26,
+    "ricaviStampi": 17300.0,
+    "mpAcquisti": 195559.11,
+    "materialiConsumo": 9371.07,
+    "imballi": 4174.22,
+    "pfAcquistati": 22728.69,
+    "lavCTerzi": 49752.74,
+    "salari": 235311.75,
+    "interinale": 0,
+    "contributi": 84915.49,
+    "tfr": 5099.99,
+    "welfare": 11500.58,
+    "energia": 48049.16,
+    "affitti": 52376.91,
+    "leasing": 6550.91,
+    "noleggi": 22634.85,
+    "manutenzioni": 19019.77,
+    "provvigioni": 34938.91,
+    "pubblicita": 46912.64,
+    "svariComm": 11268.42,
+    "royalties": 8315.0,
+    "consulAmm": 21798.0,
+    "consulTec": 6450.0,
+    "compensoAmm": 11977.61,
+    "revisore": 3121.27,
+    "speseBancarie": 3375.77,
+    "altriGA": 119167.99,
+    "interessi": 12761.42,
+    "ricaviTitoli": 5950.68,
+    "intAttiviCC": 2078.47,
+    "dividendi": 0,
+    "esistenzeIniziali2026": 168359.33
+  },
+  "tredK": 38,
+  "tredK27": 38
+}
