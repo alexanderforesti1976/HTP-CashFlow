@@ -77,7 +77,7 @@ tr:nth-child(even) td{background:#162032}
 <div class="pgrid">
 <div>
 <div class="grp"><div class="glabel" style="color:#6366f1">RICAVI</div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2026</span><span class="sl-val" id="lv-r26">2350k&euro;</span></div><div class="sl-note">Ritmo stagionale per mesi senza backlog &middot; H1 reale: &euro;1.251k (bilancio) &middot; H2 = ordini confermati + stagionale residua</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1500.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev26',v)" type="button">&minus;</button><input type="range" min="1500" max="5000" step="50" value="2350" oninput="upd('rev26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev26',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2026</span><span class="sl-val" id="lv-r26">2350k&euro;</span></div><div class="sl-note">Base fissa: H1 &euro;1.251k + backlog H2 &euro;1.172k = &euro;2.423k &middot; il cursore aggiunge ordini attesi non ancora confermati</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1500.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev26',v)" type="button">&minus;</button><input type="range" min="1500" max="5000" step="50" value="2350" oninput="upd('rev26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev26',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Crescita 2027 vs 2026</span><span class="sl-val" id="lv-g27">-15%</span></div><div class="sl-note" id="n-g27">2026: &euro;2350k &rarr; 2027: &euro;2000k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-30.0,+(+el.value-5).toFixed(2));el.value=v;upd('growth27',v)" type="button">&minus;</button><input type="range" min="-30" max="60" step="5" value="-15" oninput="upd('growth27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(60.0,+(+el.value+5).toFixed(2));el.value=v;upd('growth27',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#22d3ee">DILAZIONI</div>
@@ -271,30 +271,42 @@ var VIEW='both', TAB='chart';
 function getRevTotals(){
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
   var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
-  var target26=P.rev26*seasH2/fullYearSeas;
 
-  // === PASSO 1: calcola H2 2026 ===
-  var h2Plan=MONTHS.filter(function(m){return m.y===2026;}).map(function(m,i){
-    var quota=target26*SEAS[m.c-1]/seasH2;
-    var conf=OREV[i];
-    // OREV diretto se definito (no MAX stagionale) — riflette backlog reale anche se < quota
-    return conf!==undefined?conf:quota;
-  });
-  var sumH2_26=h2Plan.reduce(function(s,v){return s+v;},0);
-  var h1Act=(P.h1Rev!==undefined)?P.h1Rev:(P.rev26-target26);
-  var revFull26=h1Act+sumH2_26;
+  // === 2026 H2: base da OREV (ordini confermati), slider aggiunge solo se sopra base ===
+  var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1251;
+  var orevH2Sum=0;
+  MONTHS.forEach(function(m,i){if(m.y===2026&&OREV[i]!==undefined)orevH2Sum+=OREV[i];});
 
-  // === PASSO 2: 2027 derivato dal fatturato 2026 reale (non dallo slider rev26) ===
+  // Lo slider può solo AUMENTARE sopra la base confermata, mai ridurla
+  var h2SliderTarget=Math.max(orevH2Sum, P.rev26-h1Act);
+  var extra=h2SliderTarget-orevH2Sum; // ≥ 0: ordini aggiuntivi non ancora in backlog
+
+  var revFull26=h1Act+h2SliderTarget;
+
+  // === 2027: derivato dal fatturato 2026 reale (non dallo slider rev26) ===
   var rev27base=revFull26*(1+P.growth27/100);
+
   var h2Idx=0;
   var revPlan=MONTHS.map(function(m,i){
-    if(m.y===2026){var v=h2Plan[h2Idx++];return v;}
+    if(m.y===2026){
+      var conf=OREV[i];
+      var seasW=SEAS[m.c-1]/seasH2;
+      if(conf!==undefined){
+        // Ordine confermato + quota proporzionale dell'extra da slider
+        return conf+extra*seasW;
+      } else {
+        // Mese senza backlog: quota stagionale dell'H2 target
+        return h2SliderTarget*seasW;
+      }
+    }
+    // 2027
     var quota=rev27base*SEAS[m.c-1]/fullYearSeas;
     var conf=OREV[i];
     return conf!==undefined?conf:quota;
   });
+
   var sum27=0;
-  MONTHS.forEach(function(m,i){if(m.y===2027) sum27+=revPlan[i];});
+  MONTHS.forEach(function(m,i){if(m.y===2027)sum27+=revPlan[i];});
   return {revPlan:revPlan, revFull26:revFull26, revFull27:sum27};
 }
 
