@@ -73,7 +73,7 @@ tr:nth-child(even) td{background:#162032}
 </div>
 
 <div class="params-panel" id="ppanel">
-<div style="display:flex;justify-content:space-between;align-items:center;padding:0 0 12px 0;border-bottom:1px solid #334155;margin-bottom:14px"><span style="font-size:11px;color:#64748b">Modifica i parametri delle proiezioni</span><button class="btn" onclick="resetAll()" style="background:#ef4444;color:#fff;font-size:12px;font-weight:700;padding:8px 16px">↺ Reimposta tutto</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:0 0 12px 0;border-bottom:1px solid #334155;margin-bottom:14px"><span style="font-size:11px;color:#64748b">Modifica i parametri delle proiezioni</span><div style="display:flex;gap:8px"><button class="btn" onclick="resetAll()" style="background:#ef4444;color:#fff;font-size:12px;font-weight:700;padding:8px 16px">↺ Reimposta tutto</button><button class="btn" onclick="toggleParams()" style="background:#6366f1;color:#fff;font-size:12px;font-weight:700;padding:8px 16px">✕ Chiudi</button></div></div>
 <div class="pgrid">
 <div>
 <div class="grp"><div class="glabel" style="color:#6366f1">RICAVI</div>
@@ -1041,7 +1041,7 @@ function upd(k,v){
   var dg=document.getElementById('rv-growth');
   var ds=document.getElementById('rv27-sub');
   var ng=document.getElementById('n-g27');
-  if(d26) d26.textContent='€'+P.rev26.toLocaleString()+'k';
+  if(d26) d26.textContent='€'+(Math.round(getRevTotals().revFull26)).toLocaleString()+'k';
   if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=r27>=(getRevTotals().revFull26)?'#22d3ee':'#f87171'; }
   var rt27=getRevTotals();var gr27=rt27.revFull26>0?((rt27.revFull27/rt27.revFull26-1)*100):0;if(dg){ dg.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'%'; dg.style.color=gr27>=0?'#4ade80':'#f87171'; }
   if(ds) ds.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'% vs 2026';
@@ -1216,7 +1216,7 @@ function applyRemoteParams(data) {
   var dg=document.getElementById('rv-growth');
   var ds=document.getElementById('rv27-sub');
   var ng=document.getElementById('n-g27');
-  if(d26) d26.textContent='€'+P.rev26.toLocaleString()+'k';
+  if(d26) d26.textContent='€'+(Math.round(getRevTotals().revFull26)).toLocaleString()+'k';
   if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=r27>=(getRevTotals().revFull26)?'#22d3ee':'#f87171'; }
   var rt27=getRevTotals();var gr27=rt27.revFull26>0?((rt27.revFull27/rt27.revFull26-1)*100):0;if(dg){ dg.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'%'; dg.style.color=gr27>=0?'#4ade80':'#f87171'; }
   if(ds) ds.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'% vs 2026';
@@ -1249,7 +1249,7 @@ function applyOverrides(overrides, savedP) {
     var dgb  = document.getElementById('rv-growth');
     var dsb  = document.getElementById('rv27-sub');
     var ngb  = document.getElementById('n-g27');
-    if (d26b) d26b.textContent = '€' + P.rev26.toLocaleString() + 'k';
+    if (d26b) d26b.textContent = '€' + (Math.round(getRevTotals().revFull26)).toLocaleString() + 'k';
     if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = '#22d3ee'; }
     var rt27b=getRevTotals(); var gr27b=rt27b.revFull26>0?((rt27b.revFull27/rt27b.revFull26-1)*100):0;
     if (dgb)  { dgb.textContent = (gr27b>=0?'+':'')+gr27b.toFixed(0)+'%'; dgb.style.color = gr27b>=0?'#4ade80':'#f87171'; }
