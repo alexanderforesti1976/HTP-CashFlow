@@ -1184,7 +1184,7 @@ function resetAll(){
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
     // Update sliders
-    var inputs=document.querySelectorAll('input[type=range]');
+    var inputs=document.querySelectorAll('input[type=number]');
     inputs.forEach(function(inp){
       if(inp.getAttribute('oninput')&&inp.getAttribute('oninput').indexOf("'"+k+"'")>=0){
         inp.value=defaults[k];
@@ -1220,7 +1220,7 @@ function applyRemoteParams(data) {
     if (data[k] !== undefined) {
       P[k] = data[k];
       // Update sliders
-      var inputs = document.querySelectorAll('input[type=range]');
+      var inputs = document.querySelectorAll('input[type=number]');
       inputs.forEach(function(inp) {
         var oi = inp.getAttribute('oninput') || '';
         if (oi.indexOf("'" + k + "'") >= 0) inp.value = data[k];
@@ -1249,7 +1249,7 @@ function applyOverrides(overrides, savedP) {
   try {
     // startCash = dato di fatto da bilancio: NON sovrascrivibile da override utente
     var noOverride = ['startCash'];
-    var inputs = document.querySelectorAll('input[type=range]');
+    var inputs = document.querySelectorAll('input[type=number]');
     Object.keys(overrides || {}).forEach(function(k) {
       if (noOverride.indexOf(k) >= 0) return; // salta parametri protetti
       if (!savedP || savedP[k] === undefined) return;
