@@ -286,12 +286,18 @@ function getRevTotals(){
   });
   var revFull26=h1Act+sumH2;
 
-  // === 2027: dal 2026 reale x growth (NON dallo slider rev26) ===
-  // 2027: usa P.rev27 come target annuale indipendente (non legato a 2026)
+  // 2027: segue il trend mensile 2026 (non stagionale 2025)
+  // Per ogni mese senza OREV: prende la revenue 2026 dello stesso mese e la scala al target 2027
+  var h1SeasSum=SEAS.slice(0,6).reduce(function(s,v){return s+v;},0);
+  var scale27=revFull26>0?(P.rev27/revFull26):1;
+  function rev2026m(c){ // c=1..12
+    if(c>=7) return h2Plan[c-7]; // H2: backlog reale
+    return h1Act*SEAS[c-1]/h1SeasSum; // H1: proporzionale da totale reale
+  }
   var revPlan=MONTHS.map(function(m,i){
     if(m.y===2026) return h2Plan[i];
     var conf=OREV[i];
-    return conf!==undefined?conf:P.rev27*SEAS[m.c-1]/fullYearSeas;
+    return conf!==undefined?conf:rev2026m(m.c)*scale27;
   });
 
   var sum27=0;
@@ -1220,8 +1226,11 @@ function applyRemoteParams(data) {
 // Riapplica SOPRA ai dati ufficiali solo i parametri che l'utente ha modificato a mano
 function applyOverrides(overrides, savedP) {
   try {
+    // startCash = dato di fatto da bilancio: NON sovrascrivibile da override utente
+    var noOverride = ['startCash'];
     var inputs = document.querySelectorAll('input[type=range]');
     Object.keys(overrides || {}).forEach(function(k) {
+      if (noOverride.indexOf(k) >= 0) return; // salta parametri protetti
       if (!savedP || savedP[k] === undefined) return;
       P[k] = savedP[k];
       inputs.forEach(function(inp) {
