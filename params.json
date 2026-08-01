@@ -2,7 +2,6 @@
   "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
   "_updated": "2026-07-31",
   "rev26": 2350,
-  "growth27": -5,
   "dso": 62,
   "dpo": 83,
   "matPct": 18,
@@ -401,5 +400,6 @@
   },
   "tredK": 38,
   "tredK27": 38,
-  "h1Rev": 1251
+  "h1Rev": 1251,
+  "rev27": 2000
 }
