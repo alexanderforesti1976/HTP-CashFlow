@@ -271,25 +271,31 @@ var VIEW='both', TAB='chart';
 function getRevTotals(){
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
   var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
-  var rev27base=P.rev26*(1+P.growth27/100);
   var target26=P.rev26*seasH2/fullYearSeas;
-  var revPlan=MONTHS.map(function(m,i){
-    var target=m.y===2026?target26:rev27base;
-    var seasSum=m.y===2026?seasH2:fullYearSeas;
-    var quota=target*SEAS[m.c-1]/seasSum;
+
+  // === PASSO 1: calcola H2 2026 ===
+  var h2Plan=MONTHS.filter(function(m){return m.y===2026;}).map(function(m,i){
+    var quota=target26*SEAS[m.c-1]/seasH2;
     var conf=OREV[i];
-    // Se OREV è definito, usalo DIRETTAMENTE (non come pavimento per la stagionale):
-    // riflette il backlog reale anche quando è < quota stagionale (es. nov/dic scarichi).
-    // La stagionale è usata solo per mesi senza backlog confermato.
+    // OREV diretto se definito (no MAX stagionale) — riflette backlog reale anche se < quota
     return conf!==undefined?conf:quota;
   });
-  var sumH2_26=0, sum27=0;
-  MONTHS.forEach(function(m,i){ if(m.y===2026) sumH2_26+=revPlan[i]; else sum27+=revPlan[i]; });
-  // H1 reale da bilancio (parametro h1Rev) o stimato da rev26 se non disponibile
+  var sumH2_26=h2Plan.reduce(function(s,v){return s+v;},0);
   var h1Act=(P.h1Rev!==undefined)?P.h1Rev:(P.rev26-target26);
   var revFull26=h1Act+sumH2_26;
-  var revFull27=sum27;
-  return {revPlan:revPlan, revFull26:revFull26, revFull27:revFull27};
+
+  // === PASSO 2: 2027 derivato dal fatturato 2026 reale (non dallo slider rev26) ===
+  var rev27base=revFull26*(1+P.growth27/100);
+  var h2Idx=0;
+  var revPlan=MONTHS.map(function(m,i){
+    if(m.y===2026){var v=h2Plan[h2Idx++];return v;}
+    var quota=rev27base*SEAS[m.c-1]/fullYearSeas;
+    var conf=OREV[i];
+    return conf!==undefined?conf:quota;
+  });
+  var sum27=0;
+  MONTHS.forEach(function(m,i){if(m.y===2027) sum27+=revPlan[i];});
+  return {revPlan:revPlan, revFull26:revFull26, revFull27:sum27};
 }
 
 // === P&L CALC ===
