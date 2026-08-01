@@ -78,7 +78,7 @@ tr:nth-child(even) td{background:#162032}
 <div>
 <div class="grp"><div class="glabel" style="color:#6366f1">RICAVI</div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2026</span><span class="sl-val" id="lv-r26">2350k&euro;</span></div><div class="sl-note">Fatturato annuo totale 2026 &middot; H1 &euro;1.251k fisso &middot; H2 distribuito su ordini confermati (scalati se abbassato) &middot; alza/abbassa liberamente</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1500.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev26',v)" type="button">&minus;</button><input type="range" min="1500" max="5000" step="50" value="2350" oninput="upd('rev26',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev26',v)" type="button">+</button></div></div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Crescita 2027 vs 2026</span><span class="sl-val" id="lv-g27">-15%</span></div><div class="sl-note" id="n-g27">2026: &euro;2350k &rarr; 2027: &euro;2000k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(-30.0,+(+el.value-5).toFixed(2));el.value=v;upd('growth27',v)" type="button">&minus;</button><input type="range" min="-30" max="60" step="5" value="-15" oninput="upd('growth27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(60.0,+(+el.value+5).toFixed(2));el.value=v;upd('growth27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2027</span><span class="sl-val" id="lv-r27">2000k&euro;</span></div><div class="sl-note" id="n-g27">Ordini confermati + stagionale &middot; slider fissa il ritmo per mesi senza backlog</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1000.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev27',v)" type="button">&minus;</button><input type="range" min="1000" max="5000" step="50" value="2000" oninput="upd('rev27',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev27',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#22d3ee">DILAZIONI</div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">DSO &ndash; Incasso clienti</span><span class="sl-val" id="lv-dso">62gg</span></div><div class="sl-note">Reale: ~62gg ponderato su termini clienti</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('dso',v)" type="button">&minus;</button><input type="range" min="30" max="150" step="1" value="62" oninput="upd('dso',+this.value)"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(150.0,+(+el.value+1).toFixed(2));el.value=v;upd('dso',v)" type="button">+</button></div></div>
@@ -250,7 +250,7 @@ function loanPayment(i) {
 
 // === STATE ===
 var P={
-  rev26:2350, growth27:-15,
+  rev26:2350, rev27:2000,
   h1Rev:1251,
   dso:62, dpo:83,
   matPct:18, subPct:4,
@@ -269,7 +269,7 @@ var VIEW='both', TAB='chart';
 // Usata sia da calcPL (Conto Economico, Indici, Rating) sia da calcCF (Cash Flow),
 // così tutte le tab restano sempre coerenti tra loro.
 // 2026 = H1 reale + ordini confermati H2 + stagionale per mesi senza ordini.
-// 2027 = ri-proporzione dal 2026 reale x (1+growth27). Slider rev26 influenza SOLO mesi 2026 senza backlog.
+// 2027 = indipendente da 2026: usa P.rev27 come target annuale + OREV dove confermato.
 function getRevTotals(){
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
   var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1251;
@@ -287,12 +287,11 @@ function getRevTotals(){
   var revFull26=h1Act+sumH2;
 
   // === 2027: dal 2026 reale x growth (NON dallo slider rev26) ===
-  var rev27base=revFull26*(1+P.growth27/100);
-
+  // 2027: usa P.rev27 come target annuale indipendente (non legato a 2026)
   var revPlan=MONTHS.map(function(m,i){
     if(m.y===2026) return h2Plan[i];
     var conf=OREV[i];
-    return conf!==undefined?conf:rev27base*SEAS[m.c-1]/fullYearSeas;
+    return conf!==undefined?conf:P.rev27*SEAS[m.c-1]/fullYearSeas;
   });
 
   var sum27=0;
@@ -1022,24 +1021,24 @@ function renderLoans(){
 }
 
 // === STATE UPDATE ===
-var lblMap={rev26:'lv-r26',growth27:'lv-g27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
-var fmtP={rev26:function(v){return v+'k€';},growth27:function(v){return (v>=0?'+':'')+v+'%';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return (v>=0?'+':'')+v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
+var lblMap={rev26:'lv-r26',rev27:'lv-r27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
+var fmtP={rev26:function(v){return v+'k€';},rev27:function(v){return v+'k€';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return (v>=0?'+':'')+v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
 
 function upd(k,v){
   P[k]=v;
   var el=document.getElementById(lblMap[k]);
   if(el && fmtP[k]) el.textContent=fmtP[k](v);
   // Revenue summary bar
-  var r27=Math.round(P.rev26*(1+P.growth27/100));
+  var r27=Math.round(getRevTotals().revFull27);
   var d26=document.getElementById('rv26');
   var d27=document.getElementById('rv27');
   var dg=document.getElementById('rv-growth');
   var ds=document.getElementById('rv27-sub');
   var ng=document.getElementById('n-g27');
   if(d26) d26.textContent='€'+P.rev26.toLocaleString()+'k';
-  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=P.growth27>=0?'#22d3ee':'#f87171'; }
-  if(dg){ dg.textContent=(P.growth27>=0?'+':'')+P.growth27+'%'; dg.style.color=P.growth27>=0?'#4ade80':'#f87171'; }
-  if(ds) ds.textContent=(P.growth27>=0?'+':'')+P.growth27+'% vs 2026';
+  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=r27>=(getRevTotals().revFull26)?'#22d3ee':'#f87171'; }
+  var rt27=getRevTotals();var gr27=rt27.revFull26>0?((rt27.revFull27/rt27.revFull26-1)*100):0;if(dg){ dg.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'%'; dg.style.color=gr27>=0?'#4ade80':'#f87171'; }
+  if(ds) ds.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'% vs 2026';
   if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
   // Aggiorna note magazzino con Δ calcolato in tempo reale
   function _dspan(d,suf){var c=d>=0?'#4ade80':'#f87171';return '<span style="color:'+c+'">'+(d>=0?'+':'')+d.toFixed(1)+suf+'</span>';}
@@ -1102,7 +1101,7 @@ function renderGapWarning(){
   var THRESH=70; // soglia: se il backlog confermato copre meno di questa % del target, avviso
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
   var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
-  var rev27=P.rev26*(1+P.growth27/100);
+  var rev27=P.rev27;
   var target26=P.rev26*seasH2/fullYearSeas;
   var msgs=[];
   [{yr:2026,target:target26,label:'2026 (H2)'},{yr:2027,target:rev27,label:'2027'}].forEach(function(y){
@@ -1144,7 +1143,7 @@ function render(){
 
 function resetAll(){
   var defaults={
-    rev26:2350,growth27:-15,
+    rev26:2350,rev27:2000,
     h1Rev:1251,dso:62,dpo:83,
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
@@ -1205,16 +1204,16 @@ function applyRemoteParams(data) {
     }
   });
   // Aggiorna KPI card fatturato in cima
-  var r27=Math.round(P.rev26*(1+P.growth27/100));
+  var r27=Math.round(getRevTotals().revFull27);
   var d26=document.getElementById('rv26');
   var d27=document.getElementById('rv27');
   var dg=document.getElementById('rv-growth');
   var ds=document.getElementById('rv27-sub');
   var ng=document.getElementById('n-g27');
   if(d26) d26.textContent='€'+P.rev26.toLocaleString()+'k';
-  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=P.growth27>=0?'#22d3ee':'#f87171'; }
-  if(dg){ dg.textContent=(P.growth27>=0?'+':'')+P.growth27+'%'; dg.style.color=P.growth27>=0?'#4ade80':'#f87171'; }
-  if(ds) ds.textContent=(P.growth27>=0?'+':'')+P.growth27+'% vs 2026';
+  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=r27>=(getRevTotals().revFull26)?'#22d3ee':'#f87171'; }
+  var rt27=getRevTotals();var gr27=rt27.revFull26>0?((rt27.revFull27/rt27.revFull26-1)*100):0;if(dg){ dg.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'%'; dg.style.color=gr27>=0?'#4ade80':'#f87171'; }
+  if(ds) ds.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'% vs 2026';
   if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
 }
 
@@ -1235,17 +1234,18 @@ function applyOverrides(overrides, savedP) {
     if (Object.keys(overrides || {}).length) {
       console.log('✓ Ripristinate ' + Object.keys(overrides).length + ' modifiche manuali utente');
     }
-    var r27b = Math.round(P.rev26 * (1 + P.growth27 / 100));
+    var r27b = Math.round(getRevTotals().revFull27);
     var d26b = document.getElementById('rv26');
     var d27b = document.getElementById('rv27');
     var dgb  = document.getElementById('rv-growth');
     var dsb  = document.getElementById('rv27-sub');
     var ngb  = document.getElementById('n-g27');
     if (d26b) d26b.textContent = '€' + P.rev26.toLocaleString() + 'k';
-    if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = P.growth27 >= 0 ? '#22d3ee' : '#f87171'; }
-    if (dgb)  { dgb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '%'; dgb.style.color = P.growth27 >= 0 ? '#4ade80' : '#f87171'; }
-    if (dsb)  dsb.textContent = (P.growth27 >= 0 ? '+' : '') + P.growth27 + '% vs 2026';
-    if (ngb)  ngb.textContent = '2026: €' + P.rev26 + 'k → 2027: €' + r27b + 'k';
+    if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = '#22d3ee'; }
+    var rt27b=getRevTotals(); var gr27b=rt27b.revFull26>0?((rt27b.revFull27/rt27b.revFull26-1)*100):0;
+    if (dgb)  { dgb.textContent = (gr27b>=0?'+':'')+gr27b.toFixed(0)+'%'; dgb.style.color = gr27b>=0?'#4ade80':'#f87171'; }
+    if (dsb)  dsb.textContent = (gr27b>=0?'+':'')+gr27b.toFixed(0)+'% vs 2026';
+    if (ngb)  ngb.textContent = 'Ordini confermati + stagionale da \u20ac' + P.rev27 + 'k';
   } catch(e) {}
 }
 
