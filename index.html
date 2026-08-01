@@ -268,52 +268,38 @@ var VIEW='both', TAB='chart';
 // === FONTE UNICA: fatturato mensile/annuo (backlog + quota stagionale + capacità ago/dic) ===
 // Usata sia da calcPL (Conto Economico, Indici, Rating) sia da calcCF (Cash Flow),
 // così tutte le tab restano sempre coerenti tra loro.
+// 2026 = H1 reale + ordini confermati H2 + stagionale per mesi senza ordini.
+// 2027 = ri-proporzione dal 2026 reale x (1+growth27). Slider rev26 influenza SOLO mesi 2026 senza backlog.
 function getRevTotals(){
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
-  var seasH2=0; for(var c=7;c<=12;c++) seasH2+=SEAS[c-1];
-
-  // === 2026: rev26 = fatturato annuo totale (slider bidirezionale) ===
   var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1251;
-  var h2Budget=Math.max(0, P.rev26-h1Act);
 
-  // Calcola totale OREV definiti per H2 (luglio-dicembre 2026)
-  var orevH2Sum=0;
-  var undefinedSeas=0;
+  // === 2026 H2: confermati da OREV, mancanti da stagionale scalata a rev26 ===
+  var sumH2=0;
+  var h2Plan=[];
   MONTHS.forEach(function(m,i){
-    if(m.y!==2026) return;
-    if(OREV[i]!==undefined) orevH2Sum+=OREV[i];
-    else undefinedSeas+=SEAS[m.c-1];
+    if(m.y!==2026){h2Plan.push(0);return;}
+    var conf=OREV[i];
+    var v=(conf!==undefined)?conf:(P.rev26*SEAS[m.c-1]/fullYearSeas);
+    sumH2+=v;
+    h2Plan.push(v);
   });
+  var revFull26=h1Act+sumH2;
 
-  // Fattore di scala: se OREV > budget → riduce proporzionalmente; altrimenti scala=1
-  var scale=(orevH2Sum>0)?Math.min(1, h2Budget/orevH2Sum):1;
-  var usedByOrev=orevH2Sum*scale;
-  var remainderUndef=h2Budget-usedByOrev;
-
-  // === 2027: derivato da rev26 (stima annua 2026 dell'utente) × growth ===
-  var rev27base=P.rev26*(1+P.growth27/100);
+  // === 2027: dal 2026 reale x growth (NON dallo slider rev26) ===
+  var rev27base=revFull26*(1+P.growth27/100);
 
   var revPlan=MONTHS.map(function(m,i){
-    if(m.y===2026){
-      var conf=OREV[i];
-      if(conf!==undefined){
-        return conf*scale;  // OREV scalato dal budget
-      } else {
-        // Mese senza OREV: quota del residuo non usato da OREV, pesata stagionalmente
-        return undefinedSeas>0?remainderUndef*SEAS[m.c-1]/undefinedSeas:0;
-      }
-    }
-    // 2027
-    var quota=rev27base*SEAS[m.c-1]/fullYearSeas;
+    if(m.y===2026) return h2Plan[i];
     var conf=OREV[i];
-    return conf!==undefined?conf:quota;
+    return conf!==undefined?conf:rev27base*SEAS[m.c-1]/fullYearSeas;
   });
 
-  var revFull26=P.rev26; // sempre uguale allo slider
   var sum27=0;
   MONTHS.forEach(function(m,i){if(m.y===2027)sum27+=revPlan[i];});
-  return {revPlan:revPlan, revFull26:revFull26, revFull27:sum27};
+  return {revPlan:revPlan,revFull26:revFull26,revFull27:sum27};
 }
+
 
 // === P&L CALC ===
 function calcPL(year, actual) {
