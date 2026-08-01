@@ -265,34 +265,51 @@ var P={
 };
 var VIEW='both', TAB='chart';
 
-// === FONTE UNICA: fatturato mensile/annuo (backlog + quota stagionale + capacità ago/dic) ===
-// Usata sia da calcPL (Conto Economico, Indici, Rating) sia da calcCF (Cash Flow),
-// così tutte le tab restano sempre coerenti tra loro.
-// 2026 = H1 reale + ordini confermati H2 + stagionale per mesi senza ordini.
-// 2027 = indipendente da 2026: usa P.rev27 come target annuale + OREV dove confermato.
+// === FONTE UNICA: fatturato mensile/annuo (backlog + quota stagionale) ===
+// Logica 2026: slider rev26 = fatturato annuo totale. H1 fisso (h1Rev). H2 = OREV scalati
+// al budget (P.rev26-h1Rev). Se slider < somma OREV: riduzione proporzionale.
+// Se slider > somma OREV: surplus distribuito stagionalmente ai mesi senza backlog.
+// 2027: segue trend mensile 2026 scalato a P.rev27.
 function getRevTotals(){
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
   var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1251;
+  var h2Budget=Math.max(0,P.rev26-h1Act);
 
-  // === 2026 H2: confermati da OREV, mancanti da stagionale scalata a rev26 ===
-  var sumH2=0;
+  // Separa mesi H2 con/senza OREV
+  var orevH2Sum=0, undefSeasSum=0;
+  MONTHS.forEach(function(m,i){
+    if(m.y!==2026) return;
+    if(OREV[i]!==undefined) orevH2Sum+=OREV[i];
+    else undefSeasSum+=SEAS[m.c-1];
+  });
+
+  // Fattore scala: riduce OREV se budget < somma; altrimenti 1
+  var scale=(orevH2Sum>0)?Math.min(1,h2Budget/orevH2Sum):1;
+  var usedByOrev=orevH2Sum*scale;
+  var remainUndef=Math.max(0,h2Budget-usedByOrev);
+
+  // === Piano H2 2026 ===
   var h2Plan=[];
   MONTHS.forEach(function(m,i){
     if(m.y!==2026){h2Plan.push(0);return;}
     var conf=OREV[i];
-    var v=(conf!==undefined)?conf:(P.rev26*SEAS[m.c-1]/fullYearSeas);
-    sumH2+=v;
+    var v;
+    if(conf!==undefined){
+      v=conf*scale;
+    } else {
+      v=undefSeasSum>0?remainUndef*SEAS[m.c-1]/undefSeasSum:0;
+    }
     h2Plan.push(v);
   });
-  var revFull26=h1Act+sumH2;
 
-  // 2027: segue il trend mensile 2026 (non stagionale 2025)
-  // Per ogni mese senza OREV: prende la revenue 2026 dello stesso mese e la scala al target 2027
+  var revFull26=P.rev26; // sempre uguale allo slider
+
+  // === 2027: segue trend mensile 2026 scalato a P.rev27 ===
   var h1SeasSum=SEAS.slice(0,6).reduce(function(s,v){return s+v;},0);
   var scale27=revFull26>0?(P.rev27/revFull26):1;
-  function rev2026m(c){ // c=1..12
-    if(c>=7) return h2Plan[c-7]; // H2: backlog reale
-    return h1Act*SEAS[c-1]/h1SeasSum; // H1: proporzionale da totale reale
+  function rev2026m(c){
+    if(c>=7) return h2Plan[c-7];
+    return h1Act*SEAS[c-1]/h1SeasSum;
   }
   var revPlan=MONTHS.map(function(m,i){
     if(m.y===2026) return h2Plan[i];
@@ -304,7 +321,6 @@ function getRevTotals(){
   MONTHS.forEach(function(m,i){if(m.y===2027)sum27+=revPlan[i];});
   return {revPlan:revPlan,revFull26:revFull26,revFull27:sum27};
 }
-
 
 // === P&L CALC ===
 function calcPL(year, actual) {
