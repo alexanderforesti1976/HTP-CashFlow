@@ -1168,7 +1168,7 @@ function renderGapWarning(){
     if(y.target<=0) return;
     var pct=conf/y.target*100;
     if(pct<THRESH){
-      msgs.push(y.label+': solo '+pct.toFixed(0)+'% del fatturato atteso è backlog confermato ('+fmtEK(conf)+' su '+fmtEK(y.target)+') — il resto è stima, i mesi senza ordini reali sono stati portati alla quota attesa');
+      msgs.push(y.label+': backlog confermato '+fmtEK(conf)+' su '+fmtEK(y.target)+' di fatturato atteso — il resto è stima, i mesi senza ordini reali sono stati portati alla quota attesa');
     }
   });
   var el=document.getElementById('gapWarning');
