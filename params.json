@@ -1,6 +1,6 @@
 {
   "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
-  "_updated": "2026-07-31",
+  "_updated": "2026-08-27",
   "rev26": 2350,
   "dso": 62,
   "dpo": 83,
@@ -32,266 +32,58 @@
   "openRec": 480,
   "openPay": 150,
   "OREV": {
-    "0": 316.4,
-    "1": 286.1,
-    "2": 307.9,
-    "3": 156.7,
-    "4": 60.0,
-    "5": 44.7,
+    "0": 40.7,
+    "1": 87.8,
+    "2": 332.1,
+    "3": 181.5,
+    "4": 100.3,
+    "5": 76.3,
     "6": 32.8,
-    "7": 20.6,
-    "8": 24.5
+    "7": 20.4,
+    "8": 25.6
   },
   "OBACKLOG": [
     {
       "m": "Lug 26",
-      "t": 316.4,
+      "t": 40.7,
       "c": [
         [
           "T.Erre",
-          99.3
-        ],
-        [
-          "Enextras",
-          51.2
+          38.0
         ],
         [
           "Lav.El.Gomma",
-          47.4
-        ],
-        [
-          "Eurgomma",
-          24.0
-        ],
-        [
-          "Dichtungspartner",
-          24.0
-        ],
-        [
-          "OMECA",
-          22.7
-        ],
-        [
-          "Argomm",
-          16.2
-        ],
-        [
-          "Scaligera",
-          14.9
-        ],
-        [
-          "E.B.",
-          6.0
-        ],
-        [
-          "Watts",
-          5.4
-        ],
-        [
-          "Dubhe",
-          5.3
+          2.7
         ]
       ]
     },
     {
       "m": "Ago 26",
-      "t": 286.1,
+      "t": 87.8,
       "c": [
         [
           "Enextras",
-          113.0
-        ],
-        [
-          "Dichtungspartner",
-          57.3
-        ],
-        [
-          "T.Erre PRV",
-          52.3
-        ],
-        [
-          "Watts 2099",
-          15.3
+          54.2
         ],
         [
           "Scaligera",
-          9.2
-        ],
-        [
-          "Eurgomma",
-          9.0
-        ],
-        [
-          "DUBHE",
-          5.3
-        ],
-        [
-          "OMECA",
-          4.4
-        ],
-        [
-          "LAV.EL.",
-          4.9
-        ],
-        [
-          "Altri",
-          15.4
-        ]
-      ]
-    },
-    {
-      "m": "Set 26",
-      "t": 307.9,
-      "c": [
-        [
-          "Enextras",
-          77.7
-        ],
-        [
-          "LAV.EL.",
-          47.2
-        ],
-        [
-          "Serotti 2099",
-          41.9
-        ],
-        [
-          "Eurgomma",
-          35.0
-        ],
-        [
-          "T.Erre PRV",
-          32.3
-        ],
-        [
-          "Watts 2099",
-          26.8
+          9.1
         ],
         [
           "Watts",
-          13.3
+          7.9
         ],
         [
-          "OMECA",
-          9.3
-        ],
-        [
-          "T.Erre",
-          2.6
-        ],
-        [
-          "SASIC",
-          2.5
-        ]
-      ]
-    },
-    {
-      "m": "Ott 26",
-      "t": 156.7,
-      "c": [
-        [
-          "T.Erre carry",
-          54.6
-        ],
-        [
-          "Argomm",
-          24.3
-        ],
-        [
-          "T.Erre PRV",
-          24.9
-        ],
-        [
-          "LAV.EL.",
-          21.4
+          "Dubhe",
+          6.1
         ],
         [
           "Eurgomma",
-          20.8
-        ],
-        [
-          "Watts",
-          5.5
-        ],
-        [
-          "Arkimat",
-          4.3
-        ],
-        [
-          "T.Erre",
-          0.8
-        ]
-      ]
-    },
-    {
-      "m": "Nov 26",
-      "t": 60.0,
-      "c": [
-        [
-          "T.Erre PRV",
-          27.6
-        ],
-        [
-          "Sagom Tubi",
-          12.0
-        ],
-        [
-          "OMECA PRV",
-          9.6
-        ],
-        [
-          "DUBHE",
-          8.8
-        ],
-        [
-          "T.Erre",
-          2.1
-        ]
-      ]
-    },
-    {
-      "m": "Dic 26",
-      "t": 44.7,
-      "c": [
-        [
-          "T.Erre (atteso)",
-          35.0
-        ],
-        [
-          "OMECA PRV",
-          5.6
+          6.0
         ],
         [
           "Edscha",
           3.9
-        ],
-        [
-          "T.Erre confermato",
-          0.2
-        ]
-      ]
-    },
-    {
-      "m": "Gen 27",
-      "t": 32.8,
-      "c": [
-        [
-          "T.Erre PRV",
-          32.8
-        ]
-      ]
-    },
-    {
-      "m": "Feb 27",
-      "t": 20.6,
-      "c": [
-        [
-          "T.Erre PRV",
-          19.0
-        ],
-        [
-          "Kongsberg Power",
-          1.0
         ],
         [
           "T.Erre",
@@ -300,16 +92,180 @@
       ]
     },
     {
-      "m": "Mar 27",
-      "t": 24.5,
+      "m": "Set 26",
+      "t": 332.1,
       "c": [
         [
-          "T.Erre PRV",
-          23.4
+          "Enextras",
+          92.6
+        ],
+        [
+          "Serotti",
+          60.4
+        ],
+        [
+          "Watts",
+          40.1
+        ],
+        [
+          "Lav.El.Gomma",
+          47.2
         ],
         [
           "T.Erre",
-          1.1
+          35.3
+        ],
+        [
+          "Eurgomma",
+          35.0
+        ],
+        [
+          "OMECA",
+          11.9
+        ],
+        [
+          "Sagom Tubi",
+          6.0
+        ],
+        [
+          "SASIC",
+          2.5
+        ],
+        [
+          "E.B.",
+          0.8
+        ],
+        [
+          "Kongsberg Automotive",
+          0.3
+        ]
+      ]
+    },
+    {
+      "m": "Ott 26",
+      "t": 181.5,
+      "c": [
+        [
+          "Enextras",
+          43.4
+        ],
+        [
+          "T.Erre",
+          28.6
+        ],
+        [
+          "Argomm",
+          24.3
+        ],
+        [
+          "Lav.El.Gomma",
+          21.4
+        ],
+        [
+          "Eurgomma",
+          20.8
+        ],
+        [
+          "Scaligera",
+          18.7
+        ],
+        [
+          "Watts",
+          15.6
+        ],
+        [
+          "Arkimat",
+          4.3
+        ],
+        [
+          "OMECA",
+          3.7
+        ],
+        [
+          "Kongsberg Automotive",
+          0.7
+        ]
+      ]
+    },
+    {
+      "m": "Nov 26",
+      "t": 100.3,
+      "c": [
+        [
+          "Enextras",
+          43.4
+        ],
+        [
+          "T.Erre",
+          28.4
+        ],
+        [
+          "Sagom Tubi",
+          12.0
+        ],
+        [
+          "Dubhe",
+          8.8
+        ],
+        [
+          "OMECA",
+          7.7
+        ]
+      ]
+    },
+    {
+      "m": "Dic 26",
+      "t": 76.3,
+      "c": [
+        [
+          "Enextras",
+          43.5
+        ],
+        [
+          "Dichtungspartner",
+          25.1
+        ],
+        [
+          "OMECA",
+          5.6
+        ],
+        [
+          "T.Erre",
+          2.1
+        ]
+      ]
+    },
+    {
+      "m": "Gen 27",
+      "t": 32.8,
+      "c": [
+        [
+          "T.Erre",
+          32.8
+        ]
+      ]
+    },
+    {
+      "m": "Feb 27",
+      "t": 20.4,
+      "c": [
+        [
+          "T.Erre",
+          19.4
+        ],
+        [
+          "Kongsberg Power",
+          1.0
+        ]
+      ]
+    },
+    {
+      "m": "Mar 27",
+      "t": 25.6,
+      "c": [
+        [
+          "T.Erre",
+          25.6
         ]
       ]
     }
