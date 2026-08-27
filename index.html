@@ -223,15 +223,34 @@ const MONTHS=[
 // Ordini confermati (k euro) - index i corrisponde a MONTHS[i] (0=Lug 26)
 const OREV={0:316.4,1:118.8,2:145.8,3:74.5,4:63.8,5:34.8,6:32.8,7:20.0,8:27.5}; // aggiornato 30/06/2026 — sovrascritto a runtime da params.json
 var OBACKLOG=[
-  {m:"Lug 26",t:316.4,c:[["T.Erre",99.3],["Enextras",51.2],["Lav.El.Gomma",47.4],["Eurgomma",24.0],["Dichtungspartner",24.0],["OMECA",22.7],["Argomm",16.2],["Scaligera",14.9],["E.B.",6.0],["Watts",5.4],["Dubhe",5.3]]},
-  {m:"Ago 26",t:118.8,c:[["Enextras",60.6],["Watts",20.7],["Eurgomma",20.0],["Serotti",13.8],["OMECA",3.7]]},
-  {m:"Set 26",t:145.8,c:[["Enextras",51.2],["T.Erre",34.1],["Lav.El.Gomma",32.0],["Eurgomma",20.8],["Watts",7.7]]},
-  {m:"Ott 26",t:74.5,c:[["Lav.El.Gomma",24.9],["T.Erre",24.6],["Argomm",24.3],["Kongsberg",0.7]]},
-  {m:"Nov 26",t:63.8,c:[["T.Erre",27.6],["Sagom Tubi",12.0],["OMECA",11.5],["Dubhe",8.8],["Edscha",3.9]]},
-  {m:"Dic 26",t:34.8,c:[["Dichtungspartner",25.1],["OMECA",9.3],["T.Erre",0.4]]},
+  {m:"Lug 26",t:40.7,c:[["T.Erre",38.0],["Lav.El.Gomma",2.7]]},
+  {m:"Ago 26",t:87.8,c:[["Enextras",54.2],["Scaligera",9.1],["Watts",7.9],["Dubhe",6.1],["Eurgomma",6.0],["Edscha",3.9],["T.Erre",0.6]]},
+  {m:"Set 26",t:332.1,c:[["Enextras",92.6],["Serotti",60.4],["Watts",40.1],["Lav.El.Gomma",47.2],["T.Erre",35.3],["Eurgomma",35.0],["OMECA",11.9],["Sagom Tubi",6.0],["SASIC",2.5],["E.B.",0.8],["Kongsberg Automotive",0.3]]},
+  {m:"Ott 26",t:181.5,c:[["Enextras",43.4],["T.Erre",28.6],["Argomm",24.3],["Lav.El.Gomma",21.4],["Eurgomma",20.8],["Scaligera",18.7],["Watts",15.6],["Arkimat",4.3],["OMECA",3.7],["Kongsberg Automotive",0.7]]},
+  {m:"Nov 26",t:100.3,c:[["Enextras",43.4],["T.Erre",28.4],["Sagom Tubi",12.0],["Dubhe",8.8],["OMECA",7.7]]},
+  {m:"Dic 26",t:76.3,c:[["Enextras",43.5],["Dichtungspartner",25.1],["OMECA",5.6],["T.Erre",2.1]]},
   {m:"Gen 27",t:32.8,c:[["T.Erre",32.8]]},
-  {m:"Feb 27",t:20.0,c:[["T.Erre",19.0],["Kongsberg",1.0]]},
-  {m:"Mar 27",t:27.5,c:[["T.Erre",23.6],["Edscha",3.9]]},
+  {m:"Feb 27",t:20.4,c:[["T.Erre",19.4],["Kongsberg Power",1.0]]},
+  {m:"Mar 27",t:25.6,c:[["T.Erre",25.6]]},
+];
+
+// Ordini con consegna imminente o scaduta (da export ordini aperti 27/08/2026) — date in
+// formato ISO; lo stato (scaduto/oggi/Xgg) viene calcolato sempre rispetto alla data odierna reale,
+// quindi la card non "invecchia" più come la vecchia lista scritta a mano.
+var ORDCRIT=[
+  {ord:'260165',cliente:'Edscha Automotive',articolo:'182001',residuo:3850.00,spedizione:'2026-07-28'},
+  {ord:'260169',cliente:'T.Erre',articolo:'110006H',residuo:644.18,spedizione:'2026-07-31'},
+  {ord:'260015',cliente:'Dubhe',articolo:'TS004001VN',residuo:6100.27,spedizione:'2026-08-03'},
+  {ord:'260136',cliente:'Scaligera Guarnizioni',articolo:'102001W',residuo:9121.00,spedizione:'2026-08-04'},
+  {ord:'260138',cliente:'Eurgomma',articolo:'067028HB',residuo:6000.00,spedizione:'2026-08-27'},
+  {ord:'260142',cliente:'Enextras OÜ',articolo:'vari (5 art.)',residuo:54168.90,spedizione:'2026-08-31'},
+  {ord:'260178',cliente:'OMECA',articolo:'025002',residuo:4435.65,spedizione:'2026-08-31'},
+  {ord:'260110',cliente:'Lav.El. Gomma',articolo:'011039HN',residuo:10800.00,spedizione:'2026-09-03'},
+  {ord:'260065',cliente:'Sagom Tubi',articolo:'140001E',residuo:6000.00,spedizione:'2026-09-03'},
+  {ord:'260116',cliente:'E.B. S.r.l.',articolo:'005004',residuo:828.69,spedizione:'2026-09-04'},
+  {ord:'260144',cliente:'Serotti & Ghidini',articolo:'157005H',residuo:13830.00,spedizione:'2026-09-04'},
+  {ord:'250287',cliente:'T.Erre',articolo:'110008SN',residuo:1725.00,spedizione:'2026-09-08'},
+  {ord:'260009',cliente:'T.Erre',articolo:'110005SN',residuo:1260.00,spedizione:'2026-09-08'},
 ];
 
 // === LOANS (offset 0 = Giu 2026) ===
@@ -621,31 +640,20 @@ function renderTable(cf){
 }
 
 function renderOrders(){
-  var TODAY = new Date(2026,5,18); // 18 giugno 2026 (mese 0-indexed)
-  var FINE_MESE = new Date(2026,5,30); // fine giugno 2026
+  var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+  var MESI_IT=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  var oggiLabel = TODAY.getDate()+' '+MESI_IT[TODAY.getMonth()]+' '+TODAY.getFullYear();
 
-  // Ordini critici a breve (da aggiornare manualmente con i dati reali dal PDF)
-  var CRITICI = [
-    {ord:'260134',cliente:'Lav.El. Gomma',articolo:'WYA204',residuo:349.6,spedizione:'18/06/2026',note:'Consegna OGGI'},
-    {ord:'260082',cliente:'Lav.El. Gomma',articolo:'ULA121',residuo:10800,spedizione:'26/06/2026',note:'8gg'},
-    {ord:'260084',cliente:'Lav.El. Gomma',articolo:'WBA118',residuo:2493.6,spedizione:'26/06/2026',note:'8gg'},
-    {ord:'260109',cliente:'Lav.El. Gomma',articolo:'SYA186',residuo:12000,spedizione:'26/06/2026',note:'8gg'},
-    {ord:'260007',cliente:'Dichtungspartner',articolo:'1257557+1257556',residuo:50850,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
-    {ord:'260070',cliente:'Watts Industries',articolo:'416020358-1',residuo:5400,spedizione:'25/06/2026',note:'7gg'},
-    {ord:'260028',cliente:'Serotti & Ghidini',articolo:'BYPASS 25',residuo:8388.6,spedizione:'25/06/2026',note:'7gg'},
-    {ord:'260029',cliente:'Serotti & Ghidini',articolo:'BYPASS 75',residuo:4370,spedizione:'25/06/2026',note:'7gg'},
-    {ord:'260100',cliente:'Breka',articolo:'P0000227+P0000228',residuo:9920,spedizione:'30/06/2026',note:'12gg'},
-    {ord:'260103',cliente:'Enextras OÜ',articolo:'vari (6 art.)',residuo:58324,spedizione:'30/06/2026',note:'12gg'},
-    {ord:'260105',cliente:'E.B. S.r.l.',articolo:'STELL 004+005',residuo:3994,spedizione:'26/06/2026',note:'8gg'},
-    {ord:'260065',cliente:'Sagom Tubi',articolo:'YGU0011',residuo:12000,spedizione:'26/06/2026',note:'8gg'},
-    {ord:'260015',cliente:'Dubhe',articolo:'LEM10733',residuo:3511.96,spedizione:'15/06/2026',note:'GIÀ SCADUTO'},
-    {ord:'260053',cliente:'T.Erre',articolo:'TX5005639/A',residuo:31587.5,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
-    {ord:'260115',cliente:'T.Erre',articolo:'TX5011467',residuo:5292,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
-    {ord:'260093',cliente:'T.Erre',articolo:'TX5011467',residuo:141.4,spedizione:'08/06/2026',note:'GIÀ SCADUTO'},
-    {ord:'250253',cliente:'OMR S.p.A.',articolo:'A10007172857',residuo:1124.55,spedizione:'15/06/2026',note:'GIÀ SCADUTO'},
-    {ord:'260092',cliente:'Kongsberg',articolo:'211132V',residuo:304.8,spedizione:'25/06/2026',note:'7gg'},
-    {ord:'260015b',cliente:'Dubhe',articolo:'LEM10733',residuo:3511.96,spedizione:'15/06/2026',note:'GIÀ SCADUTO'},
-  ];
+  // Calcola stato/giorni di ogni ordine critico rispetto alla data odierna reale
+  var CRITICI = ORDCRIT.map(function(o){
+    var d = new Date(o.spedizione+'T00:00:00');
+    var gg = Math.round((d - TODAY) / 86400000);
+    var note = gg < 0 ? 'GIÀ SCADUTO' : (gg === 0 ? 'Consegna OGGI' : gg + 'gg');
+    return {ord:o.ord,cliente:o.cliente,articolo:o.articolo,residuo:o.residuo,
+            spedizione:d.toLocaleDateString('it-IT'),note:note,gg:gg};
+  });
+  // Ordina per urgenza (scaduti prima, poi crescente)
+  CRITICI.sort(function(a,b){ return a.gg - b.gg; });
 
   // Dedup e colore semaforo
   var seen = {};
@@ -710,7 +718,12 @@ function renderOrders(){
   var t26=0,t27=0;
   OBACKLOG.forEach(function(r){ if(r.m.indexOf('26')>=0) t26+=r.t; else t27+=r.t; });
   var meseRows = OBACKLOG.map(function(row){
-    var isPassato = row.m==='Giu 26';
+    var isPassato = (function(){
+      var mm = MONTHS.filter(function(x){ return x.l===row.m; })[0];
+      if(!mm) return false;
+      var y = TODAY.getFullYear(), mo = TODAY.getMonth()+1;
+      return (mm.y < y) || (mm.y === y && mm.c < mo);
+    })();
     var bar='<div style="background:#0f172a;border-radius:4px;height:4px;margin-bottom:6px"><div style="height:100%;background:linear-gradient(90deg,#6366f1,#22d3ee);border-radius:4px;width:'+Math.min(100,row.t/3.5)+'%"></div></div>';
     var chips=row.c.map(function(x){ return '<span style="font-size:9px;background:#0f172a;border:1px solid #334155;border-radius:4px;padding:2px 5px;color:#94a3b8">'+x[0]+' <b style="color:#c7d2fe">€'+x[1].toFixed(0)+'k</b></span>'; }).join('');
     var meseCol = isPassato?'#f59e0b':'#e2e8f0';
@@ -725,8 +738,8 @@ function renderOrders(){
     // -- CARD ALERT --
     +'<div class="card" style="padding:0;overflow:hidden;margin-bottom:12px">'
     +'<div style="padding:11px 14px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center">'
-    +'<div style="font-size:13px;font-weight:700">🚦 Alert Consegne Giugno 2026</div>'
-    +'<div style="font-size:10px;color:#64748b">Al 18/06/2026</div>'
+    +'<div style="font-size:13px;font-weight:700">🚦 Alert Consegne</div>'
+    +'<div style="font-size:10px;color:#64748b">Al '+oggiLabel+'</div>'
     +'</div>'
     +'<div style="padding:6px 0;font-size:9px;color:#64748b;padding-left:14px;border-bottom:1px solid #1e293b">STATO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ARTICOLO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SPEDIZIONE &nbsp;&nbsp;&nbsp;&nbsp; RESIDUO</div>'
     +alertRows
@@ -742,7 +755,7 @@ function renderOrders(){
     // -- CARD RIEPILOGO MESI --
     +'<div class="card" style="padding:0;overflow:hidden">'
     +'<div style="padding:14px 16px;border-bottom:1px solid #334155">'
-    +'<div style="font-size:13px;font-weight:700">📦 Portafoglio Ordini &ndash; 18/06/2026</div>'
+    +'<div style="font-size:13px;font-weight:700">📦 Portafoglio Ordini &ndash; '+oggiLabel+'</div>'
     +'<div style="font-size:10px;color:#64748b;margin-top:3px">H2 2026: €'+t26.toFixed(0)+'k confermato · 2027: €'+t27.toFixed(0)+'k confermato</div>'
     +'</div>'
     +meseRows
@@ -1226,6 +1239,10 @@ function applyRemoteParams(data) {
   // Aggiorna OBACKLOG se presente
   if (data.OBACKLOG) {
     OBACKLOG = data.OBACKLOG;
+  }
+  // Aggiorna ordini critici (consegne imminenti/scadute) se presente
+  if (data.ORDCRIT) {
+    ORDCRIT = data.ORDCRIT;
   }
   // Aggiorna loan schedule se presente
   if (data.loans) {
