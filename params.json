@@ -357,5 +357,98 @@
   "tredK": 38,
   "tredK27": 38,
   "h1Rev": 1251,
-  "rev27": 2000
+  "rev27": 2000,
+  "ORDCRIT": [
+    {
+      "ord": "260165",
+      "cliente": "Edscha Automotive",
+      "articolo": "182001",
+      "residuo": 3850.0,
+      "spedizione": "2026-07-28"
+    },
+    {
+      "ord": "260169",
+      "cliente": "T.Erre",
+      "articolo": "110006H",
+      "residuo": 644.18,
+      "spedizione": "2026-07-31"
+    },
+    {
+      "ord": "260015",
+      "cliente": "Dubhe",
+      "articolo": "TS004001VN",
+      "residuo": 6100.27,
+      "spedizione": "2026-08-03"
+    },
+    {
+      "ord": "260136",
+      "cliente": "Scaligera Guarnizioni",
+      "articolo": "102001W",
+      "residuo": 9121.0,
+      "spedizione": "2026-08-04"
+    },
+    {
+      "ord": "260138",
+      "cliente": "Eurgomma",
+      "articolo": "067028HB",
+      "residuo": 6000.0,
+      "spedizione": "2026-08-27"
+    },
+    {
+      "ord": "260142",
+      "cliente": "Enextras OÜ",
+      "articolo": "vari (5 art.)",
+      "residuo": 54168.9,
+      "spedizione": "2026-08-31"
+    },
+    {
+      "ord": "260178",
+      "cliente": "OMECA",
+      "articolo": "025002",
+      "residuo": 4435.65,
+      "spedizione": "2026-08-31"
+    },
+    {
+      "ord": "260110",
+      "cliente": "Lav.El. Gomma",
+      "articolo": "011039HN",
+      "residuo": 10800.0,
+      "spedizione": "2026-09-03"
+    },
+    {
+      "ord": "260065",
+      "cliente": "Sagom Tubi",
+      "articolo": "140001E",
+      "residuo": 6000.0,
+      "spedizione": "2026-09-03"
+    },
+    {
+      "ord": "260116",
+      "cliente": "E.B. S.r.l.",
+      "articolo": "005004",
+      "residuo": 828.69,
+      "spedizione": "2026-09-04"
+    },
+    {
+      "ord": "260144",
+      "cliente": "Serotti & Ghidini",
+      "articolo": "157005H",
+      "residuo": 13830.0,
+      "spedizione": "2026-09-04"
+    },
+    {
+      "ord": "250287",
+      "cliente": "T.Erre",
+      "articolo": "110008SN",
+      "residuo": 1725.0,
+      "spedizione": "2026-09-08"
+    },
+    {
+      "ord": "260009",
+      "cliente": "T.Erre",
+      "articolo": "110005SN",
+      "residuo": 1260.0,
+      "spedizione": "2026-09-08"
+    }
+  ]
 }
