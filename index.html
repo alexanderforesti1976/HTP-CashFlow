@@ -1289,6 +1289,10 @@ function finishLoad(remoteVer) {
     if (remoteVer !== hubVer) {
       localStorage.setItem('htp_cf_last_modified', new Date().toISOString());
       localStorage.setItem('htp_cf_last_modified_ver', remoteVer);
+      // Aggiorna anche il timestamp condiviso su Firebase (letto dalla Hub), così
+      // "Ultima modifica" riflette anche gli aggiornamenti dati (params.json) e non
+      // solo le modifiche manuali agli slider. Aggiorna solo il campo ts, non tocca P/overrides.
+      try { fbRef.update({ ts: Date.now() }); } catch(e){}
     }
   } catch(e){}
   render();
