@@ -153,11 +153,11 @@ tr:nth-child(even) td{background:#162032}
 </div>
 
 <div class="rev-bar">
-  <div class="rev-item"><div class="label">FATTURATO 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569">Stima anno · ordini H2: €754k</div></div>
+  <div class="rev-item"><div class="label">FATTURATO 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569" id="rv26-sub">Stima anno</div></div>
   <div class="rev-divider"></div>
-  <div class="rev-item"><div class="label">FATTURATO 2027</div><div class="value" id="rv27" style="color:#22d3ee">1.980k</div><div style="font-size:9px;color:#475569" id="rv27-sub">+10% vs 2026</div></div>
+  <div class="rev-item"><div class="label">FATTURATO 2027</div><div class="value" id="rv27" style="color:#22d3ee">1.980k</div><div style="font-size:9px;color:#475569" id="rv27-sub">Parametro impostato</div></div>
   <div class="rev-divider"></div>
-  <div class="rev-item"><div class="label">CRESCITA</div><div class="value" id="rv-growth" style="color:#f87171">-15%</div><div style="font-size:9px;color:#475569">2027 vs 2026</div></div>
+  <div class="rev-item"><div class="label">DIFFERENZA</div><div class="value" id="rv-growth" style="color:#f87171">-15k€</div><div style="font-size:9px;color:#475569">2027 vs 2026</div></div>
 </div>
 
 <div id="gapWarning"></div>
@@ -309,22 +309,48 @@ function getRevTotals(){
 
   var revFull26=P.rev26; // sempre uguale allo slider
 
-  // === 2027: segue trend mensile 2026 scalato a P.rev27 ===
-  var h1SeasSum=SEAS.slice(0,6).reduce(function(s,v){return s+v;},0);
-  var scale27=revFull26>0?(P.rev27/revFull26):1;
-  function rev2026m(c){
-    if(c>=7) return h2Plan[c-7];
-    return h1Act*SEAS[c-1]/h1SeasSum;
-  }
+  // === 2027: il totale è SEMPRE uguale al parametro impostato (P.rev27), stesso
+  // criterio già usato per il 2026. I mesi con backlog confermato (OREV) restano
+  // fissi al valore reale; il resto del budget (P.rev27 - backlog confermato) viene
+  // distribuito stagionalmente sui mesi senza ordini, cosi la somma torna esatta
+  // e non serve piu alcun confronto in % (che poteva risultare fuorviante).
+  var orev27Sum=0, undefSeas27Sum=0;
+  MONTHS.forEach(function(m,i){
+    if(m.y!==2027) return;
+    if(OREV[i]!==undefined) orev27Sum+=OREV[i];
+    else undefSeas27Sum+=SEAS[m.c-1];
+  });
+  var remain27=Math.max(0,P.rev27-orev27Sum);
   var revPlan=MONTHS.map(function(m,i){
     if(m.y===2026) return h2Plan[i];
+    if(m.y!==2027) return 0;
     var conf=OREV[i];
-    return conf!==undefined?conf:rev2026m(m.c)*scale27;
+    if(conf!==undefined) return conf;
+    return undefSeas27Sum>0?remain27*SEAS[m.c-1]/undefSeas27Sum:0;
   });
 
-  var sum27=0;
-  MONTHS.forEach(function(m,i){if(m.y===2027)sum27+=revPlan[i];});
-  return {revPlan:revPlan,revFull26:revFull26,revFull27:sum27};
+  var revFull27=P.rev27; // sempre uguale allo slider, come il 2026
+  return {revPlan:revPlan,revFull26:revFull26,revFull27:revFull27,orevH2Sum:orevH2Sum,orev27Sum:orev27Sum};
+}
+
+// Aggiorna la barra riepilogo fatturato (2026/2027/differenza) — unica funzione condivisa
+// da tutti i punti di refresh, cosi i valori mostrati sono sempre coerenti tra loro.
+function updateRevBar(){
+  var rt=getRevTotals();
+  var r26=Math.round(rt.revFull26), r27=Math.round(rt.revFull27);
+  var diff=r27-r26;
+  var d26=document.getElementById('rv26');
+  var d27=document.getElementById('rv27');
+  var d26s=document.getElementById('rv26-sub');
+  var ds=document.getElementById('rv27-sub');
+  var dg=document.getElementById('rv-growth');
+  var ng=document.getElementById('n-g27');
+  if(d26) d26.textContent='€'+r26.toLocaleString()+'k';
+  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color='#22d3ee'; }
+  if(d26s) d26s.textContent='Stima anno · ordini H2: €'+Math.round(rt.orevH2Sum||0)+'k';
+  if(ds) ds.textContent='Ordini confermati: €'+Math.round(rt.orev27Sum||0)+'k';
+  if(dg){ dg.textContent=(diff>=0?'+':'')+diff.toLocaleString()+'k\u20ac'; dg.style.color=diff>=0?'#4ade80':'#f87171'; }
+  if(ng) ng.textContent='2026: €'+P.rev26+'k \u2192 2027: €'+r27+'k';
 }
 
 // === P&L CALC ===
@@ -1056,17 +1082,7 @@ function upd(k,v){
   var el=document.getElementById(lblMap[k]);
   if(el && fmtP[k]) el.textContent=fmtP[k](v);
   // Revenue summary bar
-  var r27=Math.round(getRevTotals().revFull27);
-  var d26=document.getElementById('rv26');
-  var d27=document.getElementById('rv27');
-  var dg=document.getElementById('rv-growth');
-  var ds=document.getElementById('rv27-sub');
-  var ng=document.getElementById('n-g27');
-  if(d26) d26.textContent='€'+(Math.round(getRevTotals().revFull26)).toLocaleString()+'k';
-  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=r27>=(getRevTotals().revFull26)?'#22d3ee':'#f87171'; }
-  var rt27=getRevTotals();var gr27=rt27.revFull26>0?((rt27.revFull27/rt27.revFull26-1)*100):0;if(dg){ dg.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'%'; dg.style.color=gr27>=0?'#4ade80':'#f87171'; }
-  if(ds) ds.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'% vs 2026';
-  if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
+  updateRevBar();
   // Aggiorna note magazzino con Δ calcolato in tempo reale
   function _dspan(d,suf){var c=d>=0?'#4ade80':'#f87171';return '<span style="color:'+c+'">'+(d>=0?'+':'')+d.toFixed(1)+suf+'</span>';}
   if(k==='invMPK'){var ni=document.getElementById('note-invMP');if(ni){var d=v-119.0;ni.innerHTML='Ap. 2026: \u20ac119k \u00b7 \u0394: '+_dspan(d,'k\u20ac')+' \u2192 guida acquisti CF';}}
@@ -1231,17 +1247,7 @@ function applyRemoteParams(data) {
     }
   });
   // Aggiorna KPI card fatturato in cima
-  var r27=Math.round(getRevTotals().revFull27);
-  var d26=document.getElementById('rv26');
-  var d27=document.getElementById('rv27');
-  var dg=document.getElementById('rv-growth');
-  var ds=document.getElementById('rv27-sub');
-  var ng=document.getElementById('n-g27');
-  if(d26) d26.textContent='€'+(Math.round(getRevTotals().revFull26)).toLocaleString()+'k';
-  if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color=r27>=(getRevTotals().revFull26)?'#22d3ee':'#f87171'; }
-  var rt27=getRevTotals();var gr27=rt27.revFull26>0?((rt27.revFull27/rt27.revFull26-1)*100):0;if(dg){ dg.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'%'; dg.style.color=gr27>=0?'#4ade80':'#f87171'; }
-  if(ds) ds.textContent=(gr27>=0?'+':'')+gr27.toFixed(0)+'% vs 2026';
-  if(ng) ng.textContent='2026: €'+P.rev26+'k → 2027: €'+r27+'k';
+  updateRevBar();
 }
 
 // Riapplica SOPRA ai dati ufficiali solo i parametri che l'utente ha modificato a mano
@@ -1264,18 +1270,7 @@ function applyOverrides(overrides, savedP) {
     if (Object.keys(overrides || {}).length) {
       console.log('✓ Ripristinate ' + Object.keys(overrides).length + ' modifiche manuali utente');
     }
-    var r27b = Math.round(getRevTotals().revFull27);
-    var d26b = document.getElementById('rv26');
-    var d27b = document.getElementById('rv27');
-    var dgb  = document.getElementById('rv-growth');
-    var dsb  = document.getElementById('rv27-sub');
-    var ngb  = document.getElementById('n-g27');
-    if (d26b) d26b.textContent = '€' + (Math.round(getRevTotals().revFull26)).toLocaleString() + 'k';
-    if (d27b) { d27b.textContent = '€' + r27b.toLocaleString() + 'k'; d27b.style.color = '#22d3ee'; }
-    var rt27b=getRevTotals(); var gr27b=rt27b.revFull26>0?((rt27b.revFull27/rt27b.revFull26-1)*100):0;
-    if (dgb)  { dgb.textContent = (gr27b>=0?'+':'')+gr27b.toFixed(0)+'%'; dgb.style.color = gr27b>=0?'#4ade80':'#f87171'; }
-    if (dsb)  dsb.textContent = (gr27b>=0?'+':'')+gr27b.toFixed(0)+'% vs 2026';
-    if (ngb)  ngb.textContent = 'Ordini confermati + stagionale da \u20ac' + P.rev27 + 'k';
+    updateRevBar();
   } catch(e) {}
 }
 
