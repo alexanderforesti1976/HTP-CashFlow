@@ -120,7 +120,7 @@ tr:nth-child(even) td{background:#162032}
 <div class="grp"><div class="glabel" style="color:#f472b6">COSTI CASH 2026</div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Acquisti MP</span><span class="sl-val" id="lv-mat">21%</span></div><div class="sl-note">2025: 19% &middot; 2024: 24%</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(10.0,+(+el.value-1).toFixed(2));el.value=v;upd('matPct',v)" type="button">&minus;</button><input type="number" class="num-inp" min="10" max="45" step="1" value="21" oninput="upd('matPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(45.0,+(+el.value+1).toFixed(2));el.value=v;upd('matPct',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Lavorazioni c/terzi</span><span class="sl-val" id="lv-sub">5%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-1).toFixed(2));el.value=v;upd('subPct',v)" type="button">&minus;</button><input type="number" class="num-inp" min="0" max="15" step="1" value="11" oninput="upd('subPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(15.0,+(+el.value+1).toFixed(2));el.value=v;upd('subPct',v)" type="button">+</button></div></div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Personale (all-in)</span><span class="sl-val" id="lv-lab">44k&euro;/m</span></div><div class="sl-note">YTD reale ~&euro;41.7k + TFR &euro;1.9k</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('laborK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="30" max="130" step="1" value="54" oninput="upd('laborK',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(130.0,+(+el.value+1).toFixed(2));el.value=v;upd('laborK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Personale (all-in)</span><span class="sl-val" id="lv-lab">44k&euro;/m</span></div><div class="sl-note">YTD reale gen-ago &euro;42.1k (stipendi da mastrini) + oneri/TFR stimati</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('laborK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="30" max="130" step="1" value="54" oninput="upd('laborK',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(130.0,+(+el.value+1).toFixed(2));el.value=v;upd('laborK',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Affitti</span><span class="sl-val" id="lv-rent">8.1k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('rentK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="5" max="15" step="0.1" value="8.3" oninput="upd('rentK',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(15.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('rentK',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Energia (% fatturato)</span><span class="sl-val" id="lv-enrg">3.8%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-1).toFixed(2));el.value=v;upd('energyK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="3" max="20" step="1" value="8" oninput="upd('energyPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20.0,+(+el.value+1).toFixed(2));el.value=v;upd('energyK',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Provvigioni agenti</span><span class="sl-val" id="lv-comm">2.8%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('commPct',v)" type="button">&minus;</button><input type="number" class="num-inp" min="0" max="5" step="0.1" value="2.8" oninput="upd('commPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('commPct',v)" type="button">+</button></div></div>
@@ -285,7 +285,7 @@ var P={
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
-  startCash:1572, openRec:480, openPay:293
+  startCash:1336.24, openRec:480, openPay:293
 };
 var VIEW='both', TAB='chart';
 
@@ -1033,7 +1033,7 @@ function renderIndici(){
     {name:'Deposito "Cedola Long" (BCC Brescia) · cedola sem. 3%, scad. 03/27', val:400.00},
     {name:'Deposito fondo BTP (BCC Brescia)', val:147.91},
     {name:'Polizza Assimoco Vita (03/25–03/55, valore reale)', val:75.00},
-    {name:'Fondo riserva TFR dipendenti (Unicredit)', val:44.72},
+    {name:'Piano accumulo Onemarkets, ex Unibonus (Unicredit) · investimento HTP', val:40.80},
     {name:'Titoli/prodotti d\'investimento', val:74.90},
     {name:'Altre partecipazioni', val:1.00}
   ];
@@ -1044,7 +1044,7 @@ function renderIndici(){
   }).join('');
   var extraAssetsCard='<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:12px">'
     +'<div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:2px">💼 Patrimonio finanziario extra-operativo</div>'
-    +'<div style="font-size:9px;color:#64748b;margin-bottom:10px">Asset esclusi dalla cassa operativa (non in Cassa Giu 2026) · Riconciliato con mastrini al 30/06/2026</div>'
+    +'<div style="font-size:9px;color:#64748b;margin-bottom:10px">Asset esclusi dalla cassa operativa · BTP/Cedola Long/Onemarkets riconciliati con mastrini al 01/09/2026, Assimoco/titoli/partecipazioni da mastrini 30/06/2026</div>'
     +extraRows
     +'<div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#4ade80;padding-top:8px;margin-top:4px">'
     +'<span>Totale</span><span>€'+extraTotal.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+'k</span></div>'
@@ -1208,7 +1208,7 @@ function resetAll(){
     invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
-    startCash:1572,openRec:480,openPay:293
+    startCash:1336.24,openRec:480,openPay:293
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
