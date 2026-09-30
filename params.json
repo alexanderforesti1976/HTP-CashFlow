@@ -1,6 +1,6 @@
 {
   "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
-  "_updated": "2026-09-14",
+  "_updated": "2026-10-01",
   "_startCashSource": "Saldo lordo 4 c/c al 31/08/2026 da SITUAZIONE_BANCHE (CREDEM 647.35 + BCC Sebino 63.56 + Unicredit 78.04 + BCC BS 1136.00 = 1924.95k), nettato con importi esatti da mastrini 2026: F.do BTP -147.911,75 (conto 02021902, sotto BCC BS) e Cedola Long -400.000 (conto 02021901, sotto BCC BS) e Piano accumulo Onemarkets/ex-Unibonus -40.800 (conto 01074008, alimentato da Unicredit — investimento HTP, non TFR dipendenti). Totale nettato: 588.711,75. Assimoco Vita (conto 02021903) saldo 0 nei mastrini, da verificare a parte. Mastrini 2026 non ancora completi: dati costi personale e fatturazione mancanti (attesi tra ~10gg).",
   "rev26": 2350,
   "dso": 62,
@@ -35,14 +35,14 @@
   "OREV": {
     "0": 213.6,
     "1": 91.8,
-    "2": 234.3,
-    "3": 222.0,
-    "4": 129.2,
-    "5": 114.9,
-    "6": 33.7,
-    "7": 19.4,
-    "8": 25.8,
-    "9": 5.4
+    "2": 225.0,
+    "3": 190.3,
+    "4": 128.3,
+    "5": 33.7,
+    "6": 19.6,
+    "7": 30.9,
+    "8": 0.6,
+    "9": 0.8
   },
   "OBACKLOG": [
     {
@@ -66,7 +66,7 @@
           16.2
         ],
         [
-          "Omeca",
+          "OMECA",
           15.7
         ],
         [
@@ -98,7 +98,7 @@
           3.3
         ],
         [
-          "Kongsberg",
+          "Kongsberg Automotive",
           0.7
         ]
       ]
@@ -124,7 +124,7 @@
           8.2
         ],
         [
-          "Omeca",
+          "OMECA",
           4.4
         ],
         [
@@ -146,58 +146,16 @@
       ]
     },
     {
-      "m": "Set 26",
-      "t": 234.3,
+      "m": "Ott 26",
+      "t": 225.0,
       "c": [
         [
           "Enextras",
-          77.7
+          47.3
         ],
-        [
-          "Serotti",
-          52.2
-        ],
-        [
-          "Watts",
-          32.4
-        ],
-        [
-          "Lav.El.Gomma",
-          37.8
-        ],
-        [
-          "Eurgomma",
-          24.3
-        ],
-        [
-          "Sagom Tubi",
-          6.0
-        ],
-        [
-          "Omeca",
-          3.7
-        ],
-        [
-          "T.Erre",
-          0.2
-        ]
-      ]
-    },
-    {
-      "m": "Ott 26",
-      "t": 222.0,
-      "c": [
         [
           "Watts",
           47.0
-        ],
-        [
-          "Enextras",
-          58.4
-        ],
-        [
-          "T.Erre",
-          25.3
         ],
         [
           "Lav.El.Gomma",
@@ -208,42 +166,54 @@
           25.4
         ],
         [
+          "T.Erre",
+          24.4
+        ],
+        [
           "Scaligera",
-          18.7
+          20.1
+        ],
+        [
+          "OMECA",
+          14.6
         ],
         [
           "Serotti",
           8.5
         ],
         [
-          "Omeca",
-          6.4
+          "OMR",
+          5.4
         ],
         [
           "Arkimat",
           4.8
         ],
         [
-          "Kongsberg",
+          "Kongsberg Automotive",
           0.3
         ]
       ]
     },
     {
       "m": "Nov 26",
-      "t": 129.2,
+      "t": 190.3,
       "c": [
         [
           "Enextras",
           43.4
         ],
         [
-          "T.Erre",
-          28.2
+          "Lav.El.Gomma",
+          38.5
         ],
         [
-          "Omeca",
-          7.6
+          "OMECA",
+          31.3
+        ],
+        [
+          "T.Erre",
+          30.7
         ],
         [
           "Watts",
@@ -254,26 +224,26 @@
           12.0
         ],
         [
-          "Lav.El.Gomma",
-          9.5
-        ],
-        [
           "Dubhe",
           8.8
         ],
         [
-          "Sasic",
-          2.5
+          "OMR",
+          5.9
         ],
         [
           "Edscha",
           3.9
+        ],
+        [
+          "SASIC",
+          2.5
         ]
       ]
     },
     {
       "m": "Dic 26",
-      "t": 114.9,
+      "t": 128.3,
       "c": [
         [
           "Enextras",
@@ -288,20 +258,24 @@
           24.3
         ],
         [
+          "MCM",
+          14.0
+        ],
+        [
           "Watts",
           7.9
         ],
         [
-          "Omeca",
-          5.6
+          "OMECA",
+          6.8
+        ],
+        [
+          "Kongsberg Automotive",
+          0.7
         ],
         [
           "T.Erre",
-          2.1
-        ],
-        [
-          "Kongsberg",
-          0.7
+          0.4
         ]
       ]
     },
@@ -321,39 +295,49 @@
     },
     {
       "m": "Feb 27",
-      "t": 19.4,
+      "t": 19.6,
       "c": [
         [
           "T.Erre",
-          19.4
+          19.6
         ]
       ]
     },
     {
       "m": "Mar 27",
-      "t": 25.8,
+      "t": 30.9,
       "c": [
         [
           "T.Erre",
-          25.8
-        ]
-      ]
-    },
-    {
-      "m": "Apr 27",
-      "t": 5.4,
-      "c": [
+          26.3
+        ],
         [
           "Edscha",
           3.9
         ],
         [
+          "Kongsberg Automotive",
+          0.7
+        ]
+      ]
+    },
+    {
+      "m": "Apr 27",
+      "t": 0.6,
+      "c": [
+        [
+          "T.Erre",
+          0.6
+        ]
+      ]
+    },
+    {
+      "m": "Mag 27",
+      "t": 0.8,
+      "c": [
+        [
           "T.Erre",
           0.8
-        ],
-        [
-          "Kongsberg",
-          0.7
         ]
       ]
     }
@@ -448,96 +432,145 @@
   "rev27": 2000,
   "ORDCRIT": [
     {
-      "ord": "260165",
-      "cliente": "Edscha Automotive",
-      "articolo": "182001",
-      "residuo": 3850.0,
-      "spedizione": "2026-07-28"
-    },
-    {
-      "ord": "260169",
+      "ord": "260054",
       "cliente": "T.Erre",
-      "articolo": "110006H",
-      "residuo": 644.18,
-      "spedizione": "2026-07-31"
-    },
-    {
-      "ord": "260015",
-      "cliente": "Dubhe",
-      "articolo": "TS004001VN",
-      "residuo": 6100.27,
-      "spedizione": "2026-08-03"
-    },
-    {
-      "ord": "260136",
-      "cliente": "Scaligera Guarnizioni",
-      "articolo": "102001W",
-      "residuo": 9121.0,
-      "spedizione": "2026-08-04"
-    },
-    {
-      "ord": "260138",
-      "cliente": "Eurgomma",
-      "articolo": "067028HB",
-      "residuo": 6000.0,
-      "spedizione": "2026-08-27"
-    },
-    {
-      "ord": "260142",
-      "cliente": "Enextras OÜ",
-      "articolo": "vari (5 art.)",
-      "residuo": 54168.9,
-      "spedizione": "2026-08-31"
-    },
-    {
-      "ord": "260178",
-      "cliente": "OMECA",
-      "articolo": "025002",
-      "residuo": 4435.65,
-      "spedizione": "2026-08-31"
-    },
-    {
-      "ord": "260110",
-      "cliente": "Lav.El. Gomma",
-      "articolo": "011039HN",
-      "residuo": 10800.0,
-      "spedizione": "2026-09-03"
-    },
-    {
-      "ord": "260065",
-      "cliente": "Sagom Tubi",
-      "articolo": "140001E",
-      "residuo": 6000.0,
-      "spedizione": "2026-09-03"
-    },
-    {
-      "ord": "260116",
-      "cliente": "E.B. S.r.l.",
-      "articolo": "005004",
-      "residuo": 828.69,
-      "spedizione": "2026-09-04"
-    },
-    {
-      "ord": "260144",
-      "cliente": "Serotti & Ghidini",
-      "articolo": "157005H",
-      "residuo": 13830.0,
-      "spedizione": "2026-09-04"
-    },
-    {
-      "ord": "250287",
-      "cliente": "T.Erre",
-      "articolo": "110008SN",
-      "residuo": 1725.0,
-      "spedizione": "2026-09-08"
+      "articolo": "110002E",
+      "residuo": 38000.0,
+      "spedizione": "2026-07-07"
     },
     {
       "ord": "260009",
       "cliente": "T.Erre",
       "articolo": "110005SN",
-      "residuo": 1260.0,
+      "residuo": 210.0,
       "spedizione": "2026-09-08"
+    },
+    {
+      "ord": "260143",
+      "cliente": "Enextras OÜ",
+      "articolo": "vari (7 art.)",
+      "residuo": 88732.5,
+      "spedizione": "2026-09-30"
+    },
+    {
+      "ord": "260162",
+      "cliente": "Lav.El. Gomma",
+      "articolo": "011056H",
+      "residuo": 255.22,
+      "spedizione": "2026-09-30"
+    },
+    {
+      "ord": "260043",
+      "cliente": "Serotti & Ghidini",
+      "articolo": "157004H",
+      "residuo": 66.6,
+      "spedizione": "2026-09-30"
+    },
+    {
+      "ord": "260144",
+      "cliente": "Serotti & Ghidini",
+      "articolo": "157005H",
+      "residuo": 210.0,
+      "spedizione": "2026-09-30"
+    },
+    {
+      "ord": "260177",
+      "cliente": "OMECA",
+      "articolo": "025001",
+      "residuo": 1838.1,
+      "spedizione": "2026-10-01"
+    },
+    {
+      "ord": "260112",
+      "cliente": "Watts Industries",
+      "articolo": "043002",
+      "residuo": 5512.5,
+      "spedizione": "2026-10-02"
+    },
+    {
+      "ord": "260140",
+      "cliente": "Eurgomma",
+      "articolo": "067028HB",
+      "residuo": 20800.0,
+      "spedizione": "2026-10-05"
+    },
+    {
+      "ord": "260133",
+      "cliente": "Lav.El. Gomma",
+      "articolo": "011037N",
+      "residuo": 2550.0,
+      "spedizione": "2026-10-07"
+    },
+    {
+      "ord": "260149",
+      "cliente": "Lav.El. Gomma",
+      "articolo": "vari (2 art.)",
+      "residuo": 13641.6,
+      "spedizione": "2026-10-07"
+    },
+    {
+      "ord": "260191",
+      "cliente": "OMECA",
+      "articolo": "025003",
+      "residuo": 1911.36,
+      "spedizione": "2026-10-07"
+    },
+    {
+      "ord": "260202",
+      "cliente": "OMECA",
+      "articolo": "025004",
+      "residuo": 848.82,
+      "spedizione": "2026-10-07"
+    },
+    {
+      "ord": "260217",
+      "cliente": "OMECA",
+      "articolo": "025002",
+      "residuo": 2661.39,
+      "spedizione": "2026-10-07"
+    },
+    {
+      "ord": "260083",
+      "cliente": "T.Erre",
+      "articolo": "110005SN",
+      "residuo": 210.0,
+      "spedizione": "2026-10-07"
+    },
+    {
+      "ord": "260180",
+      "cliente": "Lav.El. Gomma",
+      "articolo": "011068",
+      "residuo": 5629.81,
+      "spedizione": "2026-10-09"
+    },
+    {
+      "ord": "260203",
+      "cliente": "OMECA",
+      "articolo": "025001",
+      "residuo": 1838.1,
+      "spedizione": "2026-10-12"
+    },
+    {
+      "ord": "260218",
+      "cliente": "OMECA",
+      "articolo": "025004",
+      "residuo": 692.64,
+      "spedizione": "2026-10-12"
+    },
+    {
+      "ord": "260204",
+      "cliente": "Watts Industries",
+      "articolo": "043003",
+      "residuo": 2152.8,
+      "spedizione": "2026-10-12"
+    },
+    {
+      "ord": "250169",
+      "cliente": "Eurgomma",
+      "articolo": "067028HB",
+      "residuo": 4600.0,
+      "spedizione": "2026-10-15"
     }
   ],
-  "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 14/09/2026). Ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta passata (OMR, Walker, Edscha 5502105504 19/6/26, Omeca 025005/025004 30/7/26). Esclusi anche T.Erre 260125/260126 (data rich. 10/08 e 10/09, gia' passate) e Omeca contratti con consegna richiesta oltre Mar27 (025006, 025002-4600014227, 025001-4600014228, 025004-4600014229) e Kongsberg Automotive VV002019 seconda riga (05/04/2027): fuori dalla finestra di backlog Lug26-Mar27. Lug26/Ago26 ormai mesi passati: Ago26 non ha piu' ordini aperti residui in questo file. Disponibili anche dati 2027/04 (Edscha 3.85 + T.Erre 0.78, tot 4.63k) se si vuole estendere la finestra oltre Mar27. Aggiunto Apr27 (indice 9): Edscha 3.85 + T.Erre 0.78 (diretti) + Kongsberg Automotive VV002019 seconda riga 0.72 (data rich.consegna 05/04/2027, prima esclusa perche' oltre Mar27, ora rientra nella finestra estesa). CORREZIONE Lug26/Ago26: essendo mesi ormai chiusi, sostituito il residuo-ordini (non pertinente per mesi passati) con il FATTURATO REALE emesso da mastrini (conto 07011000 Vendite Prodotti, fatture 31/07 e 31/08/2026): Lug26=213,57k, Ago26=91,75k (arrotondati). Costo del personale (06041000) confermato presente fino ad agosto incluso, coerente con questi ricavi reali."
+  "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 01/10/2026 00:53; totale residuo verificato = 1.048.115,25). Metodo invariato: mese = periodo (data conferma); ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta gia' passata rispetto alla stampa (OMR 260091, Walker, Edscha 260164 PMC, Omeca 025005 30/7/26, T.Erre 260125 e 260126, Watts 260173/174/175/176 con data rich. 22-29/09, Serotti 260185/260187 15/09). Contratti oltre finestra esclusi: Omeca 025006/025002-4600014227/025001-4600014228/025004-4600014229, Kongsberg VV002019 04/06/2027. Finestra ora Ott26-Mag27 (Set26 e' interamente nel passato rispetto alla data di stampa e va sostituito col fatturato reale da mastrini quando disponibile). Lug26/Ago26 = fatturato reale invariato (213,6k e 91,8k). IMPORTANTE: l'intero ordine Enextras 260143 (7 righe, tot. 88.732,50, periodo Set26) risulta ancora 100% residuo, nessuna spedizione registrata nonostante data sped. prevista 30/09 gia' passata: escluso dal backlog fino a nuova data confermata, da verificare con Giusi/commerciale. Altri residui rimasti scaduti/esclusi: T.Erre 260054 (38,0k, sped. prevista 07/07 mai avvenuta, 80.000pz), 260053 (1,7k), Lav.El.Gomma 260134 (0,35k) e 260162 (0,26k), Serotti 260043/260144 (0,28k), T.Erre 260009 (0,21k), Dichtungspartner 230234/250200 (6,4k, periodi 2024/2025 residui). ORDCRIT rigenerato: ordini con data spedizione pianificata tra 01/07 e 15/10/2026, residuo > 0."
 }
