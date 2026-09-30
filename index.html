@@ -337,29 +337,25 @@ function getRevTotals(){
 
   var revFull26=P.rev26; // sempre uguale allo slider
 
-  // === 2027: il totale è SEMPRE uguale al parametro impostato (P.rev27), stesso
-  // criterio già usato per il 2026. I mesi con backlog confermato (OREV) restano
-  // fissi al valore reale; il resto del budget (P.rev27 - backlog confermato) viene
-  // distribuito sui mesi senza ordini IN PROPORZIONE al fatturato reale già noto
-  // dello stesso mese del 2026 (non più un peso stagionale astratto) — cosi un mese
-  // 2027 senza backlog eredita la forma vera dell'anno precedente, scalata in giu
-  // (o in su) in proporzione a quanto il totale 2027 e diverso dal totale 2026.
-  var KNOWN2026={6:350,7:OREV[0],8:OREV[1],9:OREV[2],10:OREV[3],11:OREV[4],12:OREV[5]}; // Giu26=350 (bilancio/ordini reali), Lug-Dic26=OREV[0..5]
-  var orev27Sum=0, undefWeight27Sum=0;
-  MONTHS.forEach(function(m,i){
-    if(m.y!==2027) return;
-    if(OREV[i]!==undefined) { orev27Sum+=OREV[i]; return; }
-    var w=(KNOWN2026[m.c]!==undefined)?KNOWN2026[m.c]:SEAS[m.c-1];
-    undefWeight27Sum+=w;
-  });
+  // === 2027: il totale è SEMPRE uguale al parametro impostato (P.rev27). Ogni mese
+  // 2027 (compresi quelli con ordini gia' confermati) riceve: (a) il proprio ordine
+  // reale se esiste, PIU' (b) una quota della differenza tra P.rev27 e il totale
+  // ordini 2027 gia' noti, proporzionale al fatturato REALE dello stesso mese 2026
+  // (fatture reali gen-mag da registro IVA; giu = H1 reale meno gen-mag; lug-dic =
+  // backlog confermato OREV[0..5]). Cosi nessun mese resta "congelato": la differenza
+  // si spalma su tutti secondo la vera stagionalita' dell'azienda, non un peso astratto.
+  var W26=[132.07,218.90,192.26,195.97,181.53,330.28,OREV[0],OREV[1],OREV[2],OREV[3],OREV[4],OREV[5]]; // Gen..Dic 2026 reale
+  var sumW26=W26.reduce(function(s,v){return s+v;},0);
+  var orev27Sum=0;
+  MONTHS.forEach(function(m,i){ if(m.y===2027 && OREV[i]!==undefined) orev27Sum+=OREV[i]; });
   var remain27=Math.max(0,P.rev27-orev27Sum);
   var revPlan=MONTHS.map(function(m,i){
     if(m.y===2026) return h2Plan[i];
     if(m.y!==2027) return 0;
-    var conf=OREV[i];
-    if(conf!==undefined) return conf;
-    var w=(KNOWN2026[m.c]!==undefined)?KNOWN2026[m.c]:SEAS[m.c-1];
-    return undefWeight27Sum>0?remain27*w/undefWeight27Sum:0;
+    var known=OREV[i]!==undefined?OREV[i]:0;
+    var w=W26[m.c-1];
+    var share=sumW26>0?remain27*w/sumW26:0;
+    return known+share;
   });
 
   var revFull27=P.rev27; // sempre uguale allo slider, come il 2026
