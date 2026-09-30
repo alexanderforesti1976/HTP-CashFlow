@@ -221,36 +221,44 @@ const MONTHS=[
   {l:"Ott 27",c:10,y:2027},{l:"Nov 27",c:11,y:2027},{l:"Dic 27",c:12,y:2027}
 ];
 // Ordini confermati (k euro) - index i corrisponde a MONTHS[i] (0=Lug 26)
-const OREV={0:316.4,1:118.8,2:145.8,3:74.5,4:63.8,5:34.8,6:32.8,7:20.0,8:27.5}; // aggiornato 30/06/2026 — sovrascritto a runtime da params.json
+const OREV={0:213.6,1:91.8,2:225.0,3:190.3,4:128.3,5:33.7,6:19.6,7:30.9,8:0.6,9:0.8}; // aggiornato 01/10/2026 — sovrascritto a runtime da params.json
 var OBACKLOG=[
-  {m:"Lug 26",t:40.7,c:[["T.Erre",38.0],["Lav.El.Gomma",2.7]]},
-  {m:"Ago 26",t:87.8,c:[["Enextras",54.2],["Scaligera",9.1],["Watts",7.9],["Dubhe",6.1],["Eurgomma",6.0],["Edscha",3.9],["T.Erre",0.6]]},
-  {m:"Set 26",t:332.1,c:[["Enextras",92.6],["Serotti",60.4],["Watts",40.1],["Lav.El.Gomma",47.2],["T.Erre",35.3],["Eurgomma",35.0],["OMECA",11.9],["Sagom Tubi",6.0],["SASIC",2.5],["E.B.",0.8],["Kongsberg Automotive",0.3]]},
-  {m:"Ott 26",t:181.5,c:[["Enextras",43.4],["T.Erre",28.6],["Argomm",24.3],["Lav.El.Gomma",21.4],["Eurgomma",20.8],["Scaligera",18.7],["Watts",15.6],["Arkimat",4.3],["OMECA",3.7],["Kongsberg Automotive",0.7]]},
-  {m:"Nov 26",t:100.3,c:[["Enextras",43.4],["T.Erre",28.4],["Sagom Tubi",12.0],["Dubhe",8.8],["OMECA",7.7]]},
-  {m:"Dic 26",t:76.3,c:[["Enextras",43.5],["Dichtungspartner",25.1],["OMECA",5.6],["T.Erre",2.1]]},
-  {m:"Gen 27",t:32.8,c:[["T.Erre",32.8]]},
-  {m:"Feb 27",t:20.4,c:[["T.Erre",19.4],["Kongsberg Power",1.0]]},
-  {m:"Mar 27",t:25.6,c:[["T.Erre",25.6]]},
+  {m:"Lug 26",t:213.6,c:[["Enextras",64.8],["Dichtungspartner",41.9],["Lav.El.Gomma",27.7],["Argomm",16.2],["OMECA",15.7],["T.Erre",15.0],["Breka",9.0],["Sagom Tubi",6.0],["Scaligera",5.7],["OMR",4.0],["E.B.",3.5],["Watts",3.3],["Kongsberg Automotive",0.7]]},
+  {m:"Ago 26",t:91.8,c:[["Enextras",54.2],["Eurgomma",10.4],["T.Erre",9.2],["Scaligera",8.2],["OMECA",4.4],["E.B.",2.7],["Lav.El.Gomma",1.7],["OMR",0.5],["Breka",0.5]]},
+  {m:"Ott 26",t:225.0,c:[["Enextras",47.3],["Watts",47.0],["Lav.El.Gomma",27.0],["Eurgomma",25.4],["T.Erre",24.4],["Scaligera",20.1],["OMECA",14.6],["Serotti",8.5],["OMR",5.4],["Arkimat",4.8],["Kongsberg Automotive",0.3]]},
+  {m:"Nov 26",t:190.3,c:[["Enextras",43.4],["Lav.El.Gomma",38.5],["OMECA",31.3],["T.Erre",30.7],["Watts",13.3],["Sagom Tubi",12.0],["Dubhe",8.8],["OMR",5.9],["Edscha",3.9],["SASIC",2.5]]},
+  {m:"Dic 26",t:128.3,c:[["Enextras",43.4],["Dichtungspartner",30.7],["Argomm",24.3],["MCM",14.0],["Watts",7.9],["OMECA",6.8],["Kongsberg Automotive",0.7],["T.Erre",0.4]]},
+  {m:"Gen 27",t:33.7,c:[["T.Erre",32.8],["Kongsberg Power",1.0]]},
+  {m:"Feb 27",t:19.6,c:[["T.Erre",19.6]]},
+  {m:"Mar 27",t:30.9,c:[["T.Erre",26.3],["Edscha",3.9],["Kongsberg Automotive",0.7]]},
+  {m:"Apr 27",t:0.6,c:[["T.Erre",0.6]]},
+  {m:"Mag 27",t:0.8,c:[["T.Erre",0.8]]},
 ];
 
-// Ordini con consegna imminente o scaduta (da export ordini aperti 27/08/2026) — date in
+// Ordini con consegna imminente o scaduta (da export ordini aperti 01/10/2026) — date in
 // formato ISO; lo stato (scaduto/oggi/Xgg) viene calcolato sempre rispetto alla data odierna reale,
 // quindi la card non "invecchia" più come la vecchia lista scritta a mano.
 var ORDCRIT=[
-  {ord:'260165',cliente:'Edscha Automotive',articolo:'182001',residuo:3850.00,spedizione:'2026-07-28'},
-  {ord:'260169',cliente:'T.Erre',articolo:'110006H',residuo:644.18,spedizione:'2026-07-31'},
-  {ord:'260015',cliente:'Dubhe',articolo:'TS004001VN',residuo:6100.27,spedizione:'2026-08-03'},
-  {ord:'260136',cliente:'Scaligera Guarnizioni',articolo:'102001W',residuo:9121.00,spedizione:'2026-08-04'},
-  {ord:'260138',cliente:'Eurgomma',articolo:'067028HB',residuo:6000.00,spedizione:'2026-08-27'},
-  {ord:'260142',cliente:'Enextras OÜ',articolo:'vari (5 art.)',residuo:54168.90,spedizione:'2026-08-31'},
-  {ord:'260178',cliente:'OMECA',articolo:'025002',residuo:4435.65,spedizione:'2026-08-31'},
-  {ord:'260110',cliente:'Lav.El. Gomma',articolo:'011039HN',residuo:10800.00,spedizione:'2026-09-03'},
-  {ord:'260065',cliente:'Sagom Tubi',articolo:'140001E',residuo:6000.00,spedizione:'2026-09-03'},
-  {ord:'260116',cliente:'E.B. S.r.l.',articolo:'005004',residuo:828.69,spedizione:'2026-09-04'},
-  {ord:'260144',cliente:'Serotti & Ghidini',articolo:'157005H',residuo:13830.00,spedizione:'2026-09-04'},
-  {ord:'250287',cliente:'T.Erre',articolo:'110008SN',residuo:1725.00,spedizione:'2026-09-08'},
-  {ord:'260009',cliente:'T.Erre',articolo:'110005SN',residuo:1260.00,spedizione:'2026-09-08'},
+  {ord:'260054',cliente:'T.Erre',articolo:'110002E',residuo:38000.00,spedizione:'2026-07-07'},
+  {ord:'260009',cliente:'T.Erre',articolo:'110005SN',residuo:210.00,spedizione:'2026-09-08'},
+  {ord:'260143',cliente:'Enextras OÜ',articolo:'vari (7 art.)',residuo:88732.50,spedizione:'2026-09-30'},
+  {ord:'260162',cliente:'Lav.El. Gomma',articolo:'011056H',residuo:255.22,spedizione:'2026-09-30'},
+  {ord:'260043',cliente:'Serotti & Ghidini',articolo:'157004H',residuo:66.60,spedizione:'2026-09-30'},
+  {ord:'260144',cliente:'Serotti & Ghidini',articolo:'157005H',residuo:210.00,spedizione:'2026-09-30'},
+  {ord:'260177',cliente:'OMECA',articolo:'025001',residuo:1838.10,spedizione:'2026-10-01'},
+  {ord:'260112',cliente:'Watts Industries',articolo:'043002',residuo:5512.50,spedizione:'2026-10-02'},
+  {ord:'260140',cliente:'Eurgomma',articolo:'067028HB',residuo:20800.00,spedizione:'2026-10-05'},
+  {ord:'260133',cliente:'Lav.El. Gomma',articolo:'011037N',residuo:2550.00,spedizione:'2026-10-07'},
+  {ord:'260149',cliente:'Lav.El. Gomma',articolo:'vari (2 art.)',residuo:13641.60,spedizione:'2026-10-07'},
+  {ord:'260191',cliente:'OMECA',articolo:'025003',residuo:1911.36,spedizione:'2026-10-07'},
+  {ord:'260202',cliente:'OMECA',articolo:'025004',residuo:848.82,spedizione:'2026-10-07'},
+  {ord:'260217',cliente:'OMECA',articolo:'025002',residuo:2661.39,spedizione:'2026-10-07'},
+  {ord:'260083',cliente:'T.Erre',articolo:'110005SN',residuo:210.00,spedizione:'2026-10-07'},
+  {ord:'260180',cliente:'Lav.El. Gomma',articolo:'011068',residuo:5629.81,spedizione:'2026-10-09'},
+  {ord:'260203',cliente:'OMECA',articolo:'025001',residuo:1838.10,spedizione:'2026-10-12'},
+  {ord:'260218',cliente:'OMECA',articolo:'025004',residuo:692.64,spedizione:'2026-10-12'},
+  {ord:'260204',cliente:'Watts Industries',articolo:'043003',residuo:2152.80,spedizione:'2026-10-12'},
+  {ord:'250169',cliente:'Eurgomma',articolo:'067028HB',residuo:4600.00,spedizione:'2026-10-15'},
 ];
 
 // === LOANS (offset 0 = Giu 2026) ===
