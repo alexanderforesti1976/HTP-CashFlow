@@ -708,14 +708,18 @@ var ORDCRIT=[
   {ord:'250169',cliente:'Eurgomma',articolo:'067028HB',residuo:4600.00,spedizione:'2026-10-15'},
 ];
 
-// === LOANS (offset 0 = Giu 2026) ===
-// Loan schedule — letto da params.json (LOANS array)
+// === MUTUI — piano dal file "SITUAZIONE FINANZIAMENTI BANCHE" ===
+// Ogni mutuo è definito SOLO da: data inizio, data fine, frequenza (mesi), n° rate, importo rata (k€).
+// Le date delle rate si calcolano da qui (ultima rata = data fine, a ritroso ogni "freq" mesi):
+// nessuna rata/residuo inserito a mano. Letto anche da params.json (chiave "loans").
+// Offset 0 del modello Cash Flow = luglio 2026.
 var LOANS = [
-  {name:"BCC Brescia 1066083",monthly:2.4,from:0,to:8},
-  {name:"Credito Emiliano",monthly:8.69,from:0,to:19},
-  {name:"BCC Brescia 1071107",monthly:5.23,from:0,to:23},
-  {name:"Unicredit 2529480",monthly:36.5,quarters:[2,5,8,11,14,17,20]},
-  {name:"BCC Sebino (x2)",single:80.0,at:3}
+  {name:"Unicredit 2529480",        start:"2025-03-31", end:"2028-03-31", freq:3, n:13, rata:36.5,   color:"#f43f5e"},
+  {name:"Credito Emiliano 8630473", start:"2025-04-20", end:"2028-03-20", freq:1, n:36, rata:8.69,   color:"#fb923c"},
+  {name:"BCC Brescia 1071107",      start:"2024-05-06", end:"2028-05-31", freq:1, n:48, rata:5.23,   color:"#fbbf24"},
+  {name:"BCC Brescia 1066083",      start:"2022-04-08", end:"2027-03-31", freq:1, n:59, rata:2.4,    color:"#4ade80"},
+  {name:"BCC Sebino 8021",          start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:30.365, color:"#38bdf8"},
+  {name:"BCC Sebino 8021 – Finlombarda", start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:20.24, color:"#818cf8"}
 ];
 var EXTRA_ASSETS=[
   {name:'Deposito "Cedola Long" (BCC Brescia) · cedola sem. 3%, scad. 03/27', val:400.00},
@@ -755,15 +759,27 @@ var SP_H1_2026_REALE = {
   tfr: 180155.39, tfm: 406221.00, debitiBancari: 637070.07,
   debitiFornitori: 153397.11, debitiDipendenti: 45577.15, altriDebiti: 136714.12,
 };
-function loanPayment(i) {
-  var p=0;
+// Date (anno*12+mese) di tutte le rate di un mutuo: n rate, una ogni freq mesi, l'ultima a data fine
+function loanDates(l){
+  var e=l.end.split('-'), last=(+e[0])*12+(+e[1]-1), out=[];
+  for(var k=0;k<l.n;k++) out.push(last-k*l.freq);
+  return out;
+}
+// Rate in un mese di calendario (anno, mese 1-12)
+function loanPaymentYM(y,m){
+  var ym=y*12+(m-1), p=0;
   LOANS.forEach(function(l){
+    if(l.end){ if(loanDates(l).indexOf(ym)>=0) p+=l.rata; return; }
+    // compatibilità vecchio formato (offset da lug 2026)
+    var i=ym-(2026*12+6);
     if(l.monthly && i>=l.from && i<=l.to) p+=l.monthly;
     if(l.quarters && l.quarters.indexOf(i)>=0) p+=l.monthly;
     if(l.single!==undefined && i===l.at) p+=l.single;
   });
   return p;
 }
+// Rate nel mese i del modello (0 = luglio 2026)
+function loanPayment(i){ var t=2026*12+6+i; return loanPaymentYM(Math.floor(t/12), t%12+1); }
 
 // === STATE ===
 var P={
@@ -1288,7 +1304,8 @@ function renderIndici(){
   // Annual debt service 2026 (full year: H1 estimated + H2 from model)
   var ds26h2=0; for(var i=0;i<6;i++) ds26h2+=loanPayment(i);
   // H1 2026 estimated from Jan-Jun (before model start)
-  var ds26h1=(8.69+5.23+2.4)*6 + 36.5*2 + 5.59; // H1 reale: mensili×6 + Unicredit trim Mar+Giu + Unicredit8823 estinto // CE+BCC1071+BCC1066 monthly + 2 Unicredit quarterly
+  // H1 2026 (gen-giu) calcolato dallo stesso piano mutui + Unicredit 8823 estinto nel semestre (5,59k)
+  var ds26h1=5.59; for(var mm=1;mm<=6;mm++) ds26h1+=loanPaymentYM(2026,mm);
   var ds26=ds26h1+ds26h2;
 
   // Annual debt service 2027 (offsets 6-17)
@@ -1561,18 +1578,24 @@ function pfnBlock(label,debt,cash,pfn){
 }
 
 function renderLoans(){
-  var loans=[
-    {n:'Unicredit 2529480',a:'€36.5k trimestrale',r:'€300k',e:'Mar 2028',col:'#f43f5e',note:'Giu/Set/Dic 26 · Mar/Giu/Set/Dic 27 · Mar 28'},
-    {n:'Credito Emiliano',a:'€8.69k/mese',r:'€128k',e:'Mar 2028',col:'#fb923c',note:'22 rate mensili da Giu 2026'},
-    {n:'BCC Brescia 1071107',a:'€5.23k/mese',r:'€129k',e:'Mag 2028',col:'#fbbf24',note:'24 rate mensili da Giu 2026'},
-    {n:'BCC Brescia 1066083',a:'€2.4k/mese',r:'€24k',e:'Mar 2027',col:'#4ade80',note:'10 rate rimanenti'},
-    {n:'BCC Sebino 8021',a:'€30.4k (ultima)',r:'€30k',e:'Ott 2026',col:'#38bdf8',note:'Unica rata rimanente'},
-    {n:'BCC Sebino Finlombarda',a:'€20.2k (ultima)',r:'€20k',e:'Ott 2026',col:'#818cf8',note:'Unica rata rimanente'}
-  ];
-  var cards=loans.map(function(lo){
-    return '<div style="background:#1e293b;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:3px solid '+lo.col+'"><div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:6px">'+lo.n+'</div><div style="display:flex;gap:20px;margin-bottom:4px;flex-wrap:wrap"><div><div style="font-size:9px;color:#64748b">IMPORTO</div><div style="font-size:12px;font-weight:700;color:'+lo.col+'">'+lo.a+'</div></div><div><div style="font-size:9px;color:#64748b">RESIDUO</div><div style="font-size:12px;color:#94a3b8">'+lo.r+'</div></div><div><div style="font-size:9px;color:#64748b">SCADENZA</div><div style="font-size:12px;color:#94a3b8">'+lo.e+'</div></div></div><div style="font-size:10px;color:#475569">'+lo.note+'</div></div>';
+  var MESI=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+  var now=2026*12+6; // da luglio 2026 (inizio modello)
+  var FQ={1:'mese',3:'trimestre',6:'semestre',12:'anno'};
+  var totRes=0;
+  var cards=LOANS.map(function(l){
+    if(!l.end) return '';
+    var d=loanDates(l).filter(function(x){return x>=now;}).sort(function(a,b){return a-b;});
+    var res=d.length*l.rata; totRes+=res;
+    var col=l.color||'#94a3b8';
+    var e=l.end.split('-'), s0=l.start.split('-');
+    var r26=0,r27=0; loanDates(l).forEach(function(x){var y=Math.floor(x/12); if(y===2026)r26+=l.rata; if(y===2027)r27+=l.rata;});
+    return '<div style="background:#1e293b;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:3px solid '+col+'"><div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:6px">'+l.name+'</div><div style="display:flex;gap:20px;margin-bottom:4px;flex-wrap:wrap">'
+      +'<div><div style="font-size:9px;color:#64748b">RATA</div><div style="font-size:12px;font-weight:700;color:'+col+'">€'+l.rata.toFixed(2)+'k/'+(FQ[l.freq]||l.freq+' mesi')+'</div></div>'
+      +'<div><div style="font-size:9px;color:#64748b">PERIODO</div><div style="font-size:12px;color:#94a3b8">'+MESI[+s0[1]-1]+' '+s0[0]+' – '+MESI[+e[1]-1]+' '+e[0]+' · '+l.n+' rate</div></div>'
+      +'<div><div style="font-size:9px;color:#64748b">RATE 2026 / 2027</div><div style="font-size:12px;color:#94a3b8">€'+r26.toFixed(1)+'k / €'+r27.toFixed(1)+'k</div></div>'
+      +'<div><div style="font-size:9px;color:#64748b">DA LUG 2026</div><div style="font-size:12px;color:#94a3b8">'+d.length+' rate · €'+res.toFixed(1)+'k</div></div></div></div>';
   }).join('');
-  return cards+'<div style="background:#1e293b;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:#94a3b8">Debito residuo totale al 04/06/2026</span><span style="font-size:16px;font-weight:800;color:#f43f5e;font-family:monospace">€631.5k</span></div>';
+  return cards+'<div style="background:#1e293b;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:#94a3b8">Totale rate da pagare da luglio 2026 (capitale + interessi)</span><span style="font-size:16px;font-weight:800;color:#f43f5e;font-family:monospace">€'+totRes.toFixed(1)+'k</span></div>';
 }
 
 // === STATE UPDATE ===
