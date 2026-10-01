@@ -3292,6 +3292,42 @@ function switchAppView(view) {
     if (saved === 'contabilita') switchAppView('contabilita');
   } catch(e) {}
 })();
+
+// ─── MODALITÀ SOLA LETTURA (?mode=view nell'URL) ────────────────────────────
+// Per condividere con Valentina: stesso link + "?mode=view" — vede tutto,
+// non può modificare nulla. Disabilita input e pulsanti che scrivono dati;
+// un MutationObserver riapplica il blocco anche dopo che le viste si
+// ri-renderizzano (sostituiscono spesso l'HTML con innerHTML).
+var READONLY = new URLSearchParams(location.search).get('mode') === 'view';
+if (READONLY) {
+  var WRITE_PATTERN = /\bupd\(|\badjOrg\(|\bsetOrgCosto\(|\bsetSimParam\(|\brecalcSimFromH1\(|\bresetAll\(/;
+  function lockdownReadOnly(root) {
+    root.querySelectorAll('input').forEach(function(el){
+      if (el.disabled) return;
+      el.disabled = true;
+      el.style.opacity = '0.55';
+      el.style.cursor = 'not-allowed';
+    });
+    root.querySelectorAll('button').forEach(function(btn){
+      var oc = btn.getAttribute('onclick') || '';
+      if (WRITE_PATTERN.test(oc) && !btn.disabled) {
+        btn.disabled = true;
+        btn.style.opacity = '0.35';
+        btn.style.cursor = 'not-allowed';
+        btn.style.pointerEvents = 'none';
+      }
+    });
+  }
+  lockdownReadOnly(document.body);
+  var roObserver = new MutationObserver(function(){ lockdownReadOnly(document.body); });
+  roObserver.observe(document.body, { childList: true, subtree: true });
+
+  document.title = '👁 ' + document.title + ' — sola lettura';
+  var roBadge = document.createElement('div');
+  roBadge.textContent = '👁 Modalità sola lettura — visualizzazione dati, nessuna modifica possibile';
+  roBadge.style.cssText = 'background:#7c2d12;color:#fed7aa;text-align:center;padding:6px;font-size:12px;font-weight:600;font-family:system-ui,sans-serif;position:sticky;top:0;z-index:300';
+  document.body.insertBefore(roBadge, document.body.firstChild);
+}
 </script>
 </body>
 </html>
