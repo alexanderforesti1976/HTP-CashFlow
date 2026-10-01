@@ -625,13 +625,15 @@
   ],
   "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 01/10/2026 00:53; totale residuo verificato = 1.048.115,25). Metodo invariato: mese = periodo (data conferma); ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta gia' passata rispetto alla stampa (OMR 260091, Walker, Edscha 260164 PMC, Omeca 025005 30/7/26, T.Erre 260125 e 260126, Watts 260173/174/175/176 con data rich. 22-29/09, Serotti 260185/260187 15/09). Contratti oltre finestra esclusi: Omeca 025006/025002-4600014227/025001-4600014228/025004-4600014229, Kongsberg VV002019 04/06/2027. Finestra ora Ott26-Mag27 (Set26 e' interamente nel passato rispetto alla data di stampa e va sostituito col fatturato reale da mastrini quando disponibile). Lug26/Ago26 = fatturato reale invariato (213,6k e 91,8k). IMPORTANTE: l'intero ordine Enextras 260143 (7 righe, tot. 88.732,50, periodo Set26) risulta ancora 100% residuo, nessuna spedizione registrata nonostante data sped. prevista 30/09 gia' passata: escluso dal backlog fino a nuova data confermata, da verificare con Giusi/commerciale. Altri residui rimasti scaduti/esclusi: T.Erre 260054 (38,0k, sped. prevista 07/07 mai avvenuta, 80.000pz), 260053 (1,7k), Lav.El.Gomma 260134 (0,35k) e 260162 (0,26k), Serotti 260043/260144 (0,28k), T.Erre 260009 (0,21k), Dichtungspartner 230234/250200 (6,4k, periodi 2024/2025 residui). ORDCRIT rigenerato: ordini con data spedizione pianificata tra 01/07 e 15/10/2026, residuo > 0. CORREZIONE 01/10/2026: nel primo aggiornamento di oggi Set26 era stato rimosso dall'array invece di essere marcato come placeholder, disallineando tutti gli indici successivi di una posizione (Ott26 mostrava i dati di Nov26, ecc.). Corretto: Set26 mantiene il placeholder precedente (234,3k, backlog residuo stimato prima della chiusura del mese) in attesa del fatturato reale da mastrini; Ott26-Mag27 sono ora agli indici corretti (3-10).",
   "H1_2026_mensile": {
-    "_fonte": "Registro fatture (fatture, note credito, note debito) per mese, comunicato da Alex 01/10/2026",
-    "_nota": "Imponibile netto mensile (k euro), usato come peso reale per la distribuzione 2027 nel revenue model (sostituisce la stima stagionale generica). Giugno non fornito direttamente: derivato come H1_2026_reale.ricavi totale (h1Rev=1251k) meno la somma Gen-Mag.",
-    "gen": 132.07,
-    "feb": 218.9,
-    "mar": 192.26,
-    "apr": 195.97,
-    "mag": 181.53,
-    "giu_derivato": 330.28
+    "_fonte": "Registro fatture per mese, confermato da Alex 01/10/2026",
+    "_nota": "Fatturato mensile 2026 (k euro) usato come peso reale per la distribuzione 2027 nel revenue model.",
+    "gen": 136.97,
+    "feb": 228.31,
+    "mar": 198.16,
+    "apr": 202.78,
+    "mag": 197.6,
+    "giu": 238.15,
+    "totGenMag": 963.82,
+    "totGenGiu": 1201.97
   }
 }
