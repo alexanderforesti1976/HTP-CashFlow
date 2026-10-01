@@ -719,7 +719,8 @@ var LOANS = [
   {name:"BCC Brescia 1071107",      start:"2024-05-06", end:"2028-05-31", freq:1, n:48, rata:5.23,   color:"#fbbf24"},
   {name:"BCC Brescia 1066083",      start:"2022-04-08", end:"2027-03-31", freq:1, n:59, rata:2.4,    color:"#4ade80"},
   {name:"BCC Sebino 8021",          start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:30.365, color:"#38bdf8"},
-  {name:"BCC Sebino 8021 – Finlombarda", start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:20.24, color:"#818cf8"}
+  {name:"BCC Sebino 8021 – Finlombarda", start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:20.24, color:"#818cf8"},
+  {name:"Finanziamento BMW Mini",   start:"2023-05-04", end:"2027-04-03", freq:1, n:47, rata:2.068, riscatto:17.38, riscattoAt:"2027-05", color:"#a78bfa"}
 ];
 var EXTRA_ASSETS=[
   {name:'Deposito "Cedola Long" (BCC Brescia) · cedola sem. 3%, scad. 03/27', val:400.00},
@@ -769,7 +770,11 @@ function loanDates(l){
 function loanPaymentYM(y,m){
   var ym=y*12+(m-1), p=0;
   LOANS.forEach(function(l){
-    if(l.end){ if(loanDates(l).indexOf(ym)>=0) p+=l.rata; return; }
+    if(l.end){
+      if(loanDates(l).indexOf(ym)>=0) p+=l.rata;
+      if(l.riscatto && l.riscattoAt){ var ra=l.riscattoAt.split('-'); if((+ra[0])*12+(+ra[1]-1)===ym) p+=l.riscatto; }
+      return;
+    }
     // compatibilità vecchio formato (offset da lug 2026)
     var i=ym-(2026*12+6);
     if(l.monthly && i>=l.from && i<=l.to) p+=l.monthly;
@@ -1585,15 +1590,17 @@ function renderLoans(){
   var cards=LOANS.map(function(l){
     if(!l.end) return '';
     var d=loanDates(l).filter(function(x){return x>=now;}).sort(function(a,b){return a-b;});
-    var res=d.length*l.rata; totRes+=res;
+    var rq=0; if(l.riscatto&&l.riscattoAt){var ra=l.riscattoAt.split('-'); rq=(+ra[0])*12+(+ra[1]-1);}
+    var res=d.length*l.rata+(rq>=now?(l.riscatto||0):0); totRes+=res;
     var col=l.color||'#94a3b8';
     var e=l.end.split('-'), s0=l.start.split('-');
     var r26=0,r27=0; loanDates(l).forEach(function(x){var y=Math.floor(x/12); if(y===2026)r26+=l.rata; if(y===2027)r27+=l.rata;});
+    if(rq){var yq=Math.floor(rq/12); if(yq===2026)r26+=l.riscatto; if(yq===2027)r27+=l.riscatto;}
     return '<div style="background:#1e293b;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:3px solid '+col+'"><div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:6px">'+l.name+'</div><div style="display:flex;gap:20px;margin-bottom:4px;flex-wrap:wrap">'
       +'<div><div style="font-size:9px;color:#64748b">RATA</div><div style="font-size:12px;font-weight:700;color:'+col+'">€'+l.rata.toFixed(2)+'k/'+(FQ[l.freq]||l.freq+' mesi')+'</div></div>'
       +'<div><div style="font-size:9px;color:#64748b">PERIODO</div><div style="font-size:12px;color:#94a3b8">'+MESI[+s0[1]-1]+' '+s0[0]+' – '+MESI[+e[1]-1]+' '+e[0]+' · '+l.n+' rate</div></div>'
       +'<div><div style="font-size:9px;color:#64748b">RATE 2026 / 2027</div><div style="font-size:12px;color:#94a3b8">€'+r26.toFixed(1)+'k / €'+r27.toFixed(1)+'k</div></div>'
-      +'<div><div style="font-size:9px;color:#64748b">DA LUG 2026</div><div style="font-size:12px;color:#94a3b8">'+d.length+' rate · €'+res.toFixed(1)+'k</div></div></div></div>';
+      +'<div><div style="font-size:9px;color:#64748b">DA LUG 2026</div><div style="font-size:12px;color:#94a3b8">'+d.length+' rate'+(l.riscatto?' + riscatto €'+l.riscatto.toFixed(2)+'k':'')+' · €'+res.toFixed(1)+'k</div></div></div></div>';
   }).join('');
   return cards+'<div style="background:#1e293b;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:#94a3b8">Totale rate da pagare da luglio 2026 (capitale + interessi)</span><span style="font-size:16px;font-weight:800;color:#f43f5e;font-family:monospace">€'+totRes.toFixed(1)+'k</span></div>';
 }
