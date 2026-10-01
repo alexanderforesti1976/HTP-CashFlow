@@ -590,7 +590,7 @@
         </div>
       </div>
       <div class="nota">
-        <strong>Come si usa:</strong> modifica i parametri qui sotto per calcolare il costo orario di produzione (base per la valorizzazione commesse). I valori di default sono derivati dal bilancio <span id="sim-anno-ref">2025</span>.
+        <strong>Come si usa:</strong> modifica i parametri qui sotto per calcolare il costo orario di produzione (base per la valorizzazione commesse). I valori si ricalcolano da soli dai dati correnti (<span id="sim-anno-ref">H1 2026</span>); un valore modificato a mano (bordo arancione) resta fisso finché non premi «Ricalcola da H1 2026».
       </div>
       <div class="input-grid" id="sim-inputs"></div>
       <div id="sim-result" style="padding:16px 20px; border-top:1px solid var(--border);"></div>
@@ -1296,7 +1296,9 @@ function renderIndici(){
 
   // Remaining debt estimates (rough but consistent)
   // Start Jul26: €631.5k, pay down over months
-  var debtJul26=665.7; // da SP seconda bozza 31/03/2026 (definitivo)
+  // Debito bancario al 30/06/2026 letto dallo Stato Patrimoniale reale (params.json / SP_H1_2026_REALE):
+  // se aggiorni lo SP, PFN, D/E e DSCR si aggiornano da soli.
+  var debtJul26=(SP_H1_2026_REALE && SP_H1_2026_REALE.debitiBancari) ? SP_H1_2026_REALE.debitiBancari/1000 : 665.7;
   var debtDec26=debtJul26-ds26h2*0.92; // 92% is principal (8% approx interest)
   var debtDec27=Math.max(0,debtDec26-ds27*0.92);
 
@@ -1311,7 +1313,7 @@ function renderIndici(){
   var pfn27=debtDec27-cashDec27;
 
   // Equity (2025 SP: ~€1.655M + accumulated profits)
-  var equity25=1655; // from SP 2025
+  var equity25=(SP_H1_2026_REALE && SP_H1_2026_REALE.patrimonioNetto) ? SP_H1_2026_REALE.patrimonioNetto/1000 : 1655; // PN di apertura da SP reale
   var equity26=equity25+pl26.net;
   var equity27=equity26+pl27.net;
 
@@ -2117,7 +2119,7 @@ function renderPersonaleParams() {
             <td style="padding:9px 20px;text-align:right">
               <input type="number" value="${r.costo}" step="500"
                 style="background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-family:var(--mono);font-size:13px;color:var(--text);width:100px;text-align:right"
-                oninput="setOrgCosto('${key}', this.value)">
+                onchange="setOrgCosto('${key}', this.value)">
             </td>
             <td style="padding:9px 20px;font-family:var(--mono);font-size:13px;text-align:right;color:var(--text)">${fmt(r.n * r.costo)}</td>
           </tr>`).join('')}
@@ -2149,17 +2151,28 @@ function setOrgCosto(key, val) {
   refreshOrg();
 }
 
+// Modifica manuale di un parametro del simulatore.
+// - Campi derivati dai dati (costi/ora, costi fissi...): da qui in poi restano fissi sul
+//   valore inserito (override) finché non si preme "Ricalcola da H1 2026".
+// - Turni / presse / giorni: cambiano le ore, quindi i costi/ora NON modificati a mano
+//   si ricalcolano subito e i loro campi si aggiornano in pagina.
 function setSimParam(key, val) {
   simParams[key] = parseFloat(val) || 0;
+  if (SIM_DERIVED_KEYS.indexOf(key) >= 0) simOverrides[key] = true;
+  applySimDerived();
+  document.querySelectorAll('#sim-inputs input[data-sim-key]').forEach(inp => {
+    const k = inp.getAttribute('data-sim-key');
+    if (inp !== document.activeElement && simParams[k] !== undefined) inp.value = simParams[k];
+  });
   renderSimResult();
+  fbSaveContState();
 }
 
+// Ogni modifica all'organico ricalcola TUTTA la vista (KPI, CE, centri, break-even, simulatore)
 function refreshOrg() {
-  try{ localStorage.setItem('htp_cont_last_modified', new Date().toISOString()); } catch(e){}
   saveContState();
-  renderPersonaleParams();
-  renderCentri();
-  renderPersonale();
+  fbSaveContState();
+  render();
 }
 
 function renderKPI() {
@@ -2582,8 +2595,55 @@ function oreEffettiveAnno(turni, giorniLavoro, nPresse){
 
 // Ricalibra il simulatore costo orario sui dati reali H1 2026 (annualizzati ×2,
 // per restare confrontabile con gli altri anni che sono cifre a 12 mesi).
+// ─── SIMULATORE: valori derivati dai dati, sempre ricalcolati ────────────────
+// I campi in SIM_DERIVED_KEYS seguono automaticamente i dati (H1 2026 reale ← P, params.json)
+// a ogni render; solo quelli modificati a mano (simOverrides) restano fissi.
+const SIM_DERIVED_KEYS = ['costisFissiAnno','costiCommGAAnno','costoMP_h','costoLavoroDiretto','costoEnergia','costoCTerzi'];
+let simOverrides = {};
+function simBaseData(base){
+  if (base === 'H1-2026') {
+    const dH1 = DATA['H1-2026'];
+    if (dH1 && dH1.ricavi > 0) {
+      const d = {};
+      Object.keys(dH1).forEach(k => { d[k] = typeof dH1[k] === 'number' ? dH1[k] * 2 : dH1[k]; }); // annualizzato
+      return { d, label: 'H1 2026 reale (×2 annualizzato)' };
+    }
+    base = '2025';
+  }
+  return { d: DATA[base], label: String(base) };
+}
+function applySimDerived(){
+  if (!simParams._base) simParams._base = 'H1-2026';
+  if (!simParams.turni) simParams.turni = 1;
+  if (!simParams.nPresse) simParams.nPresse = 6;
+  if (!simParams.giorniLavoro) simParams.giorniLavoro = 220;
+  const { d, label } = simBaseData(simParams._base);
+  const c = calc(d);
+  const ore = oreEffettiveAnno(simParams.turni, simParams.giorniLavoro, simParams.nPresse);
+  const der = {
+    costisFissiAnno: Math.round(d.affitti + d.leasing + d.noleggi + c.ammTot + d.manutenzioni + c.costoPersonale * 0.47),
+    costiCommGAAnno: Math.round(c.costoComm + c.costoGA + c.costoPersonale * 0.13),
+    costoMP_h: ore > 0 ? Math.round(c.costoMP / ore * 100) / 100 : 0,
+    costoLavoroDiretto: ore > 0 ? Math.round(c.costoPersonale * 0.40 / ore * 100) / 100 : 0,
+    costoEnergia: ore > 0 ? Math.round(d.energia * 0.8 / ore * 100) / 100 : 0,
+    costoCTerzi: ore > 0 ? Math.round(d.lavCTerzi / ore * 100) / 100 : 0,
+  };
+  SIM_DERIVED_KEYS.forEach(k => { if (!simOverrides[k]) simParams[k] = der[k]; });
+  const nOv = SIM_DERIVED_KEYS.filter(k => simOverrides[k]).length;
+  simParams._anno = label + (nOv ? ` · ${nOv} valori modificati a mano` : '');
+}
+
+// "Ricalcola da H1 2026": base = H1 2026 reale e azzera le modifiche manuali ai valori derivati
 function recalcSimFromH1(){
-  // dati sempre disponibili nell'app unica, nessun controllo di sync necessario
+  simParams._base = 'H1-2026';
+  simOverrides = {};
+  applySimDerived();
+  saveContState();
+  fbSaveContState();
+  renderSimulator();
+}
+
+function _recalcSimFromH1_legacy(){
   const dH1 = DATA['H1-2026'];
   const keys = ['ricavi','ricaviDiversi','ricaviStampi','varRimanenze','mpAcquisti','materialiConsumo','imballi',
     'pfAcquistati','lavCTerzi','salari','interinale','contributi','tfr','welfare','energia','affitti','leasing',
@@ -2632,25 +2692,8 @@ function renderSimulator() {
   const nPresse = 6;
   const oreTotaliAnno = oreEffettiveAnno(turni, giorniLavoro, nPresse);
 
-  // Carica da localStorage se disponibile
-  if (Object.keys(simParams).length === 0) {
-    loadSimState();
-  }
-
-  if (Object.keys(simParams).length === 0) {
-    simParams = {
-      _anno: annoRef,
-      turni: turni,
-      nPresse: nPresse,
-      giorniLavoro: giorniLavoro,
-      costisFissiAnno: Math.round(d.affitti + d.leasing + d.noleggi + c.ammTot + d.manutenzioni + c.costoPersonale * 0.47),
-      costiCommGAAnno: Math.round(c.costoComm + c.costoGA + c.costoPersonale * 0.13),
-      costoMP_h: Math.round(c.costoMP / oreTotaliAnno * 100) / 100,
-      costoLavoroDiretto: Math.round(c.costoPersonale * 0.40 / oreTotaliAnno * 100) / 100,
-      costoEnergia: Math.round(d.energia * 0.8 / oreTotaliAnno * 100) / 100,
-      costoCTerzi: Math.round(d.lavCTerzi / oreTotaliAnno * 100) / 100,
-    };
-  }
+  // Valori derivati sempre ricalcolati dai dati correnti (salvo modifiche manuali)
+  applySimDerived();
 
   ref.textContent = simParams._anno || annoRef;
 
@@ -2679,7 +2722,9 @@ function renderSimulator() {
       <div class="input-label">${f.label}</div>
       <div class="input-wrap">
         <span class="input-prefix">${f.prefix}</span>
-        <input type="number" class="input-field" step="${f.step}" value="${simParams[f.key]}"
+        <input type="number" class="input-field" step="${f.step}" value="${simParams[f.key]}" data-sim-key="${f.key}"
+          style="${simOverrides[f.key] ? 'border-color:rgba(245,158,11,0.6)' : ''}"
+          title="${simOverrides[f.key] ? 'Valore modificato a mano — non segue più i dati (Ricalcola da H1 2026 per ripristinare)' : 'Derivato dai dati: si aggiorna da solo'}"
           oninput="setSimParam('${f.key}', this.value)">
       </div>
     </div>
@@ -2714,8 +2759,6 @@ function renderSimulator() {
 }
 
 function renderSimResult() {
-  try{ localStorage.setItem('htp_cont_last_modified', new Date().toISOString()); } catch(e){}
-  saveContState();
   const el = document.getElementById('sim-result');
   const s = simParams;
   const oreTot = (s.turni||1) * 8 * (s.giorniLavoro||220) * (s.nPresse||6);
@@ -3262,10 +3305,11 @@ function saveContState() {
     const orgToSave = {};
     Object.keys(organico).forEach(k => { orgToSave[k] = { costo: organico[k].costo, n: organico[k].n }; });
     localStorage.setItem('htp_cont_organico', JSON.stringify(orgToSave));
-    // Salva simParams
+    // Salva simParams + quali valori sono stati modificati a mano
     if (Object.keys(simParams).length > 0) {
       localStorage.setItem('htp_cont_simParams', JSON.stringify(simParams));
     }
+    localStorage.setItem('htp_cont_simOverrides', JSON.stringify(simOverrides));
     localStorage.setItem('htp_cont_last_modified', new Date().toISOString());
   } catch(e) {}
 }
@@ -3290,13 +3334,51 @@ function loadSimState() {
     const savedSim = localStorage.getItem('htp_cont_simParams');
     if (savedSim) {
       const parsed = JSON.parse(savedSim);
+      // Migrazione: vecchi salvataggi senza _base → base H1 2026 (i derivati si ricalcolano)
+      if (!parsed._base) parsed._base = 'H1-2026';
       Object.assign(simParams, parsed);
     }
+    const savedOv = localStorage.getItem('htp_cont_simOverrides');
+    if (savedOv) simOverrides = JSON.parse(savedOv) || {};
   } catch(e) {}
+}
+
+// ─── FIREBASE: stato Contabilità condiviso tra dispositivi, in tempo reale ───
+const fbContRef = fbDb.ref('htp_contabilita/state');
+let fbContTimer = null;
+function fbSaveContState(){
+  clearTimeout(fbContTimer);
+  fbContTimer = setTimeout(() => {
+    try {
+      const orgToSave = {};
+      Object.keys(organico).forEach(k => { orgToSave[k] = { costo: organico[k].costo, n: organico[k].n }; });
+      const ts = Date.now();
+      fbContRef.set({ organico: orgToSave, simParams: simParams, simOverrides: simOverrides, ts: ts });
+      localStorage.setItem('htp_cont_last_modified', new Date(ts).toISOString());
+      try { fbRef.update({ ts: ts }); } catch(e){}   // "Ultima modifica" unico per l'app
+    } catch(e) {}
+  }, 400);
+}
+function applyRemoteContState(remote){
+  if (!remote) return;
+  if (remote.organico) {
+    Object.keys(remote.organico).forEach(k => {
+      if (organico[k]) {
+        if (remote.organico[k].costo !== undefined) organico[k].costo = remote.organico[k].costo;
+        if (remote.organico[k].n !== undefined) organico[k].n = remote.organico[k].n;
+      }
+    });
+  }
+  if (remote.simParams) { simParams = Object.assign({}, remote.simParams); }
+  simOverrides = remote.simOverrides || {};
+  saveContState();
 }
 
 // ─── MAIN RENDER ─────────────────────────────────────────────────────────────
 function render() {
+  // H1 2026 ricostruito a ogni render: segue subito P (magazzino, ammortamenti, TFM, aliquote)
+  // e H1_2026_REALE aggiornato da params.json — niente più fotografia fatta al caricamento.
+  DATA['H1-2026'] = buildH1DataFromReale();
   renderKPI();
   renderCE();
   renderCostBars();
@@ -3310,8 +3392,13 @@ function render() {
 }
 
 loadContState();
+loadSimState();
 window.addEventListener('beforeunload', saveContState);
 render();
+fbContRef.on('value', snap => {
+  const remote = snap.val();
+  if (remote) { applyRemoteContState(remote); render(); }
+});
 
 window.setAnno = setAnno;
 window.setCliAnno = setCliAnno;
