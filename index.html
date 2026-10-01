@@ -725,6 +725,19 @@ var H1_2026_REALE = {
   interessi: 12299.54, ricaviTitoli: 0, intAttiviCC: 2074.27, dividendi: 0,
   esistenzeIniziali2026: 168359.33,
 };
+// Stato Patrimoniale reale al 30/06/2026 (bilancio bozza 13/07/2026), riclassificato.
+// Riconciliato voce per voce col bilancio ufficiale: Totale Attività 5.170.399,40,
+// Totale Passività 5.128.864,28, Utile 41.535,12 — quadra esattamente.
+// Nota: 5 conti (Arrotondamenti dipendenti, Amministratore c/compensi, Erario c/IVA
+// a credito, Erario c/imposta sostit.TFR, Debiti v/FASG&P) sono stati classificati come
+// attività perché così li stampa il bilancio ufficiale (l'Erario c/IVA qui è a credito).
+var SP_H1_2026_REALE = {
+  immImmatNetto: 85241.68, immMatNetto: 315004.48, immFin: 142285.70,
+  creditiComm: 671127.43, creditiTrib: 41485.66, liquidita: 2026454.72,
+  patrimonioNetto: 1655929.71, utile: 41535.12, fondoSvalutCrediti: 25000.00,
+  tfr: 180155.39, tfm: 406221.00, debitiBancari: 637070.07,
+  debitiFornitori: 153397.11, debitiDipendenti: 45577.15, altriDebiti: 136714.12,
+};
 function loanPayment(i) {
   var p=0;
   LOANS.forEach(function(l){
@@ -1708,6 +1721,10 @@ function applyRemoteParams(data) {
   // Aggiorna dati reali bilancio H1 2026 se presenti
   if (data.H1_2026_reale) {
     H1_2026_REALE = data.H1_2026_reale;
+  }
+  // Aggiorna stato patrimoniale reale H1 2026 se presente
+  if (data.SP_H1_2026_reale) {
+    SP_H1_2026_REALE = data.SP_H1_2026_reale;
   }
   var keys = Object.keys(P);
   keys.forEach(function(k) {
@@ -2953,58 +2970,58 @@ function renderClienti() {
   const el = document.getElementById('clienti-body');
 
   if (currentCliAnno === 'H1-2026') {
-    // Posizione Finanziaria al 30/06/2026 — dati condivisi col Cash Flow (stessa pagina)
-    const p = P;
-    const cassa = (p.startCash || 0) * 1000;
-    const crediti = (p.openRec || 0) * 1000;
-    const debitiForn = (p.openPay || 0) * 1000;
-    const magazzino = ((p.invMPK||0) + (p.invIMBK||0) + (p.invSLK||0) + (p.invPFK||0)) * 1000;
-    // Patrimonio extra-operativo: stessa fonte (EXTRA_ASSETS) usata dalla vista Cash Flow.
-    // Debiti bancari: da debtJul26 della vista Cash Flow (SP seconda bozza 31/03/2026).
-    const extraAssets = EXTRA_ASSETS.reduce((s,a) => s + a.val, 0) * 1000;
-    const debitiBancari = 665700; // debtJul26 — vedi renderIndici() nella vista Cash Flow
-    const pfn = debitiBancari - cassa;
-    const totAttivita = cassa + crediti + magazzino + extraAssets;
-    const totPassivita = debitiBancari + debitiForn;
+    const sp = SP_H1_2026_REALE;
+    const totAttivita = sp.immImmatNetto + sp.immMatNetto + sp.immFin + sp.creditiComm + sp.creditiTrib + sp.liquidita;
+    const totPassivita = sp.patrimonioNetto + sp.utile + sp.fondoSvalutCrediti + sp.tfr + sp.tfm + sp.debitiBancari + sp.debitiFornitori + sp.debitiDipendenti + sp.altriDebiti;
+    const pfn = sp.debitiBancari - sp.liquidita;
 
     el.innerHTML = `
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);font-size:12px;color:var(--accent)">
-        🔗 <strong>Posizione Finanziaria al 30/06/2026</strong> — dati condivisi col Cash Flow (cassa, crediti, debiti, magazzino, mutui). Non include immobilizzazioni, TFR e fondo TFM (non tracciati dal Cash Flow) — per lo stato patrimoniale completo serve il bilancio.
+        📋 <strong>Stato Patrimoniale al 30/06/2026</strong> — dal bilancio reale (bozza 13/07/2026), riclassificato per categorie. Quadra esattamente col bilancio ufficiale (Attività e Passività € 5.170.399,40 lordi, qui al netto dei fondi ammortamento).
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
         <div style="border-right:1px solid var(--border)">
-          <div style="padding:10px 20px;font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);border-bottom:1px solid var(--border)">Attività (tracciate)</div>
+          <div style="padding:10px 20px;font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);border-bottom:1px solid var(--border)">Attività</div>
           ${[
-            ['Cassa operativa', cassa, 'var(--green)'],
-            ['Crediti clienti', crediti, ''],
-            ['Magazzino (MP + imballi + semilav. + PF)', magazzino, ''],
-            ['Patrimonio extra-operativo (depositi/titoli/polizze)', extraAssets, ''],
+            ['Immobilizzazioni immateriali (nette)', sp.immImmatNetto, ''],
+            ['Immobilizzazioni materiali (nette)', sp.immMatNetto, ''],
+            ['Immobilizzazioni finanziarie (titoli, depositi, partecip.)', sp.immFin, ''],
+            ['Crediti commerciali (clienti)', sp.creditiComm, ''],
+            ['Crediti tributari e altri', sp.creditiTrib, ''],
+            ['Liquidità (cassa + banche)', sp.liquidita, 'var(--green)'],
           ].map(([k,v,c]) => `<div style="padding:8px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
             <span style="font-size:12px;color:${c||'var(--text2)'}">${k}</span>
             <span style="font-family:var(--mono);font-size:13px;color:${c||'var(--text)'}">${fmt(v)}</span>
           </div>`).join('')}
           <div style="padding:10px 20px;background:rgba(79,110,247,0.06);display:flex;justify-content:space-between">
-            <span style="font-size:13px;font-weight:600;color:var(--accent)">TOTALE ATTIVITÀ TRACCIATE</span>
+            <span style="font-size:13px;font-weight:600;color:var(--accent)">TOTALE ATTIVITÀ</span>
             <span style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--accent)">${fmt(totAttivita)}</span>
           </div>
         </div>
         <div>
-          <div style="padding:10px 20px;font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);border-bottom:1px solid var(--border)">Passività (tracciate)</div>
+          <div style="padding:10px 20px;font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);border-bottom:1px solid var(--border)">Passività</div>
           ${[
-            ['Debiti bancari (residuo mutui/finanziamenti)', debitiBancari, ''],
-            ['Debiti fornitori', debitiForn, ''],
+            ['Patrimonio netto (escl. utile)', sp.patrimonioNetto, ''],
+            ['Utile del periodo', sp.utile, 'var(--green)'],
+            ['Fondo svalutazione crediti', sp.fondoSvalutCrediti, ''],
+            ['TFR dipendenti', sp.tfr, ''],
+            ['Fondo TFM amministratore', sp.tfm, ''],
+            ['Debiti bancari (mutui/finanziamenti)', sp.debitiBancari, ''],
+            ['Debiti fornitori', sp.debitiFornitori, ''],
+            ['Debiti verso dipendenti', sp.debitiDipendenti, ''],
+            ['Debiti tributari, previdenziali e altri', sp.altriDebiti, ''],
           ].map(([k,v,c]) => `<div style="padding:8px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
             <span style="font-size:12px;color:${c||'var(--text2)'}">${k}</span>
             <span style="font-family:var(--mono);font-size:13px;color:${c||'var(--text)'}">${fmt(v)}</span>
           </div>`).join('')}
           <div style="padding:10px 20px;background:rgba(79,110,247,0.06);display:flex;justify-content:space-between">
-            <span style="font-size:13px;font-weight:600;color:var(--accent)">TOTALE PASSIVITÀ TRACCIATE</span>
+            <span style="font-size:13px;font-weight:600;color:var(--accent)">TOTALE PASSIVITÀ</span>
             <span style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--accent)">${fmt(totPassivita)}</span>
           </div>
         </div>
       </div>
       <div style="padding:12px 20px;font-size:11px;color:var(--text3)">
-        Posizione Finanziaria Netta (PFN): <strong style="font-family:var(--mono);color:${pfn<0?'var(--green)':'var(--red)'}">${pfn<0?'−'+fmt(Math.abs(pfn)):fmt(pfn)}</strong> ${pfn<0?'(cassa superiore ai debiti finanziari ✓)':''}
+        Posizione Finanziaria Netta (debiti bancari − liquidità): <strong style="font-family:var(--mono);color:${pfn<0?'var(--green)':'var(--red)'}">${pfn<0?'−'+fmt(Math.abs(pfn)):fmt(pfn)}</strong> ${pfn<0?'(liquidità superiore ai debiti finanziari ✓)':''}
       </div>
     `;
     return;
