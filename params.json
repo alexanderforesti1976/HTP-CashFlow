@@ -447,6 +447,17 @@
       "n": 12,
       "rata": 20.24,
       "color": "#818cf8"
+    },
+    {
+      "name": "Finanziamento BMW Mini",
+      "start": "2023-05-04",
+      "end": "2027-04-03",
+      "freq": 1,
+      "n": 47,
+      "rata": 2.068,
+      "riscatto": 17.38,
+      "riscattoAt": "2027-05",
+      "color": "#a78bfa"
     }
   ],
   "invMPK": 113,
