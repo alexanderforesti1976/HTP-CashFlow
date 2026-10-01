@@ -1082,7 +1082,7 @@ function renderCE(){
     var vals=pls.map(function(p){return fn(p.pl);});
     var tds=vals.map(function(v,i){
       var colored=bold||signed;
-      var c=colored?(v>=0?'#4ade80':'#f87171'):(nc?'#475569':'#94a3b8');
+      var c=colored?(v>=0?'#4ade80':'#f87171'):(nc?'#8b96a8':'#94a3b8');
       return '<td style="text-align:right;color:'+c+';font-weight:'+(bold?700:400)+';font-family:monospace;padding:'+(sep?'8':'5')+'px 10px">'+fv(v,colored)+'</td>';
     }).join('');
     var pcts=vals.map(function(v,i){
@@ -1120,7 +1120,7 @@ function renderCE(){
     +row('  - TFM Amministratore',function(pl){return pl.tfm;},false,false,true,true)
     +row('  - IRES + IRAP',function(pl){return pl.taxes;},false,false,true,false)
     +row('= UTILE NETTO',function(pl){return pl.net;},true,true,false,false)
-    +'</tbody></table></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px;border-top:1px solid #334155">'+kpis+'</div><div style="padding:8px 14px 12px;font-size:9px;color:#334155">* Non monetari (non uscite di cassa) · 2025: imposte non finalizzate</div></div>';
+    +'</tbody></table></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px;border-top:1px solid #334155">'+kpis+'</div><div style="padding:8px 14px 12px;font-size:9px;color:#64748b">* Non monetari (non uscite di cassa) · 2025: imposte non finalizzate</div></div>';
 }
 
 function renderTable(cf){
