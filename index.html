@@ -366,7 +366,7 @@
 
 <div id="view-cashflow">
 <div class="topbar">
-  <div><h1>HTP &middot; Cash Flow &amp; P&amp;L</h1><small>Lug 2026 &ndash; Dic 2027 (18 mesi)</small></div>
+  <div><h1>HTP &middot; Cash Flow &amp; P&amp;L</h1><small>Lug 2026 &ndash; Dic 2027 (18 mesi)</small><div id="last-update-indicator" style="font-size:11px;color:#64748b;margin-top:2px"></div></div>
   <button class="btn" id="btn-params" style="background:#1e293b;color:#94a3b8" onclick="toggleParams()">&#9881;&#65039; Parametri</button>
 </div>
 
@@ -629,9 +629,26 @@ function fbSaveState(){
   fbSaveTimer = setTimeout(function(){
     try {
       var ov = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
-      fbRef.set({ P: P, overrides: ov, ts: Date.now() });
+      var nowTs = Date.now();
+      fbRef.set({ P: P, overrides: ov, ts: nowTs });
+      updateLastModifiedIndicator(nowTs, window._cfRemoteVer);
     } catch(e){}
   }, 400); // debounce: aspetta che l'utente finisca di trascinare lo slider
+}
+// Mostra in alto quando i dati sono stati modificati l'ultima volta: data/ora dell'ultima
+// modifica live (Firebase, se presente) e la data della base dati (params.json).
+function updateLastModifiedIndicator(ts, remoteVer){
+  window._cfRemoteVer = remoteVer;
+  var el = document.getElementById('last-update-indicator');
+  if (!el) return;
+  var parts = [];
+  if (ts) {
+    var d = new Date(ts);
+    var dd = d.toLocaleDateString('it-IT') + ' ' + d.toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
+    parts.push('🕐 Ultima modifica: ' + dd);
+  }
+  if (remoteVer) { parts.push('📋 Dati base aggiornati al: ' + remoteVer); }
+  el.textContent = parts.join('  ·  ');
 }
 
 // === DATI ===
@@ -1808,10 +1825,12 @@ fetch('./params.json?nocache=' + Date.now())
       if (remote && remote.P) {
         applyOverrides(remote.overrides || {}, remote.P);
         try { localStorage.setItem('HTP_overrides', JSON.stringify(remote.overrides || {})); } catch(e){}
+        updateLastModifiedIndicator(remote.ts, remoteVer);
       } else {
         var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
         var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
         applyOverrides(overrides, savedP);
+        updateLastModifiedIndicator(null, remoteVer);
       }
       finishLoad(remoteVer);
     }).catch(function() {
@@ -1820,6 +1839,7 @@ fetch('./params.json?nocache=' + Date.now())
         var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
         applyOverrides(overrides, savedP);
       } catch(e) {}
+      updateLastModifiedIndicator(null, remoteVer);
       finishLoad(remoteVer);
     });
   })
