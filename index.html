@@ -344,7 +344,7 @@ function getRevTotals(){
   // (fatture reali gen-mag da registro IVA; giu = H1 reale meno gen-mag; lug-dic =
   // backlog confermato OREV[0..5]). Cosi nessun mese resta "congelato": la differenza
   // si spalma su tutti secondo la vera stagionalita' dell'azienda, non un peso astratto.
-  var W26=[132.07,218.90,192.26,195.97,181.53,330.28,OREV[0],OREV[1],OREV[2],OREV[3],OREV[4],OREV[5]]; // Gen..Dic 2026 reale
+  var W26=[136.97,228.31,198.16,202.78,197.60,238.15,OREV[0],OREV[1],OREV[2],OREV[3],OREV[4],OREV[5]]; // Gen..Dic 2026 reale (registro fatture)
   var sumW26=W26.reduce(function(s,v){return s+v;},0);
   var orev27Sum=0;
   MONTHS.forEach(function(m,i){ if(m.y===2027 && OREV[i]!==undefined) orev27Sum+=OREV[i]; });
