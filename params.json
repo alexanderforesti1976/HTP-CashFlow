@@ -395,45 +395,58 @@
   ],
   "loans": [
     {
-      "name": "BCC Brescia 1066083",
-      "monthly": 2.4,
-      "from": 0,
-      "to": 8,
-      "color": "#4ade80"
+      "name": "Unicredit 2529480",
+      "start": "2025-03-31",
+      "end": "2028-03-31",
+      "freq": 3,
+      "n": 13,
+      "rata": 36.5,
+      "color": "#f43f5e"
     },
     {
-      "name": "Credito Emiliano",
-      "monthly": 8.69,
-      "from": 0,
-      "to": 19,
-      "color": "#f59e0b"
+      "name": "Credito Emiliano 8630473",
+      "start": "2025-04-20",
+      "end": "2028-03-20",
+      "freq": 1,
+      "n": 36,
+      "rata": 8.69,
+      "color": "#fb923c"
     },
     {
       "name": "BCC Brescia 1071107",
-      "monthly": 5.23,
-      "from": 0,
-      "to": 23,
-      "color": "#f59e0b"
+      "start": "2024-05-06",
+      "end": "2028-05-31",
+      "freq": 1,
+      "n": 48,
+      "rata": 5.23,
+      "color": "#fbbf24"
     },
     {
-      "name": "Unicredit 2529480",
-      "monthly": 36.5,
-      "quarters": [
-        2,
-        5,
-        8,
-        11,
-        14,
-        17,
-        20
-      ],
-      "color": "#ef4444"
+      "name": "BCC Brescia 1066083",
+      "start": "2022-04-08",
+      "end": "2027-03-31",
+      "freq": 1,
+      "n": 59,
+      "rata": 2.4,
+      "color": "#4ade80"
     },
     {
-      "name": "BCC Sebino (x2)",
-      "single": 80.0,
-      "at": 3,
-      "color": "#22d3ee"
+      "name": "BCC Sebino 8021",
+      "start": "2021-04-01",
+      "end": "2026-10-01",
+      "freq": 6,
+      "n": 12,
+      "rata": 30.365,
+      "color": "#38bdf8"
+    },
+    {
+      "name": "BCC Sebino 8021 – Finlombarda",
+      "start": "2021-04-01",
+      "end": "2026-10-01",
+      "freq": 6,
+      "n": 12,
+      "rata": 20.24,
+      "color": "#818cf8"
     }
   ],
   "invMPK": 113,
