@@ -9,7 +9,7 @@
   "subPct": 4,
   "laborK": 58,
   "rentK": 8.3,
-  "energyPct": 3.3,
+  "energyPct": 3.8,
   "commPct": 2.8,
   "royPct": 1.5,
   "otherFixedK": 20,
@@ -635,5 +635,6 @@
     "giu": 238.15,
     "totGenMag": 963.82,
     "totGenGiu": 1201.97
-  }
+  },
+  "_energyPctSource": "3.8% calcolato su H1_2026_reale (energia/ricavi H1 reale = 48.049,16/1.248.997,57). NON reimpostare a 3.3% (vecchio default) senza ricalcolare dai dati reali: gia perso una volta nel ripristino del 30/07/2026."
 }
