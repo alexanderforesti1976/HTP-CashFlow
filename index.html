@@ -1682,6 +1682,11 @@ function render(){
   else if(TAB==='orders') el.innerHTML=renderOrders();
   else if(TAB==='ratios') el.innerHTML=renderIndici();
   else el.innerHTML=renderLoans();
+  // Se la vista Contabilità è quella attualmente visibile, aggiorna anche lei: condivide
+  // P/OREV/OBACKLOG con questa vista, quindi una modifica qui (manuale o da un altro
+  // dispositivo via Firebase) deve riflettersi subito anche lì, senza dover cambiare tab.
+  var vc=document.getElementById('view-contabilita');
+  if (vc && vc.style.display !== 'none' && window.renderContabilita) { window.renderContabilita(); }
 }
 
 function resetAll(){
@@ -1818,29 +1823,35 @@ fetch('./params.json?nocache=' + Date.now())
     applyRemoteParams(data);
     console.log('✓ Parametri caricati — params.json (' + remoteVer + ')');
 
-    // 2) Legge lo stato condiviso da Firebase (fonte di verità cross-device).
-    //    Se non raggiungibile (offline), usa la cache locale come fallback.
-    fbRef.once('value').then(function(snap) {
+    // 2) Legge lo stato condiviso da Firebase (fonte di verità cross-device) e resta in
+    //    ascolto: se qualcuno modifica uno slider da un altro dispositivo/sessione mentre
+    //    questa pagina è aperta, l'aggiornamento arriva subito, senza bisogno di ricaricare.
+    var _fbFirstLoad = true;
+    fbRef.on('value', function(snap) {
       var remote = snap.val();
       if (remote && remote.P) {
         applyOverrides(remote.overrides || {}, remote.P);
         try { localStorage.setItem('HTP_overrides', JSON.stringify(remote.overrides || {})); } catch(e){}
         updateLastModifiedIndicator(remote.ts, remoteVer);
-      } else {
+      } else if (_fbFirstLoad) {
         var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
         var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
         applyOverrides(overrides, savedP);
         updateLastModifiedIndicator(null, remoteVer);
       }
-      finishLoad(remoteVer);
-    }).catch(function() {
-      try {
-        var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
-        var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
-        applyOverrides(overrides, savedP);
-      } catch(e) {}
-      updateLastModifiedIndicator(null, remoteVer);
-      finishLoad(remoteVer);
+      if (_fbFirstLoad) { _fbFirstLoad = false; finishLoad(remoteVer); }
+      else { render(); }
+    }, function() {
+      if (_fbFirstLoad) {
+        try {
+          var overrides = JSON.parse(localStorage.getItem('HTP_overrides') || '{}');
+          var savedP = JSON.parse(localStorage.getItem('HTP_P') || '{}');
+          applyOverrides(overrides, savedP);
+        } catch(e) {}
+        updateLastModifiedIndicator(null, remoteVer);
+        _fbFirstLoad = false;
+        finishLoad(remoteVer);
+      }
     });
   })
   .catch(function() {
