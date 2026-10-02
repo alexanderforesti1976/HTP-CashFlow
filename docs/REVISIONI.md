@@ -96,6 +96,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R054 | REGOLA (Alex) / ERRORE di Claude | Le email di Claude si firmano "Claude, per conto di Alex", non "Alex". La mail a Verusca (R053) era firmata "Alex": errore, nessuna correzione inviata (non richiesta). Regola scritta in CLAUDE.md | Nessun effetto sul modello |
 
+| R055 | REGOLA (Alex) / ERRORE di Claude | Le email del 02/10 (a Verusca e la copia ad Alex) sono partite dal Gmail personale di Alex, non ammesso. Da ora nessun invio da quel Gmail; Alex indicherà l'account da usare. Lettura/ricerca nel Gmail personale: da non usare senza suo ordine | Nessun effetto sul modello |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
