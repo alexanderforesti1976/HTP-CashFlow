@@ -2,7 +2,7 @@
   "_note": "HTP CashFlow & PL — parametri aggiornati. Modifica questo file per aggiornare il modello.",
   "_updated": "2026-10-02",
   "_startCashSource": "Saldo 4 c/c al 30/09/2026 da SITUAZIONE BANCHE 1-31 OTTOBRE 2026 (Verusca): CREDEM 463,73 + BCC Sebino 43,39 + Unicredit 242,16 + BCC BS 1.121,18 = 1.870,46k lordo; nettato Cedola Long -400 (C/deposito BCC BS, scad. 03/27), F.do BTP -150 (indicato da Verusca come compreso nel saldo iniziale BCC BS) e Piano accumulo Onemarkets -40,8 (Unicredit). Polizza Assicomo 75k non nettata (come in precedenza). Netto operativo 1.279,66k. NOTA: ESTINTO nel file si riferisce alle rate BCC Sebino/Finlombarda di ott-26, non al BTP. Incassi SOSPESI non inclusi nel saldo (Enextras FT108/FT117 112,15k, Terraverde FT40 5,38k): certi: già compresi nei crediti aperti (openRec) della proiezione, non sommati a parte. Proiezione ancorata a fine settembre (cashAnchor 2026-09).",
-  "rev26": 2350,
+  "rev26": 2250,
   "dso": 36,
   "dpo": 105,
   "matPct": 18,
