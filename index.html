@@ -822,7 +822,7 @@ var P={
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
-  startCash:1336.24, openRec:480, openPay:293
+  startCash:1429.66, cashAnchor:'2026-09', openRec:480, openPay:293
 };
 var VIEW='both', TAB='chart';
 
@@ -990,7 +990,10 @@ var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     if(m.y===2027&&m.c===11) taxes=t27*.5;
     var out=sup+fixed+loans+taxes;
     var net=col-out;
-    bal+=net;
+    // Ancoraggio al saldo reale: fino al mese di "cashAnchor" (incluso) il saldo è quello effettivo
+    // da SITUAZIONE_BANCHE (P.startCash = saldo a fine mese di ancoraggio); la proiezione parte dal mese dopo.
+    var ym=m.y+'-'+(m.c<10?'0':'')+m.c;
+    if(P.cashAnchor && ym<=P.cashAnchor) bal=P.startCash; else bal+=net;
     return {l:m.l,c:m.c,y:m.y,
       rev:+revPlan[i].toFixed(1),col:+col.toFixed(1),
       sup:+sup.toFixed(1),fixed:+fixed.toFixed(1),
@@ -1077,7 +1080,7 @@ function renderKPIs(cf){
   var totL=cf.reduce(function(s,d){return s+d.loans;},0);
   var totT=cf.reduce(function(s,d){return s+d.taxes;},0);
   var kpis=[
-    {icon:'💰',lbl:'Cassa Giu 2026',val:'€'+P.startCash.toLocaleString()+'k',sub:'Conti operativi',cls:'ok'},
+    {icon:'💰',lbl:'Cassa reale '+(P.cashAnchor?P.cashAnchor.split('-').reverse().join('/'):''),val:'€'+P.startCash.toLocaleString()+'k',sub:'Conti operativi (saldo banche)',cls:'ok'},
     {icon:'📅',lbl:'Saldo Dic 2027',val:fmt(endB),sub:'Proiezione',cls:endB>1200?'ok':endB<600?'warn':''},
     {icon:'⚠️',lbl:'Minimo Periodo',val:fmt(minB),sub:'Punto critico',cls:minB>800?'ok':minB<400?'warn':''},
     {icon:'🏦',lbl:'Rate + Imposte',val:'€'+(totL+totT).toFixed(0)+'k',sub:'Rate €'+totL.toFixed(0)+'k · Imp €'+totT.toFixed(0)+'k',cls:''}
@@ -1769,7 +1772,7 @@ function resetAll(){
     invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
-    startCash:1336.24,openRec:480,openPay:293
+    startCash:1429.66,cashAnchor:'2026-09',openRec:480,openPay:293
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
