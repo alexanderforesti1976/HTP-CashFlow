@@ -28,7 +28,7 @@ Repo pubblico: niente nomi/importi di singoli clienti o fornitori, solo aggregat
 | R018 | PUBBLICATA | Pulsanti +/- più piccoli su telefono; etichetta cassa 30/09/2026 | e07656a, d9479f3 |
 | R019 | PUBBLICATA | CIG 2027 (`cigW27`, `cigH27`) tolta da `_forceKeys`: ora vale l'input della pagina (prima params.json la riportava a 0 operai / 50%). Test: personale 2027 756,3→700,1k, utile 2027 79,8→112,3k con 6 operai al 30% | 1044d5c |
 
-Stato della pagina di Alex dopo R019 (parametri della pagina, obiettivi 2.200k/2.100k, magazzino 153,4k): utile 2026 91,1k, 2027 79,8k; cassa dic-26 1.353k, dic-27 1.321k. Punti di ripristino: rami `ripristino-mattina-02-10-2026` (11e47db, prima della sessione Code), `ripristino-sera-02-10-2026` (520b60c). Stato del 01/10 sera (prima di tutte le modifiche del 02/10): commit 9d5382b — modello a percentuali: utile 2026 193,7k (con obiettivi di Alex) / 251,6k (parametri file), 2027 153,4k / 114,0k, cassa dic-26 1.654-1.714k, dic-27 1.599-1.631k.
+Stato della pagina di Alex dopo R019 (parametri della pagina, obiettivi 2.200k/2.100k, magazzino 153,4k): utile 2026 91,1k, 2027 79,8k SENZA CIG 2027 (vedi R030: con la CIG di Alex sulla pagina 2027 = 112k); cassa dic-26 1.353k, dic-27 1.321k. Punti di ripristino: rami `ripristino-mattina-02-10-2026` (11e47db, prima della sessione Code), `ripristino-sera-02-10-2026` (520b60c). Stato del 01/10 sera (prima di tutte le modifiche del 02/10): commit 9d5382b — modello a percentuali: utile 2026 193,7k (con obiettivi di Alex) / 251,6k (parametri file), 2027 153,4k / 114,0k, cassa dic-26 1.654-1.714k, dic-27 1.599-1.631k.
 
 ## B. Verifiche dopo i mastrini (sera 02/10, `MASTRINI 2026.xlsx` da Alex, 622 pagine, 226 conti, registrazioni fino a settembre)
 Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il connettore Drive in Code oggi non mostrava nessun file (cartella non trovata anche con ID); Gmail dava l'allegato solo come nome e dimensione.
@@ -45,6 +45,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 | R027 | RITRATTATA | "Magazzino finale del 30/09 nei Parametri" e "bilancio provvisorio al 30/06 contiene il magazzino": non verificabili. Il magazzino finale è un'ipotesi di Alex, il 168,4k è l'unico valore certo (31/12/2025) | — |
 | R028 | RITRATTATA | "Il costo personale 2026 non conteneva TFR e 13ª nel modello del 01/10": conteneva un costo all-in 58k/mese (696k), che secondo le istruzioni iniziali le comprendeva. Non è stato verificato se il 58k le contenga davvero (lo sa Alex). 756,3k potrebbe contarle due volte in parte | Aperto |
 | R029 | RITRATTATA | "Non scende a 40" / "si ferma a 70-75k": nessuna garanzia, sono stime Claude. Chiusura sicura = bilancio al 30/09 (metà ottobre) | — |
+
+| R030 | RITRATTATA | Screenshot della pagina di Alex (22:14, tab Cash Flow, confronto 2024-2027): utile 2026 92k, 2027 112k; personale 2026 754k (CIG 1 operaio al 15%), 2027 700k (6 operai al 30%); EBITDA 2026 278k, 2027 295k; interessi passivi 2027 8k (da verificare sui piani: debito residuo 31/12/26 436k). Le cifre "utile 2027 79,8k" riportate come stato della pagina erano SENZA la CIG di Alex | Conferma che il fix R019 funziona sulla pagina (test headless 112,3k) |
 
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
