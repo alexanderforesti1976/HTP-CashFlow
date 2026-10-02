@@ -134,6 +134,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R073 | DATI (Alex) | Ricevuto lo studio di fattibilità EngUp (E.ON), 24/02/2026, preliminare: orientamento moduli 176° (4° dal sud), inclinazione NON indicata, 97,825 kWp (215 × 455 Wp, con ottimizzatori TIGO), diverso dall'offerta (97,46 kWp, 219 × 445 Wp, senza ottimizzatori). Orientamento trovato: sud −4°; resta da avere il tilt (progetto esecutivo) | Registrato in DATI_RICEVUTI §8; nessun effetto sul cash flow |
 
+| R074 | DATI (Alex) / ANALISI | PVGIS eseguito da Alex (punto 45,586 N 9,893 E, 97,46 kWp, perdite 14%, inclinazione e orientamento ottimizzati 39°/4°): 128.103 kWh/anno e istogramma mensile (lettura visiva). Risparmio mensile indicativo con la forma PVGIS sul totale E.ON 109.218 kWh, autoconsumo 70%, prezzo evitato 0,2925 €/kWh, RID 0,09: anno 25.312 € (22.363 + 2.949), nov-dic circa 1.139 e 1.078 € di risparmio contro canone 1.393,58. Inclinazione reale delle falde ancora sconosciuta; cassa dei risparmi con ritardo di circa un mese (bollette a 4 settimane) | Registrato in DATI_RICEVUTI §9; nessun effetto sul modello vecchio; da usare nel cash flow nuovo con decorrenza canone da confermare |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
