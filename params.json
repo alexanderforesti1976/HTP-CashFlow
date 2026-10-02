@@ -1196,5 +1196,6 @@
   "shiftMonths": {
     "8": 9,
     "12": 1
-  }
+  },
+  "shiftSupPct": 0
 }

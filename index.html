@@ -826,7 +826,7 @@ var P={
   actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, purchRegYM:'2026-07', shiftMonths:{8:9,12:1}, toInvoice:{'2026-09':77.5}
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, purchRegYM:'2026-07', shiftMonths:{8:9,12:1}, shiftSupPct:0, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -995,7 +995,7 @@ function calcCF() {
   var anc=P.cashAnchor||'';
   var ymOf=function(mm){return mm.y+'-'+(mm.c<10?'0':'')+mm.c;};
   var ivaBal=-(P.ivaCreditAnchor||0), credDec=0; // saldo IVA: negativo = credito riportato
-  var carry={}; // scadenze di agosto e dicembre sempre slittate al mese dopo (prassi italiana): P.shiftMonths {mese:mese_destinazione}
+  var carry={}; // pagamenti fornitori senza +10 di agosto/dicembre slittano al 10 del mese dopo: P.shiftMonths {mese:destinazione}, quota P.shiftSupPct
   return MONTHS.map(function(m,i){
     var ym=ymOf(m);
     // Incassi: fatture già emesse = scadenzario reale (lordo IVA); mesi di fatturato fino all'ancoraggio
@@ -1021,9 +1021,10 @@ function calcCF() {
     // Mesi già chiusi (fino all'ancoraggio): incassi e pagamenti fornitori REALI dagli scadenzari Pegaso (lordi IVA); il saldo è comunque quello bancario
     if(anc&&ym<=anc){ col=(P.actualIn||{})[ym]||0; sup=(P.actualOut||{})[ym]||0; }
     if(P.shiftMonths&&!(anc&&ym<=anc)){
-      var cin=carry[m.c]; if(cin){ col+=cin[0]; sup+=cin[1]; carry[m.c]=null; }
-      var dst=P.shiftMonths[m.c]; if(dst){ carry[dst]=[col,sup]; col=0; sup=0; }
-    }    var is27m=m.y===2027;
+      // solo fornitori con scadenza fine mese SENZA +10: 31/08 -> 10/09, 31/12 -> 10/01 (quota P.shiftSupPct dei pagamenti del mese). Clienti: nessuno ha questa condizione.
+      var cin=carry[m.c]; if(cin){ sup+=cin; carry[m.c]=0; }
+      var dst=P.shiftMonths[m.c]; if(dst){ var mv=sup*(P.shiftSupPct||0); carry[dst]=mv; sup-=mv; }
+    }   var is27m=m.y===2027;
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
     var effL=Math.max(0,lk-cigS);
@@ -1837,7 +1838,7 @@ function resetAll(){
     actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},purchRegYM:'2026-07', shiftMonths:{8:9,12:1},toInvoice:{'2026-09':77.5}
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},purchRegYM:'2026-07', shiftMonths:{8:9,12:1}, shiftSupPct:0,toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
