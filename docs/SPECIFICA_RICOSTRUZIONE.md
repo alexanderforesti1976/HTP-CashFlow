@@ -27,7 +27,8 @@ Scopo: base di partenza per rifare da zero Cash Flow e Contabilità Industriale 
 - **IVA:** per aliquote e regimi reali (22%, 10%, non imponibile / dichiarazione d'intento / plafond), non medie; credito IVA recuperato con la dichiarazione annuale (aprile 2027). Residui plafond clienti: DA FORNIRE.
 - **Assicurazioni:** non vanno moltiplicate. Oneri diversi non si moltiplicano; le multe e ammende (83,5k nel 2025) non esisteranno più. Pubblicità/fiere: non si spende più.
 - **Ordini Pegaso:** consegna 31/12/2099 = in attesa conto lavoro (vale la data richiesta); 31/12/2100 = programma (ripartire sullo storico dei ritiri). Mai sommare i non confermati alle consegne confermate; mostrarli a parte.
-- **Cassa 30/09/2026 = 1.279,66k** (4 c/c 1.870,46k − titoli e fondi 590,8k); la proiezione parte da ottobre. Polizza 75k non nettata.
+- **Cassa operativa 30/09/2026 = 1.279,66k** (4 c/c 1.870,46k − titoli e fondi 590,8k: Cedola Long 400, fondo BTP 150, Onemarkets 40,8); la proiezione parte da ottobre. In bilancio 2025 questi importi sono: depositi BCC Brescia 02021901 (400.000,00) e 02021902 (148.650,62) tra le disponibilità liquide, fondi comuni 01074008 (41.800,00) tra le attività finanziarie.
+- **Liquidità (Alex, 02/10):** Cedola Long, fondo BTP e Onemarkets sono liquidabili IN GIORNATA; la polizza (circa 74,9k, conto 00033000 "Altri titoli", Assicomo 75k nel CLAUDE.md) in 4-5 giorni. Se contati come liquidi: liquidità disponibile 1.870,46k, con la polizza circa 1.945k. Se la cassa di partenza debba restare 1.279,66k o essere questa: DECISIONE DI ALEX, non modificata.
 - **Ciclo di chiusura:** costi registrati = consuntivo; costi non ancora registrati = proiezione in proporzione ai ricavi del mese, finché non arrivano i dati veri. Settembre provvisorio (fatture non ancora allo SDI, acquisti incompleti).
 
 ## 4. Dati reali (aggregati, k€)
