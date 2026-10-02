@@ -375,7 +375,7 @@
 <div class="pgrid">
 <div>
 <div class="grp"><div class="glabel" style="color:#6366f1">RICAVI</div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2026</span><span class="sl-val" id="lv-r26">2350k&euro;</span></div><div class="sl-note">Fatturato annuo totale 2026 &middot; H1 &euro;1.207k fisso (reale, al netto storno Terra Verde rifatturato Enextras) &middot; H2 distribuito su ordini confermati (scalati se abbassato) &middot; alza/abbassa liberamente</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1500.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev26',v)" type="button">&minus;</button><input type="number" class="num-inp" min="1500" max="5000" step="50" value="2350" oninput="upd('rev26',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev26',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2026</span><span class="sl-val" id="lv-r26">2350k&euro;</span></div><div class="sl-note">Fatturato annuo totale 2026 &middot; H1 &euro;1.248,7k fisso (bilancio 30/06/26: vendite 1.231,2 + diversi 0,2 + stampi 17,3) &middot; H2 distribuito su ordini confermati (scalati se abbassato) &middot; alza/abbassa liberamente</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1500.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev26',v)" type="button">&minus;</button><input type="number" class="num-inp" min="1500" max="5000" step="50" value="2350" oninput="upd('rev26',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev26',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Fatturato 2027</span><span class="sl-val" id="lv-r27">2000k&euro;</span></div><div class="sl-note" id="n-g27">Ordini confermati + stagionale &middot; slider fissa il ritmo per mesi senza backlog</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(1000.0,+(+el.value-50).toFixed(2));el.value=v;upd('rev27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="1000" max="5000" step="50" value="2000" oninput="upd('rev27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5000.0,+(+el.value+50).toFixed(2));el.value=v;upd('rev27',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#22d3ee">DILAZIONI</div>
@@ -789,7 +789,7 @@ function loanPayment(i){ var t=2026*12+6+i; return loanPaymentYM(Math.floor(t/12
 // === STATE ===
 var P={
   rev26:2350, rev27:2000,
-  h1Rev:1207.2,
+  h1Rev:1248.7,
   dso:62, dpo:83,
   matPct:18, subPct:4,
   laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
@@ -810,7 +810,7 @@ var VIEW='both', TAB='chart';
 // 2027: segue trend mensile 2026 scalato a P.rev27.
 function getRevTotals(){
   var fullYearSeas=SEAS.reduce(function(s,v){return s+v;},0);
-  var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1207.2;
+  var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1248.7;
   var h2Budget=Math.max(0,P.rev26-h1Act);
 
   // Separa mesi H2 con/senza OREV
@@ -1724,7 +1724,7 @@ function render(){
 function resetAll(){
   var defaults={
     rev26:2350,rev27:2000,
-    h1Rev:1207.2,dso:62,dpo:83,
+    h1Rev:1248.7,dso:62,dpo:83,
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
     labor27:58,rent27:8.3,energyPct27:2.35,otherFixedK27:21.4,otherVarPct27:3,
