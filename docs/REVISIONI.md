@@ -98,6 +98,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R055 | REGOLA (Alex) / ERRORE di Claude | Le email del 02/10 (a Verusca e la copia ad Alex) sono partite dal Gmail personale di Alex, non ammesso. Da ora nessun invio da quel Gmail; Alex indicherà l'account da usare. Lettura/ricerca nel Gmail personale: da non usare senza suo ordine | Nessun effetto sul modello |
 
+| R056 | REGOLA (Alex) | Canale email: sistema HTP Gestionale sul PC di Alex (SMTP del consulente), script Python standalone, con 8 regole obbligatorie (Alex sempre in Cc, OK esplicito prima di ogni invio, prova solo ad Alex, un invio per richiesta, niente modifiche a alert.py/programmazione.py, numeri verificati su fonte indipendente, firma "Claude, per conto di Alex"). Scritte in CLAUDE.md. Limite: la sessione cloud non vede quel PC (verificato: nessun percorso C:\\ o /mnt/c) | Nessuna email inviata dopo R055 |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
