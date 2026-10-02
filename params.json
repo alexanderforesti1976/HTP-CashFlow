@@ -1381,5 +1381,7 @@
   "purchPartial": {
     "2026-09": 22.2
   },
-  "_purchSource": "02/10/2026: acquisti COMPLETI fino ad agosto; settembre INCOMPLETO (le fatture di fine mese devono ancora arrivare, Alex le allega nei prossimi giorni): consuntivo registrato a credito (fornitori materiali/subforniture, imponibile) 22,2k, il resto del piano settembre (22% ricavi = 48,0k) si proietta con payMatrix: 25,8k. Ottobre-dicembre: solo proiezione. Registrato lug 29,6k / ago 13,6k / set 22,2k contro piano 46,6 / 19,8 / 48,0."
+  "_purchSource": "02/10/2026: acquisti COMPLETI fino ad agosto; settembre INCOMPLETO (le fatture di fine mese devono ancora arrivare, Alex le allega nei prossimi giorni): consuntivo registrato a credito (fornitori materiali/subforniture, imponibile) 22,2k, il resto del piano settembre (22% ricavi = 48,0k) si proietta con payMatrix: 25,8k. Ottobre-dicembre: solo proiezione. Registrato lug 29,6k / ago 13,6k / set 22,2k contro piano 46,6 / 19,8 / 48,0.",
+  "royPayLag": 1,
+  "_royalties": "Royalties = 1,5% del fatturato (1% + 0,5%), maturate e pagate TRIMESTRALMENTE. Cash flow: un pagamento a trimestre = 1,5% dei ricavi dei 3 mesi, nel mese successivo alla fine del trimestre (royPayLag 1: gen/apr/lug/ott; 0 = mar/giu/set/dic). CE: 1,5% su tutto l'anno. H1 reale 8,3k = solo il 1o trimestre (572k x 1,5% = 8,6k): il 2o trimestre si registra a luglio."
 }

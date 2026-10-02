@@ -18,7 +18,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Fattori stagionali capacità (agosto, dicembre ridotti) uguali in tutti i tool.
 
 ## Convenzioni contabili
-- Royalties 1,5% ricavi (1% + 0,5%) = costo variabile; H1 più basso = effetto timing.
+- **ROYALTIES (regola fissa, Alex l'ha ripetuta più volte): 1,5% del fatturato (1% + 0,5%), maturate e pagate TRIMESTRALMENTE** (un pagamento a trimestre = 1,5% dei ricavi dei 3 mesi, `royPayLag` 1 = nel mese successivo alla fine del trimestre: gen/apr/lug/ott, come "royalties trimestrali ~9-10k a ottobre"; 0 = mar/giu/set/dic). Nel cash flow NON a rate mensili. CE: 1,5% su tutto l'anno; H1 reale 8,3k = solo il 1° trimestre (572k × 1,5% = 8,6k), il 2° si registra a luglio = effetto timing.
 - Conto 107011300 "Variazione ricavi x resi e premi" €41.502,04 = storno Terra Verde nei costi con rifatturazione a ricavo (Enextras): mantenere, ed escluderlo dai confronti costi.
 - Ammortamenti, TFM, imposte calcolati da params, mai hardcoded.
 - Cash flow con tutto ciò che muove cassa, IVA inclusa, per aliquote/regimi reali (22%, 10%, non imponibile/dichiarazione d'intento), non percentuali medie.
@@ -39,7 +39,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - IVA: vendite 22% solo `taxClients` (T.Erre, Watts, Sagom, OMR, Dubhe, Scaligera, E.B., Breka, Elledi), resto non imponibile; acquisti materiali 52% senza IVA (plafond), resto 22%; energia 10%; altri 22%. Credito IVA iniziale 36,3k (`ivaCreditAnchor`, da verificare).
 - Backlog ott-26/mag-27: T.Erre e OMECA = confermato + programma 2100 su media ritiri 12 mesi (21,85k/m, 11,5k/m). Edscha 53,9k scaduto escluso. Ott-dic 215,5/161,6/153,7k (backlog rigenerato da OrdiniVenditaAperti_2.pdf, stampa 02/10 17:50); T.Erre/OMECA = max(confermato, media ritiri). Non confermato in `OBACKLOG[].nc` (programmi 2100 + righe 2099 Watts/Lav.El.): 140,3k = 26,4% di 530,8k. Argomm: solo 260141 (24,3k, dic); ordine quadro ~1,8M da riemettere con nuovo prezzo (richiami fermi da luglio).
 - Finanziamenti in `LOANS`/`loans` mensili (k€: `sched`, `cap`, `int`, `res`) da piani di ammortamento BCC 1066083 e 1071107, Unicredit 2529480, Credem 8630473; BCC Sebino 8021/Finlombarda da bilancio; Unicredit 8823317 e Mini da scadenziario Verusca. Interessi a CE = somma `int`; debito residuo = somma `res`. 2026: rate 436,4k, interessi 19,7k, residuo 31/12 435,9k, **DSCR 1,04x** (2027 ~1,2x).
-- Personale all-in lug 54,3k / ago 48,8k (modello 58k), affitti 8,2k, energia 7,4/9,0k, royalties trimestrali ~9-10k a ottobre.
+- Personale all-in lug 54,3k / ago 48,8k (modello 58k), affitti 8,2k, energia 7,4/9,0k, royalties trimestrali (vedi regola in Convenzioni).
 
 ## Parametri 2027 e test
 - 2027 allineato al ritmo reale 2026: personale come 2026 (`labor27` = `laborK` 58k/mese, nessuna CIG: 696k/anno), altri costi fissi 25k/mese (`otherFixedK27`), energia quasi fissa 7,5k/mese (`energyFixedK27`, sostituisce la % sul fatturato se > 0). CE 2027 con rev 2.000k: EBITDA 228,4k (era 314,6k), utile netto 73,9k (era 123,6k); saldo dic-27 1.256k.
@@ -51,6 +51,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Utile 2026 155,2k (era 237,2k con le % su tutto l'anno): EBITDA 387,3k, imposte 60,0k, TFM calcolato sull'anno. Royalties 2026 = 1,5% dei ricavi su tutto l'anno (34,6k; H1 reale basso = timing). **Ratei personale OFF** (`rateiH1On`=0): TFR, 13a e TFM sono già riproporzionati nel costo all-in del personale (laborK 58k/mese), confermato da Alex; personale 2026 = H1 reale 336,8k + H2 348,0k = 684,8k. `otherFixedK` 2026 = 25.
 
 ## Aperto
+- Assicurazioni: i costi assicurativi NON vanno moltiplicati per 3 o 4; vanno verificati con i riscontri già allegati (non presenti in questa sessione Code): riallegarli, poi allineare `otherFixedK`/FCAL. Nel modello oggi non esiste una voce assicurazioni separata: sono dentro "altri costi fissi" (25k/mese 2026, 25k/mese 2027) e FCAL.
 - Acquisti settembre: quando Alex allega le fatture mancanti, rigenerare `openPaySched` e `purchPartial` (consuntivo) e ricalcolare. Regola: consuntivo registrato + proiezione in proporzione solo per quello che manca, fino all'arrivo dei dati nuovi.
 - RiBa clienti: NESSUN anticipo bancario (confermato da Alex, da 25 anni). Il "Pagata il" delle RiBa nello scadenzario è la data di presentazione in banca, NON l'incasso: la cassa arriva alla scadenza. Non ricavare DSO/incassi da quelle date (il DSO 36 "reale" era sbagliato per questo). Incassi = scadenza da condizioni di pagamento cliente per cliente (`recMatrix`).
 - Inserire `accontoGiu26` (acconto imposte giugno 2026 dall'F24, da Luca/Verusca): oggi stima 62k.
