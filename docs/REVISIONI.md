@@ -110,6 +110,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R061 | REGOLA (Alex) | La bozza al 30/06/2026 va integrata con le scritture di assestamento e competenza (rimanenze finali, ratei/risconti, TFR, 13ª, TFM, ferie, ammortamenti, royalties 2° trimestre, ratei interessi, imposte). Aggiunta la sezione 4 bis alla specifica con metodo e dati DA FORNIRE (rimanenze, ferie, ammortamenti, date di polizze e contratti per i risconti, variazioni fiscali) | Solo documentazione; nessuna stima di Claude |
 
+| R062 | REGOLA (Alex) | Il ricalcolo riproporziona tutto al 31/12/2026. Gli unici input modificabili dopo il ricalcolo: costo del personale con la CIG e valorizzazione del magazzino; nient'altro. Aggiunta la sezione 4 ter alla specifica | Solo documentazione |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione

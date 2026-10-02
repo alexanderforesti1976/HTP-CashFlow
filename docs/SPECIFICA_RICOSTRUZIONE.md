@@ -71,6 +71,11 @@ La bozza al 30/06/2026 (13/07) è solo contabilità registrata: non comprende ri
 - **Imposte di competenza:** IRES e IRAP su basi separate, con variazioni fiscali (DA FORNIRE, Verusca/Luca).
 Le voci già inserite in bozza di cui si può dedurre la quota di competenza (annuali e periodiche) vanno ripartite nel tempo, non moltiplicate né spalmate come mensili.
 
+## 4 ter. Impostazione del ricalcolo (Alex, 02/10 sera)
+- **Tutto si riproporziona al 31/12/2026**: dalla bozza/mastrini reali più le integrazioni di competenza (sezione 4 bis) si arriva al CE annuale.
+- **Gli UNICI input modificabili dopo il ricalcolo sono due:** (1) il costo del personale con la CIG (lavoratori e % ore); (2) la valorizzazione del magazzino (rimanenze finali). **Non c'è altro.** Tutto il resto deriva da dati reali e da regole fisse (royalties, TFM, imposte, TFR/13ª, ratei, scadenze), non da manopole liberate: niente percentuali di costo da regolare a mano.
+- Implicazione per la costruzione: i parametri-percentuale del vecchio modello (materie %, altri fissi, ecc.) non sono input liberi; dove servono una proiezione si ricavano dai dati reali del periodo e dalle regole elencate.
+
 ## 5. Parametri da chiedere ad Alex prima di costruire
 Obiettivi ricavi 2026/2027; rimanenze finali ipotizzate; CIG 2026/2027; acconto IRES giugno 2026 (F24); frequenza di fatturazione delle consulenze amministrative (set-dic); se il 58k/mese comprende TFR e 13ª; ferie/permessi non goduti; piani di ammortamento aggiornati dei finanziamenti (interessi H2 2026 e 2027); plafond clienti residui; fatture di settembre mancanti.
 
