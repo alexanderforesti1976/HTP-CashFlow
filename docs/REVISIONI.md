@@ -76,6 +76,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R044 | DECISIONE (Alex) / CORREGGE R043 | Cassa di partenza secondo la struttura del bilancio ("in funzione del bilancio"): fondo Onemarkets conto a sé (01074008), non nei conti bancari, quindi non si sottrae: **1.870,46k** (depositi BCC inclusi, fondo e polizza fuori), non 1.829,66k | Solo nella specifica; `startCash` del vecchio codice non modificato. Da verificare sul file "situazione banche" di ottobre |
 
+| R045 | VERIFICATO | File "SITUAZIONE BANCHE 1-31 ottobre 2026" (Alex): saldi 30/09 Credem 463.730, BCC Sebino 43.390, Unicredit 242.160, BCC Brescia 1.121.180 = 1.870.460. Nel saldo BCC Brescia sono compresi fondo BTP 150.000 e Cedola Long 400.000; polizza Assicomo 75.000 annotata a parte; Onemarkets non compare. Conferma R044: cassa di partenza 1.870,46k, la sottrazione di 40,8k del vecchio CLAUDE.md non è supportata dal file. Piano di Alex per ottobre: entrate 587.030 (di cui 250.000 giroconti interni fra banche), uscite 463.885 (di cui 250.000 giroconti), saldo totale 31/10 = 1.993.605 | Solo documentazione |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
