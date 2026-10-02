@@ -112,7 +112,10 @@ cf['non_confermato'] = {r['mese']: r['non_confermato'] for r in ricavi_previsti}
 
 # --- dati per il CE 2026 e le imposte (passo 6)
 int_sd = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2026-09' <= ym <= '2026-12')
+int_27 = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2027-01' <= ym <= '2027-12')
+senza_int = [l['name'] for l in P['loans'] if 'int' not in l]
 cf['ce2026'] = {
+ 'interessi_passivi_2027_piani': round(int_27, 2), 'prestiti_senza_piano_interessi': senza_int,
  'interessi_passivi_gen_ago': round(13432.12 + mesi['7']['interessi_passivi'] + mesi['8']['interessi_passivi'], 2),
  'interessi_attivi_gen_ago': 3821.36,
  'ricavi_titoli_gen_giu': h1['ricavi_titoli'],

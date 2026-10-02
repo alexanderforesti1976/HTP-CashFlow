@@ -17,7 +17,7 @@
       altri_ricorrenti_mese: d.altri_ricorrenti_mese, costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
       imposte_2026: 0, acconto_prima_rata_pct: 50,
-      ammortamenti_2026: d.ammortamenti_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
+      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2026, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
     };
   }
 
@@ -93,6 +93,21 @@
     ce.imponibile_ires = ce.ante_imposte + P.var_ires; ce.ires = Math.max(0, 0.24 * ce.imponibile_ires);
     ce.imponibile_irap = ce.operativo + P.add_irap; ce.irap = Math.max(0, 0.039 * ce.imponibile_irap);
     ce.imposte = ce.ires + ce.irap; ce.utile = ce.ante_imposte - ce.imposte;
+    // CE 2027: tutto da previsione con le stesse regole (ricavi dei parametri, variabili in %, fissi per mese, CIG 2027, fotovoltaico a regime)
+    var Y27 = YM.slice(12), ric27 = 0, en27 = 0, can27 = 0;
+    Y27.forEach(function (ym) { ric27 += REV[ym]; en27 += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) can27 += P.fv_canone; });
+    var base26p = gsum('personale') + 4 * pers26, scala = 12 * pers27 / base26p, c7 = { ricavi: ric27 };
+    c7.rimanenze = P.rimanenze_finali_2027 - P.rimanenze_finali_2026;
+    c7.materie = ric27 * RT.mat; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov; c7.royalties = 0.015 * ric27;
+    c7.personale = 12 * pers27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
+    c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + can27;
+    c7.ammortamenti = P.ammortamenti_2027;
+    c7.operativo = c7.ricavi + c7.rimanenze - c7.materie - c7.lavorazioni - c7.provvigioni - c7.royalties - c7.personale - c7.affitti - c7.energia - c7.altri - c7.ammortamenti;
+    c7.int_passivi = E.interessi_passivi_2027_piani; c7.int_attivi = 1900 * 4 + 5950.68 * 2;
+    c7.ante_tfm = c7.operativo - c7.int_passivi + c7.int_attivi; c7.tfm = Math.max(0, 0.20 * c7.ante_tfm); c7.ante_imposte = c7.ante_tfm - c7.tfm;
+    c7.imponibile_ires = c7.ante_imposte + P.var_ires; c7.ires = Math.max(0, 0.24 * c7.imponibile_ires);
+    c7.imponibile_irap = c7.operativo + P.add_irap; c7.irap = Math.max(0, 0.039 * c7.imponibile_irap);
+    c7.imposte = c7.ires + c7.irap; c7.utile = c7.ante_imposte - c7.imposte;
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
     var p1 = P.acconto_prima_rata_pct / 100, base26 = 124249, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
     var cred = Math.max(0, base26 - t26), giu27 = t26 * p1 + (t26 - base26 > 0 ? t26 - base26 : -Math.min(cred, t26 * p1)), res = Math.max(0, cred - t26 * p1);
@@ -131,11 +146,11 @@
     var minC = Infinity, minM = '';
     OUT.forEach(function (ym) { if (rows[ym].chiusura < minC) { minC = rows[ym].chiusura; minM = ym; } });
     return {
-      mesi: OUT, righe: rows, ricavi: REV, ce: ce,
+      mesi: OUT, righe: rows, ricavi: REV, ce: ce, ce27: c7,
       riepilogo: {
         cassa_2026: rows['2026-12'].chiusura, cassa_2027: rows['2027-12'].chiusura, minimo: minC, mese_minimo: minM,
         entrate_2026: tot('2026', 'entrate'), uscite_2026: tot('2026', 'uscite'), entrate_2027: tot('2027', 'entrate'), uscite_2027: tot('2027', 'uscite'),
-        imposte_2026: t26, utile_2026: ce.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
+        imposte_2026: t26, utile_2026: ce.utile, utile_2027: c7.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
       }
     };
   }

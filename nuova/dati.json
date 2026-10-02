@@ -1274,6 +1274,12 @@
    "Dicembre": 36990.0
   },
   "ce2026": {
+   "interessi_passivi_2027_piani": 8357.69,
+   "prestiti_senza_piano_interessi": [
+    "Unicredit 8823317",
+    "BMW Mini 4362010 (+ riscatto 05/27)",
+    "BMW Mini 4362011"
+   ],
    "interessi_passivi_gen_ago": 15289.22,
    "interessi_attivi_gen_ago": 3821.36,
    "ricavi_titoli_gen_giu": 5950.68,
