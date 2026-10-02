@@ -70,6 +70,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R041 | ANALISI (non applicata) / CONFERMATO (Alex) | Norme OIC 10 e IAS 7 sulla liquidità (fonti: ecnews, Fondazione OIC, ifrscommunity, BDO). Depositi BCC senza penali e in giornata (Alex) = cassa per norma; fondi e polizza no. Cassa per norma 1.829,66k (se Onemarkets è nei 1.870,46k) contro 1.279,66k usata: +550k su tutti i saldi (cassa dic-26 da 1.354k a circa 1.900k) | `startCash` NON modificato; la definizione la decide Alex |
 
+| R042 | DECISIONE (Alex) | Cassa di partenza: depositi inclusi (Cedola Long 400k e fondo BTP 150k sono cassa). Valore 1.829,66k se il fondo Onemarkets (40,8k) è già nei 1.870,46k, altrimenti 1.870,46k. Fondi comuni e polizza fuori dalla cassa | Registrata nella specifica per la ricostruzione. `startCash` del vecchio codice NON modificato (l'app sarà ricostruita); conferma sul fondo Onemarkets da avere |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
