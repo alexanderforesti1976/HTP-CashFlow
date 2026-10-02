@@ -66,6 +66,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R039 | CONFERMATO (Alex) | I 74.900 (conto 00033000) sono una polizza assicurativa, liquidabile in 4-5 giorni; il riscatto anticipato ha riduzioni (con favore) in funzione dei tempi, ma non è il nostro caso: la polizza resta investita | Nessuna modifica al modello; la polizza non entra nella cassa operativa |
 
+| R040 | CONFERMATO (Alex) / CORRETTA | La polizza non entra MAI nella liquidità. Tolta dalla specifica la dicitura "con la polizza circa 1.945k" (scritta da Claude in R038 come possibilità) | Nessuna modifica al modello |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
