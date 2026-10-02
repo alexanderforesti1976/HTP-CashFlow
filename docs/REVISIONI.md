@@ -116,6 +116,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R064 | CHIARIMENTO (Alex) | Il magazzino è valorizzato a mano da Alex e inserito in valore assoluto; il metodo fino al 31/12/2025 era diverso da quello attuale e Alex sta ancora valutando il metodo corretto: dati indicativi, con variazioni leggere. Senza giacenze Claude non può ricavare i dati reali del magazzino. Sensibilità del vecchio modello: 10k di magazzino finale = circa 5,7k di utile netto | Solo documentazione |
 
+| R065 | CHIARIMENTO (Alex) | Il magazzino è un dato certo e preciso solo al 31/12 da bilancio definitivo (depositato): 168.359,33 al 31/12/2025. Ogni valore intermedio (30/06, 30/09, stima 31/12/2026) è indicativo | Solo documentazione |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
