@@ -27,11 +27,13 @@ def gruppo(c):
     return None
 mov = collections.defaultdict(lambda: collections.defaultdict(float))
 conti = collections.defaultdict(lambda: [0.0]*8)
+reg_h1 = collections.defaultdict(float)  # conti personale gen-giu dai mastrini (INAIL 6041101, TFR 6041200/6041201)
 nomi = {}
 wb = openpyxl.load_workbook(xlsx, data_only=True)
 for r in wb['Movimenti'].iter_rows(min_row=2, values_only=True):
     if r[14] == 'Sì' or not r[3]: continue
     g = gruppo(int(r[1]))
+    if int(r[1]) in (6041101, 6041200, 6041201) and r[3].month <= 6: reg_h1[int(r[1])] += (r[8] or 0) - (r[9] or 0)
     if g == 'altri_costi' and r[3].month <= 8:
         conti[int(r[1])][r[3].month-1] += (r[8] or 0) - (r[9] or 0); nomi[int(r[1])] = r[2]
     if g and r[3].month in (7, 8):
@@ -111,6 +113,19 @@ cf['defaults'] = {
 cf['non_confermato'] = {r['mese']: r['non_confermato'] for r in ricavi_previsti}
 
 # --- dati per il CE 2026 e le imposte (passo 6)
+# TFR e 13a per legge (art. 2120 c.c.; CCNL gomma-plastica industria: 13 mensilita, niente 14a): stipendi 12 mesi = H1 x 2 (metodo Alex);
+# 13a = stipendi 12 mesi / 12 + contributi (INPS + INAIL, rapporto reale 2026); TFR = (stipendi 12 mesi + 13a) / 13,5 - 0,50% dell'imponibile INPS;
+# da aggiungere = quota annua - TFR gia registrato in H1 (6041200 + 6041201).
+sal12 = h['salari'] * 2
+inail = reg_h1[6041101]; contr_anno = (h['contributi'] - inail) * 2 + inail
+r_contr = contr_anno / sal12
+tred_lordo = sal12 / 12
+tred = tred_lordo * (1 + r_contr)
+tfr_annuo = (sal12 + tred_lordo) / 13.5 - 0.005 * (sal12 + tred_lordo)
+tfr_reg = reg_h1[6041200] + reg_h1[6041201]
+integ = {'tfr_da_aggiungere': round(tfr_annuo - tfr_reg, 2), 'tredicesima_con_contributi': round(tred, 2),
+         '_calcolo': {'stipendi_12_mesi': round(sal12, 2), 'rapporto_contributi_su_stipendi': round(r_contr, 4), 'tredicesima_lorda': round(tred_lordo, 2),
+                      'tfr_quota_annua': round(tfr_annuo, 2), 'tfr_gia_registrato_h1': round(tfr_reg, 2)}}
 int_sd = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2026-09' <= ym <= '2026-12')
 int_27 = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2027-01' <= ym <= '2027-12')
 senza_int = [l['name'] for l in P['loans'] if 'int' not in l]
@@ -124,7 +139,7 @@ cf['ce2026'] = {
  'interessi_passivi_set_dic_piani': round(int_sd, 2),
  'multe_e_costi_indeducibili_2025_ricorrenti': 46600,
  'addback_irap_2025_senza_interinale': 107400,
- 'integrazioni': {'tfr_da_aggiungere': 29900, 'tredicesima_con_contributi': 52200},
+ 'integrazioni': integ,
  '_note': 'Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca'}
 cf['defaults'].update({'ammortamenti_2026': 110000, 'ammortamenti_2027': 100000, 'rimanenze_finali_2026': 153400})
 out['cf'] = cf

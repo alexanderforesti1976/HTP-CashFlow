@@ -1290,8 +1290,15 @@
    "multe_e_costi_indeducibili_2025_ricorrenti": 46600,
    "addback_irap_2025_senza_interinale": 107400,
    "integrazioni": {
-    "tfr_da_aggiungere": 29900,
-    "tredicesima_con_contributi": 52200
+    "tfr_da_aggiungere": 30116.88,
+    "tredicesima_con_contributi": 52325.36,
+    "_calcolo": {
+     "stipendi_12_mesi": 470623.5,
+     "rapporto_contributi_su_stipendi": 0.3342,
+     "tredicesima_lorda": 39218.62,
+     "tfr_quota_annua": 35216.87,
+     "tfr_gia_registrato_h1": 5099.99
+    }
    },
    "_note": "Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca"
   }
