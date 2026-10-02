@@ -56,6 +56,21 @@ Scopo: base di partenza per rifare da zero Cash Flow e Contabilità Industriale 
 Altri costi: ricorrenti 16,4k al mese (voci presenti in almeno 6 mesi su 8); irregolari gen-ago 157,1k (di cui pubblicità 55,9, consulenze amministrative 21,8, compenso amministratore 19,4 e INPS 4,5 già chiusi per l'anno). Interessi H1 reali: attivi c/c 3,8 (non 2,1 del provvisorio), titoli 6,0, passivi 13,4.
 Rimanenze finali 2026: nessuna registrata. TFM e ammortamenti: non registrati (stime).
 
+## 4 bis. La bozza al 30/06 va INTEGRATA (Alex, 02/10 sera): scritture di assestamento e competenza
+La bozza al 30/06/2026 (13/07) è solo contabilità registrata: non comprende rimanenze finali, ratei/risconti, TFR, 13ª, TFM, ferie, ammortamenti, imposte di competenza. Per il CE di competenza si aggiungono (metodo; nessuna stima di Claude):
+- **Rimanenze finali al 30/06:** DA FORNIRE (la bozza ha solo le esistenze iniziali 168.359,33 spesate: per questo l'utile 41.535,12 non è il risultato del semestre).
+- **TFR:** retribuzione utile (13ª compresa) / 13,5 più rivalutazione del fondo; già registrati 1.563 (conto 6041200) + 3.537 (previdenza complementare).
+- **13ª:** 6/12 di una mensilità più contributi sul periodo; paga a dicembre; niente 14ª.
+- **TFM:** 20% dell'utile lordo prima del TFM (deducibile).
+- **Ferie e permessi non goduti:** variazione del debito; DA FORNIRE (consulente del lavoro).
+- **Ammortamenti:** non registrati; DA FORNIRE (piano).
+- **Royalties 2° trimestre:** 1,5% dei ricavi aprile-giugno, registrate a luglio (9,7k nei mastrini) → rateo H1.
+- **Costi annuali o pluriennali anticipati** (assicurazioni, canoni software, tassa di circolazione, canoni di manutenzione): risconti attivi per la parte di competenza dopo il 30/06; servono inizio e fine di ogni polizza/contratto: DA FORNIRE.
+- **Ratei sugli interessi dei finanziamenti** non ancora scaduti: dai piani di ammortamento.
+- **Compenso amministratore:** due rate semestrali (19.420 l'anno), da ripartire per competenza.
+- **Imposte di competenza:** IRES e IRAP su basi separate, con variazioni fiscali (DA FORNIRE, Verusca/Luca).
+Le voci già inserite in bozza di cui si può dedurre la quota di competenza (annuali e periodiche) vanno ripartite nel tempo, non moltiplicate né spalmate come mensili.
+
 ## 5. Parametri da chiedere ad Alex prima di costruire
 Obiettivi ricavi 2026/2027; rimanenze finali ipotizzate; CIG 2026/2027; acconto IRES giugno 2026 (F24); frequenza di fatturazione delle consulenze amministrative (set-dic); se il 58k/mese comprende TFR e 13ª; ferie/permessi non goduti; piani di ammortamento aggiornati dei finanziamenti (interessi H2 2026 e 2027); plafond clienti residui; fatture di settembre mancanti.
 
