@@ -1197,6 +1197,7 @@
     "8": 9,
     "12": 1
   },
-  "shiftSupPct": 0.18,
-  "shiftCustPct": 0
+  "shiftSupPct": 0.16,
+  "shiftCustPct": 0,
+  "_shiftSource": "shiftSupPct 16% = quota dei pagamenti fornitori (scadenzario fornitori 2026, scadenze da 01/04, esclusi RID/utenze) verso fornitori con RiBa fine mese SENZA +10 secondo Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx (join per codice): 84,8k su 530k classificati. Anno intero 21,3% (GBS 59k, Mecof 34,5k, SV Pievani 21,5k) ma GBS non fattura piu' da giugno. Verso i clienti nessuno slittamento."
 }
