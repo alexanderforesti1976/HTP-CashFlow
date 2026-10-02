@@ -445,9 +445,9 @@
 </div>
 
 <div class="rev-bar">
-  <div class="rev-item"><div class="label">FATTURATO 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569" id="rv26-sub">Stima anno</div></div>
+  <div class="rev-item"><div class="label">RICAVI 2026</div><div class="value" id="rv26" style="color:#6366f1">1.800k</div><div style="font-size:9px;color:#475569" id="rv26-sub">Stima anno</div></div>
   <div class="rev-divider"></div>
-  <div class="rev-item"><div class="label">FATTURATO 2027</div><div class="value" id="rv27" style="color:#22d3ee">1.980k</div><div style="font-size:9px;color:#475569" id="rv27-sub">Parametro impostato</div></div>
+  <div class="rev-item"><div class="label">RICAVI 2027</div><div class="value" id="rv27" style="color:#22d3ee">1.980k</div><div style="font-size:9px;color:#475569" id="rv27-sub">Parametro impostato</div></div>
   <div class="rev-divider"></div>
   <div class="rev-item"><div class="label">DIFFERENZA</div><div class="value" id="rv-growth" style="color:#f87171">-15k€</div><div style="font-size:9px;color:#475569">2027 vs 2026</div></div>
 </div>
@@ -811,7 +811,7 @@ function loanPayment(i){ var t=2026*12+6+i; return loanPaymentYM(Math.floor(t/12
 
 // === STATE ===
 var P={
-  rev26:2350, rev27:2000,
+  rev26:2250, rev27:2000,
   h1Rev:1248.7,
   dso:36, dpo:105,
   matPct:18, subPct:4,
@@ -848,8 +848,9 @@ function getRevTotals(){
     else undefSeasSum+=SEAS[m.c-1];
   });
 
-  // Fattore scala: riduce OREV se budget < somma; altrimenti 1
-  var scale=(orevH2Sum>0)?Math.min(1,h2Budget/orevH2Sum):1;
+  // Consuntivo + ordini confermati NON vengono mai ridotti per rientrare nel parametro ricavi: se lo superano
+  // il totale 2026 sale e lo sforamento viene segnalato (sfor26). Il parametro (es. 2.250k) è un obiettivo di ricavi.
+  var scale=1;
   var usedByOrev=orevH2Sum*scale;
   var remainUndef=Math.max(0,h2Budget-usedByOrev);
 
@@ -867,7 +868,9 @@ function getRevTotals(){
     h2Plan.push(v);
   });
 
-  var revFull26=P.rev26; // sempre uguale allo slider
+  var h2Tot=h2Plan.reduce(function(s,v){return s+v;},0);
+  var revFull26=Math.max(P.rev26, h1Act+h2Tot); // = slider, salvo sforamento (consuntivo + ordini)
+  var sfor26=Math.max(0, h1Act+orevH2Sum-P.rev26);
 
   // === 2027: il totale è SEMPRE uguale al parametro impostato (P.rev27). Ogni mese
   // 2027 (compresi quelli con ordini gia' confermati) riceve: (a) il proprio ordine
@@ -891,7 +894,7 @@ function getRevTotals(){
   });
 
   var revFull27=P.rev27; // sempre uguale allo slider, come il 2026
-  return {revPlan:revPlan,revFull26:revFull26,revFull27:revFull27,orevH2Sum:orevH2Sum,orev27Sum:orev27Sum};
+  return {revPlan:revPlan,revFull26:revFull26,revFull27:revFull27,orevH2Sum:orevH2Sum,orev27Sum:orev27Sum,sfor26:sfor26};
 }
 
 // Aggiorna la barra riepilogo fatturato (2026/2027/differenza) — unica funzione condivisa
@@ -908,7 +911,10 @@ function updateRevBar(){
   var ng=document.getElementById('n-g27');
   if(d26) d26.textContent='€'+r26.toLocaleString()+'k';
   if(d27){ d27.textContent='€'+r27.toLocaleString()+'k'; d27.style.color='#22d3ee'; }
-  if(d26s) d26s.textContent='Stima anno · ordini H2: €'+Math.round(rt.orevH2Sum||0)+'k';
+  if(d26s){
+    if(rt.sfor26>0.5){ d26s.innerHTML='<span style="color:#f87171;font-weight:700">⚠ SFORATO +€'+rt.sfor26.toFixed(1)+'k vs obiettivo €'+P.rev26+'k (consuntivo + ordini)</span>'; }
+    else d26s.textContent='Ricavi attesi · obiettivo €'+P.rev26+'k · ordini H2: €'+Math.round(rt.orevH2Sum||0)+'k';
+  }
   if(ds) ds.textContent='Ordini confermati: €'+Math.round(rt.orev27Sum||0)+'k';
   if(dg){ dg.textContent=(diff>=0?'+':'')+diff.toLocaleString()+'k\u20ac'; dg.style.color=diff>=0?'#4ade80':'#f87171'; }
   if(ng) ng.textContent='2026: €'+P.rev26+'k \u2192 2027: €'+r27+'k';
@@ -1798,7 +1804,7 @@ function render(){
 
 function resetAll(){
   var defaults={
-    rev26:2350,rev27:2000,
+    rev26:2250,rev27:2000,
     h1Rev:1248.7,dso:36,dpo:105,
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
