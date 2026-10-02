@@ -830,7 +830,7 @@ var P={
   actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6}, purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6}, purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -1009,6 +1009,7 @@ function calcCF() {
   var extP=[mayRev*.27,junRev*.27].concat(purchPlan);
   var t26=calcPL(2026,false).taxes;
   var t27=calcPL(2027,false).taxes;
+  var accSplit=(P.accontoSplit!==undefined)?P.accontoSplit:0.5, accConto25=ACT[2025].taxes, taxCredit=0; // acconti 2026 = 100% imposte 2025
   var rPm=P.openRec/Math.max(1,cd);
   var payPm=P.openPay/Math.max(1,pd);
   var bal=P.startCash;
@@ -1065,10 +1066,12 @@ var otherM=(is27m?P.otherFixedK27:P.otherFixedK)+revPlan[i]*(is27m?P.otherVarPct
 var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     var loans=loanPayment(i);
     var taxes=0;
-    if(m.y===2026&&m.c===6) taxes=t26*.5;
-    if(m.y===2026&&m.c===11) taxes=t26*.5;
-    if(m.y===2027&&m.c===6) taxes=t27*.5;
-    if(m.y===2027&&m.c===11) taxes=t27*.5;
+    // Imposte: acconti anno N = imposte anno N-1 (P.accontoSplit = quota prima rata, giu; resto a nov); giugno anno N+1 = saldo N (imposte N - acconti versati) + 1a rata acconto N+1;
+    // un saldo a credito si compensa nel mese (e l'eventuale residuo con la rata successiva), non si paga.
+    if(m.y===2026&&m.c===6) taxes=accConto25*accSplit;
+    if(m.y===2026&&m.c===11) taxes=accConto25*(1-accSplit);
+    if(m.y===2027&&m.c===6){ var due=(t26-accConto25)+t26*accSplit; if(due<0){ taxCredit=-due; due=0; } taxes=due; }
+    if(m.y===2027&&m.c===11){ var due2=t26*(1-accSplit)-taxCredit; if(due2<0){ taxCredit=-due2; due2=0; } else taxCredit=0; taxes=due2; }
     var svcIva=energyM*(P.ivaEnergia||0)/100+otherM*(P.ivaRate||0)/100; // energia 10%, altri costi 22%
     ivaCred+=svcIva;
     // Saldo IVA: il credito si riporta di mese in mese (nessun rimborso) e si recupera in F24 solo dopo la dichiarazione annuale
@@ -1864,7 +1867,7 @@ function resetAll(){
     actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6},purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6},purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
