@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790984767023"></script>
+<script src="motore.js?v=1790984877582"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -113,7 +113,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790984767023; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790984877582; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -257,7 +257,7 @@ function tabella(R){
   document.getElementById('tab').innerHTML=t;
 }
 function ce26(R){
-  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['+ Rimanenze finali (magazzino 31/12)','rim_fin',1,0],['− Rimanenze iniziali (magazzino 01/01)','rim_in',-1,0],['Materie','materie',-1,0],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24%','ires',-1,0],['IRAP 3,9%','irap',-1,0],['Utile netto','utile',1,2]];
+  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['− Rimanenze iniziali (magazzino 01/01)','rim_in',-1,0],['+ Rimanenze finali (magazzino 31/12)','rim_fin',1,0],['Materie','materie',-1,0],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24%','ires',-1,0],['IRAP 3,9%','irap',-1,0],['Utile netto','utile',1,2]];
   var t='<tr><th>Voce</th><th>2026</th><th>2027</th></tr>';
   K.forEach(function(r){t+='<tr'+(r[3]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[2]*a[r[1]])+' €</td><td>'+EURf(r[2]*c[r[1]])+' €</td></tr>'});
   t+='<tr class="tot"><td>Imposte dell\'anno'+(P.imposte_2026>0?' (2026 forzate)':'')+'</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td><td>'+EURf(c.imposte)+' €</td></tr>';
