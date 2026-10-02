@@ -36,13 +36,13 @@
     "0": 213.6,
     "1": 91.8,
     "2": 220,
-    "3": 222.2,
-    "4": 161.7,
-    "5": 154.3,
-    "6": 34.4,
-    "7": 33.3,
-    "8": 38,
-    "9": 33.3,
+    "3": 215.5,
+    "4": 161.6,
+    "5": 153.7,
+    "6": 33.4,
+    "7": 33.4,
+    "8": 33.4,
+    "9": 37.2,
     "10": 33.4
   },
   "OBACKLOG": [
@@ -198,43 +198,43 @@
     },
     {
       "m": "Ott 26",
-      "t": 222.2,
+      "t": 215.5,
       "c": [
         [
-          "Enextras",
-          47.3
+          "Watts",
+          49.69
         ],
         [
-          "Watts",
-          47
+          "Enextras",
+          47.34
         ],
         [
           "Lav.El.Gomma",
-          27
-        ],
-        [
-          "Eurgomma",
-          25.4
+          31.95
         ],
         [
           "T.Erre",
-          21.8
+          21.85
         ],
         [
           "Scaligera",
-          20.1
+          20.06
         ],
         [
           "OMECA",
-          14.6
+          14.61
+        ],
+        [
+          "Eurgomma",
+          11.0
         ],
         [
           "Serotti",
-          8.5
+          8.54
         ],
         [
           "OMR",
-          5.4
+          5.36
         ],
         [
           "Arkimat",
@@ -242,47 +242,43 @@
         ],
         [
           "Kongsberg Automotive",
-          0.3
+          0.33
         ]
       ],
       "nc": [
         [
-          "T.Erre programma 2100",
-          21.8
-        ],
-        [
-          "OMECA programma 2100",
-          11.5
-        ],
-        [
           "Watts 2099 (conto lavoro)",
-          22.0
+          22.03
+        ],
+        [
+          "T.Erre programma 2100",
+          21.64
         ]
       ]
     },
     {
       "m": "Nov 26",
-      "t": 161.7,
+      "t": 161.6,
       "c": [
         [
           "Enextras",
-          43.4
+          43.45
         ],
         [
           "Lav.El.Gomma",
-          38.5
+          38.48
         ],
         [
           "T.Erre",
-          21.9
+          21.85
         ],
         [
           "Watts",
-          13.3
+          13.33
         ],
         [
           "Sagom Tubi",
-          12
+          12.0
         ],
         [
           "OMECA",
@@ -290,51 +286,51 @@
         ],
         [
           "Dubhe",
-          8.8
+          8.78
         ],
         [
           "OMR",
-          5.9
+          5.86
         ],
         [
           "Edscha",
-          3.9
+          3.85
         ],
         [
           "SASIC",
-          2.5
+          2.48
         ]
       ],
       "nc": [
         [
-          "T.Erre programma 2100",
-          21.9
-        ],
-        [
-          "OMECA programma 2100",
-          11.5
-        ],
-        [
           "Lav.El.Gomma 2099 (conto lavoro)",
-          28.4
+          28.41
         ],
         [
           "Watts 2099 (conto lavoro)",
-          5.6
+          5.62
+        ],
+        [
+          "T.Erre programma 2100",
+          18.66
+        ],
+        [
+          "OMECA programma 2100",
+          6.91
         ]
       ]
     },
     {
       "m": "Dic 26",
-      "t": 154.3,
+      "t": 153.7,
       "c": [
         [
           "Enextras",
-          43.4
+          43.45
         ],
         [
           "Dichtungspartner",
-          30.7
+          30.73
         ],
         [
           "Argomm",
@@ -342,11 +338,11 @@
         ],
         [
           "T.Erre",
-          21.8
+          21.85
         ],
         [
           "MCM",
-          14
+          14.0
         ],
         [
           "OMECA",
@@ -354,67 +350,103 @@
         ],
         [
           "Watts",
-          7.9
-        ],
-        [
-          "Kongsberg Automotive",
-          0.7
+          7.88
         ]
       ],
       "nc": [
         [
+          "Watts 2099 (conto lavoro)",
+          7.88
+        ],
+        [
           "T.Erre programma 2100",
-          21.8
+          21.43
         ],
         [
           "OMECA programma 2100",
-          11.5
-        ],
-        [
-          "Watts 2099 (conto lavoro)",
-          7.9
+          7.68
         ]
       ]
     },
     {
       "m": "Gen 27",
-      "t": 34.4,
+      "t": 33.4,
       "c": [
         [
           "T.Erre",
-          21.9
+          21.85
         ],
         [
           "OMECA",
           11.5
+        ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          21.85
         ],
         [
-          "Kongsberg Power",
-          1
+          "OMECA programma 2100",
+          11.5
         ]
       ]
     },
     {
       "m": "Feb 27",
-      "t": 33.3,
+      "t": 33.4,
       "c": [
         [
           "T.Erre",
-          21.8
+          21.85
         ],
         [
           "OMECA",
+          11.5
+        ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          21.22
+        ],
+        [
+          "OMECA programma 2100",
           11.5
         ]
       ]
     },
     {
       "m": "Mar 27",
-      "t": 38,
+      "t": 33.4,
       "c": [
         [
           "T.Erre",
-          21.9
+          21.85
+        ],
+        [
+          "OMECA",
+          11.5
+        ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          18.87
+        ],
+        [
+          "OMECA programma 2100",
+          11.5
+        ]
+      ]
+    },
+    {
+      "m": "Apr 27",
+      "t": 37.2,
+      "c": [
+        [
+          "T.Erre",
+          21.85
         ],
         [
           "OMECA",
@@ -422,24 +454,16 @@
         ],
         [
           "Edscha",
-          3.9
-        ],
-        [
-          "Kongsberg Automotive",
-          0.7
+          3.85
         ]
-      ]
-    },
-    {
-      "m": "Apr 27",
-      "t": 33.3,
-      "c": [
+      ],
+      "nc": [
         [
-          "T.Erre",
-          21.8
+          "T.Erre programma 2100",
+          21.22
         ],
         [
-          "OMECA",
+          "OMECA programma 2100",
           11.5
         ]
       ]
@@ -450,10 +474,20 @@
       "c": [
         [
           "T.Erre",
-          21.9
+          21.85
         ],
         [
           "OMECA",
+          11.5
+        ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          21.1
+        ],
+        [
+          "OMECA programma 2100",
           11.5
         ]
       ]
@@ -982,76 +1016,48 @@
       "ord": "260054",
       "cliente": "T.Erre",
       "articolo": "110002E",
-      "residuo": 38000,
+      "residuo": 38000.0,
       "spedizione": "2026-07-07"
     },
     {
       "ord": "260009",
       "cliente": "T.Erre",
       "articolo": "110005SN",
-      "residuo": 210,
+      "residuo": 210.0,
       "spedizione": "2026-09-08"
     },
     {
       "ord": "260143",
-      "cliente": "Enextras OÜ",
+      "cliente": "Enextras",
       "articolo": "vari (7 art.)",
       "residuo": 88732.5,
       "spedizione": "2026-09-30"
     },
     {
-      "ord": "260162",
-      "cliente": "Lav.El. Gomma",
-      "articolo": "011056H",
-      "residuo": 255.22,
-      "spedizione": "2026-09-30"
-    },
-    {
-      "ord": "260043",
-      "cliente": "Serotti & Ghidini",
-      "articolo": "157004H",
-      "residuo": 66.6,
-      "spedizione": "2026-09-30"
-    },
-    {
-      "ord": "260144",
-      "cliente": "Serotti & Ghidini",
-      "articolo": "157005H",
-      "residuo": 210,
-      "spedizione": "2026-09-30"
-    },
-    {
-      "ord": "260177",
-      "cliente": "OMECA",
-      "articolo": "025001",
-      "residuo": 1838.1,
-      "spedizione": "2026-10-01"
-    },
-    {
       "ord": "260112",
-      "cliente": "Watts Industries",
+      "cliente": "Watts",
       "articolo": "043002",
-      "residuo": 5512.5,
+      "residuo": 128.25,
       "spedizione": "2026-10-02"
     },
     {
       "ord": "260140",
       "cliente": "Eurgomma",
       "articolo": "067028HB",
-      "residuo": 20800,
+      "residuo": 6400.0,
       "spedizione": "2026-10-05"
     },
     {
       "ord": "260133",
-      "cliente": "Lav.El. Gomma",
+      "cliente": "Lav.El.Gomma",
       "articolo": "011037N",
-      "residuo": 2550,
+      "residuo": 2550.0,
       "spedizione": "2026-10-07"
     },
     {
       "ord": "260149",
-      "cliente": "Lav.El. Gomma",
-      "articolo": "vari (2 art.)",
+      "cliente": "Lav.El.Gomma",
+      "articolo": "011038HN",
       "residuo": 13641.6,
       "spedizione": "2026-10-07"
     },
@@ -1080,12 +1086,19 @@
       "ord": "260083",
       "cliente": "T.Erre",
       "articolo": "110005SN",
-      "residuo": 210,
+      "residuo": 210.0,
       "spedizione": "2026-10-07"
     },
     {
+      "ord": "260177",
+      "cliente": "OMECA",
+      "articolo": "025001",
+      "residuo": 1838.1,
+      "spedizione": "2026-10-08"
+    },
+    {
       "ord": "260180",
-      "cliente": "Lav.El. Gomma",
+      "cliente": "Lav.El.Gomma",
       "articolo": "011068",
       "residuo": 5629.81,
       "spedizione": "2026-10-09"
@@ -1106,7 +1119,7 @@
     },
     {
       "ord": "260204",
-      "cliente": "Watts Industries",
+      "cliente": "Watts",
       "articolo": "043003",
       "residuo": 2152.8,
       "spedizione": "2026-10-12"
@@ -1115,11 +1128,11 @@
       "ord": "250169",
       "cliente": "Eurgomma",
       "articolo": "067028HB",
-      "residuo": 4600,
+      "residuo": 4600.0,
       "spedizione": "2026-10-15"
     }
   ],
-  "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 01/10/2026 00:53; totale residuo verificato = 1.048.115,25). Metodo invariato: mese = periodo (data conferma); ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta gia' passata rispetto alla stampa (OMR 260091, Walker, Edscha 260164 PMC, Omeca 025005 30/7/26, T.Erre 260125 e 260126, Watts 260173/174/175/176 con data rich. 22-29/09, Serotti 260185/260187 15/09). Contratti oltre finestra esclusi: Omeca 025006/025002-4600014227/025001-4600014228/025004-4600014229, Kongsberg VV002019 04/06/2027. Finestra ora Ott26-Mag27 (Set26 e' interamente nel passato rispetto alla data di stampa e va sostituito col fatturato reale da mastrini quando disponibile). Lug26/Ago26 = fatturato reale invariato (213,6k e 91,8k). IMPORTANTE: l'intero ordine Enextras 260143 (7 righe, tot. 88.732,50, periodo Set26) risulta ancora 100% residuo, nessuna spedizione registrata nonostante data sped. prevista 30/09 gia' passata: escluso dal backlog fino a nuova data confermata, da verificare con Giusi/commerciale. Altri residui rimasti scaduti/esclusi: T.Erre 260054 (38,0k, sped. prevista 07/07 mai avvenuta, 80.000pz), 260053 (1,7k), Lav.El.Gomma 260134 (0,35k) e 260162 (0,26k), Serotti 260043/260144 (0,28k), T.Erre 260009 (0,21k), Dichtungspartner 230234/250200 (6,4k, periodi 2024/2025 residui). ORDCRIT rigenerato: ordini con data spedizione pianificata tra 01/07 e 15/10/2026, residuo > 0. CORREZIONE 01/10/2026: nel primo aggiornamento di oggi Set26 era stato rimosso dall'array invece di essere marcato come placeholder, disallineando tutti gli indici successivi di una posizione (Ott26 mostrava i dati di Nov26, ecc.). Corretto: Set26 mantiene il placeholder precedente (234,3k, backlog residuo stimato prima della chiusura del mese) in attesa del fatturato reale da mastrini; Ott26-Mag27 sono ora agli indici corretti (3-10). | 02/10/2026: Set26 sostituito col fatturato reale emesso (SDI/Righe fatture vendita): 142,5k (10 fatture 260118-260127). Differenza vs vecchio backlog (-91,8k) = in gran parte Enextras 260143 (88,7k, non spedito) e residui Serotti/Watts/T.Erre/OMECA non fatturati. Argomm: nessuna bolla da luglio, nessun credito. | Set26 = 220k (stima Alex 02/10): 142,5k emessi + ~77,5k ancora da fatturare. | 02/10/2026: T.Erre e OMECA = ordini confermati + programma 2100 ripartito sulla media ritiri ultimi 12 mesi (T.Erre 21,85k/m, OMECA 11,5k/m; fonte Storico_ritiri_mensili_clienti_programmi.xlsx, regola 2099/2100). Residuo programma oltre mag-27: T.Erre ~45k, OMECA ~38k. Edscha programma 53,9k scaduto (cap giu-26) escluso.",
+  "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 01/10/2026 00:53; totale residuo verificato = 1.048.115,25). Metodo invariato: mese = periodo (data conferma); ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta gia' passata rispetto alla stampa (OMR 260091, Walker, Edscha 260164 PMC, Omeca 025005 30/7/26, T.Erre 260125 e 260126, Watts 260173/174/175/176 con data rich. 22-29/09, Serotti 260185/260187 15/09). Contratti oltre finestra esclusi: Omeca 025006/025002-4600014227/025001-4600014228/025004-4600014229, Kongsberg VV002019 04/06/2027. Finestra ora Ott26-Mag27 (Set26 e' interamente nel passato rispetto alla data di stampa e va sostituito col fatturato reale da mastrini quando disponibile). Lug26/Ago26 = fatturato reale invariato (213,6k e 91,8k). IMPORTANTE: l'intero ordine Enextras 260143 (7 righe, tot. 88.732,50, periodo Set26) risulta ancora 100% residuo, nessuna spedizione registrata nonostante data sped. prevista 30/09 gia' passata: escluso dal backlog fino a nuova data confermata, da verificare con Giusi/commerciale. Altri residui rimasti scaduti/esclusi: T.Erre 260054 (38,0k, sped. prevista 07/07 mai avvenuta, 80.000pz), 260053 (1,7k), Lav.El.Gomma 260134 (0,35k) e 260162 (0,26k), Serotti 260043/260144 (0,28k), T.Erre 260009 (0,21k), Dichtungspartner 230234/250200 (6,4k, periodi 2024/2025 residui). ORDCRIT rigenerato: ordini con data spedizione pianificata tra 01/07 e 15/10/2026, residuo > 0. CORREZIONE 01/10/2026: nel primo aggiornamento di oggi Set26 era stato rimosso dall'array invece di essere marcato come placeholder, disallineando tutti gli indici successivi di una posizione (Ott26 mostrava i dati di Nov26, ecc.). Corretto: Set26 mantiene il placeholder precedente (234,3k, backlog residuo stimato prima della chiusura del mese) in attesa del fatturato reale da mastrini; Ott26-Mag27 sono ora agli indici corretti (3-10). | 02/10/2026: Set26 sostituito col fatturato reale emesso (SDI/Righe fatture vendita): 142,5k (10 fatture 260118-260127). Differenza vs vecchio backlog (-91,8k) = in gran parte Enextras 260143 (88,7k, non spedito) e residui Serotti/Watts/T.Erre/OMECA non fatturati. Argomm: nessuna bolla da luglio, nessun credito. | Set26 = 220k (stima Alex 02/10): 142,5k emessi + ~77,5k ancora da fatturare. | 02/10/2026: T.Erre e OMECA = ordini confermati + programma 2100 ripartito sulla media ritiri ultimi 12 mesi (T.Erre 21,85k/m, OMECA 11,5k/m; fonte Storico_ritiri_mensili_clienti_programmi.xlsx, regola 2099/2100). Residuo programma oltre mag-27: T.Erre ~45k, OMECA ~38k. Edscha programma 53,9k scaduto (cap giu-26) escluso. | 02/10/2026 (stampa 17:50): backlog Ott26-Mag27 RIGENERATO da OrdiniVenditaAperti_2.pdf. Mese=periodo; 2099 = mese 'RESO DA' (solo data >= stampa); 2100 T.Erre/OMECA = max(confermato, media ritiri 21,85k/11,5k); Kongsberg programma 2100 nel mese richiesto; Edscha programma e 2099/2100 con data passata esclusi. Quota non confermata in OBACKLOG[].nc. ORDCRIT rigenerato.",
   "H1_2026_mensile": {
     "_fonte": "Registro fatture per mese, confermato da Alex 01/10/2026",
     "_nota": "Fatturato mensile 2026 (k euro) usato come peso reale per la distribuzione 2027 nel revenue model.",
