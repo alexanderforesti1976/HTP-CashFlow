@@ -17,7 +17,7 @@
   "labor27": 58,
   "rent27": 8.3,
   "energyPct27": 2.35,
-  "otherFixedK27": 21.4,
+  "otherFixedK27": 25,
   "otherVarPct27": 3,
   "di27": 0,
   "amm26": 110,
@@ -1317,5 +1317,15 @@
   "accontoGiu26": 0,
   "tfrRate": 7.41,
   "ferieH1K": 9,
-  "_ratei": "Ratei personale H1 (stima esplicita, non presenti nel bilancio provvisorio): TFR = salari H1 x 7,41% - TFR gia' contabilizzato (5,1k); 13a = tredK/2 (19,0k); ferie maturate non godute ferieH1K = 9k (stima: ~5 giorni/dipendente + oneri, da confermare). accontoGiu26 = acconto imposte giugno 2026 versato da F24 (k), 0 = non inserito (usa imposte 2025 x 50%); novembre 2026 = stessa cifra. otherFixedK 2026 = 25 (richiesta altra chat)."
+  "_ratei": "Ratei personale H1 (stima esplicita, non presenti nel bilancio provvisorio): TFR = salari H1 x 7,41% - TFR gia' contabilizzato (5,1k); 13a = tredK/2 (19,0k); ferie maturate non godute ferieH1K = 9k (stima: ~5 giorni/dipendente + oneri, da confermare). accontoGiu26 = acconto imposte giugno 2026 versato da F24 (k), 0 = non inserito (usa imposte 2025 x 50%); novembre 2026 = stessa cifra. otherFixedK 2026 = 25 (richiesta altra chat).",
+  "energyFixedK27": 7.5,
+  "_forceKeys": [
+    "labor27",
+    "tredK27",
+    "cigW27",
+    "cigH27",
+    "otherFixedK27",
+    "energyFixedK27"
+  ],
+  "_params27": "02/10/2026: parametri 2027 allineati al ritmo reale 2026: personale come 2026 (labor27 = laborK 58k/mese, nessuna CIG), altri costi fissi 25k/mese, energia quasi fissa 7,5k/mese (energyFixedK27, sostituisce la % sul fatturato). _forceKeys: questi valori prevalgono sulle modifiche manuali salvate nella pagina/Firebase."
 }

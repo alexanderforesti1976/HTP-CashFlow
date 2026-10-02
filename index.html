@@ -425,8 +425,9 @@
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Personale 2027</span><span class="sl-val" id="lv-lab27">44k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('labor27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="30" max="130" step="1" value="54" oninput="upd('labor27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(130.0,+(+el.value+1).toFixed(2));el.value=v;upd('labor27',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Affitti 2027</span><span class="sl-val" id="lv-rent27">8.1k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('rent27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="5" max="15" step="0.1" value="8.3" oninput="upd('rent27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(15.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('rent27',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Energia 2027 (% fatt.)</span><span class="sl-val" id="lv-enrg27">3.3%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-1).toFixed(2));el.value=v;upd('energy27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="3" max="20" step="1" value="8" oninput="upd('energyPct27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20.0,+(+el.value+1).toFixed(2));el.value=v;upd('energy27',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Energia 2027 fissa (k&euro;/mese)</span><span class="sl-val" id="lv-enfx27">7,5k&euro;/m</span></div><div class="sl-note">Se &gt; 0 sostituisce la % sul fatturato nel 2027 (energia quasi fissa). 0 = usa la %.</div><div class="sl-ctrl"><input type="number" class="num-inp" min="0" max="20" step="0.1" value="7.5" oninput="upd('energyFixedK27',+this.value)" inputmode="decimal"></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri costi variabili</span><span class="sl-val" id="lv-othv">3%</span></div><div class="sl-note">Variabili: manut.extra, smaltimento, carburante, viaggi, trasporto</div></div>
-<div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri fissi 2027</span><span class="sl-val" id="lv-oth27">20k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-1).toFixed(2));el.value=v;upd('otherFixedK27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="10" max="40" step="1" value="20" oninput="upd('otherFixedK27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30.0,+(+el.value+1).toFixed(2));el.value=v;upd('otherFixedK27',v)" type="button">+</button></div></div>
+<div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri fissi 2027</span><span class="sl-val" id="lv-oth27">20k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-1).toFixed(2));el.value=v;upd('otherFixedK27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="10" max="40" step="1" value="25" oninput="upd('otherFixedK27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30.0,+(+el.value+1).toFixed(2));el.value=v;upd('otherFixedK27',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#38bdf8">SALDI APERTURA GIU 2026</div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Cassa operativa 01/07/2026</span><span class="sl-val" id="lv-cash" style="color:#4ade80">1480k&euro;</span></div><div class="sl-note">Dato da riconciliazione bancaria (Verusca) &middot; aggiornato da parametri &middot; escl. depositi vincolati BCC &euro;548k</div></div>
@@ -821,7 +822,7 @@ var P={
   dso:60, dpo:105,
   matPct:18, subPct:4,
   laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:25, otherVarPct:3,
-  labor27:58, rent27:8.3, energyPct27:2.35, otherFixedK27:21.4, otherVarPct27:3,
+  labor27:58, rent27:8.3, energyPct27:2.35, energyFixedK27:7.5, otherFixedK27:25, otherVarPct27:3,
   tredK:38, tredK27:38,
   invMPK:113, invIMBK:5, invSLK:58, invPFK:17, di27:0,
   amm26:110, amm27:100, tfmPct:20,
@@ -950,7 +951,7 @@ function calcPL(year, actual) {
   var lk=d?null:(is27?P.labor27:P.laborK);
   var cigS=d?0:(is27?P.cigW27:P.cigW)/20*lk*(is27?P.cigH27:P.cigH)/100*0.80*12;
   var labor=d?d.labor:Math.max(0,lk*12-cigS);
-  var energy=d?d.energy:rev*(is27?P.energyPct27:P.energyPct)/100;
+  var energy=d?d.energy:((is27&&P.energyFixedK27>0)?P.energyFixedK27*12:rev*(is27?P.energyPct27:P.energyPct)/100); // 2027: energia quasi fissa (k/mese)
   var rent=d?d.rent:(is27?P.rent27:P.rentK)*12;
   var comm=d?d.comm:rev*P.commPct/100;
   var roy=d?d.roy:rev*P.royPct/100;
@@ -1067,7 +1068,7 @@ function calcCF() {
     var royM=revPlan[i]*P.royPct/100;
     var commM=revPlan[i]*P.commPct/100;
     var fc=FCAL[m.c]||0;
-    var energyM=revPlan[i]*(is27m?P.energyPct27:P.energyPct)/100;
+    var energyM=(is27m&&P.energyFixedK27>0)?P.energyFixedK27:revPlan[i]*(is27m?P.energyPct27:P.energyPct)/100;
 var otherM=(is27m?P.otherFixedK27:P.otherFixedK)+revPlan[i]*(is27m?P.otherVarPct27:P.otherVarPct)/100;
 var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     var loans=loanPayment(i);
@@ -1744,8 +1745,8 @@ function renderLoans(){
 }
 
 // === STATE UPDATE ===
-var lblMap={accontoGiu26:'lv-accg',rev26:'lv-r26',rev27:'lv-r27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
-var fmtP={accontoGiu26:function(v){return v>0?v+'k€':'stima';},rev26:function(v){return v+'k€';},rev27:function(v){return v+'k€';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return (v>=0?'+':'')+v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
+var lblMap={energyFixedK27:'lv-enfx27',accontoGiu26:'lv-accg',rev26:'lv-r26',rev27:'lv-r27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
+var fmtP={energyFixedK27:function(v){return v>0?v.toString().replace('.',',')+'k€/m':'uso %';},accontoGiu26:function(v){return v>0?v+'k€':'stima';},rev26:function(v){return v+'k€';},rev27:function(v){return v+'k€';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return (v>=0?'+':'')+v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
 
 function upd(k,v){
   P[k]=v;
@@ -1865,7 +1866,7 @@ function resetAll(){
     h1Rev:1248.7,dso:60,dpo:105,
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:25,otherVarPct:3,
-    labor27:58,rent27:8.3,energyPct27:2.35,otherFixedK27:21.4,otherVarPct27:3,
+    labor27:58,rent27:8.3,energyPct27:2.35,energyFixedK27:7.5,otherFixedK27:25,otherVarPct27:3,
     tredK:38,tredK27:38,
     invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
@@ -1896,6 +1897,7 @@ function resetAll(){
 
 // === CARICAMENTO PARAMETRI DA params.json ===
 function applyRemoteParams(data) {
+  window._forceKeys = data._forceKeys || [];
   // Aggiorna OREV se presente
   if (data.OREV) {
     Object.keys(data.OREV).forEach(function(k) {
@@ -1945,7 +1947,7 @@ function applyRemoteParams(data) {
 function applyOverrides(overrides, savedP) {
   try {
     // startCash = dato di fatto da bilancio: NON sovrascrivibile da override utente
-    var noOverride = ['startCash'];
+    var noOverride = ['startCash'].concat(window._forceKeys||[]); // _forceKeys da params.json: valori aziendali che prevalgono sulle modifiche manuali
     var inputs = document.querySelectorAll('input[type=number]');
     Object.keys(overrides || {}).forEach(function(k) {
       if (noOverride.indexOf(k) >= 0) return; // salta parametri protetti
