@@ -657,8 +657,8 @@ function updateLastModifiedIndicator(ts, remoteVer){
 const SEAS=[.80,.78,.90,.90,.78,.92,.85,0.54,1.02,1.08,1.12,0.81]; // ago: -2 sett. ferie (~54% capacità) · dic: -1 sett. chiusura (~77% capacità)
 const FCAL={1:.4,3:1.56,4:3.28,5:.02,6:6.79,7:2.53,8:5.22,9:3.74,10:1.24,12:8.41};
 const ACT={
-  2024:{tfrAcc:48.0,rev:4456,mat:1184,sub:226,labor:1062,tfm:151.6,energy:138,rent:96,comm:95,roy:72.9,other:655,amm:118,intInc:28.6,intExp:31.6,taxes:193,di:-48},
-  2025:{tfrAcc:42.7,rev:3060,mat:642,sub:144,labor:847,tfm:74,energy:102,rent:97,comm:68,roy:38.5,other:536,amm:124,intInc:36.2,intExp:30.1,taxes:124,di:-97}
+  2024:{rimIni:313.0,rimFin:265.0,tfrAcc:48.0,rev:4456,mat:1184,sub:226,labor:1062,tfm:151.6,energy:138,rent:96,comm:95,roy:72.9,other:655,amm:118,intInc:28.6,intExp:31.6,taxes:193,di:-48},
+  2025:{rimIni:265.0,rimFin:168.4,tfrAcc:42.7,rev:3060,mat:642,sub:144,labor:847,tfm:74,energy:102,rent:97,comm:68,roy:38.5,other:536,amm:124,intInc:36.2,intExp:30.1,taxes:124,di:-97}
 };
 const MONTHS=[
   {l:"Lug 26",c:7,y:2026},{l:"Ago 26",c:8,y:2026},{l:"Set 26",c:9,y:2026},
@@ -991,6 +991,11 @@ function calcPL(year, actual) {
     var rr=baseY/P.lab25PureK;
     tfrAcc=P.tfr25K*rr; tredAcc=P.tred25K*rr; labor+=tfrAcc+tredAcc;
   }
+  // Rimanenze in valore ASSOLUTO (richiesta Alex): iniziali = finali dell'anno prima (168,4k a inizio 2026 da bilancio 2025), finali = magazzino indicato nei Parametri
+  var invTot=(P.invMPK||0)+(P.invIMBK||0)+(P.invSLK||0)+(P.invPFK||0), rimIni, rimFin;
+  if(d){ rimIni=d.rimIni||0; rimFin=d.rimFin||0; }
+  else if(year===2026){ rimIni=168.4; rimFin=invTot; }
+  else { rimIni=invTot; rimFin=invTot+(P.di27||0); }
   var ebitda=rev+di-mat-sub-labor-energy-rent-comm-roy-other;
   var ebit=ebitda-amm;
   var ebt=ebit+intInc-intExp;
@@ -1001,7 +1006,7 @@ function calcPL(year, actual) {
   var irap=d?(d.taxes!=null?d.taxes*.21:irapBase*P.irapR/100):irapBase*P.irapR/100;
   var taxes=ires+irap;
   return {rev:rev,mat:mat,sub:sub,di:di,labor:labor,energy:energy,rent:rent,
-    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,rateiH1:rateiH1,tfrAcc:tfrAcc,tredAcc:tredAcc,
+    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,rateiH1:rateiH1,tfrAcc:tfrAcc,tredAcc:tredAcc,rimIni:rimIni,rimFin:rimFin,
     valProd:rev+di,ebitda:ebitda,ebit:ebit,
     intInc:intInc,intExp:intExp,ebt:ebt,taxes:taxes,net:ebt-tfm-taxes};
 }
@@ -1276,7 +1281,8 @@ function renderCE(){
   }).join('');
   return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:14px 16px;border-bottom:1px solid #334155"><div style="font-size:13px;font-weight:700">Conto Economico Riclassificato</div><div style="font-size:10px;color:#64748b;margin-top:3px">2024-2025 reali · 2026-2027 proiezioni · k€ · % su ricavi</div></div><div class="tbl-wrap"><table><thead><tr><th style="min-width:175px">VOCE</th>'+heads+pctH+'</tr></thead><tbody>'
     +row('Ricavi netti',function(pl){return pl.rev;},true,true,false,false)
-    +row('  Variazione rimanenze',function(pl){return pl.di;},false,false,true,false,true)
+    +row('  + Rimanenze finali',function(pl){return pl.rimFin;},false,false,true,false)
+    +row('  - Rimanenze iniziali',function(pl){return pl.rimIni;},false,false,true,false)
     +row('= Valore Produzione',function(pl){return pl.valProd;},true,true,false,false)
     +row('  - Acquisti MP',function(pl){return pl.mat;},false,false,true,false)
     +row('  - Lavorazioni c/terzi',function(pl){return pl.sub;},false,false,true,false)
