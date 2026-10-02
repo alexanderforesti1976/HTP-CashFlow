@@ -71,7 +71,7 @@
     var INAIL = ['2026-10', '2026-11', '2026-12', '2027-01', '2027-02', '2027-03', '2027-04'];
     // CE 2026: gen-ago reale, set-dic da regole (variabile in proporzione ai ricavi, fisso per mese); imposte automatiche
     var E = C.ce2026, H = D.h1, M7 = D.mesi['7'], M8 = D.mesi['8'];
-    var ric26 = 0, ricSD = 0; YM.slice(0, 12).forEach(function (ym) { var v = ym < '2026-09' ? W[ym] : REV[ym]; ric26 += v; if (ym >= '2026-09') ricSD += v; });
+    var ric26 = H.ricavi_operativi + M7.ricavi_operativi + M8.ricavi_operativi, ricSD = 0; YM.slice(8, 12).forEach(function (ym) { ric26 += REV[ym]; ricSD += REV[ym]; }); // gen-giu = ricavi reali della bozza (vendite + stampi + diversi), non la somma dei mesi di consegna
     var gsum = function (k) { return H[k] + M7[k] + M8[k]; };
     var SD = ['2026-09', '2026-10', '2026-11', '2026-12'];
     var ce = { ricavi: ric26 };
