@@ -897,6 +897,16 @@ function getRevTotals(){
   return {revPlan:revPlan,revFull26:revFull26,revFull27:revFull27,orevH2Sum:orevH2Sum,orev27Sum:orev27Sum,sfor26:sfor26};
 }
 
+// Quota non confermata (programmi 2100 / righe 2099) per mese da OBACKLOG[].nc, k€
+function ncOf(label){
+  var r=OBACKLOG.filter(function(x){return x.m===label;})[0];
+  return r&&r.nc?r.nc.reduce(function(s,x){return s+x[1];},0):0;
+}
+function ncTotH2(){
+  var nc=0,t=0;
+  OBACKLOG.forEach(function(r){ if(r.m.indexOf('26')>=0 && ['Ott 26','Nov 26','Dic 26'].indexOf(r.m)>=0){ nc+=ncOf(r.m); t+=r.t; } });
+  return {nc:nc,t:t};
+}
 // Aggiorna la barra riepilogo fatturato (2026/2027/differenza) — unica funzione condivisa
 // da tutti i punti di refresh, cosi i valori mostrati sono sempre coerenti tra loro.
 function updateRevBar(){
@@ -914,6 +924,8 @@ function updateRevBar(){
   if(d26s){
     if(rt.sfor26>0.5){ d26s.innerHTML='<span style="color:#f87171;font-weight:700">⚠ SFORATO +€'+rt.sfor26.toFixed(1)+'k vs obiettivo €'+P.rev26+'k (consuntivo + ordini)</span>'; }
     else d26s.textContent='Ricavi attesi · obiettivo €'+P.rev26+'k · ordini H2: €'+Math.round(rt.orevH2Sum||0)+'k';
+    var nq=ncTotH2();
+    if(nq.nc>0) d26s.innerHTML+='<br><span style="color:#fbbf24">di cui non confermato ott-dic (2099/2100): €'+nq.nc.toFixed(1)+'k = '+(nq.nc/nq.t*100).toFixed(0)+'% di €'+nq.t.toFixed(1)+'k</span>';
   }
   if(ds) ds.textContent='Ordini confermati: €'+Math.round(rt.orev27Sum||0)+'k';
   if(dg){ dg.textContent=(diff>=0?'+':'')+diff.toLocaleString()+'k\u20ac'; dg.style.color=diff>=0?'#4ade80':'#f87171'; }
@@ -1214,10 +1226,10 @@ function renderCE(){
 function renderTable(cf){
   var rows=getRows(cf);
   var trs=rows.map(function(d,i){
-    return '<tr><td style="font-weight:700;color:#cbd5e1">'+d.l+'</td><td class="mono" style="color:#94a3b8">'+d.rev.toFixed(0)+'</td><td class="mono" style="color:#818cf8;font-weight:600">'+d.col.toFixed(0)+'</td><td class="mono" style="color:#fb923c">'+d.sup.toFixed(0)+'</td><td class="mono" style="color:#38bdf8">'+d.fixed.toFixed(0)+'</td><td class="mono" style="color:#f43f5e;font-weight:'+(d.loans>50?700:400)+'">'+d.loans.toFixed(0)+'</td><td class="mono" style="color:#fbbf24">'+(d.taxes>0?d.taxes.toFixed(0):'--')+'</td><td class="mono bold" style="color:'+(d.net>=0?'#4ade80':'#f87171')+'">'+(d.net>=0?'+':'')+d.net.toFixed(0)+'</td><td class="mono bold" style="color:'+(d.bal>1200?'#4ade80':d.bal>600?'#fbbf24':'#f87171')+'">'+d.bal.toFixed(0)+'</td></tr>';
+    return '<tr><td style="font-weight:700;color:#cbd5e1">'+d.l+'</td><td class="mono" style="color:#94a3b8">'+d.rev.toFixed(0)+'</td><td class="mono" style="color:#fbbf24">'+(ncOf(d.l)>0?ncOf(d.l).toFixed(0):'')+'</td><td class="mono" style="color:#818cf8;font-weight:600">'+d.col.toFixed(0)+'</td><td class="mono" style="color:#fb923c">'+d.sup.toFixed(0)+'</td><td class="mono" style="color:#38bdf8">'+d.fixed.toFixed(0)+'</td><td class="mono" style="color:#f43f5e;font-weight:'+(d.loans>50?700:400)+'">'+d.loans.toFixed(0)+'</td><td class="mono" style="color:#fbbf24">'+(d.taxes>0?d.taxes.toFixed(0):'--')+'</td><td class="mono bold" style="color:'+(d.net>=0?'#4ade80':'#f87171')+'">'+(d.net>=0?'+':'')+d.net.toFixed(0)+'</td><td class="mono bold" style="color:'+(d.bal>1200?'#4ade80':d.bal>600?'#fbbf24':'#f87171')+'">'+d.bal.toFixed(0)+'</td></tr>';
   }).join('');
   return '<div class="card" style="padding:0;overflow:hidden"><div style="padding:12px 14px;border-bottom:1px solid #334155;font-size:12px;font-weight:700">Dettaglio Cash Flow (k€)</div><div class="tbl-wrap"><table><thead><tr>'
-    +'<th>Mese</th><th>Ricavi</th><th>Incassi</th><th>Fornit.</th><th>Fissi</th><th>Rate</th><th>Imp.</th><th>CF Netto</th><th>Saldo</th>'
+    +'<th>Mese</th><th>Ricavi</th><th>di cui non conf.</th><th>Incassi</th><th>Fornit.</th><th>Fissi</th><th>Rate</th><th>Imp.</th><th>CF Netto</th><th>Saldo</th>'
     +'</tr></thead><tbody>'+trs+'</tbody></table></div></div>';
 }
 

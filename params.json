@@ -244,6 +244,16 @@
           "Kongsberg Automotive",
           0.3
         ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          21.8
+        ],
+        [
+          "OMECA programma 2100",
+          11.5
+        ]
       ]
     },
     {
@@ -290,6 +300,16 @@
           "SASIC",
           2.5
         ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          21.9
+        ],
+        [
+          "OMECA programma 2100",
+          11.5
+        ]
       ]
     },
     {
@@ -327,6 +347,16 @@
         [
           "Kongsberg Automotive",
           0.7
+        ]
+      ],
+      "nc": [
+        [
+          "T.Erre programma 2100",
+          21.8
+        ],
+        [
+          "OMECA programma 2100",
+          11.5
         ]
       ]
     },
