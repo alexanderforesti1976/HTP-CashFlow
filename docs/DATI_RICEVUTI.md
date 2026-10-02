@@ -20,3 +20,18 @@ Saldi 30/09: Credem 463.730, BCC Sebino 43.390, Unicredit 242.160, BCC Brescia 1
 
 ## 5. Altri file ricevuti il 02/10/2026
 Scadenzari clienti e fornitori 2026 (Pegaso), registri IVA vendite e acquisti 2026, utilizzo plafond clienti e fornitori, condizioni di pagamento clienti/fornitori (xlsx), ordini aperti Pegaso (stampa 02/10 17:50), riepilogo sessione e istruzioni per Code (md). Dati già in `params.json` e `CLAUDE.md`.
+
+## 6. Bollette energia elettrica — Sorgenia, agosto 2026 (2 forniture, emesse 09/09/2026, addebito SEPA entro 29/09/2026, quindi già nella cassa al 30/09) — ricevute il 02/10/2026
+Offerta "Borsa Più", mercato libero, condizioni economiche fino al 28/02/2027. PDF senza testo (immagini): letti a vista.
+| | POD IT001E26780150 (via Lanfranchi 15, 40 kW) | POD IT001E26777605 (via Lanfranchi 17 B, 150 kW) |
+|---|---|---|
+| Consumo agosto | 4.232,1 kWh | 11.194,3 kWh |
+| Consumo annuo (set 2025 - ago 2026) | 52.437,6 kWh | 274.661,4 kWh |
+| Quota consumi (variabile) | 1.182,54 (0,279422 €/kWh: energia 0,230541 + rete e oneri 0,048879) | 3.141,65 (0,280647 €/kWh: energia 0,231768 + rete e oneri 0,048879), più reattiva 3,74 |
+| Quota fissa | 13,16 | 13,16 |
+| Quota potenza | 36,8 kW × 4,266576 = 157,01 | 115,2 kW × 4,26658 = 491,51 |
+| Altre partite (corrispettivo reattiva) | 3,39 | 67,24 |
+| Imponibile | 1.356,10 | 3.717,30 |
+| Accise e IVA | 193,80 | 525,65 |
+| **Totale da pagare** | **1.549,90** | **4.242,95** |
+Totale agosto 5.792,85 (imponibile 5.073,40 + accise e IVA 719,45). IVA 10% (verificato: accise 0,0125 €/kWh + IVA 10% su imponibile più accise = 193,80 sul primo POD). Struttura agosto: variabile (consumi) 85,3%, fisso (quota fissa + potenza) 13,3%, altre partite 1,4%. Consumo totale annuo 327.099 kWh (media 27.258 kWh/mese); agosto 15.426 kWh = 56,6% della media, con ricavi di agosto circa il 48% della media mensile: c'è un consumo di base non proporzionale ai ricavi. Dai mastrini agosto "energia" 8.967,82 (le due bollette valgono 5.073,40 senza accise e IVA più altre forniture). **Impianto fotovoltaico in installazione (Alex): DA FORNIRE potenza kWp, data di entrata in funzione, produzione stimata e quota autoconsumata; altre bollette (altri mesi) per capire come i consumi seguono la produzione.**
