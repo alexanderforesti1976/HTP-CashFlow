@@ -657,8 +657,8 @@ function updateLastModifiedIndicator(ts, remoteVer){
 const SEAS=[.80,.78,.90,.90,.78,.92,.85,0.54,1.02,1.08,1.12,0.81]; // ago: -2 sett. ferie (~54% capacità) · dic: -1 sett. chiusura (~77% capacità)
 const FCAL={1:.4,3:1.56,4:3.28,5:.02,6:6.79,7:2.53,8:5.22,9:3.74,10:1.24,12:8.41};
 const ACT={
-  2024:{rev:4456,mat:1184,sub:226,labor:1062,tfm:151.6,energy:138,rent:96,comm:95,roy:72.9,other:655,amm:118,intInc:28.6,intExp:31.6,taxes:193,di:-48},
-  2025:{rev:3060,mat:642,sub:144,labor:847,tfm:74,energy:102,rent:97,comm:68,roy:38.5,other:536,amm:124,intInc:36.2,intExp:30.1,taxes:124,di:-97}
+  2024:{tfrAcc:48.0,rev:4456,mat:1184,sub:226,labor:1062,tfm:151.6,energy:138,rent:96,comm:95,roy:72.9,other:655,amm:118,intInc:28.6,intExp:31.6,taxes:193,di:-48},
+  2025:{tfrAcc:42.7,rev:3060,mat:642,sub:144,labor:847,tfm:74,energy:102,rent:97,comm:68,roy:38.5,other:536,amm:124,intInc:36.2,intExp:30.1,taxes:124,di:-97}
 };
 const MONTHS=[
   {l:"Lug 26",c:7,y:2026},{l:"Ago 26",c:8,y:2026},{l:"Set 26",c:9,y:2026},
@@ -978,6 +978,20 @@ function calcPL(year, actual) {
     intInc=k1(h.ricaviTitoli+h.intAttiviCC+h.dividendi)+5;
     intExp=k1(h.interessi)+loanInterestRange(2026,7,12);
   }
+  // TFR accantonato a chiusura d'anno: il costo all-in mensile (laborK) contiene la 13a (tredK/12) ma NON il TFR: si aggiunge riproporzionando il TFR 2025
+  // (conto 06041200, P.tfr25K) sul costo del personale (P.lab25K = 847,2k), CIG compresa. Non e' cassa (fondo TFR).
+  var tfrAcc=0, tredAcc=0;
+  if(d){ tfrAcc=d.tfrAcc||0; tredAcc=0; }
+  else if(year===2026&&H1_2026_REALE&&H1_2026_REALE.salari!==undefined){
+    var hh=H1_2026_REALE, labH2=Math.max(0,lk*6-cigS/2);
+    var tfrH1=P.rateiH1On?P.tfr25K*((hh.salari+hh.interinale+hh.contributi+hh.tfr+hh.welfare)/1000)/P.lab25K:0;
+    var tfrH2=P.tfr25K*labH2/P.lab25K;
+    labor+=tfrH2; tfrAcc=tfrH1+tfrH2;
+    tredAcc=(P.rateiH1On?(hh.salari/1000)/12*(1+hh.contributi/hh.salari):0)+P.tredK/2;
+  } else {
+    tfrAcc=P.tfr25K*labor/P.lab25K; labor+=tfrAcc;
+    tredAcc=(is27?P.tredK27:P.tredK);
+  }
   var ebitda=rev+di-mat-sub-labor-energy-rent-comm-roy-other;
   var ebit=ebitda-amm;
   var ebt=ebit+intInc-intExp;
@@ -988,7 +1002,7 @@ function calcPL(year, actual) {
   var irap=d?(d.taxes!=null?d.taxes*.21:irapBase*P.irapR/100):irapBase*P.irapR/100;
   var taxes=ires+irap;
   return {rev:rev,mat:mat,sub:sub,di:di,labor:labor,energy:energy,rent:rent,
-    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,rateiH1:rateiH1,
+    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,rateiH1:rateiH1,tfrAcc:tfrAcc,tredAcc:tredAcc,
     valProd:rev+di,ebitda:ebitda,ebit:ebit,
     intInc:intInc,intExp:intExp,ebt:ebt,taxes:taxes,net:ebt-tfm-taxes};
 }
@@ -1268,7 +1282,8 @@ function renderCE(){
     +row('  - Acquisti MP',function(pl){return pl.mat;},false,false,true,false)
     +row('  - Lavorazioni c/terzi',function(pl){return pl.sub;},false,false,true,false)
     +row('  - Costo del personale',function(pl){return pl.labor;},false,false,true,false)
-    +row('      di cui ratei H1 (stima TFR+13a+ferie)',function(pl){return pl.rateiH1||0;},false,false,true,false)
+    +row('      di cui TFR (accantonamento)',function(pl){return pl.tfrAcc||0;},false,false,true,false)
+    +row('      di cui 13a (accantonamento)',function(pl){return pl.tredAcc||0;},false,false,true,false)
     +row('  - Energia',function(pl){return pl.energy;},false,false,true,false)
     +row('  - Affitti',function(pl){return pl.rent;},false,false,true,false)
     +row('  - Provvigioni agenti',function(pl){return pl.comm;},false,false,true,false)
