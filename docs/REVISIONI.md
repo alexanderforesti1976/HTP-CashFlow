@@ -138,6 +138,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R075 | DATI (Alex) / CORREGGE R074 | Seconda prova PVGIS a 30°, orientamento −4°, per 1 kWp: 1.299,11 kWh/kWp l'anno (126.611 kWh per 97,46 kWp). Forma mensile a 30° sul totale E.ON: nov 4,75% e dic 4,44% dell'anno (a 39°: 5,09% e 4,82%). Risparmio mensile indicativo ricalcolato: nov 1.063 + 140 RID (netto dopo il canone −191), dic 994 + 131 (−269), gen −63, feb +181; anno invariato 22.363 + 2.949, netto 8.588. Sostituisce la tabella a 39° di R074 (che sovrastimava l'inverno). Inclinazione reale ancora da avere | Solo documentazione |
 
+| R076 | DATI (Alex) / CORREGGE R075 | Terza prova PVGIS a 15°, orientamento −4°, per 1 kWp: 1.226,35 kWh/kWp (119.520 kWh per 97,46 kWp). E.ON 1.121: 8,6% sotto i 15°, 13,7% sotto i 30°. Adottata come ipotesi di lavoro la forma a 15°: risparmio + RID nov 923+122 (netto −348), dic 814+107 (−473), gen 987+130 (−276), lug 2.889+381 (+1.876); anno invariato 22.363 + 2.949, netto 8.588. Fascia 15°-30° per nov 923-1.063 e dic 814-994 €. Inclinazione reale ancora da avere | Solo documentazione; ultima versione valida per il cash flow nuovo (con decorrenza canone da confermare e sfasamento di un mese in cassa) |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
