@@ -63,5 +63,30 @@ out = {'_fonte': 'H1: bozza bilancio 30/06/2026 del 13/07/2026 (riconciliata al 
        'bozza_totali': {'costi': 1215491.60, 'ricavi': 1257026.72, 'utile': 41535.12},
        'h1': h1, 'mesi': mesi, 'altri_conti': altri_conti, 'ricavi_previsti': ricavi_previsti,
        '_nota_ricavi': 'Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 142,5k emessi + 77,5k da emettere (provvisorio); non_confermato = programmi 2100 + righe 2099'}
+
+# --- dati per il cash flow (passo 3): ereditati da params.json (R005, R009: verificati su scadenzari e condizioni di pagamento)
+ob = {x['m']: x for x in P['OBACKLOG']}
+def quota_iva(lab):
+    r = ob.get(lab)
+    if not r or r['t'] <= 0: return P['vendTaxShareDef'] / 100
+    return round(sum(c[1] for c in r['c'] if any(n in c[0] for n in P['taxClients'])) / r['t'], 4)
+ym_lab = {'2026-09': 'Set 26', '2026-10': 'Ott 26', '2026-11': 'Nov 26', '2026-12': 'Dic 26'}
+fin = collections.defaultdict(float)
+for l in P['loans']:
+    for ym, v in l['sched'].items():
+        if '2026-10' <= ym <= '2027-12': fin[ym] += v * 1000
+cf = {
+ 'cassa_30_09': 1870460.00,
+ 'ricavi': {ym: round(ob[l]['t'] * 1000, 2) for ym, l in ym_lab.items()},
+ 'quota_iva_vendite': {ym: quota_iva(l) for ym, l in ym_lab.items()},
+ 'rec_matrix': {k: v for k, v in P['recMatrix'].items()},
+ 'pay_matrix': P['payMatrix'],
+ 'aperti_clienti': {k: round(v * 1000, 2) for k, v in P['openRecSched'].items()},
+ 'aperti_fornitori': {k: round(v * 1000, 2) for k, v in P['openPaySched'].items()},
+ 'acquisti_settembre_registrati': round(P['purchPartial']['2026-09'] * 1000, 2),
+ 'finanziamenti_mensili': {k: round(v, 2) for k, v in sorted(fin.items())},
+ 'iva': {'aliquota': P['ivaRate'], 'energia': P['ivaEnergia'], 'quota_plafond_acquisti': P['matPlafondShare'], 'quota_vendite_default': P['vendTaxShareDef']},
+ '_fonti': 'recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)'}
+out['cf'] = cf
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))
