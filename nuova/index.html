@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790984600103"></script>
+<script src="motore.js?v=1790984749434"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -113,7 +113,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790984600103; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790984749434; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -247,7 +247,7 @@ function render(){
     kpi('Cassa 31/12/2027',EURf(r.cassa_2027)+' €',dl(r.cassa_2027,b.cassa_2027),dc(r.cassa_2027,b.cassa_2027))+
     kpi('Cassa minima ('+lab(r.mese_minimo)+')',EURf(r.minimo)+' €',dl(r.minimo,b.minimo),dc(r.minimo,b.minimo))+
     kpi('Flusso netto 2027',EURf(r.netto_2027)+' €',dl(r.netto_2027,b.netto_2027),dc(r.netto_2027,b.netto_2027));
-  chartCassa(R); chartFlussi(R); chartCat(R); tabella(R); verusca(R); ce26(R);
+  [chartCassa,chartFlussi,chartCat,tabella,verusca,ce26].forEach(function(f){ try{f(R)}catch(e){ var m=document.getElementById('err')||document.body.appendChild(Object.assign(document.createElement('p'),{id:'err',className:'neg'})); m.textContent='Errore in '+f.name+': '+e.message; } });
 }
 var RIGHE=[['apertura','Cassa iniziale',0],['apertiCli','Incassi: scadenzario clienti (Pegaso 02/10)',1],['nuoviCli','Incassi: fatture da settembre',1],['rid','Incassi: energia immessa (RID), 2 mesi dopo',1],['ivaRel','Incasso: recupero credito IVA',1],['prov','Incassi: interessi attivi e cedola (previsione)',1],['entrate','Totale entrate',2],
  ['apertiFor','Pagamenti: scadenzario fornitori (Pegaso 02/10)',1],['nuoviFor','Pagamenti: acquisti da settembre',1],['personale','Personale (13ª a dicembre)',1],['affitti','Affitti',1],['energia','Energia (bolletta del mese prima, IVA 10%)',1],['altri','Altri costi ricorrenti (IVA 22%)',1],['irreg','Costi irregolari (IVA 22%)',1],['provvigioni','Provvigioni (mese dopo)',1],['royalties','Royalties (trimestrali)',1],['canone','Canone fotovoltaico (IVA 22%)',1],['finanz','Finanziamenti (rate)',1],['rateAcconti','Rate acconto IRES 2026',1],['accontiBase','Acconti e saldo imposte',1],['accertamenti','Rata accertamenti',1],['inail','Rata INAIL',1],['iva','IVA da versare',1],['uscite','Totale uscite',2],['netto','Flusso netto',2],['chiusura','Cassa finale',2]];

@@ -1,1 +1,1 @@
-{"ts": 1790984600103, "cosa": "corretto errore di caricamento (file vecchi in cache): motore e dati ora scaricati sempre aggiornati"}
+{"ts": 1790984749434, "cosa": "ogni sezione si aggiorna anche se un'altra dà errore; verificato che le modifiche aggiornano cassa, conto economico e tabella"}
