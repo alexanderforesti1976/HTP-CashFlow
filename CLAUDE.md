@@ -17,6 +17,10 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Verso il 15/10 Verusca raccoglie tutte le fatture/costi nel bilancio al 30/09 corretto; Alex lo riallega. A quel punto: CE 2026 = costi reali gen-set + proiezione solo del 4° trimestre; ammortamenti, TFM, TFR e ferie vanno STIMATI esplicitamente e mostrati separati (il costo all-in del personale 58k/mese (H2 e previsioni) contiene già TFR e 13a; i ratei servono solo per l'H1 del bilancio provvisorio, dove mancano).
 - Costi assicurativi: non moltiplicarli; verificarli sui riscontri/polizze già allegati (da riallegare).
 
+## Come il programma tratta il personale (letto dal codice)
+- CE: personale = `laborK`×12 (all-in, contiene TFR e 13ª accantonati) − CIG; CIG = `cigW` lavoratori / 20 × `laborK` × `cigH` % ore sospese × 80% (oggi `cigW` = 0 nel 2026 e nel 2027). TFM = `tfmPct` (20%) dell'EBT.
+- Cash flow: ogni mese `laborK` − CIG − `tredK`/12 (accantonamento 13ª non pagato); la tredicesima esce a DICEMBRE (`tredK`×11/12 in più). Corretto il 02/10: il codice la pagava a novembre contro il suo stesso commento.
+
 ## Architettura
 - Stato condiviso in memoria tra i due tab: `P`, `OREV`, `OBACKLOG`, `H1_2026_REALE`. Contabilità non fa più `fetch()` di params.json.
 - `params.json` = fonte persistita (sync Firebase) dei parametri condivisi, incluso `H1_2026_reale`.
