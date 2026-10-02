@@ -100,6 +100,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R056 | REGOLA (Alex) | Canale email: sistema HTP Gestionale sul PC di Alex (SMTP del consulente), script Python standalone, con 8 regole obbligatorie (Alex sempre in Cc, OK esplicito prima di ogni invio, prova solo ad Alex, un invio per richiesta, niente modifiche a alert.py/programmazione.py, numeri verificati su fonte indipendente, firma "Claude, per conto di Alex"). Scritte in CLAUDE.md. Limite: la sessione cloud non vede quel PC (verificato: nessun percorso C:\\ o /mnt/c) | Nessuna email inviata dopo R055 |
 
+| R057 | TENTATIVO (nessun invio) | Prova di invio email via SMTP del gestionale (netrex.it:2525) chiesta da Alex: nell'ambiente cloud non ci sono variabili SMTP (nessuna `SMTP_*`) e la porta 2525 di netrex.it NON è raggiungibile (verificato con connessione TCP). Nessuna email inviata; nessun uso del Gmail personale. Servono: variabili d'ambiente `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_MITTENTE` inserite da Alex nelle impostazioni dell'ambiente (mai in chat) e `netrex.it` tra i domini permessi | In attesa di Alex |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
