@@ -61,6 +61,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 </div>
 </div>
 </div>
+<div class="card"><h2>Conto economico 2026 e imposte (calcolo automatico)</h2><div class="scroll"><table id="ce26" style="min-width:380px"></table></div><div class="note">Gen-ago: dati reali dei mastrini. Set-dic: variabili in proporzione ai ricavi, fissi per mese. TFR e 13ª integrati; TFM 20% dell'utile prima del TFM, deducibile; IRES 24% e IRAP 3,9% su basi proprie. Ammortamenti e variazioni fiscali sono stime da confermare con Verusca.</div></div>
 <div class="card"><h2>Tutte le voci, mese per mese</h2><div class="scroll"><table id="tab"></table></div></div>
 <div class="card"><h2>Cosa c'è dentro e cosa è ipotesi</h2><div class="note" id="ipo"></div></div>
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" style="min-width:420px"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
@@ -88,7 +89,11 @@ var SPEC=[
  {g:'Costi fissi mensili',id:'costi_irregolari_mese',l:'Costi irregolari (consulenze, compenso amm., manutenzioni)',min:0,max:30000,step:250,u:'€'},
  {g:'Ricavi',id:'ricavi27_k',l:'Ricavi 2027 (obiettivo)',min:1500,max:3000,step:25,u:'k€'},
  {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
- {g:'Imposte',id:'imposte_2026',l:'Imposte 2026 (per saldo e acconti 2027)',min:0,max:200000,step:1000,u:'€'},
+ {g:'Conto economico 2026 e imposte',id:'rimanenze_finali_2026',l:'Magazzino finale 31/12/2026 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
+ {g:'Conto economico 2026 e imposte',id:'ammortamenti_2026',l:'Ammortamenti 2026 (stima)',min:60000,max:200000,step:1000,u:'€'},
+ {g:'Conto economico 2026 e imposte',id:'var_ires',l:'Variazioni fiscali IRES in aumento (stima dal 2025)',min:0,max:130000,step:1000,u:'€'},
+ {g:'Conto economico 2026 e imposte',id:'add_irap',l:'Variazioni IRAP in aumento (stima dal 2025)',min:0,max:200000,step:1000,u:'€'},
+ {g:'Imposte',id:'imposte_2026',l:'Imposte 2026: 0 = calcolate dal CE; altro valore = forzate',min:0,max:200000,step:1000,u:'€'},
  {g:'Imposte',id:'acconto_prima_rata_pct',l:'Acconto: quota della 1ª rata',min:40,max:50,step:10,u:'%'},
  {g:'Fotovoltaico',id:'fv_produzione_pct',l:'Produzione rispetto alla stima E.ON',min:50,max:120,step:5,u:'%'},
  {g:'Fotovoltaico',id:'fv_canone',l:'Canone mensile (IVA esclusa)',min:0,max:3000,step:10,u:'€'}
@@ -215,7 +220,7 @@ function render(){
     kpi('Cassa 31/12/2027',EURf(r.cassa_2027)+' €',dl(r.cassa_2027,b.cassa_2027),dc(r.cassa_2027,b.cassa_2027))+
     kpi('Cassa minima ('+lab(r.mese_minimo)+')',EURf(r.minimo)+' €',dl(r.minimo,b.minimo),dc(r.minimo,b.minimo))+
     kpi('Flusso netto 2027',EURf(r.netto_2027)+' €',dl(r.netto_2027,b.netto_2027),dc(r.netto_2027,b.netto_2027));
-  chartCassa(R); chartFlussi(R); chartCat(R); tabella(R); verusca(R);
+  chartCassa(R); chartFlussi(R); chartCat(R); tabella(R); verusca(R); ce26(R);
 }
 var RIGHE=[['apertura','Cassa iniziale',0],['apertiCli','Incassi: scadenzario clienti (Pegaso 02/10)',1],['nuoviCli','Incassi: fatture da settembre',1],['rid','Incassi: energia immessa (RID), 2 mesi dopo',1],['ivaRel','Incasso: recupero credito IVA',1],['prov','Incassi: interessi attivi e cedola (previsione)',1],['entrate','Totale entrate',2],
  ['apertiFor','Pagamenti: scadenzario fornitori (Pegaso 02/10)',1],['nuoviFor','Pagamenti: acquisti da settembre',1],['personale','Personale (13ª a dicembre)',1],['affitti','Affitti',1],['energia','Energia (bolletta del mese prima, IVA 10%)',1],['altri','Altri costi ricorrenti (IVA 22%)',1],['irreg','Costi irregolari (IVA 22%)',1],['provvigioni','Provvigioni (mese dopo)',1],['royalties','Royalties (trimestrali)',1],['canone','Canone fotovoltaico (IVA 22%)',1],['finanz','Finanziamenti (rate)',1],['rateAcconti','Rate acconto IRES 2026',1],['accontiBase','Acconti e saldo imposte',1],['accertamenti','Rata accertamenti',1],['inail','Rata INAIL',1],['iva','IVA da versare',1],['uscite','Totale uscite',2],['netto','Flusso netto',2],['chiusura','Cassa finale',2]];
@@ -224,6 +229,11 @@ function tabella(R){
   RIGHE.forEach(function(r){ t+='<tr'+(r[2]===2?' class="tot"':'')+'><td>'+r[1]+'</td>'+R.mesi.map(function(ym){return '<td>'+EURf(R.righe[ym][r[0]]||0)+'</td>'}).join('')+'</tr>'});
   document.getElementById('tab').innerHTML=t;
 }
+function ce26(R){
+  var c=R.ce, K=[['Ricavi',c.ricavi,0],['Rimanenze finali − iniziali',c.rimanenze,0],['Materie',-c.materie,0],['Lavorazioni c/terzi',-c.lavorazioni,0],['Provvigioni',-c.provvigioni,0],['Royalties 1,5%',-c.royalties,0],['Personale (con TFR e 13ª)',-c.personale,0],['Affitti',-c.affitti,0],['Energia',-c.energia,0],['Altri costi',-c.altri,0],['Ammortamenti',-c.ammortamenti,0],['Risultato operativo',c.operativo,2],['Interessi passivi',-c.int_passivi,0],['Interessi attivi e titoli',c.int_attivi,0],['Utile prima del TFM',c.ante_tfm,2],['TFM (20%)',-c.tfm,0],['Utile ante imposte',c.ante_imposte,2],['IRES 24% (imponibile '+EURf(c.imponibile_ires)+')',-c.ires,0],['IRAP 3,9% (imponibile '+EURf(c.imponibile_irap)+')',-c.irap,0],['Utile netto 2026',c.utile,2],['Imposte 2026 usate nel cash flow'+(P.imposte_2026>0?' (forzate)':''),R.riepilogo.imposte_2026,2],['Acconti 2026 già versati/da versare',124249,0]];
+  var t='';K.forEach(function(r){t+='<tr'+(r[2]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[1])+'</td></tr>'});
+  document.getElementById('ce26').innerHTML=t;
+}
 function verusca(R){
   var o=R.righe['2026-10'];
   var V=[['Incassi (esclusi giroconti)',337030,o.entrate],['Finanziamenti',68400,o.finanz],['Fornitori',50700,o.apertiFor+o.nuoviFor],['Personale (stipendi, ritenute/contributi, INAIL)',56900,o.personale+o.inail],['Affitti',8200,o.affitti],['Energia',7500,o.energia],['Rate imposte (Unico, acconti)',10610,o.rateAcconti],['Totale uscite',213885,o.uscite]];
@@ -231,7 +241,7 @@ function verusca(R){
   V.forEach(function(r){t+='<tr><td>'+r[0]+'</td><td>'+EURf(r[1])+'</td><td>'+EURf(r[2])+'</td><td>'+EURf(r[2]-r[1])+'</td></tr>'});
   document.getElementById('cvr').innerHTML=t;
 }
-document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità 31/12/2025, 30/06/2026 e 30/09/2026; scadenzari clienti e fornitori Pegaso (02/10); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (02/10, settembre provvisorio 220k); mastrini gen-ago per i rapporti dei costi. <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Ipotesi non confermate:</b> imposte 2026 uguali agli acconti 2026 (124.249: la cifra vera dipende dal CE 2026 completo, ancora da costruire; se fossero più basse, il credito compensabile non è modellato); seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 24.925 (31/08); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); nessuna rimanenza o TFM (non sono cassa).';
+document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità 31/12/2025, 30/06/2026 e 30/09/2026; scadenzari clienti e fornitori Pegaso (02/10); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (02/10, settembre provvisorio 220k); mastrini gen-ago per i rapporti dei costi. <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Ipotesi non confermate:</b> imposte 2026 calcolate dal CE 2026 (sopra) con variazioni fiscali e ammortamenti stimati; la differenza con gli acconti 2026 (124.249) è credito, compensato a giugno e novembre 2027; seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 24.925 (31/08); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); rimanenze, TFM e ammortamenti non sono cassa ma entrano nel CE e quindi nelle imposte.';
 var rz=0; window.addEventListener('resize',function(){clearTimeout(rz); rz=setTimeout(function(){ if(D) render(); },150)});
 fetch('dati.json').then(function(r){return r.json()}).then(function(d){
   D=d; P0=Motore.parametriDefault(D); BASE=Motore.calcola(D,P0); P=Object.assign({},P0,carica());

@@ -109,6 +109,21 @@ cf['defaults'] = {
  'pubblicita_gen_ago': round(pub, 2),
  '_nota': 'Rapporti reali gen-ago 2026 (bozza 30/06 + mastrini lug-ago); altri costi dai conti dei mastrini (ricorrenti = presenti in almeno 6 mesi su 8; irregolari senza pubblicità/fiere)'}
 cf['non_confermato'] = {r['mese']: r['non_confermato'] for r in ricavi_previsti}
+
+# --- dati per il CE 2026 e le imposte (passo 6)
+int_sd = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2026-09' <= ym <= '2026-12')
+cf['ce2026'] = {
+ 'interessi_passivi_gen_ago': round(13432.12 + mesi['7']['interessi_passivi'] + mesi['8']['interessi_passivi'], 2),
+ 'interessi_attivi_gen_ago': 3821.36,
+ 'ricavi_titoli_gen_giu': h1['ricavi_titoli'],
+ 'esistenze_iniziali': h1['esistenze_iniziali'],
+ 'royalties_registrate_gen_ago': round(h1['royalties'] + mesi['7']['royalties'], 2),
+ 'interessi_passivi_set_dic_piani': round(int_sd, 2),
+ 'multe_e_costi_indeducibili_2025_ricorrenti': 46600,
+ 'addback_irap_2025_senza_interinale': 107400,
+ 'integrazioni': {'tfr_da_aggiungere': 29900, 'tredicesima_con_contributi': 52200},
+ '_note': 'Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca'}
+cf['defaults'].update({'ammortamenti_2026': 110000, 'rimanenze_finali_2026': 153400})
 out['cf'] = cf
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))

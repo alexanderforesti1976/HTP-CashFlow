@@ -16,7 +16,8 @@
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
       altri_ricorrenti_mese: d.altri_ricorrenti_mese, costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
-      imposte_2026: 124249, acconto_prima_rata_pct: 50
+      imposte_2026: 0, acconto_prima_rata_pct: 50,
+      ammortamenti_2026: d.ammortamenti_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
     };
   }
 
@@ -68,8 +69,33 @@
       '2027-07': sumRoy('2027-04', '2027-05', '2027-06'), '2027-10': sumRoy('2027-07', '2027-08', '2027-09')
     };
     var INAIL = ['2026-10', '2026-11', '2026-12', '2027-01', '2027-02', '2027-03', '2027-04'];
+    // CE 2026: gen-ago reale, set-dic da regole (variabile in proporzione ai ricavi, fisso per mese); imposte automatiche
+    var E = C.ce2026, H = D.h1, M7 = D.mesi['7'], M8 = D.mesi['8'];
+    var ric26 = 0, ricSD = 0; YM.slice(0, 12).forEach(function (ym) { var v = ym < '2026-09' ? W[ym] : REV[ym]; ric26 += v; if (ym >= '2026-09') ricSD += v; });
+    var gsum = function (k) { return H[k] + M7[k] + M8[k]; };
+    var SD = ['2026-09', '2026-10', '2026-11', '2026-12'];
+    var ce = { ricavi: ric26 };
+    ce.rimanenze = P.rimanenze_finali_2026 - E.esistenze_iniziali;
+    ce.materie = gsum('materie') + ricSD * RT.mat; ce.lavorazioni = gsum('lavorazioni_terzi') + ricSD * RT.sub;
+    ce.provvigioni = gsum('provvigioni') + ricSD * RT.prov; ce.royalties = 0.015 * ric26;
+    ce.personale = gsum('personale') + 4 * pers26 + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
+    ce.affitti = gsum('affitti') + 4 * P.affitti_mese;
+    var enSD = 0, canSD = 0; SD.forEach(function (ym) { enSD += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) canSD += P.fv_canone; });
+    ce.energia = gsum('energia') + enSD;
+    ce.altri = gsum('altri_costi') + 4 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + canSD;
+    ce.ammortamenti = P.ammortamenti_2026;
+    ce.operativo = ce.ricavi + ce.rimanenze - ce.materie - ce.lavorazioni - ce.provvigioni - ce.royalties - ce.personale - ce.affitti - ce.energia - ce.altri - ce.ammortamenti;
+    ce.int_passivi = E.interessi_passivi_gen_ago + E.interessi_passivi_set_dic_piani;
+    ce.int_attivi = E.interessi_attivi_gen_ago + E.ricavi_titoli_gen_giu + 1900 * 2 + 5950.68;
+    ce.ante_tfm = ce.operativo - ce.int_passivi + ce.int_attivi;
+    ce.tfm = Math.max(0, 0.20 * ce.ante_tfm);
+    ce.ante_imposte = ce.ante_tfm - ce.tfm;
+    ce.imponibile_ires = ce.ante_imposte + P.var_ires; ce.ires = Math.max(0, 0.24 * ce.imponibile_ires);
+    ce.imponibile_irap = ce.operativo + P.add_irap; ce.irap = Math.max(0, 0.039 * ce.imponibile_irap);
+    ce.imposte = ce.ires + ce.irap; ce.utile = ce.ante_imposte - ce.imposte;
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
-    var p1 = P.acconto_prima_rata_pct / 100, base26 = 124249;
+    var p1 = P.acconto_prima_rata_pct / 100, base26 = 124249, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
+    var cred = Math.max(0, base26 - t26), giu27 = t26 * p1 + (t26 - base26 > 0 ? t26 - base26 : -Math.min(cred, t26 * p1)), res = Math.max(0, cred - t26 * p1);
     OUT.forEach(function (ym, i) {
       var L = {}, ix = YM.indexOf(ym), prev = YM[ix - 1], is27 = ym >= '2027-01';
       L.apertiCli = C.aperti_clienti[ym] || 0;
@@ -91,8 +117,7 @@
       L.canone = ym >= P.fv_canone_da ? P.fv_canone * (1 + IR) : 0;
       L.finanz = C.finanziamenti_mensili[ym] || 0;
       L.rateAcconti = ym === '2026-10' ? 10610.00 : (ym === '2026-11' ? 4112.48 : 0);
-      var t26 = P.imposte_2026;
-      L.accontiBase = ym === '2026-11' ? base26 * (1 - p1) : (ym === '2027-06' ? t26 * p1 + Math.max(0, t26 - base26) : (ym === '2027-11' ? t26 * (1 - p1) : 0));
+      L.accontiBase = ym === '2026-11' ? base26 * (1 - p1) : (ym === '2027-06' ? giu27 : (ym === '2027-11' ? Math.max(0, t26 * (1 - p1) - res) : 0));
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
       L.iva = ivaPay[ym] || 0;
@@ -106,11 +131,11 @@
     var minC = Infinity, minM = '';
     OUT.forEach(function (ym) { if (rows[ym].chiusura < minC) { minC = rows[ym].chiusura; minM = ym; } });
     return {
-      mesi: OUT, righe: rows, ricavi: REV,
+      mesi: OUT, righe: rows, ricavi: REV, ce: ce,
       riepilogo: {
         cassa_2026: rows['2026-12'].chiusura, cassa_2027: rows['2027-12'].chiusura, minimo: minC, mese_minimo: minM,
         entrate_2026: tot('2026', 'entrate'), uscite_2026: tot('2026', 'uscite'), entrate_2027: tot('2027', 'entrate'), uscite_2027: tot('2027', 'uscite'),
-        netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
+        imposte_2026: t26, utile_2026: ce.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
       }
     };
   }
