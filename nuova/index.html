@@ -36,6 +36,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 .scroll{overflow-x:auto}
 #tip{position:fixed;pointer-events:none;background:var(--tx);color:var(--bg);padding:6px 9px;border-radius:8px;font-size:12px;display:none;z-index:9;max-width:240px}
 .note{font-size:12px;color:var(--mut)}
+#sav.ok{color:var(--pos)}#sav.wait{color:var(--warn)}#sav.off{color:var(--warn)}
 </style>
 </head>
 <body>
@@ -43,6 +44,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 <header>
 <h1>HTP — cash flow 2026-2027</h1>
 <div class="sub">Dati reali fino al 30/09/2026 (bloccati) · da ottobre previsione con parametri che puoi cambiare · <a href="ce.html">conto economico e riconciliazioni</a> · app attuale: <a href="../">../</a></div>
+<div class="sub" id="sav" style="margin-top:4px">Salvataggio automatico: ogni modifica si salva da sola.</div>
 </header>
 <div class="kpis" id="kpis"></div>
 <div class="card"><h2>Cassa: storico e previsione</h2><div id="ch1"></div><div class="note" id="ch1n"></div></div>
@@ -91,8 +93,29 @@ var SPEC=[
  {g:'Fotovoltaico',id:'fv_produzione_pct',l:'Produzione rispetto alla stima E.ON',min:50,max:120,step:5,u:'%'},
  {g:'Fotovoltaico',id:'fv_canone',l:'Canone mensile (IVA esclusa)',min:0,max:3000,step:10,u:'€'}
 ];
+var DB='https://htp-tools-default-rtdb.europe-west1.firebasedatabase.app/htp_cashflow_nuova.json', TS_KEY='htp_cashflow_nuova_ts', stTimer=0;
 function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}catch(e){return {}}}
-function salva(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
+function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
+function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
+var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
+function salva(){
+  var ts=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify(P)); localStorage.setItem(TS_KEY,String(ts));}catch(e){}
+  stato('wait','Salvataggio…');
+  clearTimeout(stTimer);
+  stTimer=setTimeout(function(){
+    fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({ts:ts,P:P})})
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); stato('ok','Salvato automaticamente alle '+hh()+' (anche online, su tutti i dispositivi)'); })
+      .catch(function(){ stato('off','Salvato su questo dispositivo alle '+hh()+' (online non raggiungibile)'); });
+  },500);
+}
+function caricaOnline(){ // all'apertura: se online c'è una versione più recente, la prendo
+  return fetch(DB,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http'); return r.json(); }).then(function(d){
+    if(d&&d.P&&d.ts>tsLocale()){ Object.keys(d.P).forEach(function(k){ if(k in P0) P[k]=d.P[k]; }); try{localStorage.setItem(KEY,JSON.stringify(P)); localStorage.setItem(TS_KEY,String(d.ts));}catch(e){} stato('ok','Caricato l\'ultimo salvataggio online ('+new Date(d.ts).toLocaleString('it-IT')+')'); return true; }
+    if(!d||!d.P){ salva(); } else { stato('ok','Salvataggio automatico attivo (online aggiornato)'); }
+    return false;
+  }).catch(function(){ stato('off','Salvataggio automatico solo su questo dispositivo (online non raggiungibile)'); return false; });
+}
 function buildPars(){
   var host=document.getElementById('pars'), last='', h='';
   SPEC.forEach(function(s){
@@ -213,6 +236,7 @@ var rz=0; window.addEventListener('resize',function(){clearTimeout(rz); rz=setTi
 fetch('dati.json').then(function(r){return r.json()}).then(function(d){
   D=d; P0=Motore.parametriDefault(D); BASE=Motore.calcola(D,P0); P=Object.assign({},P0,carica());
   buildPars(); syncPars(); render();
+  caricaOnline().then(function(cambiato){ if(cambiato){ syncPars(); render(); } });
   document.getElementById('reset').addEventListener('click',function(){P=Object.assign({},P0); sync();});
 }).catch(function(e){document.body.insertAdjacentHTML('beforeend','<p class="neg">Errore nel caricare i dati: '+e.message+'</p>')});
 </script>
