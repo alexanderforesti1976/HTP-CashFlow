@@ -1315,9 +1315,8 @@
   "_payMatrixSource": "payMatrix ricalcolata con parser verificato: pesi = fatture a credito con data doc da 01/04/2026 (39 fornitori, 175k: Hexpol 30%, FGR 13%, Selini 8%, PMG 8%, PMG East 6%, EU Silicones 5%...) incl. fatture registro con scadenza 2027; condizioni da Condizioni_pagamento xlsx; RiBa fine mese senza +10 con scadenza agosto/dicembre -> +1 mese.",
   "accontoSplit": 0.5,
   "accontoGiu26": 0,
-  "tfrRate": 6.834,
   "ferieH1K": 0,
-  "_ratei": "02/10/2026: ratei personale H1 REINSERITI con i dati del bilancio 2025 (BILANCIO_HTP_ANNO_2025.pdf): TFR accantonato a chiusura = 37.061,55 / salari 542.287,17 = 6,834% (il 'tfr' 5.099,99 del provvisorio H1 e' solo la previdenza complementare, 2025 intero 5.595,06); tredicesima = 1/12 dei salari H1 + contributi (36,1%); ferie non stimate (0). Totale ratei H1 = 42,8k. Il costo all-in H2 (58k/mese) li contiene gia'.",
+  "_ratei": "Ratei personale H1 (non nel provvisorio): TFR = TFR 2025 (conto 06041200, 37.061,55) riproporzionato sul costo del personale H1 2026 (336,8k / 847,2k del 2025, gia' netto CIG) = 14,7k; 13a = 1/12 dei salari H1 + contributi (36,1%) = 26,7k; ferie non stimate. Totale 41,4k. CIG: cigW lavoratori in CIG e cigH % ore sospese (oggi 0 lavoratori 2026 e 2027): riduce il costo del personale previsto (lavoratori/20 x costo x % ore x 80%) e quindi anche TFR e 13a riproporzionati. H2 = costo all-in 58k/mese che contiene gia' TFR e 13a.",
   "energyFixedK27": 7.5,
   "_forceKeys": [
     "labor27",
@@ -1383,5 +1382,7 @@
   },
   "_purchSource": "02/10/2026: acquisti COMPLETI fino ad agosto; settembre INCOMPLETO (le fatture di fine mese devono ancora arrivare, Alex le allega nei prossimi giorni): consuntivo registrato a credito (fornitori materiali/subforniture, imponibile) 22,2k, il resto del piano settembre (22% ricavi = 48,0k) si proietta con payMatrix: 25,8k. Ottobre-dicembre: solo proiezione. Registrato lug 29,6k / ago 13,6k / set 22,2k contro piano 46,6 / 19,8 / 48,0.",
   "royPayLag": 1,
-  "_royalties": "Royalties = 1,5% del fatturato (1% + 0,5%), maturate e pagate TRIMESTRALMENTE. Cash flow: un pagamento a trimestre = 1,5% dei ricavi dei 3 mesi, nel mese successivo alla fine del trimestre (royPayLag 1: gen/apr/lug/ott; 0 = mar/giu/set/dic). CE: 1,5% su tutto l'anno. H1 reale 8,3k = solo il 1o trimestre (572k x 1,5% = 8,6k): il 2o trimestre si registra a luglio."
+  "_royalties": "Royalties = 1,5% del fatturato (1% + 0,5%), maturate e pagate TRIMESTRALMENTE. Cash flow: un pagamento a trimestre = 1,5% dei ricavi dei 3 mesi, nel mese successivo alla fine del trimestre (royPayLag 1: gen/apr/lug/ott; 0 = mar/giu/set/dic). CE: 1,5% su tutto l'anno. H1 reale 8,3k = solo il 1o trimestre (572k x 1,5% = 8,6k): il 2o trimestre si registra a luglio.",
+  "tfr25K": 37.06155,
+  "lab25K": 847.2
 }
