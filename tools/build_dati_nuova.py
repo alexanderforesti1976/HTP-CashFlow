@@ -75,6 +75,7 @@ fin = collections.defaultdict(float)
 for l in P['loans']:
     for ym, v in l['sched'].items():
         if '2026-10' <= ym <= '2027-12': fin[ym] += v * 1000
+m7r = mesi['7']['ricavi_operativi']; m8r = mesi['8']['ricavi_operativi']
 cf = {
  'cassa_30_09': 1870460.00,
  'ricavi': {ym: round(ob[l]['t'] * 1000, 2) for ym, l in ym_lab.items()},
@@ -84,6 +85,8 @@ cf = {
  'aperti_clienti': {k: round(v * 1000, 2) for k, v in P['openRecSched'].items()},
  'aperti_fornitori': {k: round(v * 1000, 2) for k, v in P['openPaySched'].items()},
  'acquisti_settembre_registrati': round(P['purchPartial']['2026-09'] * 1000, 2),
+ 'ricavi_2026_mensili': {'2026-01': 136970, '2026-02': 228310, '2026-03': 198160, '2026-04': 202780, '2026-05': 197600, '2026-06': 238150, '2026-07': round(m7r,2), '2026-08': round(m8r,2)},
+ 'ordini_2027': {ob[l]['m']: round(ob[l]['t']*1000,2) for l in ob if l.endswith('27')},
  'finanziamenti_mensili': {k: round(v, 2) for k, v in sorted(fin.items())},
  'iva': {'aliquota': P['ivaRate'], 'energia': P['ivaEnergia'], 'quota_plafond_acquisti': P['matPlafondShare'], 'quota_vendite_default': P['vendTaxShareDef']},
  '_fonti': 'recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)'}
