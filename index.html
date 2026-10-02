@@ -823,7 +823,8 @@ var P={
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
   startCash:1279.66, cashAnchor:'2026-09', openRec:0, openPay:0,
-  ivaVend:4.9, ivaMat:13, ivaSvc:22,
+  ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21,
+  taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
   openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
@@ -947,6 +948,12 @@ function calcPL(year, actual) {
     intInc:intInc,intExp:intExp,ebt:ebt,taxes:taxes,net:ebt-tfm-taxes};
 }
 
+// Quota di fatturato del mese verso clienti con IVA 22% (dal backlog per cliente); fuori backlog: quota media 2026
+function vendTaxShare(i){
+  var row=OBACKLOG[i];
+  if(row && row.t>0){ var t=0; (row.c||[]).forEach(function(c){ if((P.taxClients||[]).some(function(n){return c[0].indexOf(n)>=0;})) t+=c[1]; }); return t/row.t; }
+  return (P.vendTaxShareDef||0)/100;
+}
 // === CASHFLOW CALC ===
 function calcCF() {
   var n=MONTHS.length;
@@ -976,14 +983,17 @@ function calcCF() {
     var r=i-cd, colNet=0;
     if(r>=0){ var ymR=ymOf(MONTHS[r]); colNet=(anc&&ymR<=anc)?((P.toInvoice||{})[ymR]||0):revPlan[r]; }
     else if(!anc){ colNet=extR[i+2-cd]||0; }
-    var col=colNet*(1+(P.ivaVend||0)/100)+((P.openRecSched||{})[ym]||0)+(i<cd&&!anc?rPm:0);
-    var ivaDeb=colNet*(P.ivaVend||0)/100;
+    // IVA vendite per regime: 22% solo sui clienti imponibili (quota dal backlog per cliente), tutti gli altri non imponibili (intra-UE / dichiarazione d'intento)
+    var tshare=vendTaxShare(i);
+    var col=colNet*(1+tshare*(P.ivaRate||0)/100)+((P.openRecSched||{})[ym]||0)+(i<cd&&!anc?rPm:0);
+    var ivaDeb=colNet*tshare*(P.ivaRate||0)/100;
     // Pagamenti acquisti: fatture già registrate = scadenzario reale; poi acquisti stimati con ritardo DPO + IVA sulla quota non coperta da plafond
     var pr=i-pd, supNet=0;
     if(pr>=0){ var ymP=ymOf(MONTHS[pr]); supNet=(anc&&ymP<=anc)?0:purchPlan[pr]; }
     else if(!anc){ supNet=extP[i+2-pd]||0; }
-    var sup=supNet*(1+(P.ivaMat||0)/100)+((P.openPaySched||{})[ym]||0)+(i<pd&&!anc?payPm:0);
-    var ivaCred=supNet*(P.ivaMat||0)/100;
+    var sup=supNet*(1+(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100)+((P.openPaySched||{})[ym]||0)+(i<pd&&!anc?payPm:0);
+    // IVA acquisti: materiali/lavorazioni 22% solo sulla quota NON coperta da dichiarazione d'intento (plafond)
+    var ivaCred=supNet*(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100;
     var is27m=m.y===2027;
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
@@ -1003,7 +1013,7 @@ var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     if(m.y===2026&&m.c===11) taxes=t26*.5;
     if(m.y===2027&&m.c===6) taxes=t27*.5;
     if(m.y===2027&&m.c===11) taxes=t27*.5;
-    var svcIva=(energyM+otherM)*(P.ivaSvc||0)/100;
+    var svcIva=energyM*(P.ivaEnergia||0)/100+otherM*(P.ivaRate||0)/100; // energia 10%, altri costi 22%
     ivaCred+=svcIva;
     // Saldo IVA: credito/debito del mese precedente liquidato (credito compensato in F24, debito versato il 16)
     var ivaSet=-prevIvaNet;
@@ -1792,7 +1802,8 @@ function resetAll(){
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
     startCash:1279.66,cashAnchor:'2026-09',openRec:0,openPay:0,
-    ivaVend:4.9,ivaMat:13,ivaSvc:22,
+    ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,
+    taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
     openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
