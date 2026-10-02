@@ -50,6 +50,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R031 | ANALISI (non applicata) | Verifica per competenza di "altri servizi" e "oneri diversi" (mastrini gen-ago 2026 contro bilancio 2025 per conto). Altri servizi 2025 222,5k contro 124,0k gen-ago 2026 (8/12 del 2025 = 148,3k; sotto: consulenze amministrative 21,8 contro 57,1, interinale 0 contro 23,5; sopra: assicurazioni 16,1 contro 17,9 già quasi tutta l'annualità, consulenze legali 7,1 contro 0,9). Oneri diversi 2025 108,9k includono multe e ammende 83,5k non ricorrenti (2026: 2,7k). Altri costi 2025 (536k) includono quindi 83,5k + pubblicità 67,8k non ricorrenti → circa 385k ricorrenti. Altri costi 2026 del modello senza storno: 412,5k; per competenza (gen-ago reali 291,8k + set-dic 80,6k se consulenze amministrative già chiuse, oppure 115,9k se arrivano al livello 2025) = 372-408k | Modello al livello alto o sopra di 5-40k: nessuna correzione al rialzo. Aperto: consulenze amministrative set-dic (frequenza di fatturazione, lo sa Alex) |
 
+| R032 | CONFERMATO (Alex) | Oneri diversi: non si moltiplicano; multe e ammende (83,5k nel 2025, 2,7k gen-ago 2026) non esisteranno più. Nel modello nessuna riga dedicata: H1 reale una volta, H2 e 2027 dentro il fisso 25k + 3% | Nessuna modifica |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
