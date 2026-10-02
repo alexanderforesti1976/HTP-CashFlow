@@ -39,7 +39,7 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 #tip{position:fixed;pointer-events:none;background:var(--tx);color:var(--bg);padding:6px 9px;border-radius:8px;font-size:12px;display:none;z-index:9;max-width:240px}
 .note{font-size:12px;color:var(--mut)}
 #sav.ok{color:var(--pos)}#sav.wait{color:var(--warn)}#sav.off{color:var(--warn)}
-#nav{position:sticky;top:0;z-index:5;display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;align-items:center;padding:6px 0;background:var(--bg);border-bottom:1px solid var(--line)}#nav a{white-space:nowrap;padding:6px 6px;border:1px solid var(--line);border-radius:8px;color:var(--acc);text-decoration:none;font-size:13px;background:var(--card)}#nav button{white-space:nowrap}#nav button,.rs{padding:6px 7px;border:1px solid var(--neg);border-radius:8px;background:var(--card);color:var(--neg);font:inherit;font-size:14px;cursor:pointer}.rs{margin:4px 0 8px}
+#nav{position:sticky;top:0;z-index:5;display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;align-items:center;padding:6px 0;background:var(--bg);border-bottom:1px solid var(--line)}#nav a{white-space:nowrap;padding:6px 6px;border:1px solid var(--line);border-radius:8px;color:var(--acc);text-decoration:none;font-size:13px;background:var(--card)}#nav a.on{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:700}#nav button{white-space:nowrap}#nav button,.rs{padding:6px 7px;border:1px solid var(--neg);border-radius:8px;background:var(--card);color:var(--neg);font:inherit;font-size:14px;cursor:pointer}.rs{margin:4px 0 8px}
 html{scroll-padding-top:50px}
 </style>
 </head>
@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790984749434"></script>
+<script src="motore.js?v=1790984767023"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -113,7 +113,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790984749434; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790984767023; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -276,6 +276,15 @@ function verusca(R){
   document.getElementById('cvr').innerHTML=t;
 }
 document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità reale 31/12/2025 e 30/06/2026; saldi al 30/09/2026 = previsione di Verusca (punto di partenza, da sostituire con i saldi reali); scadenzari clienti e fornitori Pegaso (02/10); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (02/10, settembre provvisorio 220k); mastrini gen-ago per i rapporti dei costi. <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Ipotesi non confermate:</b> imposte 2026 calcolate dal CE 2026 (sopra) con variazioni fiscali e ammortamenti stimati; la differenza con gli acconti 2026 (124.249) è credito, compensato a giugno e novembre 2027; seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 24.925 (31/08); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); rimanenze, TFM e ammortamenti non sono cassa ma entrano nel CE e quindi nelle imposte.';
+
+(function(){
+  var L=[].slice.call(document.querySelectorAll('#nav a')), forz='', tf=0;
+  function attivo(){ var best=L[0]; L.forEach(function(a){ var el=document.querySelector(a.getAttribute('href')); if(el&&el.getBoundingClientRect().top<=80) best=a; }); if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4) best=L[L.length-1]; return best; }
+  function aggiorna(){ var b=forz?document.querySelector('#nav a[href="'+forz+'"]'):attivo(); L.forEach(function(a){a.classList.toggle('on',a===b)}); if(b&&b.scrollIntoView&&document.getElementById('nav').scrollWidth>document.getElementById('nav').clientWidth) document.getElementById('nav').scrollLeft=b.offsetLeft-20; }
+  L.forEach(function(a){ a.addEventListener('click',function(){ forz=a.getAttribute('href'); aggiorna(); clearTimeout(tf); tf=setTimeout(function(){forz=''; aggiorna();},900); }); });
+  window.addEventListener('scroll',function(){ if(!forz) aggiorna(); },{passive:true});
+  window.addEventListener('load',aggiorna); setTimeout(aggiorna,600);
+})();
 var rz=0; window.addEventListener('resize',function(){clearTimeout(rz); rz=setTimeout(function(){ if(D) render(); },150)});
 fetch('dati.json?v='+VER).then(function(r){return r.json()}).then(function(d){
   D=d; P0=Motore.parametriDefault(D); BASE=Motore.calcola(D,P0); P=Object.assign({},P0,carica());
