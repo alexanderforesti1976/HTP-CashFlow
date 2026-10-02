@@ -787,6 +787,10 @@ function loanPaymentYM(y,m){
   return p;
 }
 // Interessi passivi sui finanziamenti in un anno (dai piani; per chi non ha "int" vale 0)
+function loanInterestRange(y,m1,m2){
+  var t=0; LOANS.forEach(function(l){ if(l.int) Object.keys(l.int).forEach(function(k){ var mm=+k.slice(5,7); if(+k.slice(0,4)===y&&mm>=m1&&mm<=m2) t+=l.int[k]; }); });
+  return t;
+}
 function loanInterestYear(y){
   var t=0; LOANS.forEach(function(l){ if(l.int) Object.keys(l.int).forEach(function(k){ if(+k.slice(0,4)===y) t+=l.int[k]; }); });
   return t;
@@ -952,6 +956,22 @@ function calcPL(year, actual) {
   var amm=d?(d.amm||0):(year===2026?P.amm26:P.amm27);
   var intInc=d?d.intInc:(year===2026?10:8);
   var intExp=d?d.intExp:loanInterestYear(year); // interessi dai piani di ammortamento
+  // CE 2026 previsionale = H1 REALE (bilancio provvisorio 30/06, H1_2026_REALE) + H2 previsto con i parametri sui ricavi lug-dic.
+  // Ammortamenti, rimanenze finali, TFM e imposte restano calcolati sull'anno intero (non presenti nel bilancio H1).
+  if(!d&&year===2026&&H1_2026_REALE&&H1_2026_REALE.salari!==undefined){
+    var h=H1_2026_REALE, k1=function(v){return (v||0)/1000;};
+    var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1248.7, revH2=Math.max(0,rev-h1Act);
+    mat=k1(h.mpAcquisti+h.materialiConsumo+h.imballi+h.pfAcquistati)+revH2*P.matPct/100;
+    sub=k1(h.lavCTerzi)+revH2*P.subPct/100;
+    labor=k1(h.salari+h.interinale+h.contributi+h.tfr+h.welfare)+Math.max(0,lk*6-cigS/2);
+    energy=k1(h.energia)+revH2*P.energyPct/100;
+    rent=k1(h.affitti)+P.rentK*6;
+    comm=k1(h.provvigioni)+revH2*P.commPct/100;
+    roy=k1(h.royalties)+revH2*P.royPct/100;
+    other=k1(h.leasing+h.noleggi+h.manutenzioni+h.pubblicita+h.svariComm+h.consulAmm+h.consulTec+h.compensoAmm+h.revisore+h.speseBancarie+h.altriGA)+P.otherFixedK*6+revH2*P.otherVarPct/100;
+    intInc=k1(h.ricaviTitoli+h.intAttiviCC+h.dividendi)+5;
+    intExp=k1(h.interessi)+loanInterestRange(2026,7,12);
+  }
   var ebitda=rev+di-mat-sub-labor-energy-rent-comm-roy-other;
   var ebit=ebitda-amm;
   var ebt=ebit+intInc-intExp;

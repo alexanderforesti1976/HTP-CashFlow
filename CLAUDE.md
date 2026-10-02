@@ -39,6 +39,10 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Finanziamenti in `LOANS`/`loans` mensili (k€: `sched`, `cap`, `int`, `res`) da piani di ammortamento BCC 1066083 e 1071107, Unicredit 2529480, Credem 8630473; BCC Sebino 8021/Finlombarda da bilancio; Unicredit 8823317 e Mini da scadenziario Verusca. Interessi a CE = somma `int`; debito residuo = somma `res`. 2026: rate 436,4k, interessi 19,7k, residuo 31/12 435,9k, **DSCR 1,04x** (2027 ~1,2x).
 - Personale all-in lug 54,3k / ago 48,8k (modello 58k), affitti 8,2k, energia 7,4/9,0k, royalties trimestrali ~9-10k a ottobre.
 
+## CE 2026 (calcPL)
+- 2026 = H1 reale (`H1_2026_REALE`, riclassifica: mat = MP+materiali+imballi+PF; sub = lav. c/terzi; personale = salari+contributi+TFR+welfare; affitti = solo affitti; altri = leasing, noleggi, manutenzioni, pubblicità, consulenze, compenso amm., spese bancarie, altri G&A) + H2 previsto con i parametri sui ricavi lug-dic (h1Rev + ordini). Ammortamenti, rimanenze, TFM e imposte sull'anno intero. Interessi = H1 reale + piano H2.
+- Utile 2026 178,5k (era 237,2k con le % su tutto l'anno): EBITDA 427,7k, imposte 69,1k, TFM 61,9k. "Altri costi" H1 reale 272,3k (incl. storno Terra Verde 41,5k e pubblicità 46,9k) contro 151,7k previsti per H2 dai parametri (`otherFixedK`): da verificare.
+
 ## Aperto
 - Rigenerare `payMatrix` quando arrivano nuove fatture/condizioni (pesi fornitori da scadenzario).
 - Mastrini/trimestrale metà ottobre: sostituire costi stimati lug-set.
