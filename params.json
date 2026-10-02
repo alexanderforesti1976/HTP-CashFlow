@@ -1153,16 +1153,16 @@
     "2026-11": 66.1
   },
   "openPaySched": {
-    "2026-10": 63.4,
-    "2026-11": 23.9,
-    "2026-12": 8.4,
-    "2027-01": 19.8
+    "2026-10": 77.8,
+    "2026-11": 24.2,
+    "2026-12": 10.3,
+    "2027-01": 19.6
   },
   "toInvoice": {
     "2026-09": 77.5
   },
   "_ivaSource": "IVA per aliquota/regime (registri IVA 2026, Pegaso 02/10): VENDITE imponibile 1.529,8k: 22% solo su clienti imponibili (T.Erre 210,2k, Watts 34,2k, Sagom 18,0k, OMR, Dubhe, Elledi, E.B., Scaligera, Breka; quota ~21%), tutto il resto non imponibile (intra-UE NI41 636,7k, dichiarazione d'intento DI8C 549,2k). ACQUISTI imponibile 785,0k: 218,9k senza IVA per dichiarazione d'intento HTP (Hexpol, PMG, Tecnoconf, FGR, Le Quattro C.; ~52% dei materiali/lavorazioni), resto 22%; energia (Sorgenia) 10%; altri costi 22%. Reverse charge (PMG East, MMBC) neutro. Saldo IVA liquidato col mese successivo (credito compensato). Recupero credito IVA: con dichiarazione annuale (Alex 02/10/2026) -> credito riportato mese su mese, compensato in F24 ad aprile 2027 (ivaRecoveryYM); ivaCreditAnchor 36,3k = credito Gen-Set 2026 (IVA acquisti 111,8k - IVA vendite 75,5k), da verificare con Luca.",
-  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10.",
+  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10. | 02/10/2026 17:xx: openPaySched RIGENERATO dallo scadenzario fornitori 01/01-31/12/2026 con parser verificato (Dare 949.004,13 / Avere 1.061.303,72 / saldo aperto 112.299,59 = totali PDF; 77 righe aperte); data pagamento = scadenza (RiBa pagate a scadenza, -1,2 gg) o +17 gg (bonifici, media reale), scaduti -> ottobre; + 5 fatture settembre del registro IVA con scadenza 2027 non presenti nell'export (Hexpol 15.823,16, EU Silicones 2.766,96, L.G. Italia 786,90, Lav.El. 231,56 = 19.608,58 al 10/01/2027).",
   "ivaRate": 22,
   "ivaEnergia": 10,
   "matPlafondShare": 52,
@@ -1205,112 +1205,112 @@
   "payMatrix": {
     "1": [
       0,
-      0.0359,
-      0.1658,
-      0.3389,
-      0.4594,
+      0.0318,
+      0.1496,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "2": [
       0,
-      0.0359,
-      0.1658,
-      0.3389,
-      0.4594,
+      0.0318,
+      0.1496,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "3": [
       0,
-      0.0359,
-      0.1658,
-      0.3389,
-      0.4594,
+      0.0318,
+      0.1496,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "4": [
       0,
-      0.0359,
-      0.1658,
-      0.3389,
-      0.4594,
+      0.0318,
+      0.1496,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "5": [
       0,
-      0.0359,
-      0.1658,
-      0.3122,
-      0.4861,
+      0.0318,
+      0.1496,
+      0.2764,
+      0.5422,
       0,
       0
     ],
     "6": [
       0,
-      0.0359,
-      0.0232,
-      0.4815,
-      0.4594,
+      0.0318,
+      0.0205,
+      0.4349,
+      0.5128,
       0,
       0
     ],
     "7": [
       0,
-      0.0014,
-      0.2003,
-      0.3389,
-      0.4594,
+      0.0012,
+      0.1801,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "8": [
       0,
-      0.0359,
-      0.1658,
-      0.3389,
-      0.4594,
+      0.0318,
+      0.1496,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "9": [
       0,
-      0.0359,
-      0.1658,
-      0.3122,
-      0.4861,
+      0.0318,
+      0.1496,
+      0.2764,
+      0.5422,
       0,
       0
     ],
     "10": [
       0,
-      0.0359,
-      0.0232,
-      0.4815,
-      0.4594,
+      0.0318,
+      0.0205,
+      0.4349,
+      0.5128,
       0,
       0
     ],
     "11": [
       0,
-      0.0014,
-      0.2003,
-      0.3389,
-      0.4594,
+      0.0012,
+      0.1801,
+      0.3059,
+      0.5128,
       0,
       0
     ],
     "12": [
       0,
-      0.0359,
-      0.1658,
-      0.3389,
-      0.4594,
+      0.0318,
+      0.1496,
+      0.3059,
+      0.5128,
       0,
       0
     ]
   },
-  "_payMatrixSource": "payMatrix[mese acquisto 1-12][k=0..6] = quota pagata k mesi dopo, calcolata fornitore per fornitore: peso = fatture fornitori a credito (escluse rimesse/RID/vista) con data doc da 01/04/2026 (scadenzario fornitori 02/10, 155k, 37 fornitori: Hexpol 24%, FGR 14%, Selini 9%, PMG 9%, PMG East 7%...); condizioni da Condizioni_pagamento xlsx (giorni, dffm, +10); RiBa fine mese senza +10 con scadenza agosto/dicembre -> +1 mese (10/09, 10/01). Sostituisce payLag e shiftSupPct."
+  "_payMatrixSource": "payMatrix ricalcolata con parser verificato: pesi = fatture a credito con data doc da 01/04/2026 (39 fornitori, 175k: Hexpol 30%, FGR 13%, Selini 8%, PMG 8%, PMG East 6%, EU Silicones 5%...) incl. fatture registro con scadenza 2027; condizioni da Condizioni_pagamento xlsx; RiBa fine mese senza +10 con scadenza agosto/dicembre -> +1 mese."
 }
