@@ -57,7 +57,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Mastrini/trimestrale metà ottobre: sostituire costi stimati lug-set.
 - Conferma recupero credito IVA con Luca (Studio SGEA). Registro IVA vendite fermo al 21/09 (set 3,8k registrati vs 142,5k emessi).
 - Plafond clienti (dichiarazioni d'intento): residui Lav.El. 58,3k (ott-nov 70,4k → ~12k oltre, IVA 22%), Cavagna/OMECA 35,8k (ott-dic ~37,6k), MCM 6,2k (ordine dic 14,0k). Servono nuove dichiarazioni o IVA sul superamento.
-- Enextras FT108/FT117 (112,2k) e ordine 260143 (88,7k non spedito, chiedere a Giusi).
+- Enextras FT108/FT117 (112,2k): CONFERMATO da situazione Verusca, non ancora pagate, incasso certo entro ottobre (restano in `openRecSched` ottobre). Ordine 260143 (88,7k non spedito): chiedere a Giusi.
 - Ritardi settembre: T.Erre programma 32,3k, Serotti 33,7k, Watts 18,9k.
 - Classificazione IVA OMECA/Arkimat/locazione; storico ritiri vs mastrini; ripartizione T.Erre oltre tetti data.
 - Piano ammortamento BCC Sebino 8021 (opzionale); magazzino al 30/06/2025.
