@@ -3,7 +3,7 @@
 App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilità Industriale** di High Tech Project S.r.l. (overmolding gomma-metallo/gomma-plastica, ~19 dipendenti, Palazzolo s/O). Rispondi in italiano, tecnico e diretto, brevissimo, un passo alla volta.
 
 ## NUOVA COSTRUZIONE (Alex, 02/10/2026 sera)
-- Alex ha deciso di ricostruire l'app da zero. Specifica: `docs/SPECIFICA_RICOSTRUZIONE.md`; dati ricevuti: `docs/DATI_RICEVUTI.md`. La nuova app vive in `nuova/` (non sostituisce `index.html`, che resta com'è finché Alex non decide). Passo 1 pubblicato: CE 2026 reale gen-ago con riconciliazioni (R066). Solo dati reali e regole di Alex, nessuna stima; unici input modificabili: CIG e magazzino.
+- Alex ha deciso di ricostruire l'app da zero. Specifica: `docs/SPECIFICA_RICOSTRUZIONE.md`; dati ricevuti: `docs/DATI_RICEVUTI.md`. La nuova app vive in `nuova/` (non sostituisce `index.html`, che resta com'è finché Alex non decide): `nuova/index.html` = cash flow 2026-2027 INTERATTIVO con grafici e parametri modificabili sui soli dati futuri (R079); `nuova/ce.html` = conto economico reale e riconciliazioni (R066-R067); `nuova/motore.js` = motore di calcolo (test: `node tools/test_motore.js`); `nuova/dati.json` generato da `tools/build_dati_nuova.py` (richiede i mastrini xlsx di Alex, non nel repo). Solo dati reali e regole di Alex, nessuna stima; unici input modificabili: CIG e magazzino.
 
 ## CONGELATO (regola di Alex, 02/10/2026 sera)
 - **Non cambiare più nessuna formula, percentuale o parametro di calcolo senza l'ok esplicito di Alex.** Ogni modifica va prima descritta con tabella prima/dopo (utile e cassa) e approvata; si pubblica solo dopo. Niente correzioni "a pezzi".

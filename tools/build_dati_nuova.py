@@ -90,6 +90,25 @@ cf = {
  'finanziamenti_mensili': {k: round(v, 2) for k, v in sorted(fin.items())},
  'iva': {'aliquota': P['ivaRate'], 'energia': P['ivaEnergia'], 'quota_plafond_acquisti': P['matPlafondShare'], 'quota_vendite_default': P['vendTaxShareDef']},
  '_fonti': 'recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)'}
+
+# --- valori di partenza dei parametri modificabili (solo dati futuri; i dati passati restano bloccati)
+def gsum(k): return h1.get(k, 0) + mesi['7'].get(k, 0) + mesi['8'].get(k, 0)
+ric_ga = gsum('ricavi_operativi')
+pub = sum(c['tot_gen_ago'] for c in altri_conti if c['conto'] == 6021808)
+rec = sum(c['tot_gen_ago'] for c in altri_conti if c['ricorrente'])
+irr = sum(c['tot_gen_ago'] for c in altri_conti if not c['ricorrente'])
+cf['defaults'] = {
+ 'pers_mese': round(h1['personale'] / 6, 2),
+ 'pct_materie': round(gsum('materie') / ric_ga * 100, 3),
+ 'pct_lavorazioni': round(gsum('lavorazioni_terzi') / ric_ga * 100, 3),
+ 'pct_provvigioni': round(gsum('provvigioni') / ric_ga * 100, 3),
+ 'affitti_mese': mesi['8']['affitti'],
+ 'energia_mese': round(gsum('energia') / 8, 2),
+ 'altri_ricorrenti_mese': round(rec / 8, 2),
+ 'costi_irregolari_mese': round((irr - pub) / 8, 2),
+ 'pubblicita_gen_ago': round(pub, 2),
+ '_nota': 'Rapporti reali gen-ago 2026 (bozza 30/06 + mastrini lug-ago); altri costi dai conti dei mastrini (ricorrenti = presenti in almeno 6 mesi su 8; irregolari senza pubblicità/fiere)'}
+cf['non_confermato'] = {r['mese']: r['non_confermato'] for r in ricavi_previsti}
 out['cf'] = cf
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))

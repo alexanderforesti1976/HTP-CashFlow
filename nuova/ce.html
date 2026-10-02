@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTP Conto Economico</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--tx:#e2e8f0;--mut:#94a3b8;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--line:#334155}
+@media (prefers-color-scheme: light){:root{--bg:#f8fafc;--card:#fff;--tx:#0f172a;--mut:#64748b;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--line:#e2e8f0}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:16px}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:16px;margin:24px 0 8px}
+.sub{color:var(--mut);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--mut);font-weight:600;font-size:12px}
+tr.tot td{font-weight:700;border-top:2px solid var(--line)}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.note{font-size:13px;color:var(--mut);margin-top:8px}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<h1>HTP — conto economico (dati reali)</h1>
+<div class="sub"><a href="./" style="color:inherit">← Cash flow interattivo</a> · l'app attuale (<a href="../" style="color:inherit">../</a>) non è stata toccata. Importi in euro.</div>
+
+<h2>CE 2026 · dati reali gen-ago</h2>
+<div class="card"><table id="ce"></table>
+<div class="note">Gen-giu = bozza di bilancio al 30/06 (13/07), riconciliata al centesimo. Luglio e agosto = mastrini (settembre incompleto: non usato). Lo storno 41.502,04 sta dentro "Altri costi" di gen-giu, per convenzione aziendale. Settembre-dicembre e anno: ancora da costruire.</div></div>
+
+
+<h2>Proiezione settembre-dicembre 2026 · regola di Alex</h2>
+<div class="card">
+<div class="note" style="margin:0 0 8px">Variabile = in proporzione ai ricavi (rapporto reale gen-ago). Fisso = quota periodica reale. Nessuna stima inventata: dove manca il dato la voce è "non proiettata".</div>
+<div class="note" style="margin:0 0 8px">Input modificabile — CIG: lavoratori <input id="cigW" type="number" min="0" step="1" value="1" style="width:56px"> · % ore <input id="cigH" type="number" min="0" max="100" step="1" value="15" style="width:56px"> (2026, valori della tua pagina, screenshot del 02/10)</div>
+<table id="prj"></table>
+<div class="note" id="prjn"></div>
+</div>
+
+
+<h2>Riconciliazioni (calcolate qui, nessun valore scritto a mano)</h2>
+<div class="card"><table id="chk"></table></div>
+
+<h2>Integrazioni di competenza al 30/06 (non ancora nel CE sopra)</h2>
+<div class="card"><table id="int"></table></div>
+
+<script>
+var EUR=function(v){return v===null||v===undefined?'':(v<0?'-':'')+Math.abs(v).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})};
+var R=function(x){return Math.round(x*100)/100};
+fetch('dati.json').then(function(r){return r.json()}).then(function(D){
+  var h=D.h1,m7=D.mesi['7'],m8=D.mesi['8'];
+  var g=function(o,k){return (o&&o[k])||0};
+  var righe=[
+   ['ricavi_operativi','Ricavi operativi',1],['ricavi_titoli','Ricavi da titoli',1],['interessi_attivi','Interessi attivi c/c',1],
+   ['materie','Materie e prodotti acquistati',0],['lavorazioni_terzi','Lavorazioni c/terzi',0],['personale','Personale (senza TFR/13ª di competenza)',0],
+   ['energia','Energia',0],['affitti','Affitti',0],['provvigioni','Provvigioni e ENASARCO',0],['royalties','Royalties (a cassa trimestrale)',0],
+   ['altri_costi','Altri costi',0],['interessi_passivi','Interessi passivi',0]];
+  var t='<tr><th>Voce</th><th>Gen-giu (bozza)</th><th>Luglio</th><th>Agosto</th><th>Gen-ago</th></tr>';
+  var totR=[0,0,0,0],totC=[0,0,0,0];
+  righe.forEach(function(r){
+    var a=g(h,r[0]),b=g(m7,r[0]),c=g(m8,r[0]),d=R(a+b+c),T=r[2]?totR:totC;
+    [a,b,c,d].forEach(function(v,i){T[i]+=v});
+    t+='<tr><td>'+r[1]+'</td><td>'+EUR(a)+'</td><td>'+EUR(b)+'</td><td>'+EUR(c)+'</td><td>'+EUR(d)+'</td></tr>';
+  });
+  t+='<tr class="tot"><td>Totale ricavi</td>'+totR.map(function(v){return '<td>'+EUR(R(v))+'</td>'}).join('')+'</tr>';
+  t+='<tr class="tot"><td>Totale costi operativi e finanziari</td>'+totC.map(function(v){return '<td>'+EUR(R(v))+'</td>'}).join('')+'</tr>';
+  t+='<tr class="tot"><td>Margine prima di rimanenze, TFR/13ª, TFM, ammortamenti, imposte</td>'+totR.map(function(v,i){return '<td>'+EUR(R(v-totC[i]))+'</td>'}).join('')+'</tr>';
+  document.getElementById('ce').innerHTML=t;
+
+  var costiBozza=R(totC[0]+h.esistenze_iniziali);
+  var uBozza=R(totR[0]-costiBozza);
+  var chk=[
+   ['Ricavi gen-giu = totale ricavi bozza',R(totR[0]),D.bozza_totali.ricavi],
+   ['Costi gen-giu + esistenze iniziali = totale costi bozza',costiBozza,D.bozza_totali.costi],
+   ['Utile bozza = ricavi − costi',uBozza,D.bozza_totali.utile]];
+  var c='<tr><th>Controllo</th><th>Calcolato</th><th>Documento</th><th>Differenza</th></tr>';
+  chk.forEach(function(x){var d=R(x[1]-x[2]);c+='<tr><td>'+x[0]+'</td><td>'+EUR(x[1])+'</td><td>'+EUR(x[2])+'</td><td class="'+(d===0?'ok':'bad')+'">'+EUR(d)+(d===0?' ✓':' ✗')+'</td></tr>'});
+  document.getElementById('chk').innerHTML=c;
+
+  var I=[
+   ['Rimanenze finali','DA FORNIRE da Alex (valore assoluto, indicativo; certo solo al 31/12 da bilancio definitivo)','warn'],
+   ['TFR','Calcolabile: retribuzione utile (13ª compresa) / 13,5 più rivalutazione; già registrati 1.563,05 + 3.536,94','ok'],
+   ['13ª mensilità','Calcolabile: 6/12 di una mensilità più contributi; si paga a dicembre; niente 14ª','ok'],
+   ['TFM','Calcolabile: 20% dell\'utile lordo prima del TFM; deducibile','ok'],
+   ['Ferie e permessi non goduti','DA FORNIRE (consulente del lavoro): variazione del debito','warn'],
+   ['Ammortamenti','DA FORNIRE (piano di ammortamento)','warn'],
+   ['Royalties 2° trimestre','Dai mastrini: 9.685,00 registrate a luglio, di competenza aprile-giugno','ok'],
+   ['Risconti su costi annuali (assicurazioni, canoni software, tasse auto)','DA FORNIRE: date di inizio e fine di polizze e contratti','warn'],
+   ['Ratei sugli interessi dei finanziamenti','Calcolabili dai piani di ammortamento','ok'],
+   ['Imposte di competenza','IRES 24% sull\'imponibile IRES, IRAP 3,9% sull\'imponibile IRAP (basi diverse): DA FORNIRE le variazioni fiscali (Verusca/Luca)','warn']];
+  var s='<tr><th>Voce</th><th style="text-align:left">Stato</th></tr>';
+  I.forEach(function(x){s+='<tr><td>'+x[0]+'</td><td style="text-align:left;white-space:normal" class="'+x[2]+'">'+x[1]+'</td></tr>'});
+  document.getElementById('int').innerHTML=s;
+
+  var P=D.ricavi_previsti, ricSD=0, ncSD=0; P.forEach(function(x){ricSD+=x.totale;ncSD+=x.non_confermato});
+  var ricGA=R(g(h,'ricavi_operativi')+g(m7,'ricavi_operativi')+g(m8,'ricavi_operativi'));
+  var ga=function(k){return R(g(h,k)+g(m7,k)+g(m8,k))};
+  var rec=0, irr=0; D.altri_conti.forEach(function(c){ if(c.ricorrente) rec+=c.tot_gen_ago; else irr+=c.tot_gen_ago; });
+  function proietta(){
+    var cigW=+document.getElementById('cigW').value||0, cigH=+document.getElementById('cigH').value||0;
+    var ratio=function(k){return ga(k)/ricGA};
+    var persMese=g(h,'personale')/6, cigMese=cigW/20*persMese*cigH/100*0.80;
+    var royAnno=0.015*(ricGA+ricSD);
+    var rows=[
+     ['Ricavi operativi','ordini aperti 02/10 (settembre provvisorio)',ricGA,ricSD,1],
+     ['Materie e prodotti acquistati','variabile: '+(ratio('materie')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('materie'),ratio('materie')*ricSD,0],
+     ['Lavorazioni c/terzi','variabile: '+(ratio('lavorazioni_terzi')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('lavorazioni_terzi'),ratio('lavorazioni_terzi')*ricSD,0],
+     ['Provvigioni e ENASARCO','variabile: '+(ratio('provvigioni')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('provvigioni'),ratio('provvigioni')*ricSD,0],
+     ['Royalties','1,5% dei ricavi su tutto l\'anno (regola); la quota set-dic è il resto',ga('royalties'),royAnno-ga('royalties'),0],
+     ['Affitti','fisso: ultimo canone mensile reale × 4',ga('affitti'),g(m8,'affitti')*4,0],
+     ['Energia','fisso mensile: media gen-ago × 4 (classificazione da confermare)',ga('energia'),ga('energia')/8*4,0],
+     ['Personale (senza TFR/13ª)','fisso: media mensile gen-giu × 4, meno CIG',ga('personale'),(persMese-cigMese)*4,0],
+     ['Altri costi ricorrenti','fisso: media mensile gen-ago dei conti presenti in almeno 6 mesi su 8 × 4',ga('altri_costi'),rec/8*4,0]];
+    var t='<tr><th>Voce</th><th style="text-align:left">Regola</th><th>Gen-ago reale</th><th>Set-dic proiettato</th><th>Anno 2026</th></tr>';
+    var tr=[0,0,0],tc=[0,0,0];
+    rows.forEach(function(r){
+      var a=R(r[2]),b=R(r[3]),T=r[4]?tr:tc; T[0]+=a;T[1]+=b;T[2]+=a+b;
+      t+='<tr><td>'+r[0]+'</td><td style="text-align:left;white-space:normal">'+r[1]+'</td><td>'+EUR(a)+'</td><td>'+EUR(b)+'</td><td>'+EUR(R(a+b))+'</td></tr>';
+    });
+    t+='<tr class="tot"><td>Margine proiettato</td><td></td>'+[0,1,2].map(function(i){return '<td>'+EUR(R(tr[i]-tc[i]))+'</td>'}).join('')+'</tr>';
+    document.getElementById('prj').innerHTML=t;
+    document.getElementById('prjn').innerHTML='<b>Non proiettato, quindi NON incluso nel margine:</b> altri costi irregolari (gen-ago registrati '+EUR(R(irr))+', frequenza da confermare: consulenze, compenso amministratore, pubblicità, manutenzioni, ecc.), interessi passivi (dai piani di ammortamento), titoli e interessi attivi, TFR, 13ª, TFM, ferie, ammortamenti, rimanenze, imposte. Ricavi set-dic: '+EUR(R(ricSD))+', di cui non confermati (programmi 2100 e righe 2099) '+EUR(R(ncSD))+' ('+(ncSD/ricSD*100).toFixed(1).replace('.',',')+'%). Lo storno 41.502,04 è in gen-giu e non si ripete.';
+  }
+  ['cigW','cigH'].forEach(function(id){document.getElementById(id).addEventListener('input',proietta)});
+  proietta();
+
+}).catch(function(e){document.body.insertAdjacentHTML('beforeend','<p class="bad">Errore nel caricare dati.json: '+e.message+'</p>')});
+</script>
+</body>
+</html>

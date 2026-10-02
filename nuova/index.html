@@ -3,241 +3,218 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HTP Nuova Costruzione</title>
+<title>HTP Cash Flow Interattivo</title>
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--tx:#e2e8f0;--mut:#94a3b8;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--line:#334155}
-@media (prefers-color-scheme: light){:root{--bg:#f8fafc;--card:#fff;--tx:#0f172a;--mut:#64748b;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--line:#e2e8f0}}
+:root{--bg:#f4f6fa;--card:#ffffff;--tx:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--pos:#15803d;--neg:#b91c1c;--warn:#b45309;--c1:#2563eb;--c2:#0ea5e9;--c3:#8b5cf6;--c4:#f59e0b;--c5:#ef4444;--c6:#14b8a6;--c7:#64748b;--c8:#ec4899}
+@media (prefers-color-scheme: dark){:root{--bg:#0b1220;--card:#131c2e;--tx:#e5e7eb;--mut:#94a3b8;--line:#25324a;--acc:#60a5fa;--pos:#4ade80;--neg:#f87171;--warn:#fbbf24;--c1:#60a5fa;--c2:#38bdf8;--c3:#a78bfa;--c4:#fbbf24;--c5:#f87171;--c6:#2dd4bf;--c7:#94a3b8;--c8:#f472b6}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:16px}
-h1{font-size:20px;margin:0 0 4px}h2{font-size:16px;margin:24px 0 8px}
-.sub{color:var(--mut);font-size:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:640px}
-th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-th{color:var(--mut);font-weight:600;font-size:12px}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 16px 40px}
+.wrap{max-width:1100px;margin:0 auto}
+header{padding:18px 0 8px}
+h1{font-size:22px;margin:0 0 2px}h2{font-size:16px;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px}.sub a{color:var(--acc)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi .l{color:var(--mut);font-size:12px}.kpi .v{font-size:20px;font-weight:700;margin-top:2px;white-space:nowrap}.kpi .d{font-size:12px;margin-top:2px}
+.pos{color:var(--pos)}.neg{color:var(--neg)}.mut{color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.grid>div,.wrap,.card{min-width:0}
+@media(min-width:900px){.grid{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}}
+svg{width:100%;height:auto;display:block;touch-action:pan-y}
+.axis text{fill:var(--mut);font-size:11px}.axis line,.axis path{stroke:var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;margin-top:6px}.legend span i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.pg{margin:0 0 14px}.pg h3{font-size:13px;color:var(--mut);margin:0 0 6px;text-transform:uppercase;letter-spacing:.04em}
+.par{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.par label{font-size:14px}.par .sv{grid-column:1/3;font-size:11px;color:var(--mut)}
+.par input[type=range]{grid-column:1/3;width:100%;accent-color:var(--acc)}
+.par input[type=number],.par select{width:88px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--tx);font:inherit;text-align:right}
+.par.mod label{color:var(--acc);font-weight:600}
+button{font:inherit;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx);cursor:pointer}
+table{border-collapse:collapse;width:100%;min-width:700px;font-size:12px}th,td{padding:4px 7px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
 tr.tot td{font-weight:700;border-top:2px solid var(--line)}
-.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
-.note{font-size:13px;color:var(--mut);margin-top:8px}
-.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line)}
+.scroll{overflow-x:auto}
+#tip{position:fixed;pointer-events:none;background:var(--tx);color:var(--bg);padding:6px 9px;border-radius:8px;font-size:12px;display:none;z-index:9;max-width:240px}
+.note{font-size:12px;color:var(--mut)}
 </style>
 </head>
 <body>
-<h1>HTP — nuova costruzione</h1>
-<div class="sub">Passi 1-4 · 03/10/2026 · l'app attuale (<a href="../" style="color:inherit">../</a>) non è stata toccata. Solo dati reali: nessuna stima. Importi in euro.</div>
-
-<h2>CE 2026 · dati reali gen-ago</h2>
-<div class="card"><table id="ce"></table>
-<div class="note">Gen-giu = bozza di bilancio al 30/06 (13/07), riconciliata al centesimo. Luglio e agosto = mastrini (settembre incompleto: non usato). Lo storno 41.502,04 sta dentro "Altri costi" di gen-giu, per convenzione aziendale. Settembre-dicembre e anno: ancora da costruire.</div></div>
-
-
-<h2>Proiezione settembre-dicembre 2026 · regola di Alex</h2>
-<div class="card">
-<div class="note" style="margin:0 0 8px">Variabile = in proporzione ai ricavi (rapporto reale gen-ago). Fisso = quota periodica reale. Nessuna stima inventata: dove manca il dato la voce è "non proiettata".</div>
-<div class="note" style="margin:0 0 8px">Input modificabile — CIG: lavoratori <input id="cigW" type="number" min="0" step="1" value="1" style="width:56px"> · % ore <input id="cigH" type="number" min="0" max="100" step="1" value="15" style="width:56px"> (2026, valori della tua pagina, screenshot del 02/10) · CIG 2027: lavoratori <input id="cigW27" type="number" min="0" step="1" value="6" style="width:56px"> · % ore <input id="cigH27" type="number" min="0" max="100" step="1" value="30" style="width:56px"> (2027, dalla tua pagina)</div>
-<table id="prj"></table>
-<div class="note" id="prjn"></div>
+<div class="wrap">
+<header>
+<h1>HTP — cash flow 2026-2027</h1>
+<div class="sub">Dati reali fino al 30/09/2026 (bloccati) · da ottobre previsione con parametri che puoi cambiare · <a href="ce.html">conto economico e riconciliazioni</a> · app attuale: <a href="../">../</a></div>
+</header>
+<div class="kpis" id="kpis"></div>
+<div class="card"><h2>Cassa: storico e previsione</h2><div id="ch1"></div><div class="note" id="ch1n"></div></div>
+<div class="grid">
+<div>
+<div class="card"><h2>Entrate e uscite del mese</h2><div id="ch2"></div><div class="legend"><span><i style="background:var(--pos)"></i>Entrate</span><span><i style="background:var(--neg)"></i>Uscite</span><span><i style="background:var(--acc);border-radius:50%"></i>Netto</span></div></div>
+<div class="card"><h2>Da dove escono i soldi</h2><div id="ch3"></div><div class="legend" id="leg3"></div></div>
 </div>
-
-
-<h2>Cash flow 2026-2027</h2>
-<div class="card">
-<div class="note" style="margin:0 0 8px"><b>Storico (liquidità reale, depositi inclusi; fondo e polizza fuori):</b></div>
-<table id="hist" style="min-width:420px"></table>
-<div class="note" style="margin:12px 0 8px">Previsione da ottobre 2026, mese per mese. Input di previsione: CIG 2026 e 2027 (sopra) · ricavi 2027 (obiettivo, k€) <input id="rev27" type="number" step="50" value="2100" style="width:80px"> · imposte 2026 per saldo e acconti 2027 (€) <input id="t26" type="number" step="1000" value="124249" style="width:100px"></div>
-<table id="cfl"></table>
-<div class="note" id="cfn"></div>
+<div>
+<div class="card" id="pnl"><h2>Parametri (solo dati futuri)</h2>
+<div class="note" style="margin-bottom:8px">I dati passati sono bloccati. Il nome in blu indica un valore diverso da quello di partenza. Le modifiche si salvano su questo dispositivo.</div>
+<div id="pars"></div>
+<button id="reset">Ripristina i valori di partenza</button>
 </div>
-<div class="card" style="margin-top:12px"><table id="cfs" style="min-width:420px"></table></div>
-<h2>Confronto di ottobre con il piano di Verusca</h2>
-<div class="card"><table id="cvr"></table><div class="note">Il piano di Verusca (situazione banche) contiene solo i pagamenti noti: non è una previsione completa. Giroconti fra banche esclusi.</div></div>
-
-<h2>Riconciliazioni (calcolate qui, nessun valore scritto a mano)</h2>
-<div class="card"><table id="chk"></table></div>
-
-<h2>Integrazioni di competenza al 30/06 (non ancora nel CE sopra)</h2>
-<div class="card"><table id="int"></table></div>
-
+</div>
+</div>
+<div class="card"><h2>Tutte le voci, mese per mese</h2><div class="scroll"><table id="tab"></table></div></div>
+<div class="card"><h2>Cosa c'è dentro e cosa è ipotesi</h2><div class="note" id="ipo"></div></div>
+<div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" style="min-width:420px"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
+</div>
+<div id="tip"></div>
+<script src="motore.js"></script>
 <script>
-var EUR=function(v){return v===null||v===undefined?'':(v<0?'-':'')+Math.abs(v).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})};
-var R=function(x){return Math.round(x*100)/100};
-fetch('dati.json').then(function(r){return r.json()}).then(function(D){
-  var h=D.h1,m7=D.mesi['7'],m8=D.mesi['8'];
-  var g=function(o,k){return (o&&o[k])||0};
-  var righe=[
-   ['ricavi_operativi','Ricavi operativi',1],['ricavi_titoli','Ricavi da titoli',1],['interessi_attivi','Interessi attivi c/c',1],
-   ['materie','Materie e prodotti acquistati',0],['lavorazioni_terzi','Lavorazioni c/terzi',0],['personale','Personale (senza TFR/13ª di competenza)',0],
-   ['energia','Energia',0],['affitti','Affitti',0],['provvigioni','Provvigioni e ENASARCO',0],['royalties','Royalties (a cassa trimestrale)',0],
-   ['altri_costi','Altri costi',0],['interessi_passivi','Interessi passivi',0]];
-  var t='<tr><th>Voce</th><th>Gen-giu (bozza)</th><th>Luglio</th><th>Agosto</th><th>Gen-ago</th></tr>';
-  var totR=[0,0,0,0],totC=[0,0,0,0];
-  righe.forEach(function(r){
-    var a=g(h,r[0]),b=g(m7,r[0]),c=g(m8,r[0]),d=R(a+b+c),T=r[2]?totR:totC;
-    [a,b,c,d].forEach(function(v,i){T[i]+=v});
-    t+='<tr><td>'+r[1]+'</td><td>'+EUR(a)+'</td><td>'+EUR(b)+'</td><td>'+EUR(c)+'</td><td>'+EUR(d)+'</td></tr>';
+var EURf=function(v){return (v<0?'-':'')+Math.abs(Math.round(v)).toLocaleString('it-IT')};
+var EURm=function(v){return (v/1e6).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+' M'};
+var EURk=function(v){return Math.round(v/1000).toLocaleString('it-IT')+'k'};
+var MES=Motore.MESI, D=null, P0=null, P=null, BASE=null, KEY='htp_cashflow_nuova_v1';
+var lab=function(ym){return MES[+ym.slice(5)-1]+' '+ym.slice(2,4)};
+var SPEC=[
+ {g:'Personale e CIG',id:'cig26_lavoratori',l:'CIG 2026 — lavoratori',min:0,max:10,step:1,u:''},
+ {g:'Personale e CIG',id:'cig26_ore',l:'CIG 2026 — % ore',min:0,max:100,step:5,u:'%'},
+ {g:'Personale e CIG',id:'cig27_lavoratori',l:'CIG 2027 — lavoratori',min:0,max:19,step:1,u:''},
+ {g:'Personale e CIG',id:'cig27_ore',l:'CIG 2027 — % ore',min:0,max:100,step:5,u:'%'},
+ {g:'Personale e CIG',id:'pers_mese',l:'Costo personale mensile (senza CIG)',min:40000,max:70000,step:250,u:'€'},
+ {g:'Costi variabili (% dei ricavi)',id:'pct_materie',l:'Materie e prodotti acquistati',min:10,max:30,step:0.1,u:'%'},
+ {g:'Costi variabili (% dei ricavi)',id:'pct_lavorazioni',l:'Lavorazioni c/terzi',min:0,max:10,step:0.1,u:'%'},
+ {g:'Costi variabili (% dei ricavi)',id:'pct_provvigioni',l:'Provvigioni',min:0,max:6,step:0.1,u:'%'},
+ {g:'Costi fissi mensili',id:'affitti_mese',l:'Affitti',min:6000,max:12000,step:100,u:'€'},
+ {g:'Costi fissi mensili',id:'energia_mese',l:'Energia (prima del fotovoltaico)',min:4000,max:14000,step:100,u:'€'},
+ {g:'Costi fissi mensili',id:'altri_ricorrenti_mese',l:'Altri costi ricorrenti',min:8000,max:30000,step:250,u:'€'},
+ {g:'Costi fissi mensili',id:'costi_irregolari_mese',l:'Costi irregolari (consulenze, compenso amm., manutenzioni)',min:0,max:30000,step:250,u:'€'},
+ {g:'Ricavi',id:'ricavi27_k',l:'Ricavi 2027 (obiettivo)',min:1500,max:3000,step:25,u:'k€'},
+ {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
+ {g:'Imposte',id:'imposte_2026',l:'Imposte 2026 (per saldo e acconti 2027)',min:0,max:200000,step:1000,u:'€'},
+ {g:'Imposte',id:'acconto_prima_rata_pct',l:'Acconto: quota della 1ª rata',min:40,max:50,step:10,u:'%'},
+ {g:'Fotovoltaico',id:'fv_produzione_pct',l:'Produzione rispetto alla stima E.ON',min:50,max:120,step:5,u:'%'},
+ {g:'Fotovoltaico',id:'fv_canone',l:'Canone mensile (IVA esclusa)',min:0,max:3000,step:10,u:'€'}
+];
+function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}catch(e){return {}}}
+function salva(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
+function buildPars(){
+  var host=document.getElementById('pars'), last='', h='';
+  SPEC.forEach(function(s){
+    if(s.g!==last){ if(last) h+='</div>'; h+='<div class="pg"><h3>'+s.g+'</h3>'; last=s.g; }
+    h+='<div class="par" id="row_'+s.id+'"><label for="n_'+s.id+'">'+s.l+'</label><span><input type="number" id="n_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'"> '+s.u+'</span><input type="range" id="r_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'"><div class="sv" id="sv_'+s.id+'"></div></div>';
   });
-  t+='<tr class="tot"><td>Totale ricavi</td>'+totR.map(function(v){return '<td>'+EUR(R(v))+'</td>'}).join('')+'</tr>';
-  t+='<tr class="tot"><td>Totale costi operativi e finanziari</td>'+totC.map(function(v){return '<td>'+EUR(R(v))+'</td>'}).join('')+'</tr>';
-  t+='<tr class="tot"><td>Margine prima di rimanenze, TFR/13ª, TFM, ammortamenti, imposte</td>'+totR.map(function(v,i){return '<td>'+EUR(R(v-totC[i]))+'</td>'}).join('')+'</tr>';
-  document.getElementById('ce').innerHTML=t;
-
-  var costiBozza=R(totC[0]+h.esistenze_iniziali);
-  var uBozza=R(totR[0]-costiBozza);
-  var chk=[
-   ['Ricavi gen-giu = totale ricavi bozza',R(totR[0]),D.bozza_totali.ricavi],
-   ['Costi gen-giu + esistenze iniziali = totale costi bozza',costiBozza,D.bozza_totali.costi],
-   ['Utile bozza = ricavi − costi',uBozza,D.bozza_totali.utile]];
-  var c='<tr><th>Controllo</th><th>Calcolato</th><th>Documento</th><th>Differenza</th></tr>';
-  chk.forEach(function(x){var d=R(x[1]-x[2]);c+='<tr><td>'+x[0]+'</td><td>'+EUR(x[1])+'</td><td>'+EUR(x[2])+'</td><td class="'+(d===0?'ok':'bad')+'">'+EUR(d)+(d===0?' ✓':' ✗')+'</td></tr>'});
-  document.getElementById('chk').innerHTML=c;
-
-  var I=[
-   ['Rimanenze finali','DA FORNIRE da Alex (valore assoluto, indicativo; certo solo al 31/12 da bilancio definitivo)','warn'],
-   ['TFR','Calcolabile: retribuzione utile (13ª compresa) / 13,5 più rivalutazione; già registrati 1.563,05 + 3.536,94','ok'],
-   ['13ª mensilità','Calcolabile: 6/12 di una mensilità più contributi; si paga a dicembre; niente 14ª','ok'],
-   ['TFM','Calcolabile: 20% dell\'utile lordo prima del TFM; deducibile','ok'],
-   ['Ferie e permessi non goduti','DA FORNIRE (consulente del lavoro): variazione del debito','warn'],
-   ['Ammortamenti','DA FORNIRE (piano di ammortamento)','warn'],
-   ['Royalties 2° trimestre','Dai mastrini: 9.685,00 registrate a luglio, di competenza aprile-giugno','ok'],
-   ['Risconti su costi annuali (assicurazioni, canoni software, tasse auto)','DA FORNIRE: date di inizio e fine di polizze e contratti','warn'],
-   ['Ratei sugli interessi dei finanziamenti','Calcolabili dai piani di ammortamento','ok'],
-   ['Imposte di competenza','IRES 24% sull\'imponibile IRES, IRAP 3,9% sull\'imponibile IRAP (basi diverse): DA FORNIRE le variazioni fiscali (Verusca/Luca)','warn']];
-  var s='<tr><th>Voce</th><th style="text-align:left">Stato</th></tr>';
-  I.forEach(function(x){s+='<tr><td>'+x[0]+'</td><td style="text-align:left;white-space:normal" class="'+x[2]+'">'+x[1]+'</td></tr>'});
-  document.getElementById('int').innerHTML=s;
-
-  var P=D.ricavi_previsti, ricSD=0, ncSD=0; P.forEach(function(x){ricSD+=x.totale;ncSD+=x.non_confermato});
-  var ricGA=R(g(h,'ricavi_operativi')+g(m7,'ricavi_operativi')+g(m8,'ricavi_operativi'));
-  var ga=function(k){return R(g(h,k)+g(m7,k)+g(m8,k))};
-  var rec=0, irr=0; D.altri_conti.forEach(function(c){ if(c.ricorrente) rec+=c.tot_gen_ago; else irr+=c.tot_gen_ago; });
-  function proietta(){
-    var cigW=+document.getElementById('cigW').value||0, cigH=+document.getElementById('cigH').value||0;
-    var ratio=function(k){return ga(k)/ricGA};
-    var persMese=g(h,'personale')/6, cigMese=cigW/20*persMese*cigH/100*0.80;
-    var royAnno=0.015*(ricGA+ricSD);
-    var rows=[
-     ['Ricavi operativi','ordini aperti 02/10 (settembre provvisorio)',ricGA,ricSD,1],
-     ['Materie e prodotti acquistati','variabile: '+(ratio('materie')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('materie'),ratio('materie')*ricSD,0],
-     ['Lavorazioni c/terzi','variabile: '+(ratio('lavorazioni_terzi')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('lavorazioni_terzi'),ratio('lavorazioni_terzi')*ricSD,0],
-     ['Provvigioni e ENASARCO','variabile: '+(ratio('provvigioni')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('provvigioni'),ratio('provvigioni')*ricSD,0],
-     ['Royalties','1,5% dei ricavi su tutto l\'anno (regola); la quota set-dic è il resto',ga('royalties'),royAnno-ga('royalties'),0],
-     ['Affitti','fisso: ultimo canone mensile reale × 4',ga('affitti'),g(m8,'affitti')*4,0],
-     ['Energia','fisso mensile: media gen-ago × 4 (classificazione da confermare)',ga('energia'),ga('energia')/8*4,0],
-     ['Personale (senza TFR/13ª)','fisso: media mensile gen-giu × 4, meno CIG',ga('personale'),(persMese-cigMese)*4,0],
-     ['Altri costi ricorrenti','fisso: media mensile gen-ago dei conti presenti in almeno 6 mesi su 8 × 4',ga('altri_costi'),rec/8*4,0]];
-    var t='<tr><th>Voce</th><th style="text-align:left">Regola</th><th>Gen-ago reale</th><th>Set-dic proiettato</th><th>Anno 2026</th></tr>';
-    var tr=[0,0,0],tc=[0,0,0];
-    rows.forEach(function(r){
-      var a=R(r[2]),b=R(r[3]),T=r[4]?tr:tc; T[0]+=a;T[1]+=b;T[2]+=a+b;
-      t+='<tr><td>'+r[0]+'</td><td style="text-align:left;white-space:normal">'+r[1]+'</td><td>'+EUR(a)+'</td><td>'+EUR(b)+'</td><td>'+EUR(R(a+b))+'</td></tr>';
-    });
-    t+='<tr class="tot"><td>Margine proiettato</td><td></td>'+[0,1,2].map(function(i){return '<td>'+EUR(R(tr[i]-tc[i]))+'</td>'}).join('')+'</tr>';
-    document.getElementById('prj').innerHTML=t;
-    document.getElementById('prjn').innerHTML='<b>Non proiettato, quindi NON incluso nel margine:</b> altri costi irregolari (gen-ago registrati '+EUR(R(irr))+', frequenza da confermare: consulenze, compenso amministratore, pubblicità, manutenzioni, ecc.), interessi passivi (dai piani di ammortamento), titoli e interessi attivi, TFR, 13ª, TFM, ferie, ammortamenti, rimanenze, imposte. Ricavi set-dic: '+EUR(R(ricSD))+', di cui non confermati (programmi 2100 e righe 2099) '+EUR(R(ncSD))+' ('+(ncSD/ricSD*100).toFixed(1).replace('.',',')+'%). Lo storno 41.502,04 è in gen-giu e non si ripete.';
-  }
-  ['cigW','cigH'].forEach(function(id){document.getElementById(id).addEventListener('input',function(){location.reload()})});['cigW27','cigH27','rev27','t26'].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener('input',function(){location.reload()})});
-  proietta();
-
-  // ===== CASH FLOW 2026-2027 =====
-  var C=D.cf, IR=C.iva.aliquota/100, IE=C.iva.energia/100, PL=C.iva.quota_plafond_acquisti/100, QD=C.iva.quota_vendite_default/100;
-  var YM=[]; for(var y=2026;y<=2027;y++){for(var mo=1;mo<=12;mo++){YM.push(y+'-'+(mo<10?'0':'')+mo)}}
-  var FROM=YM.indexOf('2026-09');                 // mesi con fatturato/acquisti da proiettare
-  var MESI=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-  var lab=function(ym){return MESI[+ym.slice(5)-1]+' '+ym.slice(2,4)};
-  var cigW0=+document.getElementById('cigW').value||0, cigH0=+document.getElementById('cigH').value||0;
-  var cigW1=+document.getElementById('cigW27').value||0, cigH1=+document.getElementById('cigH27').value||0;
-  var persMese=g(h,'personale')/6;
-  var pers26=persMese-cigW0/20*persMese*cigH0/100*0.80, pers27=persMese-cigW1/20*persMese*cigH1/100*0.80;
-  var RT={mat:ga('materie')/ricGA, sub:ga('lavorazioni_terzi')/ricGA, prov:ga('provvigioni')/ricGA};
-  var altriMese=rec/8, energiaBase=ga('energia')/8, affitto=g(m8,'affitti');
-  var pub=0; D.altri_conti.forEach(function(c){ if(c.conto===6021808) pub=c.tot_gen_ago; });
-  var irrMese=(irr-pub)/8;   // costi irregolari (consulenze, compenso amministratore, manutenzioni...) senza pubblicità/fiere: media mensile gen-ago come previsione
-  var INT_Q=1900, CED=5950.68;  // proventi: interessi attivi trimestrali (media H1 3.821/2) e cedola semestrale del deposito (5.950,68 al 30/06)
-  var rev27k=(+document.getElementById('rev27').value||0)*1000, t26=+document.getElementById('t26').value||0;
-  // ricavi mensili (euro): 2026 set-dic dagli ordini; 2027 = ordine noto + quota della differenza col target, in proporzione al fatturato dello stesso mese 2026
-  var W=Object.assign({},C.ricavi_2026_mensili); ['2026-09','2026-10','2026-11','2026-12'].forEach(function(k){W[k]=C.ricavi[k]});
-  var ord27={}; Object.keys(C.ordini_2027).forEach(function(k){var mm=MESI.indexOf(k.slice(0,3))+1; ord27['2027-'+(mm<10?'0':'')+mm]=C.ordini_2027[k]});
-  var sumOrd=0; Object.keys(ord27).forEach(function(k){sumOrd+=ord27[k]});
-  var sumW=0; for(var mo=1;mo<=12;mo++){sumW+=W['2026-'+(mo<10?'0':'')+mo]}
-  var REV={}; YM.forEach(function(ym){ if(ym<'2027-01'){REV[ym]=C.ricavi[ym]||0} else {var mo=ym.slice(5); REV[ym]=(ord27[ym]||0)+Math.max(0,rev27k-sumOrd)*W['2026-'+mo]/sumW;} });
-  var QS=function(ym){return C.quota_iva_vendite[ym]!==undefined?C.quota_iva_vendite[ym]:QD};
-  var purch={}; YM.forEach(function(ym){purch[ym]=(REV[ym]||0)*(RT.mat+RT.sub)});
-  // fotovoltaico: risparmio e RID mensili indicativi (forma PVGIS a 15° su 109.218 kWh/anno E.ON, autoconsumo 70%, 0,2925 €/kWh; RID 0,09)
-  var SV=[987,1253,1975,2240,2551,2715,2889,2551,2011,1454,923,814], RD=[130,165,260,295,336,358,381,336,265,192,122,107];
-  var fvSave=function(ym){ if(ym<'2026-11') return 0; return SV[+ym.slice(5)-1]; };
-  var fvRid=function(ym){ if(ym<'2026-11') return 0; return RD[+ym.slice(5)-1]; };
-  var canoneNet=1393.58, canoneDa='2026-11';
-  // IVA: accertamento mensile (vendite imponibili, acquisti non coperti da plafond, energia, altri costi, canone); credito di partenza 24.925 al 31/08; il debito si versa il mese dopo; credito residuo recuperato con la dichiarazione ad aprile 2027
-  var ivaDeb={},ivaCrd={}; YM.forEach(function(ym,i){ if(i<FROM) return;
-    ivaDeb[ym]=(REV[ym]||0)*QS(ym)*IR;
-    var en=energiaBase-fvSave(ym);
-    ivaCrd[ym]=(purch[ym]||0)*(1-PL)*IR + en*IE + (altriMese+irrMese)*IR + (ym>=canoneDa?canoneNet*IR:0);
+  h+='<div class="par" id="row_fv_canone_da"><label for="n_fv_canone_da">Fotovoltaico: primo mese di canone</label><select id="n_fv_canone_da"><option>2026-10</option><option>2026-11</option><option>2026-12</option><option>2027-01</option><option>2027-02</option><option>2027-03</option></select></div></div>';
+  host.innerHTML=h;
+  SPEC.forEach(function(s){
+    var n=document.getElementById('n_'+s.id), r=document.getElementById('r_'+s.id);
+    var on=function(v){ v=parseFloat(v); if(isNaN(v)) return; P[s.id]=v; sync(); };
+    n.addEventListener('input',function(){on(n.value)}); r.addEventListener('input',function(){on(r.value)});
   });
-  var ivaBal=-24925.00, ivaPay={}, ivaRel={}, credDic=0;
-  YM.forEach(function(ym,i){ if(i<FROM) return; ivaBal+=ivaDeb[ym]-ivaCrd[ym];
-    if(ym==='2026-12') credDic=Math.max(0,-ivaBal);
-    var nx=YM[i+1]; if(nx){ if(ivaBal>0){ivaPay[nx]=ivaBal; ivaBal=0;} }
-    if(ym==='2027-03'){ /* il credito di fine anno si recupera ad aprile */ }
+  document.getElementById('n_fv_canone_da').addEventListener('change',function(e){P.fv_canone_da=e.target.value; sync();});
+}
+function syncPars(){
+  SPEC.forEach(function(s){
+    var v=P[s.id], n=document.getElementById('n_'+s.id), r=document.getElementById('r_'+s.id);
+    if(document.activeElement!==n) n.value=Math.round(v*100)/100; r.value=v;
+    document.getElementById('row_'+s.id).className='par'+(Math.abs(v-P0[s.id])>1e-9?' mod':'');
+    document.getElementById('sv_'+s.id).textContent='di partenza: '+(Math.round(P0[s.id]*100)/100).toLocaleString('it-IT')+(s.u?' '+s.u:'');
   });
-  ivaRel['2027-04']=credDic;
-  var sumRoy=function(a,b,c){return 0.015*((REV[a]||0)+(REV[b]||0)+(REV[c]||0))};
-  var ROY={'2026-10':0.015*(g(m7,'ricavi_operativi')+g(m8,'ricavi_operativi')+C.ricavi['2026-09']),'2027-01':sumRoy('2026-10','2026-11','2026-12'),'2027-04':0,'2027-07':sumRoy('2027-04','2027-05','2027-06'),'2027-10':sumRoy('2027-07','2027-08','2027-09')};
-  ROY['2027-04']=sumRoy('2027-01','2027-02','2027-03');
-  var INAIL=['2026-10','2026-11','2026-12','2027-01','2027-02','2027-03','2027-04'];
-  var OUT=YM.slice(YM.indexOf('2026-10')), rows={}, cassa=C.cassa_30_09;
-  OUT.forEach(function(ym,i){
-    var L={}, ix=YM.indexOf(ym), p1=YM[ix-1], is27=ym>='2027-01';
-    L.apertiCli=C.aperti_clienti[ym]||0;
-    var nu=0; for(var j=FROM;j<=ix;j++){var ymr=YM[j],k=ix-j; var row=C.rec_matrix[ymr]||C.rec_matrix['default']; if(k<=6) nu+=(row[k]||0)*(REV[ymr]||0)*(1+QS(ymr)*IR);} L.nuoviCli=nu;
-    L.rid=(i>=2)?fvRid(YM[ix-2]):0;
-    L.apertiFor=C.aperti_fornitori[ym]||0;
-    var nf=0; for(var j2=FROM;j2<=ix;j2++){var pm=YM[j2],k2=ix-j2; if(k2>6) continue; var base=purch[pm]-(pm==='2026-09'?C.acquisti_settembre_registrati:0); nf+=((C.pay_matrix[+pm.slice(5)]||[])[k2]||0)*Math.max(0,base)*(1+(1-PL)*IR);} L.nuoviFor=nf;
-    L.personale=(is27?pers27:pers26)+(ym==='2026-12'||ym==='2027-12'?35000:0)+(ym==='2027-01'?17200:0);
-    L.affitti=affitto;
-    L.energia=(energiaBase-fvSave(p1))*(1+IE);
-    L.altri=altriMese*(1+IR); L.irreg=irrMese*(1+IR);
-    L.prov=((['2026-12','2027-06','2027-12'].indexOf(ym)>=0)?CED:0)+((['2026-12','2027-03','2027-06','2027-09','2027-12'].indexOf(ym)>=0)?INT_Q:0);
-    L.provvigioni=(REV[p1]||0)*RT.prov;
-    L.royalties=ROY[ym]||0;
-    L.canone=(ym>=canoneDa)?canoneNet*(1+IR):0;
-    L.finanz=C.finanziamenti_mensili[ym]||0;
-    L.rateAcconti=(ym==='2026-10')?10610.00:(ym==='2026-11'?4112.48:0);
-    L.accontiBase=(ym==='2026-11')?62124.50:(ym==='2027-06'?t26*0.5+Math.max(0,t26-124249):(ym==='2027-11'?t26*0.5:0));
-    L.accertamenti=(['2026-12','2027-03','2027-06','2027-09'].indexOf(ym)>=0)?9462.94:0;
-    L.inail=(INAIL.indexOf(ym)>=0)?1873.98:0;
-    L.iva=ivaPay[ym]||0; L.ivaRel=ivaRel[ym]||0;
-    L.entrate=L.apertiCli+L.nuoviCli+L.rid+L.ivaRel+L.prov;
-    L.uscite=L.apertiFor+L.nuoviFor+L.personale+L.affitti+L.energia+L.altri+L.irreg+L.provvigioni+L.royalties+L.canone+L.finanz+L.rateAcconti+L.accontiBase+L.accertamenti+L.inail+L.iva;
-    L.netto=L.entrate-L.uscite; L.apertura=cassa; cassa+=L.netto; L.chiusura=cassa; rows[ym]=L;
-  });
-  var spec=[['apertura','Cassa iniziale',0],['apertiCli','Incassi: scadenzario clienti (Pegaso 02/10)',1],['nuoviCli','Incassi: fatture da settembre (condizioni di pagamento)',1],['rid','Incassi: energia immessa (RID), 2 mesi dopo',1],['ivaRel','Incasso: recupero credito IVA (dichiarazione)',1],['prov','Incassi: interessi attivi e cedola del deposito (previsione)',1],['entrate','Totale entrate',2],
-   ['apertiFor','Pagamenti: scadenzario fornitori (Pegaso 02/10)',1],['nuoviFor','Pagamenti: acquisti da settembre (condizioni di pagamento)',1],['personale','Personale (stipendi, ritenute, contributi; 13ª)',1],['affitti','Affitti',1],['energia','Energia (bolletta del mese prima, IVA 10%)',1],['altri','Altri costi ricorrenti (IVA 22%)',1],['irreg','Costi irregolari: consulenze, compenso amm., manutenzioni (previsione, IVA 22%)',1],['provvigioni','Provvigioni (mese dopo)',1],['royalties','Royalties (trimestrali)',1],['canone','Canone leasing fotovoltaico (IVA 22%)',1],['finanz','Finanziamenti (rate)',1],['rateAcconti','Rate acconto IRES 2026 (1ª rata)',1],['accontiBase','Acconti e saldo imposte',1],['accertamenti','Rata accertamenti',1],['inail','Rata INAIL',1],['iva','IVA da versare',1],['uscite','Totale uscite',2],['netto','Flusso netto',2],['chiusura','Cassa finale',2]];
-  var t='<tr><th>Voce</th>'+OUT.map(function(ym){return '<th>'+lab(ym)+'</th>'}).join('')+'</tr>';
-  spec.forEach(function(r){ var cls=r[2]===2?' class="tot"':'';
-    t+='<tr'+cls+'><td>'+r[1]+'</td>'+OUT.map(function(ym){return '<td>'+EUR(R(rows[ym][r[0]]||0))+'</td>'}).join('')+'</tr>'; });
-  document.getElementById('cfl').innerHTML=t;
-  // storico + riepilogo annuale
-  var H=[['31/12/2025 (bilancio 2025)',2217653.38],['30/06/2026 (bozza di bilancio)',2026454.72],['30/09/2026 (situazione banche)',1870460.00]];
-  var th='<tr><th>Data</th><th>Liquidità</th><th>Variazione</th></tr>'; H.forEach(function(r,i){th+='<tr><td>'+r[0]+'</td><td>'+EUR(r[1])+'</td><td>'+(i?EUR(R(r[1]-H[i-1][1])):'')+'</td></tr>'});
-  document.getElementById('hist').innerHTML=th;
-  var sumY=function(y,k){var x=0; OUT.forEach(function(ym){if(ym.slice(0,4)===y) x+=rows[ym][k]||0}); return x};
-  var c26=rows['2026-12'].chiusura, c27=rows['2027-12'].chiusura, o27=rows['2027-01'].apertura;
-  var minC=Math.min.apply(null,OUT.map(function(ym){return rows[ym].chiusura})), minM=OUT.filter(function(ym){return rows[ym].chiusura===minC})[0];
-  var ts='<tr><th></th><th>Ott-dic 2026</th><th>2027</th></tr>'+
-   '<tr><td>Cassa iniziale</td><td>'+EUR(R(C.cassa_30_09))+'</td><td>'+EUR(R(o27))+'</td></tr>'+
-   '<tr><td>Totale entrate</td><td>'+EUR(R(sumY('2026','entrate')))+'</td><td>'+EUR(R(sumY('2027','entrate')))+'</td></tr>'+
-   '<tr><td>Totale uscite</td><td>'+EUR(R(sumY('2026','uscite')))+'</td><td>'+EUR(R(sumY('2027','uscite')))+'</td></tr>'+
-   '<tr class="tot"><td>Cassa finale (31/12)</td><td>'+EUR(R(c26))+'</td><td>'+EUR(R(c27))+'</td></tr>'+
-   '<tr><td>Cassa minima da ottobre 2026</td><td colspan="2">'+EUR(R(minC))+' ('+lab(minM)+')</td></tr>';
-  document.getElementById('cfs').innerHTML=ts;
-  document.getElementById('cfn').innerHTML='<b>Ipotesi da confermare (non sono dati):</b> imposte 2026 uguali agli acconti pagati (124.249), quindi saldo 2026 zero e acconti 2027 di 124.249 in due rate (30/06 e 30/11); le imposte 2026 vere dipendono dal CE 2026 completo, non ancora costruito; seconda rata acconti 2026 62.124,50 (50/50; se 40/60 è 74.549); rate accertamenti trimestrali fino a settembre 2027 (settembre 2026 già pagata); canone del fotovoltaico da novembre 2026, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota); RID incassato 2 mesi dopo la produzione; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; ricavi 2027 = obiettivo (2.100k) con ordini noti gen-mag e distribuzione sul fatturato 2026; acquisti = 22,79% dei ricavi; energia e altri costi ricorrenti come gen-ago 2026; credito IVA di partenza 24.925 (saldo 31/08); costi irregolari = media mensile gen-ago dei conti presenti meno di 6 mesi su 8, senza pubblicità (previsione; frequenze da confermare, IVA 22% applicata a tutto); interessi attivi 1.900 a trimestre e cedola semestrale 5.950,68 (il deposito scade 03/27: rinnovo assunto); ricavi di settembre provvisori.';
-  // confronto ottobre con Verusca
-  var o=rows['2026-10'];
+  document.getElementById('n_fv_canone_da').value=P.fv_canone_da;
+  document.getElementById('row_fv_canone_da').className='par'+(P.fv_canone_da!==P0.fv_canone_da?' mod':'');
+}
+var raf=0; function sync(){ if(raf) return; raf=requestAnimationFrame(function(){raf=0; salva(); syncPars(); render();}); }
+
+/* ---------- grafici SVG ---------- */
+function svg(w,h,inner){return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="xMidYMid meet" role="img">'+inner+'</svg>';}
+function nice(min,max,n){var span=max-min||1, step=Math.pow(10,Math.floor(Math.log10(span/n))), e=span/n/step; step*=e>=5?5:(e>=2?2:1); var a=Math.floor(min/step)*step, b=Math.ceil(max/step)*step, t=[]; for(var v=a;v<=b+1e-9;v+=step)t.push(v); return t;}
+var tip=null;
+function showTip(ev,html){ if(!tip) tip=document.getElementById('tip'); tip.innerHTML=html; tip.style.display='block'; var x=ev.clientX+12, y=ev.clientY+12; if(x+250>window.innerWidth) x=ev.clientX-250; tip.style.left=Math.max(4,x)+'px'; tip.style.top=Math.max(4,y)+'px'; }
+function hideTip(){ if(!tip) tip=document.getElementById('tip'); tip.style.display='none'; }
+function bind(el,pts){
+  var s=el.querySelector('svg'); if(!s) return;
+  var over=function(ev){ var r=s.getBoundingClientRect(), vb=s.viewBox.baseVal, px=(ev.clientX-r.left)/r.width*vb.width, best=null, bd=1e9; pts.forEach(function(p){var d=Math.abs(p.x-px); if(d<bd){bd=d;best=p}}); if(best) showTip(ev,best.html); };
+  s.addEventListener('pointermove',over); s.addEventListener('pointerdown',over); s.addEventListener('pointerleave',hideTip);
+}
+function chartCassa(R){
+  var el0=document.getElementById('ch1'), W=Math.max(300,el0.clientWidth||760), H=W<500?250:300, L=W<500?50:58, Rr=14,T=14,B=30, cw=W-L-Rr, ch=H-T-B;
+  var hist=[[0,2217653.38,'31/12/2025'],[6,2026454.72,'30/06/2026'],[9,1870460,'30/09/2026']];
+  var fc=[[9,1870460,'30/09/2026']].concat(R.mesi.map(function(ym,i){return [10+i,R.righe[ym].chiusura,lab(ym)]}));
+  var all=hist.concat(fc), min=Math.min.apply(null,all.map(function(p){return p[1]})), max=Math.max.apply(null,all.map(function(p){return p[1]}));
+  var ticks=nice(min-(max-min)*0.12,max+(max-min)*0.12,5), y0=ticks[0], y1=ticks[ticks.length-1];
+  var X=function(i){return L+cw*i/24}, Y=function(v){return T+ch*(1-(v-y0)/(y1-y0))};
+  var g='<g class="axis">'; ticks.forEach(function(t){g+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text x="'+(L-6)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+EURm(t)+'</text>'});
+  (W<500?[[0,'Dic 25'],[6,'Giu 26'],[12,'Dic 26'],[18,'Giu 27'],[24,'Dic 27']]:[[0,'Dic 25'],[3,'Mar 26'],[6,'Giu 26'],[9,'Set 26'],[12,'Dic 26'],[15,'Mar 27'],[18,'Giu 27'],[21,'Set 27'],[24,'Dic 27']]).forEach(function(t){g+='<line x1="'+X(t[0])+'" x2="'+X(t[0])+'" y1="'+(T+ch)+'" y2="'+(T+ch+4)+'"/><text x="'+X(t[0])+'" y="'+(H-8)+'" text-anchor="'+(t[0]===24?'end':(t[0]===0?'start':'middle'))+'">'+t[1]+'</text>'}); g+='</g>';
+  var line=function(a,dash,col){return '<polyline fill="none" stroke="'+col+'" stroke-width="2.4" '+(dash?'stroke-dasharray="5 4"':'')+' points="'+a.map(function(p){return X(p[0])+','+Y(p[1])}).join(' ')+'"/>'};
+  var area='<polygon fill="var(--c1)" opacity=".10" points="'+X(9)+','+(T+ch)+' '+fc.map(function(p){return X(p[0])+','+Y(p[1])}).join(' ')+' '+X(24)+','+(T+ch)+'"/>';
+  var dots=hist.map(function(p){return '<circle cx="'+X(p[0])+'" cy="'+Y(p[1])+'" r="4" fill="var(--mut)"/>'}).join('');
+  var mi=0; R.mesi.forEach(function(ym,i){ if(R.righe[ym].chiusura<R.righe[R.mesi[mi]].chiusura) mi=i; });
+  var mp=[10+mi,R.righe[R.mesi[mi]].chiusura];
+  var minm='<circle cx="'+X(mp[0])+'" cy="'+Y(mp[1])+'" r="5.5" fill="var(--neg)" stroke="var(--card)" stroke-width="2"/><text x="'+X(mp[0])+'" y="'+(Y(mp[1])-10)+'" text-anchor="'+(mp[0]>20?'end':'middle')+'" font-size="11" fill="var(--neg)">minimo '+EURm(mp[1])+'</text>';
+  var el=document.getElementById('ch1'); el.innerHTML=svg(W,H,g+area+line(hist,true,'var(--mut)')+line(fc,false,'var(--c1)')+dots+minm);
+  var pts=hist.map(function(p){return {x:X(p[0]),html:'<b>'+p[2]+'</b><br>Liquidità reale: '+EURf(p[1])+' €'}}).concat(R.mesi.map(function(ym,i){var l=R.righe[ym]; return {x:X(10+i),html:'<b>'+lab(ym)+'</b><br>Cassa finale: '+EURf(l.chiusura)+' €<br>Entrate '+EURf(l.entrate)+' · Uscite '+EURf(l.uscite)+'<br>Netto '+EURf(l.netto)+' €'}}));
+  bind(el,pts);
+  document.getElementById('ch1n').textContent='Tratteggiato: liquidità reale (depositi inclusi; fondo e polizza fuori). Linea piena: previsione dal 30/09/2026. Tocca o passa sul grafico per i valori.';
+}
+function chartFlussi(R){
+  var W=Math.max(280,document.getElementById('ch2').clientWidth||520),H=220,L=44,Rr=8,T=10,B=28,cw=W-L-Rr,ch=H-T-B, ms=R.mesi, n=ms.length;
+  var vals=[0]; ms.forEach(function(ym){var l=R.righe[ym]; vals.push(l.entrate,l.uscite,l.netto)});
+  var ticks=nice(Math.min.apply(null,vals),Math.max.apply(null,vals),4), y0=ticks[0], y1=ticks[ticks.length-1];
+  var Y=function(v){return T+ch*(1-(v-y0)/(y1-y0))}, bw=cw/n, g='<g class="axis">';
+  ticks.forEach(function(t){g+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text x="'+(L-5)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+EURk(t)+'</text>'});
+  var b='',dots='',pts=[];
+  ms.forEach(function(ym,i){var l=R.righe[ym], x=L+bw*i, w=bw*0.36;
+    b+='<rect x="'+(x+bw*0.12)+'" y="'+Y(l.entrate)+'" width="'+w+'" height="'+(Y(0)-Y(l.entrate))+'" fill="var(--pos)" opacity=".85"/>';
+    b+='<rect x="'+(x+bw*0.52)+'" y="'+Y(l.uscite)+'" width="'+w+'" height="'+(Y(0)-Y(l.uscite))+'" fill="var(--neg)" opacity=".85"/>';
+    dots+='<circle cx="'+(x+bw/2)+'" cy="'+Y(l.netto)+'" r="3.4" fill="var(--acc)" stroke="var(--card)" stroke-width="1.5"/>';
+    if(i%3===0||i===n-1) g+='<text x="'+(x+bw/2)+'" y="'+(H-9)+'" text-anchor="middle">'+lab(ym)+'</text>';
+    pts.push({x:x+bw/2,html:'<b>'+lab(ym)+'</b><br>Entrate '+EURf(l.entrate)+'<br>Uscite '+EURf(l.uscite)+'<br>Netto '+EURf(l.netto)});
+  }); g+='</g>';
+  var el=document.getElementById('ch2'); el.innerHTML=svg(W,H,g+'<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="var(--mut)" stroke-width="1"/>'+b+dots); bind(el,pts);
+}
+var CAT=[['Fornitori',['apertiFor','nuoviFor'],'--c1'],['Personale',['personale'],'--c3'],['Struttura (affitti, energia, altri, irregolari)',['affitti','energia','altri','irreg'],'--c2'],['Provvigioni e royalties',['provvigioni','royalties'],'--c4'],['Finanziamenti',['finanz'],'--c5'],['Imposte e rate',['rateAcconti','accontiBase','accertamenti','inail'],'--c6'],['Fotovoltaico (canone)',['canone'],'--c8'],['IVA',['iva'],'--c7']];
+function chartCat(R){
+  var W=Math.max(280,document.getElementById('ch3').clientWidth||520),H=240,L=44,Rr=8,T=10,B=28,cw=W-L-Rr,ch=H-T-B, ms=R.mesi, n=ms.length;
+  var tot=ms.map(function(ym){var l=R.righe[ym]; return CAT.reduce(function(s,c){return s+c[1].reduce(function(a,k){return a+(l[k]||0)},0)},0)});
+  var ticks=nice(0,Math.max.apply(null,tot),4), y1=ticks[ticks.length-1], Y=function(v){return T+ch*(1-v/y1)}, bw=cw/n, g='<g class="axis">', b='', pts=[];
+  ticks.forEach(function(t){g+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text x="'+(L-5)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+EURk(t)+'</text>'});
+  ms.forEach(function(ym,i){var l=R.righe[ym], x=L+bw*i+bw*0.14, w=bw*0.72, acc=0, tt='<b>'+lab(ym)+'</b>';
+    CAT.forEach(function(c){var v=c[1].reduce(function(a,k){return a+(l[k]||0)},0); if(v>0){ b+='<rect x="'+x+'" y="'+Y(acc+v)+'" width="'+w+'" height="'+Math.max(0,Y(acc)-Y(acc+v))+'" fill="var('+c[2]+')"/>'; acc+=v; tt+='<br>'+c[0].split(' (')[0]+': '+EURf(v)} });
+    tt+='<br><b>Totale '+EURf(acc)+'</b>'; pts.push({x:x+w/2,html:tt});
+    if(i%3===0||i===n-1) g+='<text x="'+(x+w/2)+'" y="'+(H-9)+'" text-anchor="middle">'+lab(ym)+'</text>';
+  }); g+='</g>';
+  var el=document.getElementById('ch3'); el.innerHTML=svg(W,H,g+b); bind(el,pts);
+  document.getElementById('leg3').innerHTML=CAT.map(function(c){return '<span><i style="background:var('+c[2]+')"></i>'+c[0]+'</span>'}).join('');
+}
+/* ---------- riepilogo e tabella ---------- */
+function kpi(l,v,d,dcls){return '<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="d '+(dcls||'mut')+'">'+d+'</div></div>'}
+var dl=function(a,b){var d=a-b; return Math.abs(d)<1?'come i valori di partenza':(d>0?'+':'−')+EURf(Math.abs(d))+' rispetto alla partenza'};
+var dc=function(a,b){var d=a-b; return Math.abs(d)<1?'mut':(d>0?'pos':'neg')};
+function render(){
+  var R=Motore.calcola(D,P), r=R.riepilogo, b=BASE.riepilogo;
+  document.getElementById('kpis').innerHTML=
+    kpi('Cassa 31/12/2026',EURf(r.cassa_2026)+' €',dl(r.cassa_2026,b.cassa_2026),dc(r.cassa_2026,b.cassa_2026))+
+    kpi('Cassa 31/12/2027',EURf(r.cassa_2027)+' €',dl(r.cassa_2027,b.cassa_2027),dc(r.cassa_2027,b.cassa_2027))+
+    kpi('Cassa minima ('+lab(r.mese_minimo)+')',EURf(r.minimo)+' €',dl(r.minimo,b.minimo),dc(r.minimo,b.minimo))+
+    kpi('Flusso netto 2027',EURf(r.netto_2027)+' €',dl(r.netto_2027,b.netto_2027),dc(r.netto_2027,b.netto_2027));
+  chartCassa(R); chartFlussi(R); chartCat(R); tabella(R); verusca(R);
+}
+var RIGHE=[['apertura','Cassa iniziale',0],['apertiCli','Incassi: scadenzario clienti (Pegaso 02/10)',1],['nuoviCli','Incassi: fatture da settembre',1],['rid','Incassi: energia immessa (RID), 2 mesi dopo',1],['ivaRel','Incasso: recupero credito IVA',1],['prov','Incassi: interessi attivi e cedola (previsione)',1],['entrate','Totale entrate',2],
+ ['apertiFor','Pagamenti: scadenzario fornitori (Pegaso 02/10)',1],['nuoviFor','Pagamenti: acquisti da settembre',1],['personale','Personale (13ª a dicembre)',1],['affitti','Affitti',1],['energia','Energia (bolletta del mese prima, IVA 10%)',1],['altri','Altri costi ricorrenti (IVA 22%)',1],['irreg','Costi irregolari (IVA 22%)',1],['provvigioni','Provvigioni (mese dopo)',1],['royalties','Royalties (trimestrali)',1],['canone','Canone fotovoltaico (IVA 22%)',1],['finanz','Finanziamenti (rate)',1],['rateAcconti','Rate acconto IRES 2026',1],['accontiBase','Acconti e saldo imposte',1],['accertamenti','Rata accertamenti',1],['inail','Rata INAIL',1],['iva','IVA da versare',1],['uscite','Totale uscite',2],['netto','Flusso netto',2],['chiusura','Cassa finale',2]];
+function tabella(R){
+  var t='<tr><th>Voce</th>'+R.mesi.map(function(ym){return '<th>'+lab(ym)+'</th>'}).join('')+'</tr>';
+  RIGHE.forEach(function(r){ t+='<tr'+(r[2]===2?' class="tot"':'')+'><td>'+r[1]+'</td>'+R.mesi.map(function(ym){return '<td>'+EURf(R.righe[ym][r[0]]||0)+'</td>'}).join('')+'</tr>'});
+  document.getElementById('tab').innerHTML=t;
+}
+function verusca(R){
+  var o=R.righe['2026-10'];
   var V=[['Incassi (esclusi giroconti)',337030,o.entrate],['Finanziamenti',68400,o.finanz],['Fornitori',50700,o.apertiFor+o.nuoviFor],['Personale (stipendi, ritenute/contributi, INAIL)',56900,o.personale+o.inail],['Affitti',8200,o.affitti],['Energia',7500,o.energia],['Rate imposte (Unico, acconti)',10610,o.rateAcconti],['Totale uscite',213885,o.uscite]];
-  var vt='<tr><th>Voce (ottobre)</th><th>Verusca</th><th>Questo calcolo</th><th>Differenza</th></tr>';
-  V.forEach(function(r){var d=R(r[2]-r[1]); vt+='<tr><td>'+r[0]+'</td><td>'+EUR(r[1])+'</td><td>'+EUR(R(r[2]))+'</td><td>'+EUR(d)+'</td></tr>'});
-  document.getElementById('cvr').innerHTML=vt;
-}).catch(function(e){document.body.insertAdjacentHTML('beforeend','<p class="bad">Errore nel caricare dati.json: '+e.message+'</p>')});
+  var t='<tr><th>Voce (ottobre)</th><th>Verusca</th><th>Questo calcolo</th><th>Differenza</th></tr>';
+  V.forEach(function(r){t+='<tr><td>'+r[0]+'</td><td>'+EURf(r[1])+'</td><td>'+EURf(r[2])+'</td><td>'+EURf(r[2]-r[1])+'</td></tr>'});
+  document.getElementById('cvr').innerHTML=t;
+}
+document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità 31/12/2025, 30/06/2026 e 30/09/2026; scadenzari clienti e fornitori Pegaso (02/10); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (02/10, settembre provvisorio 220k); mastrini gen-ago per i rapporti dei costi. <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Ipotesi non confermate:</b> imposte 2026 uguali agli acconti 2026 (124.249: la cifra vera dipende dal CE 2026 completo, ancora da costruire; se fossero più basse, il credito compensabile non è modellato); seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 24.925 (31/08); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); nessuna rimanenza o TFM (non sono cassa).';
+var rz=0; window.addEventListener('resize',function(){clearTimeout(rz); rz=setTimeout(function(){ if(D) render(); },150)});
+fetch('dati.json').then(function(r){return r.json()}).then(function(d){
+  D=d; P0=Motore.parametriDefault(D); BASE=Motore.calcola(D,P0); P=Object.assign({},P0,carica());
+  buildPars(); syncPars(); render();
+  document.getElementById('reset').addEventListener('click',function(){P=Object.assign({},P0); sync();});
+}).catch(function(e){document.body.insertAdjacentHTML('beforeend','<p class="neg">Errore nel caricare i dati: '+e.message+'</p>')});
 </script>
 </body>
 </html>

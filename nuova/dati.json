@@ -1252,6 +1252,24 @@
    "quota_plafond_acquisti": 52,
    "quota_vendite_default": 21
   },
-  "_fonti": "recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)"
+  "_fonti": "recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)",
+  "defaults": {
+   "pers_mese": 56137.97,
+   "pct_materie": 18.857,
+   "pct_lavorazioni": 3.929,
+   "pct_provvigioni": 3.001,
+   "affitti_mese": 8195.06,
+   "energia_mese": 8052.15,
+   "altri_ricorrenti_mese": 16381.17,
+   "costi_irregolari_mese": 13732.21,
+   "pubblicita_gen_ago": 55912.64,
+   "_nota": "Rapporti reali gen-ago 2026 (bozza 30/06 + mastrini lug-ago); altri costi dai conti dei mastrini (ricorrenti = presenti in almeno 6 mesi su 8; irregolari senza pubblicità/fiere)"
+  },
+  "non_confermato": {
+   "Settembre": 0,
+   "Ottobre": 43670.0,
+   "Novembre": 59600.0,
+   "Dicembre": 36990.0
+  }
  }
 }
