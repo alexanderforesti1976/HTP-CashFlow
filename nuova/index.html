@@ -32,7 +32,7 @@ svg{width:100%;height:auto;display:block;touch-action:pan-y}
 .par.mod label{color:var(--acc);font-weight:600}
 button{font:inherit;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx);cursor:pointer}
 table{border-collapse:collapse;width:100%;min-width:900px;font-size:12px}th,td{padding:4px 7px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
-table.t2{min-width:0;font-size:15px}table.t2 th:first-child,table.t2 td:first-child{position:static;white-space:normal}table.t2 td{padding:8px 6px}table.t2 td:not(:first-child){font-variant-numeric:tabular-nums}
+table.t2{min-width:0;font-size:15px}table.t4{font-size:10.5px;table-layout:auto}table.t4 td,table.t4 th{padding:6px 2px}table.t4 td:first-child,table.t4 th:first-child{width:68px;max-width:68px;font-size:10.5px}table.t2 th:first-child,table.t2 td:first-child{position:static;white-space:normal}table.t2 td{padding:8px 6px}table.t2 td:not(:first-child){font-variant-numeric:tabular-nums}
 #tab td:first-child,#tab th:first-child{max-width:130px;min-width:110px;white-space:normal;font-size:11px;z-index:1;box-shadow:2px 0 0 var(--line)}
 tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 .scroll{overflow-x:auto}
@@ -68,7 +68,7 @@ html{scroll-padding-top:50px}
 </div>
 </div>
 </div>
-<div class="card" id="cecard"><h2>Conto economico 2026 e 2027 (calcolo automatico)</h2><div class="scroll"><table id="ce26" class="t2"></table></div><div class="note">2026: gen-ago dati reali dei mastrini, set-dic previsione. 2027: tutto previsione con le stesse regole (ricavi dei parametri, variabili in proporzione, fissi per mese, CIG 2027, fotovoltaico a regime; TFR e 13ª in proporzione al costo del personale; interessi dai piani dei finanziamenti, mancano Unicredit 8823317 e le due BMW Mini). Le imposte 2027 si pagano a giugno e novembre 2028, oltre l'orizzonte; i flussi 2027 usano gli acconti calcolati sulle imposte 2026. TFR e 13ª integrati; TFM 20% dell'utile prima del TFM, deducibile; IRES 24% e IRAP 3,9% su basi proprie. Ammortamenti e variazioni fiscali sono stime da confermare con Verusca.</div></div>
+<div class="card" id="cecard"><h2>Conto economico 2026 e 2027 (calcolo automatico)</h2><div class="scroll"><table id="ce26" class="t2"></table></div><h3 style="margin:14px 0 4px;font-size:15px">Da dove vengono i numeri 2026</h3><div class="scroll"><table id="ce26b" class="t2 t4"></table></div><div class="note">Gen-giu: bozza di bilancio al 30/06 di Verusca (definitiva, riconciliata). Lug-ago: mastrini reali. Set-dic: previsione (variabili in % dei ricavi, fissi per mese). Valutazioni (non nella bozza): TFR, 13ª, ammortamenti, TFM, imposte e magazzino.</div><div class="note">2026: gen-ago dati reali dei mastrini, set-dic previsione. 2027: tutto previsione con le stesse regole (ricavi dei parametri, variabili in proporzione, fissi per mese, CIG 2027, fotovoltaico a regime; TFR e 13ª in proporzione al costo del personale; interessi dai piani dei finanziamenti, mancano Unicredit 8823317 e le due BMW Mini). Le imposte 2027 si pagano a giugno e novembre 2028, oltre l'orizzonte; i flussi 2027 usano gli acconti calcolati sulle imposte 2026. TFR e 13ª integrati; TFM 20% dell'utile prima del TFM, deducibile; IRES 24% e IRAP 3,9% su basi proprie. Ammortamenti e variazioni fiscali sono stime da confermare con Verusca.</div></div>
 <div class="card" id="vocicard"><h2>Tutte le voci, mese per mese</h2><div class="scroll"><table id="tab"></table></div></div>
 <div class="card"><h2>Cosa c'è dentro e cosa è ipotesi</h2><div class="note" id="ipo"></div></div>
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
@@ -113,7 +113,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790984325521; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790984394393; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -257,12 +257,16 @@ function tabella(R){
   document.getElementById('tab').innerHTML=t;
 }
 function ce26(R){
-  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['Rimanenze finali − iniziali','rimanenze',1,0],['Materie','materie',-1,0],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24%','ires',-1,0],['IRAP 3,9%','irap',-1,0],['Utile netto','utile',1,2]];
+  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['+ Rimanenze finali (magazzino 31/12)','rim_fin',1,0],['− Rimanenze iniziali (magazzino 01/01)','rim_in',-1,0],['Materie','materie',-1,0],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24%','ires',-1,0],['IRAP 3,9%','irap',-1,0],['Utile netto','utile',1,2]];
   var t='<tr><th>Voce</th><th>2026</th><th>2027</th></tr>';
   K.forEach(function(r){t+='<tr'+(r[3]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[2]*a[r[1]])+' €</td><td>'+EURf(r[2]*c[r[1]])+' €</td></tr>'});
   t+='<tr class="tot"><td>Imposte dell\'anno'+(P.imposte_2026>0?' (2026 forzate)':'')+'</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td><td>'+EURf(c.imposte)+' €</td></tr>';
   t+='<tr><td>Acconti versati sull\'anno</td><td>124.249 €</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td></tr>';
   document.getElementById('ce26').innerHTML=t;
+  var p=a.parti, f=function(x){return EURf(x)}, B='<tr><th>€</th><th>Gen-giu</th><th>Lug-ago</th><th>Set-dic</th><th>2026</th></tr>';
+  [['Ricavi','ricavi'],['Materie prime e acquisti','materie'],['Lavorazioni c/terzi','lavorazioni'],['Provvigioni','provvigioni'],['Royalties 1,5%','royalties'],['Personale (senza TFR e 13ª)','personale'],['Affitti','affitti'],['Energia','energia'],['Altri costi','altri']].forEach(function(r){var v=p[r[1]]; B+='<tr><td>'+r[0]+'</td><td>'+f(v[0])+'</td><td>'+f(v[1])+'</td><td>'+f(v[2])+'</td><td><b>'+f(v[0]+v[1]+v[2])+'</b></td></tr>'});
+  B+='<tr><td>TFR e 13ª (valutazione)</td><td>—</td><td>—</td><td>—</td><td><b>'+f(a.tfr13)+'</b></td></tr><tr><td>Ammortamenti (valutazione)</td><td>—</td><td>—</td><td>—</td><td><b>'+f(a.ammortamenti)+'</b></td></tr><tr><td>Magazzino iniziale 01/01</td><td colspan="3"></td><td><b>'+f(a.rim_in)+'</b></td></tr><tr><td>Magazzino finale 31/12</td><td colspan="3"></td><td><b>'+f(a.rim_fin)+'</b></td></tr>';
+  document.getElementById('ce26b').innerHTML=B;
 }
 function verusca(R){
   var o=R.righe['2026-10'];

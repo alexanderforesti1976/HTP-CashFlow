@@ -75,7 +75,7 @@
     var gsum = function (k) { return H[k] + M7[k] + M8[k]; };
     var SD = ['2026-09', '2026-10', '2026-11', '2026-12'];
     var ce = { ricavi: ric26 };
-    ce.rimanenze = P.rimanenze_finali_2026 - E.esistenze_iniziali;
+    ce.rim_fin = P.rimanenze_finali_2026; ce.rim_in = E.esistenze_iniziali; ce.rimanenze = ce.rim_fin - ce.rim_in;
     ce.materie = gsum('materie') + ricSD * RT.mat; ce.lavorazioni = gsum('lavorazioni_terzi') + ricSD * RT.sub;
     ce.provvigioni = gsum('provvigioni') + ricSD * RT.prov; ce.royalties = 0.015 * ric26;
     ce.personale = gsum('personale') + 4 * pers26 + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
@@ -83,6 +83,14 @@
     var enSD = 0, canSD = 0; SD.forEach(function (ym) { enSD += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) canSD += P.fv_canone; });
     ce.energia = gsum('energia') + enSD;
     ce.altri = gsum('altri_costi') + 4 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + canSD;
+    var lm = function (k) { return M7[k] + M8[k]; }, ricLM = lm('ricavi_operativi');
+    ce.parti = {
+      ricavi: [H.ricavi_operativi, ricLM, ricSD], materie: [H.materie, lm('materie'), ricSD * RT.mat], lavorazioni: [H.lavorazioni_terzi, lm('lavorazioni_terzi'), ricSD * RT.sub],
+      provvigioni: [H.provvigioni, lm('provvigioni'), ricSD * RT.prov], royalties: [0.015 * H.ricavi_operativi, 0.015 * ricLM, 0.015 * ricSD],
+      personale: [H.personale, lm('personale'), 4 * pers26], affitti: [H.affitti, lm('affitti'), 4 * P.affitti_mese], energia: [H.energia, lm('energia'), enSD],
+      altri: [H.altri_costi, lm('altri_costi'), 4 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + canSD]
+    };
+    ce.tfr13 = E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
     ce.ammortamenti = P.ammortamenti_2026;
     ce.operativo = ce.ricavi + ce.rimanenze - ce.materie - ce.lavorazioni - ce.provvigioni - ce.royalties - ce.personale - ce.affitti - ce.energia - ce.altri - ce.ammortamenti;
     ce.int_passivi = E.interessi_passivi_gen_ago + E.interessi_passivi_set_dic_piani;
@@ -97,7 +105,7 @@
     var Y27 = YM.slice(12), ric27 = 0, en27 = 0, can27 = 0;
     Y27.forEach(function (ym) { ric27 += REV[ym]; en27 += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) can27 += P.fv_canone; });
     var base26p = gsum('personale') + 4 * pers26, scala = 12 * pers27 / base26p, c7 = { ricavi: ric27 };
-    c7.rimanenze = P.rimanenze_finali_2027 - P.rimanenze_finali_2026;
+    c7.rim_fin = P.rimanenze_finali_2027; c7.rim_in = P.rimanenze_finali_2026; c7.rimanenze = c7.rim_fin - c7.rim_in;
     c7.materie = ric27 * RT.mat; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov; c7.royalties = 0.015 * ric27;
     c7.personale = 12 * pers27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
     c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + can27;
