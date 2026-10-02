@@ -86,6 +86,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R049 | RITRATTATA / CONFERMATO (Alex) | Il "22%" (27,9% × 80% dell'utile lordo) è un risultato calcolato da Claude, NON un parametro né una regola: presentato come regola era sbagliato. Regola di Alex: IRES 24% sull'imponibile IRES e IRAP 3,9% sull'imponibile IRAP, basi diverse, niente media di aliquote. Il vecchio codice (`index.html:1003-1006`) usa una base unica (utile dopo TFM) per entrambe: struttura errata. Evidenza 2025: imponibile IRES circa 426k, imponibile IRAP circa 563k contro 296k di utile ante imposte. TFM = 20% dell'utile lordo, deducibile | Specifica corretta. Vecchio modello non modificato. Variazioni fiscali per IRES e IRAP: DA FORNIRE (Verusca/Luca) |
 
+| R050 | VERIFICATO (fonti online) / ANALISI | Metodo di calcolo di IRES e IRAP cercato online (Soluzione Tasse, ecnews, Agenzia Entrate, Fisco e Investimenti, Money.it): IRES = utile ante imposte ± variazioni TUIR × 24%; IRAP da bilancio = A − B escludendo B.9, B.10 c-d, B.12, B.13, meno deduzioni costo del lavoro a tempo indeterminato (non verificate) × 3,9%. Test su 2025 parziale: A − B senza TFM circa 364k contro imponibile IRAP circa 563k; IRES utile ante imposte 296k contro imponibile 426k (variazioni +130k, di cui multe 83,5k; ricorrenti circa 46k da confermare). Servono i quadri RF e IC della dichiarazione 2025 | Specifica aggiornata; modello non modificato |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
