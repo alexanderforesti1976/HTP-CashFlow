@@ -467,7 +467,7 @@
 </div>
 
 <div id="content"></div>
-<div class="footer">HTP S.r.l. &middot; Aggiornato al 07/07/2026 &middot; Cassa &euro;1.504k &middot; Ordini confermati H2 2026 &euro;754k · 2027 €80k &middot; Ammortamenti &euro;110k/&euro;100k &middot; TFM 20% EBT</div>
+<div class="footer">HTP S.r.l. &middot; Aggiornato al 02/10/2026 &middot; Cassa reale al 30/09/2026 &euro;1.280k &middot; Ammortamenti &euro;110k/&euro;100k &middot; TFM 20% EBT</div>
 </div>
 
 
@@ -823,6 +823,7 @@ var P={
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
   startCash:1279.66, cashAnchor:'2026-09', openRec:0, openPay:0,
+  actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
   openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, toInvoice:{'2026-09':77.5}
@@ -994,6 +995,8 @@ function calcCF() {
     var sup=supNet*(1+(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100)+((P.openPaySched||{})[ym]||0)+(i<pd&&!anc?payPm:0);
     // IVA acquisti: materiali/lavorazioni 22% solo sulla quota NON coperta da dichiarazione d'intento (plafond)
     var ivaCred=supNet*(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100;
+    // Mesi già chiusi (fino all'ancoraggio): incassi e pagamenti fornitori REALI dagli scadenzari Pegaso (lordi IVA); il saldo è comunque quello bancario
+    if(anc&&ym<=anc){ col=(P.actualIn||{})[ym]||0; sup=(P.actualOut||{})[ym]||0; }
     var is27m=m.y===2027;
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
@@ -1805,6 +1808,7 @@ function resetAll(){
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
     startCash:1279.66,cashAnchor:'2026-09',openRec:0,openPay:0,
+    actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
     openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},toInvoice:{'2026-09':77.5}
