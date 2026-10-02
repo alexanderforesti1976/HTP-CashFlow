@@ -826,7 +826,7 @@ var P={
   actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, toInvoice:{'2026-09':77.5}
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, purchRegYM:'2026-07', toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -1008,9 +1008,13 @@ function calcCF() {
     var ivaDeb=colNet*tshare*(P.ivaRate||0)/100;
     // Pagamenti acquisti: fatture già registrate = scadenzario reale; poi acquisti stimati con ritardo DPO + IVA sulla quota non coperta da plafond
     var pr=i-pd, supNet=0;
-    if(pr>=0){ var ymP=ymOf(MONTHS[pr]); supNet=(anc&&ymP<=anc)?0:purchPlan[pr]; }
+    var supUnreg=false;
+    if(pr>=0){ var ymP=ymOf(MONTHS[pr]);
+      // fatture fornitori registrate in Pegaso solo fino a P.purchRegYM: oltre, il piano acquisti resta valido e lo scadenzario aperto e' solo un minimo
+      if(anc&&ymP<=anc){ supUnreg=!!P.purchRegYM&&ymP>P.purchRegYM; supNet=supUnreg?purchPlan[pr]:0; } else supNet=purchPlan[pr]; }
     else if(!anc){ supNet=extP[i+2-pd]||0; }
-    var sup=supNet*(1+(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100)+((P.openPaySched||{})[ym]||0)+(i<pd&&!anc?payPm:0);
+    var supG=supNet*(1+(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100), supOpen=((P.openPaySched||{})[ym]||0);
+    var sup=supUnreg?Math.max(supG,supOpen):supG+supOpen+(i<pd&&!anc?payPm:0);
     // IVA acquisti: materiali/lavorazioni 22% solo sulla quota NON coperta da dichiarazione d'intento (plafond)
     var ivaCred=supNet*(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100;
     // Mesi già chiusi (fino all'ancoraggio): incassi e pagamenti fornitori REALI dagli scadenzari Pegaso (lordi IVA); il saldo è comunque quello bancario
@@ -1829,7 +1833,7 @@ function resetAll(){
     actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},toInvoice:{'2026-09':77.5}
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},purchRegYM:'2026-07',toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
