@@ -708,19 +708,21 @@ var ORDCRIT=[
   {ord:'250169',cliente:'Eurgomma',articolo:'067028HB',residuo:4600.00,spedizione:'2026-10-15'},
 ];
 
-// === MUTUI — piano dal file "SITUAZIONE FINANZIAMENTI BANCHE" ===
-// Ogni mutuo è definito SOLO da: data inizio, data fine, frequenza (mesi), n° rate, importo rata (k€).
-// Le date delle rate si calcolano da qui (ultima rata = data fine, a ritroso ogni "freq" mesi):
-// nessuna rata/residuo inserito a mano. Letto anche da params.json (chiave "loans").
+// === MUTUI / FINANZIAMENTI — scadenziario mensile dal file di Verusca
+// "SCADENZE ANNO 2022-2023-2024-2025-2026.xlsx" (importi effettivamente addebitati, k€, mese per mese).
+// Ogni finanziamento ha "sched": { "AAAA-MM": importo }. Nessuna rata ricostruita a mano.
+// Esclusi: noleggi (LeasePlan) che sono già costi operativi nell'EBITDA. Letto anche da params.json ("loans").
 // Offset 0 del modello Cash Flow = luglio 2026.
 var LOANS = [
-  {name:"Unicredit 2529480",        start:"2025-03-31", end:"2028-03-31", freq:3, n:13, rata:36.5,   color:"#f43f5e"},
-  {name:"Credito Emiliano 8630473", start:"2025-04-20", end:"2028-03-20", freq:1, n:36, rata:8.69,   color:"#fb923c"},
-  {name:"BCC Brescia 1071107",      start:"2024-05-06", end:"2028-05-31", freq:1, n:48, rata:5.23,   color:"#fbbf24"},
-  {name:"BCC Brescia 1066083",      start:"2022-04-08", end:"2027-03-31", freq:1, n:59, rata:2.4,    color:"#4ade80"},
-  {name:"BCC Sebino 8021",          start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:30.365, color:"#38bdf8"},
-  {name:"BCC Sebino 8021 – Finlombarda", start:"2021-04-01", end:"2026-10-01", freq:6, n:12, rata:20.24, color:"#818cf8"},
-  {name:"Finanziamento BMW Mini",   start:"2023-05-04", end:"2027-04-03", freq:1, n:47, rata:2.068, riscatto:17.38, riscattoAt:"2027-05", color:"#a78bfa"}
+  {"name":"BCC Sebino 8021","src":"FIN.8021 BCC SCAD.10/26","sched":{"2026-04":35.69,"2026-10":35.69},"color":"#38bdf8"},
+  {"name":"BCC Sebino 8021 – Finlombarda","src":"FIN.8021 FINL C/BCC SCAD.10/26","sched":{"2026-04":24.23,"2026-10":24.23},"color":"#818cf8"},
+  {"name":"Unicredit 8823317","src":"FIN.8823317 UNI SCAD.05/26","sched":{"2026-02":5.602,"2026-05":5.602},"color":"#94a3b8"},
+  {"name":"BCC Brescia 1066083","src":"FIN.1066083_BCC_BS SCAD.03/27","sched":{"2026-01":2.421,"2026-02":2.421,"2026-03":2.421,"2026-04":2.421,"2026-05":2.421,"2026-06":2.421,"2026-07":2.421,"2026-08":2.421,"2026-09":2.421,"2026-10":2.421,"2026-11":2.421,"2026-12":2.421,"2027-01":2.421,"2027-02":2.421,"2027-03":2.421},"color":"#4ade80"},
+  {"name":"BMW Mini 4362010 (+ riscatto 05/27)","src":"FINANZ.4362010 BMW X MINI RISC.05/27","sched":{"2026-01":0.242,"2026-02":0.242,"2026-03":0.242,"2026-04":0.242,"2026-05":0.242,"2026-06":0.242,"2026-07":0.242,"2026-08":0.242,"2026-09":0.242,"2026-10":0.242,"2026-11":0.242,"2026-12":0.242,"2027-01":0.242,"2027-02":0.242,"2027-03":0.242,"2027-04":0.242,"2027-05":17.383},"color":"#a78bfa"},
+  {"name":"BMW Mini 4362011","src":"FINANZ.4362011 BMW X MINI","sched":{"2026-01":0.095,"2026-02":0.095,"2026-03":0.095,"2026-04":0.095,"2026-05":0.095,"2026-06":0.095,"2026-07":0.095,"2026-08":0.095,"2026-09":0.095,"2026-10":0.095,"2026-11":0.095,"2026-12":0.095,"2027-01":0.095,"2027-02":0.095,"2027-03":0.095,"2027-04":0.095,"2027-05":0.02},"color":"#c4b5fd"},
+  {"name":"Unicredit 2529480","src":"FIN.2529480 UNICREDIT SCAD.03/28","sched":{"2026-03":2.175,"2026-06":38.884,"2026-09":38.884,"2026-12":38.884,"2027-03":38.884,"2027-06":38.884,"2027-09":38.884,"2027-12":38.884,"2028-03":38.884},"color":"#f43f5e"},
+  {"name":"BCC Brescia 1071107","src":"FIN.1071107 BCCBS SCAD.05/2028","sched":{"2026-01":5.718,"2026-02":5.718,"2026-03":5.718,"2026-04":5.718,"2026-05":5.718,"2026-06":5.718,"2026-07":5.718,"2026-08":5.718,"2026-09":5.718,"2026-10":5.718,"2026-11":5.718,"2026-12":5.718,"2027-01":5.718,"2027-02":5.718,"2027-03":5.718,"2027-04":5.718,"2027-05":5.718,"2027-06":5.718,"2027-07":5.718,"2027-08":5.718,"2027-09":5.718,"2027-10":5.718,"2027-11":5.718,"2027-12":5.718,"2028-01":5.718,"2028-02":5.718,"2028-03":5.718,"2028-04":5.718,"2028-05":5.718},"color":"#fbbf24"},
+  {"name":"Credem 8630473","src":"FIN.8630473 CREDEM SCAD.03/2028","sched":{"2026-01":8.725,"2026-02":8.725,"2026-03":8.725,"2026-04":8.725,"2026-05":8.725,"2026-06":8.725,"2026-07":8.725,"2026-08":8.725,"2026-09":8.725,"2026-10":8.725,"2026-11":8.725,"2026-12":8.725,"2027-01":8.725,"2027-02":8.725,"2027-03":8.725,"2027-04":8.725,"2027-05":8.725,"2027-06":8.725,"2027-07":8.725,"2027-08":8.725,"2027-09":8.725,"2027-10":8.725,"2027-11":8.725,"2027-12":8.725,"2028-01":8.725,"2028-02":8.725,"2028-03":8.725},"color":"#fb923c"}
 ];
 var EXTRA_ASSETS=[
   {name:'Deposito "Cedola Long" (BCC Brescia) · cedola sem. 3%, scad. 03/27', val:400.00},
@@ -770,6 +772,7 @@ function loanDates(l){
 function loanPaymentYM(y,m){
   var ym=y*12+(m-1), p=0;
   LOANS.forEach(function(l){
+    if(l.sched){ p+=l.sched[y+'-'+(m<10?'0':'')+m]||0; return; }
     if(l.end){
       if(loanDates(l).indexOf(ym)>=0) p+=l.rata;
       if(l.riscatto && l.riscattoAt){ var ra=l.riscattoAt.split('-'); if((+ra[0])*12+(+ra[1]-1)===ym) p+=l.riscatto; }
@@ -1309,8 +1312,8 @@ function renderIndici(){
   // Annual debt service 2026 (full year: H1 estimated + H2 from model)
   var ds26h2=0; for(var i=0;i<6;i++) ds26h2+=loanPayment(i);
   // H1 2026 estimated from Jan-Jun (before model start)
-  // H1 2026 (gen-giu) calcolato dallo stesso piano mutui + Unicredit 8823 estinto nel semestre (5,59k)
-  var ds26h1=5.59; for(var mm=1;mm<=6;mm++) ds26h1+=loanPaymentYM(2026,mm);
+  // H1 2026 (gen-giu) dallo stesso scadenziario mensile
+  var ds26h1=0; for(var mm=1;mm<=6;mm++) ds26h1+=loanPaymentYM(2026,mm);
   var ds26=ds26h1+ds26h2;
 
   // Annual debt service 2027 (offsets 6-17)
@@ -1588,6 +1591,17 @@ function renderLoans(){
   var FQ={1:'mese',3:'trimestre',6:'semestre',12:'anno'};
   var totRes=0;
   var cards=LOANS.map(function(l){
+    if(l.sched){
+      var ks=Object.keys(l.sched).sort(), c=l.color||'#94a3b8', r26=0,r27=0,r28=0,res=0,nr=0;
+      ks.forEach(function(k){var v=l.sched[k],y=+k.slice(0,4),mo=+k.slice(5,7); if(y===2026)r26+=v; if(y===2027)r27+=v; if(y===2028)r28+=v; if(y*12+mo-1>=now){res+=v;nr++;}});
+      totRes+=res;
+      var last=ks[ks.length-1];
+      return '<div style="background:#1e293b;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:3px solid '+c+'"><div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:6px">'+l.name+'</div><div style="display:flex;gap:20px;margin-bottom:4px;flex-wrap:wrap">'
+        +'<div><div style="font-size:9px;color:#64748b">RATE 2026</div><div style="font-size:12px;font-weight:700;color:'+c+'">€'+r26.toFixed(1)+'k</div></div>'
+        +'<div><div style="font-size:9px;color:#64748b">2027 / 2028</div><div style="font-size:12px;color:#94a3b8">€'+r27.toFixed(1)+'k / €'+r28.toFixed(1)+'k</div></div>'
+        +'<div><div style="font-size:9px;color:#64748b">ULTIMA RATA</div><div style="font-size:12px;color:#94a3b8">'+MESI[+last.slice(5,7)-1]+' '+last.slice(0,4)+'</div></div>'
+        +'<div><div style="font-size:9px;color:#64748b">DA LUG 2026</div><div style="font-size:12px;color:#94a3b8">'+nr+' rate · €'+res.toFixed(1)+'k</div></div></div></div>';
+    }
     if(!l.end) return '';
     var d=loanDates(l).filter(function(x){return x>=now;}).sort(function(a,b){return a-b;});
     var rq=0; if(l.riscatto&&l.riscattoAt){var ra=l.riscattoAt.split('-'); rq=(+ra[0])*12+(+ra[1]-1);}
