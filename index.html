@@ -1023,7 +1023,8 @@ function calcCF() {
     if(P.shiftMonths&&!(anc&&ym<=anc)){
       // solo fornitori con scadenza fine mese SENZA +10: 31/08 -> 10/09, 31/12 -> 10/01 (quota P.shiftSupPct dei pagamenti del mese). Clienti: nessuno ha questa condizione.
       var cin=carry[m.c]; if(cin){ sup+=cin[1]; col+=cin[0]; carry[m.c]=null; }
-      var dst=P.shiftMonths[m.c]; if(dst){ var mvS=(sup-supOpen)*(P.shiftSupPct||0), mvC=col*(P.shiftCustPct||0); // scadenzario aperto: date gia' spostate da Pegaso, niente doppio slittamento carry[dst]=[mvC,mvS]; sup-=mvS; col-=mvC; }
+      // scadenzario aperto: date gia' spostate da Pegaso, niente doppio slittamento
+      var dst=P.shiftMonths[m.c]; if(dst){ var mvS=(sup-supOpen)*(P.shiftSupPct||0), mvC=col*(P.shiftCustPct||0); carry[dst]=[mvC,mvS]; sup-=mvS; col-=mvC; }
     }   var is27m=m.y===2027;
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
