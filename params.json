@@ -3,8 +3,8 @@
   "_updated": "2026-10-02",
   "_startCashSource": "Saldo 4 c/c al 30/09/2026 da SITUAZIONE BANCHE 1-31 OTTOBRE 2026 (Verusca): CREDEM 463,73 + BCC Sebino 43,39 + Unicredit 242,16 + BCC BS 1.121,18 = 1.870,46k lordo; nettato Cedola Long -400 (C/deposito BCC BS, scad. 03/27), F.do BTP -150 (indicato da Verusca come compreso nel saldo iniziale BCC BS) e Piano accumulo Onemarkets -40,8 (Unicredit). Polizza Assicomo 75k non nettata (come in precedenza). Netto operativo 1.279,66k. NOTA: ESTINTO nel file si riferisce alle rate BCC Sebino/Finlombarda di ott-26, non al BTP. Incassi SOSPESI non inclusi nel saldo (Enextras FT108/FT117 112,15k, Terraverde FT40 5,38k): certi: già compresi nei crediti aperti (openRec) della proiezione, non sommati a parte. Proiezione ancorata a fine settembre (cashAnchor 2026-09).",
   "rev26": 2350,
-  "dso": 62,
-  "dpo": 83,
+  "dso": 36,
+  "dpo": 105,
   "matPct": 18,
   "subPct": 4,
   "laborK": 58,
@@ -30,8 +30,8 @@
   "cigW27": 0,
   "cigH27": 50,
   "startCash": 1279.66,
-  "openRec": 480,
-  "openPay": 150,
+  "openRec": 0,
+  "openPay": 0,
   "OREV": {
     "0": 213.6,
     "1": 91.8,
@@ -1068,5 +1068,23 @@
   },
   "_energyPctSource": "3.8% calcolato su H1_2026_reale (energia/ricavi H1 reale = 48.049,16/1.248.997,57). NON reimpostare a 3.3% (vecchio default) senza ricalcolare dai dati reali: gia perso una volta nel ripristino del 30/07/2026.",
   "_loansSource": "Piani di ammortamento banche (BCC 1066083 e 1071107 del 07/05/2026, Unicredit 2529480 del 27/03/2025, Credem 8630473 del 13/05/2026) con quota capitale/interessi/residuo; BCC Sebino/Finlombarda da bilancio; 8823317 e Mini da scadenziario Verusca. Esclusi noleggi LeasePlan.",
-  "cashAnchor": "2026-09"
+  "cashAnchor": "2026-09",
+  "ivaVend": 3.5,
+  "ivaMat": 11,
+  "ivaSvc": 22,
+  "openRecSched": {
+    "2026-10": 216.2,
+    "2026-11": 66.1
+  },
+  "openPaySched": {
+    "2026-10": 63.4,
+    "2026-11": 23.9,
+    "2026-12": 8.4,
+    "2027-01": 19.8
+  },
+  "toInvoice": {
+    "2026-09": 77.5
+  },
+  "_ivaSource": "IVA: vendite quasi tutte non imponibili (Art.8, dichiarazioni d'intento clienti): IVA effettiva ~3,5% (fatture SDI sett-26). Acquisti: PMG, Hexpol, Le Quattro C., Tecnoconf, FGR senza IVA con dichiarazione d'intento HTP (plafond 12/12/2025; 219k usati a set-26); altri fornitori (GBS, Mecof, Elledi, Viterie, Selini...) con IVA 22% -> effettiva ~11% su materiali/lavorazioni; 22% su energia e altri costi. Saldo IVA liquidato col mese successivo (credito compensato).",
+  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10."
 }
