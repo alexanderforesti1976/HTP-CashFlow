@@ -2,6 +2,11 @@
 
 App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilità Industriale** di High Tech Project S.r.l. (overmolding gomma-metallo/gomma-plastica, ~19 dipendenti, Palazzolo s/O). Rispondi in italiano, tecnico e diretto, brevissimo, un passo alla volta.
 
+## CONGELATO (regola di Alex, 02/10/2026 sera)
+- **Non cambiare più nessuna formula, percentuale o parametro di calcolo senza l'ok esplicito di Alex.** Ogni modifica va prima descritta con tabella prima/dopo (utile e cassa) e approvata; si pubblica solo dopo. Niente correzioni "a pezzi".
+- Punti di ripristino su GitHub: tag `stato-mattina-02-10-2026` (commit 11e47db, stato di inizio giornata) e `stato-sera-02-10-2026` (stato dopo tutte le modifiche del 02/10). Per tornare indietro: `git checkout <tag> -- index.html params.json`, commit e push su `main`.
+- Prossimo passaggio unico e controllato: ricostruzione completa quando arrivano le fatture di settembre e il bilancio al 30/09 (verso il 15/10), con checklist: acquisti e % materie/lavorazioni sul bilancio, personale (TFR, 13ª, CIG), incassi/pagamenti da scadenzari, IVA, imposte; mostrata e approvata prima di pubblicare.
+
 ## Come lavorare
 - **Documenti: cartella Google Drive `HTP-Dati`** (connettore Google Drive). Procedura e regole in `tools/README.md`; parser scadenzari in `tools/parse_pegaso.py` (totali verificati sul PDF). Il repo è PUBBLICO: mai committare documenti con dati di clienti/fornitori. Alex NON vuole più allegare file a ogni sessione: se il connettore Drive non è disponibile, dirlo subito e chiedere di collegarlo (https://claude.ai/customize/connectors) e di aprire una nuova sessione.
 - Storico e motivazioni delle decisioni del 02/10/2026 (CE 2026, imposte, fornitori, errori fatti): `docs/RIEPILOGO_02-10-2026.md`. Leggilo all'inizio di ogni sessione insieme a questo file.
