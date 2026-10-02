@@ -22,7 +22,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Ammortamenti, TFM, imposte calcolati da params, mai hardcoded.
 - Cash flow con tutto ciò che muove cassa, IVA inclusa, per aliquote/regimi reali (22%, 10%, non imponibile/dichiarazione d'intento), non percentuali medie.
 - Obiettivo 2.250k = ricavi netti IVA. Consuntivo + ordini NON vanno scalati: se superano l'obiettivo, segnalare "SFORATO".
-- Slittamento scadenze: solo fornitori con pagamento fine mese SENZA +10 (31/08→10/09, 31/12→10/01), es. GBS 90 dffm; i fornitori principali hanno già +10. Parametri `shiftMonths` {8→9, 12→1} e `shiftSupPct` (quota pagamenti del mese interessata, oggi 0: da quantificare). Clienti: nessuno ha questa condizione (Valentina), nessuno slittamento sugli incassi.
+- Slittamento scadenze: solo fornitori pagati con RiBa a fine mese SENZA +10 (31/08→10/09, 31/12→10/01), mai i bonifici; es. GBS 90 dffm (da verificare se RiBa); i fornitori principali hanno già +10. Parametri `shiftMonths` {8→9, 12→1} e `shiftSupPct` (quota pagamenti del mese = RiBa senza +10, oggi 0: da quantificare). Clienti: nessuno ha questa condizione (Valentina), nessuno slittamento sugli incassi.
 - Credito IVA recuperato con dichiarazione annuale (`ivaRecoveryYM` 2027-04), non TR trimestrali.
 - Input reali (scadenzari/registri Pegaso, condizioni per cliente/fornitore), non medie uniformi.
 - Pegaso ordini: consegna 31/12/2099 = in attesa conto lavoro (vale data richiesta); 31/12/2100 = programma (data richiesta = data massima ritiro; ripartire sullo storico ritiri). Non sommarli alle consegne confermate.
@@ -40,7 +40,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Personale all-in lug 54,3k / ago 48,8k (modello 58k), affitti 8,2k, energia 7,4/9,0k, royalties trimestrali ~9-10k a ottobre.
 
 ## Aperto
-- Quota acquisti con pagamento senza +10 (GBS e altri) per valorizzare `shiftSupPct`.
+- Quota acquisti pagati con RiBa senza +10 (GBS e altri) per valorizzare `shiftSupPct`.
 - Mastrini/trimestrale metà ottobre: sostituire costi stimati lug-set.
 - Conferma recupero credito IVA con Luca (Studio SGEA); acquisti settembre non registrati.
 - Enextras FT108/FT117 (112,2k) e ordine 260143 (88,7k non spedito, chiedere a Giusi).
