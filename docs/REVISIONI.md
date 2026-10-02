@@ -64,6 +64,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R038 | INFORMAZIONE (Alex) | Titoli e fondi (Cedola Long 400k, fondo BTP 150k, Onemarkets 40,8k) liquidabili in giornata; polizza circa 74,9k (conto 00033000) 4-5 giorni. Dove stanno nel bilancio 2025: 02021901 e 02021902 (depositi, disponibilità liquide), 01074008 (fondi comuni 41.800), 00033000. Il bilancio 2025 non ha anticipi su fatture (solo "Credem dopo incasso" 245.194,46 tra i crediti) | Cassa operativa 1.279,66k invariata; se contare i titoli come liquidi (1.870,46k, con la polizza circa 1.945k) lo decide Alex |
 
+| R039 | CONFERMATO (Alex) | I 74.900 (conto 00033000) sono una polizza assicurativa, liquidabile in 4-5 giorni; il riscatto anticipato ha riduzioni (con favore) in funzione dei tempi, ma non è il nostro caso: la polizza resta investita | Nessuna modifica al modello; la polizza non entra nella cassa operativa |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
