@@ -12,7 +12,7 @@
   "energyPct": 3.8,
   "commPct": 2.8,
   "royPct": 1.5,
-  "otherFixedK": 20,
+  "otherFixedK": 25,
   "otherVarPct": 3,
   "labor27": 58,
   "rent27": 8.3,
@@ -1313,5 +1313,9 @@
     ]
   },
   "_payMatrixSource": "payMatrix ricalcolata con parser verificato: pesi = fatture a credito con data doc da 01/04/2026 (39 fornitori, 175k: Hexpol 30%, FGR 13%, Selini 8%, PMG 8%, PMG East 6%, EU Silicones 5%...) incl. fatture registro con scadenza 2027; condizioni da Condizioni_pagamento xlsx; RiBa fine mese senza +10 con scadenza agosto/dicembre -> +1 mese.",
-  "accontoSplit": 0.5
+  "accontoSplit": 0.5,
+  "accontoGiu26": 0,
+  "tfrRate": 7.41,
+  "ferieH1K": 9,
+  "_ratei": "Ratei personale H1 (stima esplicita, non presenti nel bilancio provvisorio): TFR = salari H1 x 7,41% - TFR gia' contabilizzato (5,1k); 13a = tredK/2 (19,0k); ferie maturate non godute ferieH1K = 9k (stima: ~5 giorni/dipendente + oneri, da confermare). accontoGiu26 = acconto imposte giugno 2026 versato da F24 (k), 0 = non inserito (usa imposte 2025 x 50%); novembre 2026 = stessa cifra. otherFixedK 2026 = 25 (richiesta altra chat)."
 }

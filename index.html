@@ -407,6 +407,7 @@
 <div class="grp"><div class="glabel" style="color:#fbbf24">IMPOSTE</div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">IRES</span><span class="sl-val" id="lv-ires">24%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(20.0,+(+el.value-1).toFixed(2));el.value=v;upd('iresR',v)" type="button">&minus;</button><input type="number" class="num-inp" min="20" max="28" step="1" value="24" oninput="upd('iresR',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(28.0,+(+el.value+1).toFixed(2));el.value=v;upd('iresR',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">IRAP</span><span class="sl-val" id="lv-irap">3.9%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('irapR',v)" type="button">&minus;</button><input type="number" class="num-inp" min="3" max="5" step="0.1" value="3.9" oninput="upd('irapR',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('irapR',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Acconto imposte giu-26 versato (F24)</span><span class="sl-val" id="lv-accg">stima</span></div><div class="sl-note">0 = non inserito (stima: imposte 2025 &times; 50%). Novembre 2026 = stessa cifra.</div><div class="sl-ctrl"><input type="number" class="num-inp" min="0" max="200" step="0.1" value="0" oninput="upd('accontoGiu26',+this.value)" inputmode="decimal"></div></div>
 </div>
 </div>
 <div>
@@ -418,7 +419,7 @@
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Energia (% fatturato)</span><span class="sl-val" id="lv-enrg">3.8%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(3.0,+(+el.value-1).toFixed(2));el.value=v;upd('energyK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="3" max="20" step="1" value="8" oninput="upd('energyPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(20.0,+(+el.value+1).toFixed(2));el.value=v;upd('energyK',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Provvigioni agenti</span><span class="sl-val" id="lv-comm">2.8%</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('commPct',v)" type="button">&minus;</button><input type="number" class="num-inp" min="0" max="5" step="0.1" value="2.8" oninput="upd('commPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(5.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('commPct',v)" type="button">+</button></div></div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Royalties (% fatt.)</span><span class="sl-val" id="lv-roy">1.5%</span></div><div class="sl-note">1% brand + 0.5% blog</div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(0.0,+(+el.value-0.1).toFixed(2));el.value=v;upd('royPct',v)" type="button">&minus;</button><input type="number" class="num-inp" min="0" max="4" step="0.1" value="1.5" oninput="upd('royPct',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(4.0,+(+el.value+0.1).toFixed(2));el.value=v;upd('royPct',v)" type="button">+</button></div></div>
-  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri costi fissi</span><span class="sl-val" id="lv-oth">11k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-1).toFixed(2));el.value=v;upd('otherFixedK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="10" max="40" step="1" value="20" oninput="upd('otherFixedK',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30.0,+(+el.value+1).toFixed(2));el.value=v;upd('otherFixedK',v)" type="button">+</button></div></div>
+  <div class="sl"><div class="sl-hd"><span class="sl-lbl">Altri costi fissi</span><span class="sl-val" id="lv-oth">11k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(5.0,+(+el.value-1).toFixed(2));el.value=v;upd('otherFixedK',v)" type="button">&minus;</button><input type="number" class="num-inp" min="10" max="40" step="1" value="25" oninput="upd('otherFixedK',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(30.0,+(+el.value+1).toFixed(2));el.value=v;upd('otherFixedK',v)" type="button">+</button></div></div>
 </div>
 <div class="grp"><div class="glabel" style="color:#f472b6">COSTI 2027 (se diversi)</div>
   <div class="sl"><div class="sl-hd"><span class="sl-lbl">Personale 2027</span><span class="sl-val" id="lv-lab27">44k&euro;/m</span></div><div class="sl-ctrl"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.max(30.0,+(+el.value-1).toFixed(2));el.value=v;upd('labor27',v)" type="button">&minus;</button><input type="number" class="num-inp" min="30" max="130" step="1" value="54" oninput="upd('labor27',+this.value)" inputmode="decimal"><button class="pm-btn" onclick="var el=this.parentNode.querySelector('input');var v=Math.min(130.0,+(+el.value+1).toFixed(2));el.value=v;upd('labor27',v)" type="button">+</button></div></div>
@@ -819,7 +820,7 @@ var P={
   h1Rev:1248.7,
   dso:60, dpo:105,
   matPct:18, subPct:4,
-  laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
+  laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:25, otherVarPct:3,
   labor27:58, rent27:8.3, energyPct27:2.35, otherFixedK27:21.4, otherVarPct27:3,
   tredK:38, tredK27:38,
   invMPK:113, invIMBK:5, invSLK:58, invPFK:17, di27:0,
@@ -830,7 +831,7 @@ var P={
   actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6}, purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6}, purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, accontoGiu26:0, tfrRate:7.41, ferieH1K:9, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -938,6 +939,7 @@ function updateRevBar(){
 
 // === P&L CALC ===
 function calcPL(year, actual) {
+  var rateiH1=0;
   var d=actual?ACT[year]:null;
   var rt=getRevTotals();
   var rev=d?d.rev:(year===2026?rt.revFull26:rt.revFull27);
@@ -963,11 +965,13 @@ function calcPL(year, actual) {
     var h1Act=(P.h1Rev!==undefined)?P.h1Rev:1248.7, revH2=Math.max(0,rev-h1Act);
     mat=k1(h.mpAcquisti+h.materialiConsumo+h.imballi+h.pfAcquistati)+revH2*P.matPct/100;
     sub=k1(h.lavCTerzi)+revH2*P.subPct/100;
-    labor=k1(h.salari+h.interinale+h.contributi+h.tfr+h.welfare)+Math.max(0,lk*6-cigS/2);
+    // Ratei personale H1 NON presenti nel bilancio provvisorio (stima esplicita): TFR sui salari H1 al P.tfrRate% meno il TFR gia' contabilizzato, 13a maturata (P.tredK/2), ferie maturate non godute (P.ferieH1K)
+    rateiH1=Math.max(0,k1(h.salari)*P.tfrRate/100-k1(h.tfr))+P.tredK/2+P.ferieH1K;
+    labor=k1(h.salari+h.interinale+h.contributi+h.tfr+h.welfare)+rateiH1+Math.max(0,lk*6-cigS/2);
     energy=k1(h.energia)+revH2*P.energyPct/100;
     rent=k1(h.affitti)+P.rentK*6;
     comm=k1(h.provvigioni)+revH2*P.commPct/100;
-    roy=k1(h.royalties)+revH2*P.royPct/100;
+    roy=rev*P.royPct/100; // royalties 1,5% sui ricavi dell'intero anno: H1 reale basso = timing
     other=k1(h.leasing+h.noleggi+h.manutenzioni+h.pubblicita+h.svariComm+h.consulAmm+h.consulTec+h.compensoAmm+h.revisore+h.speseBancarie+h.altriGA)+P.otherFixedK*6+revH2*P.otherVarPct/100;
     intInc=k1(h.ricaviTitoli+h.intAttiviCC+h.dividendi)+5;
     intExp=k1(h.interessi)+loanInterestRange(2026,7,12);
@@ -982,7 +986,7 @@ function calcPL(year, actual) {
   var irap=d?(d.taxes!=null?d.taxes*.21:irapBase*P.irapR/100):irapBase*P.irapR/100;
   var taxes=ires+irap;
   return {rev:rev,mat:mat,sub:sub,di:di,labor:labor,energy:energy,rent:rent,
-    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,
+    comm:comm,roy:roy,other:other,amm:amm,tfm:tfm,rateiH1:rateiH1,
     valProd:rev+di,ebitda:ebitda,ebit:ebit,
     intInc:intInc,intExp:intExp,ebt:ebt,taxes:taxes,net:ebt-tfm-taxes};
 }
@@ -1010,6 +1014,8 @@ function calcCF() {
   var t26=calcPL(2026,false).taxes;
   var t27=calcPL(2027,false).taxes;
   var accSplit=(P.accontoSplit!==undefined)?P.accontoSplit:0.5, accConto25=ACT[2025].taxes, taxCredit=0; // acconti 2026 = 100% imposte 2025
+  // acconto 2026: giugno versato (F24, P.accontoGiu26 inserito da Alex) e novembre = stessa cifra; se non inserito, stima = imposte 2025 x split
+  var accG=(P.accontoGiu26>0)?P.accontoGiu26:accConto25*accSplit;
   var rPm=P.openRec/Math.max(1,cd);
   var payPm=P.openPay/Math.max(1,pd);
   var bal=P.startCash;
@@ -1068,9 +1074,9 @@ var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     var taxes=0;
     // Imposte: acconti anno N = imposte anno N-1 (P.accontoSplit = quota prima rata, giu; resto a nov); giugno anno N+1 = saldo N (imposte N - acconti versati) + 1a rata acconto N+1;
     // un saldo a credito si compensa nel mese (e l'eventuale residuo con la rata successiva), non si paga.
-    if(m.y===2026&&m.c===6) taxes=accConto25*accSplit;
-    if(m.y===2026&&m.c===11) taxes=accConto25*(1-accSplit);
-    if(m.y===2027&&m.c===6){ var due=(t26-accConto25)+t26*accSplit; if(due<0){ taxCredit=-due; due=0; } taxes=due; }
+    if(m.y===2026&&m.c===6) taxes=accG;
+    if(m.y===2026&&m.c===11) taxes=accG;
+    if(m.y===2027&&m.c===6){ var due=(t26-2*accG)+t26*accSplit; if(due<0){ taxCredit=-due; due=0; } taxes=due; }
     if(m.y===2027&&m.c===11){ var due2=t26*(1-accSplit)-taxCredit; if(due2<0){ taxCredit=-due2; due2=0; } else taxCredit=0; taxes=due2; }
     var svcIva=energyM*(P.ivaEnergia||0)/100+otherM*(P.ivaRate||0)/100; // energia 10%, altri costi 22%
     ivaCred+=svcIva;
@@ -1244,6 +1250,7 @@ function renderCE(){
     +row('  - Acquisti MP',function(pl){return pl.mat;},false,false,true,false)
     +row('  - Lavorazioni c/terzi',function(pl){return pl.sub;},false,false,true,false)
     +row('  - Costo del personale',function(pl){return pl.labor;},false,false,true,false)
+    +row('      di cui ratei H1 (stima TFR+13a+ferie)',function(pl){return pl.rateiH1||0;},false,false,true,false)
     +row('  - Energia',function(pl){return pl.energy;},false,false,true,false)
     +row('  - Affitti',function(pl){return pl.rent;},false,false,true,false)
     +row('  - Provvigioni agenti',function(pl){return pl.comm;},false,false,true,false)
@@ -1737,8 +1744,8 @@ function renderLoans(){
 }
 
 // === STATE UPDATE ===
-var lblMap={rev26:'lv-r26',rev27:'lv-r27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
-var fmtP={rev26:function(v){return v+'k€';},rev27:function(v){return v+'k€';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return (v>=0?'+':'')+v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
+var lblMap={accontoGiu26:'lv-accg',rev26:'lv-r26',rev27:'lv-r27',dso:'lv-dso',dpo:'lv-dpo',invMPK:'lv-invMP',invIMBK:'lv-invIMB',invSLK:'lv-invSL',invPFK:'lv-invPF',di27:'lv-di27',amm26:'lv-a26',amm27:'lv-a27',tfmPct:'lv-tfm',cigW:'lv-cig',cigH:'lv-cigh',cigW27:'lv-cig27',cigH27:'lv-cigh27',iresR:'lv-ires',irapR:'lv-irap',matPct:'lv-mat',subPct:'lv-sub',laborK:'lv-lab',rentK:'lv-rent',energyPct:'lv-enrg',commPct:'lv-comm',royPct:'lv-roy',otherFixedK:'lv-oth',otherVarPct:'lv-othv',labor27:'lv-lab27',rent27:'lv-rent27',energyPct27:'lv-enrg27',otherFixedK27:'lv-oth27',otherVarPct27:'lv-othv27',startCash:'lv-cash',openRec:'lv-rec',openPay:'lv-pay'};
+var fmtP={accontoGiu26:function(v){return v>0?v+'k€':'stima';},rev26:function(v){return v+'k€';},rev27:function(v){return v+'k€';},dso:function(v){return v+'gg';},dpo:function(v){return v+'gg';},invMPK:function(v){return v+'k€';},invIMBK:function(v){return v+'k€';},invSLK:function(v){return v+'k€';},invPFK:function(v){return v+'k€';},di27:function(v){return (v>=0?'+':'')+v+'k€';},amm26:function(v){return v+'k€';},amm27:function(v){return v+'k€';},tfmPct:function(v){return v+'%';},cigW:function(v){return v+'';},cigH:function(v){return v+'%';},cigW27:function(v){return v+'';},cigH27:function(v){return v+'%';},iresR:function(v){return v+'%';},irapR:function(v){return v+'%';},matPct:function(v){return v+'%';},subPct:function(v){return v+'%';},laborK:function(v){return v+'k€/m';},rentK:function(v){return v+'k€/m';},energyPct:function(v){return v+'%';},commPct:function(v){return v+'%';},royPct:function(v){return v+'%';},otherFixedK:function(v){return v+'k€/m';},otherVarPct:function(v){return v+'%';},labor27:function(v){return v+'k€/m';},rent27:function(v){return v+'k€/m';},energyPct27:function(v){return v+'%';},otherFixedK27:function(v){return v+'k€/m';},otherVarPct27:function(v){return v+'%';},startCash:function(v){return v+'k€';},openRec:function(v){return v+'k€';},openPay:function(v){return v+'k€';}};
 
 function upd(k,v){
   P[k]=v;
@@ -1857,7 +1864,7 @@ function resetAll(){
     rev26:2250,rev27:2000,
     h1Rev:1248.7,dso:60,dpo:105,
     matPct:18,subPct:4,
-    laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
+    laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:25,otherVarPct:3,
     labor27:58,rent27:8.3,energyPct27:2.35,otherFixedK27:21.4,otherVarPct27:3,
     tredK:38,tredK27:38,
     invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
@@ -1867,7 +1874,7 @@ function resetAll(){
     actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6},purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':77.8,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6},purchRegYM:'2026-09', shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, accontoGiu26:0, tfrRate:7.41, ferieH1K:9, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
