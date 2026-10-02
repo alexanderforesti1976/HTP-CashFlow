@@ -832,7 +832,7 @@ var P={
   actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':46.1,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6}, purchRegYM:'2026-08', purchPartial:{'2026-09':22.2}, shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, royPayLag:1, recMatrix:{"default":[0.2531,0.0664,0.4626,0.2179,0.0,0.0,0.0],"2026-09":[0.0892,0.1107,0.5121,0.2881,0.0,0.0,0.0],"2026-10":[0.2419,0.0396,0.4776,0.2409,0.0,0.0,0.0],"2026-11":[0.2689,0.0238,0.3617,0.3456,0.0,0.0,0.0],"2026-12":[0.2827,0.0,0.6425,0.0748,0.0,0.0,0.0]}, recRegYM:'2026-08', accontoGiu26:0, tfr25K:37.06155, lab25K:847.2, ferieH1K:0, rateiH1On:1, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':46.1,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6}, purchRegYM:'2026-08', purchPartial:{'2026-09':22.2}, shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, royPayLag:1, recMatrix:{"default":[0.2531,0.0664,0.4626,0.2179,0.0,0.0,0.0],"2026-09":[0.0892,0.1107,0.5121,0.2881,0.0,0.0,0.0],"2026-10":[0.2419,0.0396,0.4776,0.2409,0.0,0.0,0.0],"2026-11":[0.2689,0.0238,0.3617,0.3456,0.0,0.0,0.0],"2026-12":[0.2827,0.0,0.6425,0.0748,0.0,0.0,0.0]}, recRegYM:'2026-08', accontoGiu26:0, tfr25K:37.06155, tred25K:55.53, lab25PureK:754.6, ferieH1K:0, rateiH1On:1, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -940,7 +940,7 @@ function updateRevBar(){
 
 // === P&L CALC ===
 function calcPL(year, actual) {
-  var rateiH1=0;
+  var rateiH1=0, persBase26=0;
   var d=actual?ACT[year]:null;
   var rt=getRevTotals();
   var rev=d?d.rev:(year===2026?rt.revFull26:rt.revFull27);
@@ -967,9 +967,11 @@ function calcPL(year, actual) {
     mat=k1(h.mpAcquisti+h.materialiConsumo+h.imballi+h.pfAcquistati)+revH2*P.matPct/100;
     sub=k1(h.lavCTerzi)+revH2*P.subPct/100;
     // Ratei personale H1 NON presenti nel bilancio provvisorio (stima esplicita): TFR sui salari H1 al P.tfrRate% meno il TFR gia' contabilizzato, 13a maturata (P.tredK/2), ferie maturate non godute (P.ferieH1K)
-    // TFR (accantonato a chiusura): TFR 2025 (conto 06041200, 37,06k) riproporzionato sul costo del personale H1 2026 (gia' netto CIG); 13a = 1/12 dei salari + contributi; ferie P.ferieH1K
-    rateiH1=P.rateiH1On?(P.tfr25K*k1(h.salari+h.interinale+h.contributi+h.tfr+h.welfare)/P.lab25K+k1(h.salari)/12*(1+h.contributi/h.salari)+P.ferieH1K):0;
-    labor=k1(h.salari+h.interinale+h.contributi+h.tfr+h.welfare)+rateiH1+Math.max(0,lk*6-cigS/2);
+    // PERSONALE 2026 (metodo Alex): costo 2025 SENZA TFR e 13a (P.lab25PureK) confrontato col costo H1 2026 registrato (che non contiene TFR ne' 13a) -> rapporto r;
+    // base anno = H1 + H2 allo stesso ritmo (meno CIG); TFR e 13a 2025 (P.tfr25K, P.tred25K) riproporzionati con r su tutto l'anno 2026.
+    var persH1=k1(h.salari+h.interinale+h.contributi+h.tfr+h.welfare);
+    persBase26=persH1+Math.max(0,persH1-cigS/2);
+    labor=persBase26;
     energy=k1(h.energia)+revH2*P.energyPct/100;
     rent=k1(h.affitti)+P.rentK*6;
     comm=k1(h.provvigioni)+revH2*P.commPct/100;
@@ -978,19 +980,16 @@ function calcPL(year, actual) {
     intInc=k1(h.ricaviTitoli+h.intAttiviCC+h.dividendi)+5;
     intExp=k1(h.interessi)+loanInterestRange(2026,7,12);
   }
-  // TFR accantonato a chiusura d'anno: il costo all-in mensile (laborK) contiene la 13a (tredK/12) ma NON il TFR: si aggiunge riproporzionando il TFR 2025
-  // (conto 06041200, P.tfr25K) sul costo del personale (P.lab25K = 847,2k), CIG compresa. Non e' cassa (fondo TFR).
+  // TFR e 13a: 2025 (bilancio definitivo) riproporzionati col rapporto tra costo personale senza TFR/13a dell'anno e quello 2025 (P.lab25PureK); non e' cassa mensile (TFR = fondo; 13a pagata a dicembre nel cash flow)
   var tfrAcc=0, tredAcc=0;
   if(d){ tfrAcc=d.tfrAcc||0; tredAcc=0; }
-  else if(year===2026&&H1_2026_REALE&&H1_2026_REALE.salari!==undefined){
-    var hh=H1_2026_REALE, labH2=Math.max(0,lk*6-cigS/2);
-    var tfrH1=P.rateiH1On?P.tfr25K*((hh.salari+hh.interinale+hh.contributi+hh.tfr+hh.welfare)/1000)/P.lab25K:0;
-    var tfrH2=P.tfr25K*labH2/P.lab25K;
-    labor+=tfrH2; tfrAcc=tfrH1+tfrH2;
-    tredAcc=(P.rateiH1On?(hh.salari/1000)/12*(1+hh.contributi/hh.salari):0)+P.tredK/2;
-  } else {
-    tfrAcc=P.tfr25K*labor/P.lab25K; labor+=tfrAcc;
-    tredAcc=(is27?P.tredK27:P.tredK);
+  else {
+    var baseY;
+    if(year===2026&&H1_2026_REALE&&H1_2026_REALE.salari!==undefined){ baseY=persBase26; }
+    else if(year===2026){ baseY=labor; }
+    else { var hh2=H1_2026_REALE; var pb=(hh2&&hh2.salari!==undefined)?((hh2.salari+hh2.interinale+hh2.contributi+hh2.tfr+hh2.welfare)/1000*2):(P.laborK*12); baseY=pb*(P.labor27/P.laborK)-cigS; labor=Math.max(0,baseY); }
+    var rr=baseY/P.lab25PureK;
+    tfrAcc=P.tfr25K*rr; tredAcc=P.tred25K*rr; labor+=tfrAcc+tredAcc;
   }
   var ebitda=rev+di-mat-sub-labor-energy-rent-comm-roy-other;
   var ebit=ebitda-amm;
@@ -1907,7 +1906,7 @@ function resetAll(){
     actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':46.1,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6},purchRegYM:'2026-08', purchPartial:{'2026-09':22.2}, shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, recMatrix:{"default":[0.2531,0.0664,0.4626,0.2179,0.0,0.0,0.0],"2026-09":[0.0892,0.1107,0.5121,0.2881,0.0,0.0,0.0],"2026-10":[0.2419,0.0396,0.4776,0.2409,0.0,0.0,0.0],"2026-11":[0.2689,0.0238,0.3617,0.3456,0.0,0.0,0.0],"2026-12":[0.2827,0.0,0.6425,0.0748,0.0,0.0,0.0]}, recRegYM:'2026-08', accontoGiu26:0, tfr25K:37.06155, lab25K:847.2, ferieH1K:0, rateiH1On:1, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':46.1,'2026-11':24.2,'2026-12':10.3,'2027-01':19.6},purchRegYM:'2026-08', purchPartial:{'2026-09':22.2}, shiftMonths:{8:9,12:1}, shiftSupPct:0, accontoSplit:0.5, recMatrix:{"default":[0.2531,0.0664,0.4626,0.2179,0.0,0.0,0.0],"2026-09":[0.0892,0.1107,0.5121,0.2881,0.0,0.0,0.0],"2026-10":[0.2419,0.0396,0.4776,0.2409,0.0,0.0,0.0],"2026-11":[0.2689,0.0238,0.3617,0.3456,0.0,0.0,0.0],"2026-12":[0.2827,0.0,0.6425,0.0748,0.0,0.0,0.0]}, recRegYM:'2026-08', accontoGiu26:0, tfr25K:37.06155, tred25K:55.53, lab25PureK:754.6, ferieH1K:0, rateiH1On:1, payMatrix:{"1":[0,0.0318,0.1496,0.3059,0.5128,0,0],"2":[0,0.0318,0.1496,0.3059,0.5128,0,0],"3":[0,0.0318,0.1496,0.3059,0.5128,0,0],"4":[0,0.0318,0.1496,0.3059,0.5128,0,0],"5":[0,0.0318,0.1496,0.2764,0.5422,0,0],"6":[0,0.0318,0.0205,0.4349,0.5128,0,0],"7":[0,0.0012,0.1801,0.3059,0.5128,0,0],"8":[0,0.0318,0.1496,0.3059,0.5128,0,0],"9":[0,0.0318,0.1496,0.2764,0.5422,0,0],"10":[0,0.0318,0.0205,0.4349,0.5128,0,0],"11":[0,0.0012,0.1801,0.3059,0.5128,0,0],"12":[0,0.0318,0.1496,0.3059,0.5128,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];

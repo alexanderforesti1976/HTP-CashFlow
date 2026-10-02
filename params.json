@@ -1316,7 +1316,7 @@
   "accontoSplit": 0.5,
   "accontoGiu26": 0,
   "ferieH1K": 0,
-  "_ratei": "Ratei personale H1 (non nel provvisorio): TFR = TFR 2025 (conto 06041200, 37.061,55) riproporzionato sul costo del personale H1 2026 (336,8k / 847,2k del 2025, gia' netto CIG) = 14,7k; 13a = 1/12 dei salari H1 + contributi (36,1%) = 26,7k; ferie non stimate. Totale 41,4k. CIG: cigW lavoratori in CIG e cigH % ore sospese (oggi 0 lavoratori 2026 e 2027): riduce il costo del personale previsto (lavoratori/20 x costo x % ore x 80%) e quindi anche TFR e 13a riproporzionati. H2 = costo all-in 58k/mese che contiene gia' TFR e 13a.",
+  "_ratei": "PERSONALE (metodo Alex 02/10/2026 sera): costo personale 2025 SENZA TFR e 13a = 847,2 - 37,06 (TFR 06041200) - 55,53 (13a = salari 542,3/13 = 41,7 + contributi 33,1%) = 754,6k; confrontato col costo H1 2026 registrato (336,8k, senza TFR ne' 13a) -> base anno 2026 = 673,6k, rapporto r = 0,893; TFR e 13a 2025 riproporzionati con r su tutto l'anno: TFR 33,1k, 13a 49,5k. Personale 2026 = 673,6 + 82,6 = 756,2k. 2027 = stessa base x labor27/laborK. Non toccano la cassa (TFR e' fondo, 13a gia' nel cash flow a dicembre).",
   "energyFixedK27": 7.5,
   "_forceKeys": [
     "labor27",
@@ -1384,5 +1384,6 @@
   "royPayLag": 1,
   "_royalties": "Royalties = 1,5% del fatturato (1% + 0,5%), maturate e pagate TRIMESTRALMENTE. Cash flow: un pagamento a trimestre = 1,5% dei ricavi dei 3 mesi, nel mese successivo alla fine del trimestre (royPayLag 1: gen/apr/lug/ott; 0 = mar/giu/set/dic). CE: 1,5% su tutto l'anno. H1 reale 8,3k = solo il 1o trimestre (572k x 1,5% = 8,6k): il 2o trimestre si registra a luglio.",
   "tfr25K": 37.06155,
-  "lab25K": 847.2
+  "tred25K": 55.53,
+  "lab25PureK": 754.6
 }
