@@ -2,6 +2,9 @@
 
 App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilità Industriale** di High Tech Project S.r.l. (overmolding gomma-metallo/gomma-plastica, ~19 dipendenti, Palazzolo s/O). Rispondi in italiano, tecnico e diretto, brevissimo, un passo alla volta.
 
+## NUOVA COSTRUZIONE (Alex, 02/10/2026 sera)
+- Alex ha deciso di ricostruire l'app da zero. Specifica: `docs/SPECIFICA_RICOSTRUZIONE.md`; dati ricevuti: `docs/DATI_RICEVUTI.md`. La nuova app vive in `nuova/` (non sostituisce `index.html`, che resta com'è finché Alex non decide). Passo 1 pubblicato: CE 2026 reale gen-ago con riconciliazioni (R066). Solo dati reali e regole di Alex, nessuna stima; unici input modificabili: CIG e magazzino.
+
 ## CONGELATO (regola di Alex, 02/10/2026 sera)
 - **Non cambiare più nessuna formula, percentuale o parametro di calcolo senza l'ok esplicito di Alex.** Ogni modifica va prima descritta con tabella prima/dopo (utile e cassa) e approvata; si pubblica solo dopo. Niente correzioni "a pezzi".
 - Punti di ripristino su GitHub (rami, i tag erano bloccati dal proxy): `ripristino-mattina-02-10-2026` (commit 11e47db, stato di inizio giornata) e `ripristino-sera-02-10-2026` (stato dopo tutte le modifiche del 02/10, commit 520b60c). Per tornare indietro: `git checkout <ramo> -- index.html params.json`, commit e push su `main`. Non cancellare questi rami.

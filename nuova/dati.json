@@ -1,0 +1,48 @@
+{
+ "_fonte": "H1: bozza bilancio 30/06/2026 del 13/07/2026 (riconciliata al centesimo, R058); luglio e agosto: mastrini 2026 estratti il 02/10/2026 16:02 (settembre incompleto, non usato). Importi in euro. Lo storno 41.502,04 (07011300) e dentro altri_costi del H1 per convenzione aziendale.",
+ "bozza_totali": {
+  "costi": 1215491.6,
+  "ricavi": 1257026.72,
+  "utile": 41535.12
+ },
+ "h1": {
+  "ricavi_operativi": 1248997.57,
+  "ricavi_titoli": 5950.68,
+  "interessi_attivi": 2078.47,
+  "materie": 231833.09,
+  "lavorazioni_terzi": 49752.74,
+  "personale": 336827.81,
+  "energia": 48049.16,
+  "affitti": 52376.91,
+  "provvigioni": 34938.91,
+  "royalties": 8315,
+  "altri_costi": 272277.23,
+  "interessi_passivi": 12761.42,
+  "esistenze_iniziali": 168359.33
+ },
+ "mesi": {
+  "7": {
+   "materie": 33381.39,
+   "altri_costi": 45163.12,
+   "energia": 7400.22,
+   "lavorazioni_terzi": 7322.12,
+   "provvigioni": 8452.59,
+   "royalties": 9685.0,
+   "affitti": 8195.06,
+   "personale": 54313.81,
+   "interessi_passivi": 1028.6,
+   "ricavi_operativi": 213770.55
+  },
+  "8": {
+   "materie": 27927.79,
+   "altri_costi": 22606.99,
+   "energia": 8967.82,
+   "lavorazioni_terzi": 4005.09,
+   "provvigioni": 3255.0,
+   "affitti": 8195.06,
+   "personale": 48782.2,
+   "interessi_passivi": 828.5,
+   "ricavi_operativi": 91754.58
+  }
+ }
+}
