@@ -59,7 +59,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 
 ## Parametri 2027 e test
 - 2027 allineato al ritmo reale 2026: personale come 2026 (`labor27` = `laborK` 58k/mese, nessuna CIG: 696k/anno), altri costi fissi 25k/mese (`otherFixedK27`), energia quasi fissa 7,5k/mese (`energyFixedK27`, sostituisce la % sul fatturato se > 0). CE 2027 con rev 2.000k: EBITDA 198,0k (era 314,6k), utile netto 56,3k (era 123,6k, con TFR 30,4k aggiunto); saldo dic-27 1.256k.
-- `params.json` → `_forceKeys`: elenco di parametri che prevalgono sulle modifiche manuali salvate nella pagina/Firebase (oggi i parametri 2027 sopra). Gli altri parametri modificati a mano nella pagina prevalgono sempre sul file.
+- `params.json` → `_forceKeys`: elenco di parametri che prevalgono sulle modifiche manuali salvate nella pagina/Firebase (oggi labor27, tredK27, otherFixedK27, energyFixedK27; NON la CIG: cigW/cigH/cigW27/cigH27 sono input di Alex e prevalgono sempre sul file). Gli altri parametri modificati a mano nella pagina prevalgono sempre sul file.
 - Da Code Firebase NON è raggiungibile (proxy dell'ambiente): i test usano `params.json`, quindi possono differire dalla pagina di Alex. Esempio: magazzino totale 153,4k (variazione rimanenze 2026 −15k) → utile 2026 109,0k invece di 131,9k (rimanenze 24,6k con magazzino 193k). Per testare lo stato reale servono i valori della pagina (screenshot dei Parametri).
 
 ## ATTENZIONE: l'"utile" 41,5k del bilancio provvisorio H1 NON è l'utile del semestre
