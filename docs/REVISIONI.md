@@ -90,6 +90,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R051 | VERIFICATO (bilancio 2025, mastrini, fonti online) | Acconti e saldi: acconto 100% anno precedente, ISA 50/50, rateizzabili solo saldo e 1ª rata, 2ª rata il 30/11 intera (Il Sole 24 Ore, Fisco e Tasse). HTP ISA (IRAP 1ª rata = 50% di 21.969). Acconti 2026: IRES 51.140 + 51.140, IRAP 10.984,50 + 10.984,50; pagati IRES 36.520,64 (luglio-settembre), restano circa 14,6k (ottobre circa 10,6k, resto novembre). Rateizzazione accertamenti dal bilancio 2025: quota entro 12 mesi 37.851,76 e oltre 12 mesi 28.388,55 = 7 rate trimestrali da 9.462,94, fine settembre 2027; INAIL 22.488,43 in 12 rate da circa 1.874 (giugno 2026 - maggio 2027), residuo 14.992,51 al 30/09. Nel vecchio modello assenti | Specifica aggiornata; modello non modificato |
 
+| R052 | RITRATTATA / APERTO | "HTP soggetto ISA" (R048, R051) era una deduzione di Claude dal 50% esatto della 1ª rata IRAP; Alex: NON è soggetto ISA. Per legge non-ISA acconto 40% + 60%: 2026 prima rata 49.700, seconda 74.549 (non 62.125 + 62.125 come nel vecchio modello). I versamenti reali (IRAP 1ª rata 10.984,50 = 50% di 21.969; IRES 36.521 pagati luglio-settembre e 10,6k a ottobre) tornano meglio con 50/50. Da chiarire con Verusca (F24 di luglio) | Specifica aggiornata; modello non modificato. Effetto se 40/60: novembre 74,5k invece di 62,1k |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
