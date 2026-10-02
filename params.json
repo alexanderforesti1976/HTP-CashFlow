@@ -1317,7 +1317,7 @@
   "accontoGiu26": 0,
   "tfrRate": 7.41,
   "ferieH1K": 9,
-  "_ratei": "Ratei personale H1 (stima esplicita, non presenti nel bilancio provvisorio): TFR = salari H1 x 7,41% - TFR gia' contabilizzato (5,1k); 13a = tredK/2 (19,0k); ferie maturate non godute ferieH1K = 9k (stima: ~5 giorni/dipendente + oneri, da confermare). accontoGiu26 = acconto imposte giugno 2026 versato da F24 (k), 0 = non inserito (usa imposte 2025 x 50%); novembre 2026 = stessa cifra. otherFixedK 2026 = 25 (richiesta altra chat).",
+  "_ratei": "RATEI OFF (02/10/2026): TFR, tredicesima e TFM erano gia' riproporzionati nel costo all-in del personale (laborK 58k/mese); i ratei H1 (stima 40,3k) contavano due volte (confermato da Alex). Per riattivarli: rateiH1On=1.",
   "energyFixedK27": 7.5,
   "_forceKeys": [
     "labor27",
@@ -1376,5 +1376,6 @@
     ]
   },
   "recRegYM": "2026-08",
-  "_recSource": "02/10/2026: incassi = matrice cliente per cliente. Peso: clienti del backlog del mese (2026-09..12; media 2026 per gli altri mesi e per le voci senza condizione) x condizioni di pagamento da Condizioni_pagamento xlsx: Enextras e Terra Verde prepagati (lag 0), Serotti/Elring TT 30 (1 mese), T.Erre/Argomm/Watts/Eurgomma RiBa 60 dffm e Dichtungspartner TT 60 (2 mesi), Lav.El./Cavagna/OMECA/OMR RiBa 90 dffm (3 mesi). Media 2026: 25,3% stesso mese / 6,6% +1 / 46,3% +2 / 21,8% +3 (DSO pesato 51 gg). Nessun anticipo bancario: RiBa incassate alla scadenza (il Pagata il dello scadenzario e' la presentazione). openRecSched resta lo scadenzario clienti 02/10 (non incassato 133,0k + RiBa presentate con scadenza 31/10 83,7k). Settembre (220k) non e' in nessuno scadenzario Pegaso: incassa con la matrice. toInvoice e dso non piu' usati per gli incassi."
+  "_recSource": "02/10/2026: incassi = matrice cliente per cliente. Peso: clienti del backlog del mese (2026-09..12; media 2026 per gli altri mesi e per le voci senza condizione) x condizioni di pagamento da Condizioni_pagamento xlsx: Enextras e Terra Verde prepagati (lag 0), Serotti/Elring TT 30 (1 mese), T.Erre/Argomm/Watts/Eurgomma RiBa 60 dffm e Dichtungspartner TT 60 (2 mesi), Lav.El./Cavagna/OMECA/OMR RiBa 90 dffm (3 mesi). Media 2026: 25,3% stesso mese / 6,6% +1 / 46,3% +2 / 21,8% +3 (DSO pesato 51 gg). Nessun anticipo bancario: RiBa incassate alla scadenza (il Pagata il dello scadenzario e' la presentazione). openRecSched resta lo scadenzario clienti 02/10 (non incassato 133,0k + RiBa presentate con scadenza 31/10 83,7k). Settembre (220k) non e' in nessuno scadenzario Pegaso: incassa con la matrice. toInvoice e dso non piu' usati per gli incassi.",
+  "rateiH1On": 0
 }

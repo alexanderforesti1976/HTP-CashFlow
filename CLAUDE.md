@@ -24,7 +24,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Cash flow con tutto ciò che muove cassa, IVA inclusa, per aliquote/regimi reali (22%, 10%, non imponibile/dichiarazione d'intento), non percentuali medie.
 - Obiettivo 2.250k = ricavi netti IVA. Consuntivo + ordini NON vanno scalati: se superano l'obiettivo, segnalare "SFORATO".
 - Slittamento scadenze (RiBa fine mese SENZA +10, mai bonifici): 31/08→10/09 e 31/12→10/01. Fonte: `Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx` (colonne Tipo pag. R, Fine mese, Giorni dopo fine mese). Fornitori: lo slittamento è dentro `payMatrix` (`shiftSupPct`=0). Clienti: `shiftCustPct` 0 (verso i clienti nessuno slittamento: confermato da Alex/Valentina, i nostri clienti non hanno +10). Fornitori principali materie con +10 (Hexpol, PMG, EU Silicones, Selini); **senza +10 e RiBa: GBS (R35), Lav.El., Gom-Fer, Zanini, Zincover, ecc.**
-- Imposte nel cash flow: acconti anno N = 100% imposte N-1 (`accontoSplit` 0,5: giugno/novembre; 2026: 62k + 62k su imposte 2025 = 124k); giugno N+1 = saldo N (imposte N − acconti) + 1a rata acconto N+1; saldo a credito compensato nel mese (residuo con la rata successiva). Imposte 2026 = 51,0k (CE H1 reale + H2) → saldo 2026 a credito −73k: giu-27 0, nov-27 0.
+- Imposte nel cash flow: acconti anno N = 100% imposte N-1 (`accontoSplit` 0,5: giugno/novembre; 2026: 62k + 62k su imposte 2025 = 124k); giugno N+1 = saldo N (imposte N − acconti) + 1a rata acconto N+1; saldo a credito compensato nel mese (residuo con la rata successiva). Imposte 2026 = 60,0k (CE H1 reale + H2) → saldo 2026 a credito −64k: giu-27 0, nov-27 0.
 - Credito IVA recuperato con dichiarazione annuale (`ivaRecoveryYM` 2027-04), non TR trimestrali.
 - Input reali (scadenzari/registri Pegaso, condizioni per cliente/fornitore), non medie uniformi.
 - Pegaso ordini: consegna 31/12/2099 = in attesa conto lavoro (vale data richiesta); 31/12/2100 = programma (data richiesta = data massima ritiro; ripartire sullo storico ritiri). Non sommarli alle consegne confermate.
@@ -48,11 +48,11 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 
 ## CE 2026 (calcPL)
 - 2026 = H1 reale (`H1_2026_REALE`, riclassifica: mat = MP+materiali+imballi+PF; sub = lav. c/terzi; personale = salari+contributi+TFR+welfare; affitti = solo affitti; altri = leasing, noleggi, manutenzioni, pubblicità, consulenze, compenso amm., spese bancarie, altri G&A) + H2 previsto con i parametri sui ricavi lug-dic (h1Rev + ordini). Ammortamenti, rimanenze, TFM e imposte sull'anno intero. Interessi = H1 reale + piano H2.
-- Utile 2026 131,9k (era 237,2k con le % su tutto l'anno): EBITDA 347,0k, imposte 51,0k, TFM 45,7k. Royalties 2026 = 1,5% dei ricavi su tutto l'anno (34,6k; H1 reale basso = timing). Personale H1 + ratei non presenti nel bilancio provvisorio, stima esplicita 40,3k (TFR 12,3 su salari H1 al 7,41% meno 5,1 già a bilancio; 13a tredK/2 = 19,0; ferie maturate `ferieH1K` = 9,0 STIMA da confermare), mostrati nel CE come "di cui ratei H1". `otherFixedK` 2026 = 25.
+- Utile 2026 155,2k (era 237,2k con le % su tutto l'anno): EBITDA 387,3k, imposte 60,0k, TFM calcolato sull'anno. Royalties 2026 = 1,5% dei ricavi su tutto l'anno (34,6k; H1 reale basso = timing). **Ratei personale OFF** (`rateiH1On`=0): TFR, 13a e TFM sono già riproporzionati nel costo all-in del personale (laborK 58k/mese), confermato da Alex; personale 2026 = H1 reale 336,8k + H2 348,0k = 684,8k. `otherFixedK` 2026 = 25.
 
 ## Aperto
 - RiBa clienti: NESSUN anticipo bancario (confermato da Alex, da 25 anni). Il "Pagata il" delle RiBa nello scadenzario è la data di presentazione in banca, NON l'incasso: la cassa arriva alla scadenza. Non ricavare DSO/incassi da quelle date (il DSO 36 "reale" era sbagliato per questo). Incassi = scadenza da condizioni di pagamento cliente per cliente (`recMatrix`).
-- Inserire `accontoGiu26` (acconto imposte giugno 2026 dall'F24, da Luca/Verusca): oggi stima 62k. Confermare `ferieH1K` (ratei ferie H1, stima 9k).
+- Inserire `accontoGiu26` (acconto imposte giugno 2026 dall'F24, da Luca/Verusca): oggi stima 62k.
 - Rigenerare `payMatrix` quando arrivano nuove fatture/condizioni (pesi fornitori da scadenzario).
 - Mastrini/trimestrale metà ottobre: sostituire costi stimati lug-set.
 - Conferma recupero credito IVA con Luca (Studio SGEA). Registro IVA vendite fermo al 21/09 (set 3,8k registrati vs 142,5k emessi).
