@@ -1315,9 +1315,9 @@
   "_payMatrixSource": "payMatrix ricalcolata con parser verificato: pesi = fatture a credito con data doc da 01/04/2026 (39 fornitori, 175k: Hexpol 30%, FGR 13%, Selini 8%, PMG 8%, PMG East 6%, EU Silicones 5%...) incl. fatture registro con scadenza 2027; condizioni da Condizioni_pagamento xlsx; RiBa fine mese senza +10 con scadenza agosto/dicembre -> +1 mese.",
   "accontoSplit": 0.5,
   "accontoGiu26": 0,
-  "tfrRate": 7.41,
-  "ferieH1K": 9,
-  "_ratei": "RATEI OFF (02/10/2026): TFR, tredicesima e TFM erano gia' riproporzionati nel costo all-in del personale (laborK 58k/mese); i ratei H1 (stima 40,3k) contavano due volte (confermato da Alex). Per riattivarli: rateiH1On=1.",
+  "tfrRate": 6.834,
+  "ferieH1K": 0,
+  "_ratei": "02/10/2026: ratei personale H1 REINSERITI con i dati del bilancio 2025 (BILANCIO_HTP_ANNO_2025.pdf): TFR accantonato a chiusura = 37.061,55 / salari 542.287,17 = 6,834% (il 'tfr' 5.099,99 del provvisorio H1 e' solo la previdenza complementare, 2025 intero 5.595,06); tredicesima = 1/12 dei salari H1 + contributi (36,1%); ferie non stimate (0). Totale ratei H1 = 42,8k. Il costo all-in H2 (58k/mese) li contiene gia'.",
   "energyFixedK27": 7.5,
   "_forceKeys": [
     "labor27",
@@ -1377,7 +1377,7 @@
   },
   "recRegYM": "2026-08",
   "_recSource": "02/10/2026: incassi = matrice cliente per cliente. Peso: clienti del backlog del mese (2026-09..12; media 2026 per gli altri mesi e per le voci senza condizione) x condizioni di pagamento da Condizioni_pagamento xlsx: Enextras e Terra Verde prepagati (lag 0), Serotti/Elring TT 30 (1 mese), T.Erre/Argomm/Watts/Eurgomma RiBa 60 dffm e Dichtungspartner TT 60 (2 mesi), Lav.El./Cavagna/OMECA/OMR RiBa 90 dffm (3 mesi). Media 2026: 25,3% stesso mese / 6,6% +1 / 46,3% +2 / 21,8% +3 (DSO pesato 51 gg). Nessun anticipo bancario: RiBa incassate alla scadenza (il Pagata il dello scadenzario e' la presentazione). openRecSched resta lo scadenzario clienti 02/10 (non incassato 133,0k + RiBa presentate con scadenza 31/10 83,7k). Settembre (220k) non e' in nessuno scadenzario Pegaso: incassa con la matrice. toInvoice e dso non piu' usati per gli incassi.",
-  "rateiH1On": 0,
+  "rateiH1On": 1,
   "purchPartial": {
     "2026-09": 22.2
   },
