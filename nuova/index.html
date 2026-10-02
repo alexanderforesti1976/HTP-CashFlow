@@ -70,7 +70,8 @@ tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 <div id="tip"></div>
 <script src="motore.js"></script>
 <script>
-var EURf=function(v){return (v<0?'-':'')+Math.abs(Math.round(v)).toLocaleString('it-IT')};
+var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
+var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
 var EURm=function(v){return (v/1e6).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+' M'};
 var EURk=function(v){return Math.round(v/1000).toLocaleString('it-IT')+'k'};
 var MES=Motore.MESI, D=null, P0=null, P=null, BASE=null, KEY='htp_cashflow_nuova_v1';
@@ -159,7 +160,7 @@ function syncPars(){
     var v=P[s.id], n=document.getElementById('n_'+s.id);
     if(document.activeElement!==n) n.value=Math.round(v*100)/100;
     document.getElementById('row_'+s.id).className='par'+(Math.abs(v-P0[s.id])>1e-9?' mod':'');
-    document.getElementById('sv_'+s.id).textContent='di partenza: '+(Math.round(P0[s.id]*100)/100).toLocaleString('it-IT')+(s.u?' '+s.u:'');
+    document.getElementById('sv_'+s.id).textContent='di partenza: '+(function(x){var p=String(Math.abs(x)).split('.');return (x<0?'-':'')+punti(p[0])+(p[1]?','+p[1]:'')})(Math.round(P0[s.id]*100)/100)+(s.u?' '+s.u:'');
   });
   document.getElementById('n_fv_canone_da').value=P.fv_canone_da;
   document.getElementById('row_fv_canone_da').className='par'+(P.fv_canone_da!==P0.fv_canone_da?' mod':'');
@@ -221,7 +222,7 @@ function chartCat(R){
   ticks.forEach(function(t){g+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text x="'+(L-5)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+EURk(t)+'</text>'});
   ms.forEach(function(ym,i){var l=R.righe[ym], x=L+bw*i+bw*0.14, w=bw*0.72, acc=0, tt='<b>'+lab(ym)+'</b>';
     CAT.forEach(function(c){var v=c[1].reduce(function(a,k){return a+(l[k]||0)},0); if(v>0){ b+='<rect x="'+x+'" y="'+Y(acc+v)+'" width="'+w+'" height="'+Math.max(0,Y(acc)-Y(acc+v))+'" fill="var('+c[2]+')"/>'; acc+=v; tt+='<br>'+c[0].split(' (')[0]+': '+EURf(v)} });
-    tt+='<br><b>Totale '+EURf(acc)+'</b>'; pts.push({x:x+w/2,html:tt});
+    tt+='<br><b>Totale '+EURf(acc)+' €</b>'; pts.push({x:x+w/2,html:tt});
     if(i%3===0||i===n-1) g+='<text x="'+(x+w/2)+'" y="'+(H-9)+'" text-anchor="middle">'+lab(ym)+'</text>';
   }); g+='</g>';
   var el=document.getElementById('ch3'); el.innerHTML=svg(W,H,g+b); bind(el,pts);
@@ -229,7 +230,7 @@ function chartCat(R){
 }
 /* ---------- riepilogo e tabella ---------- */
 function kpi(l,v,d,dcls){return '<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="d '+(dcls||'mut')+'">'+d+'</div></div>'}
-var dl=function(a,b){var d=a-b; return Math.abs(d)<1?'come i valori di partenza':(d>0?'+':'−')+EURf(Math.abs(d))+' rispetto alla partenza'};
+var dl=function(a,b){var d=a-b; return Math.abs(d)<1?'come i valori di partenza':(d>0?'+':'−')+EURf(Math.abs(d))+' € rispetto alla partenza'};
 var dc=function(a,b){var d=a-b; return Math.abs(d)<1?'mut':(d>0?'pos':'neg')};
 function render(){
   var R=Motore.calcola(D,P), r=R.riepilogo, b=BASE.riepilogo;
@@ -243,7 +244,7 @@ function render(){
 var RIGHE=[['apertura','Cassa iniziale',0],['apertiCli','Incassi: scadenzario clienti (Pegaso 02/10)',1],['nuoviCli','Incassi: fatture da settembre',1],['rid','Incassi: energia immessa (RID), 2 mesi dopo',1],['ivaRel','Incasso: recupero credito IVA',1],['prov','Incassi: interessi attivi e cedola (previsione)',1],['entrate','Totale entrate',2],
  ['apertiFor','Pagamenti: scadenzario fornitori (Pegaso 02/10)',1],['nuoviFor','Pagamenti: acquisti da settembre',1],['personale','Personale (13ª a dicembre)',1],['affitti','Affitti',1],['energia','Energia (bolletta del mese prima, IVA 10%)',1],['altri','Altri costi ricorrenti (IVA 22%)',1],['irreg','Costi irregolari (IVA 22%)',1],['provvigioni','Provvigioni (mese dopo)',1],['royalties','Royalties (trimestrali)',1],['canone','Canone fotovoltaico (IVA 22%)',1],['finanz','Finanziamenti (rate)',1],['rateAcconti','Rate acconto IRES 2026',1],['accontiBase','Acconti e saldo imposte',1],['accertamenti','Rata accertamenti',1],['inail','Rata INAIL',1],['iva','IVA da versare',1],['uscite','Totale uscite',2],['netto','Flusso netto',2],['chiusura','Cassa finale',2]];
 function tabella(R){
-  var t='<tr><th>Voce</th>'+R.mesi.map(function(ym){return '<th>'+lab(ym)+'</th>'}).join('')+'</tr>';
+  var t='<tr><th>Voce (importi in €)</th>'+R.mesi.map(function(ym){return '<th>'+lab(ym)+'</th>'}).join('')+'</tr>';
   RIGHE.forEach(function(r){ t+='<tr'+(r[2]===2?' class="tot"':'')+'><td>'+r[1]+'</td>'+R.mesi.map(function(ym){return '<td>'+EURf(R.righe[ym][r[0]]||0)+'</td>'}).join('')+'</tr>'});
   document.getElementById('tab').innerHTML=t;
 }
