@@ -9,6 +9,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 
 ## REVISIONI (regola di Alex, 02/10/2026 sera)
 - **Ogni modifica a dati, parametri, formule o conclusioni già comunicate si registra in `docs/REVISIONI.md`** (numero progressivo R0xx, tipo PUBBLICATA/ANALISI/RITRATTATA/RIPRISTINO, prima → dopo, fonte, commit), nello stesso commit. Mai riscrivere o cancellare le righe precedenti. Leggere quel file all'inizio di ogni sessione e prima di ogni verifica richiesta da Alex.
+- **Un risultato si chiama "della pagina di Alex" SOLO se viene da un suo screenshot recente.** Un numero calcolato in headless va scritto "test headless" con i parametri usati (rev26/rev27, magazzino, CIG, otherFixedK...). Il 02/10 un test senza la CIG di Alex fu presentato come stato della pagina (R030).
 - Anche le affermazioni di Claude poi corrette vanno registrate (RITRATTATA). Niente garanzie sui risultati: sono stime finché non c'è il bilancio al 30/09.
 
 ## Come lavorare
