@@ -822,7 +822,7 @@ var P={
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
-  startCash:1279.66, cashAnchor:'2026-09', openRec:480, openPay:293
+  startCash:1279.66, cashAnchor:'2026-09', extraIn:[{ym:'2026-10',k:117.53,note:'Incassi sospesi certi: Enextras FT108+FT117 112,15k + Terraverde FT40 5,38k (SITUAZIONE BANCHE 1/10/26)'}], openRec:480, openPay:293
 };
 var VIEW='both', TAB='chart';
 
@@ -967,6 +967,8 @@ function calcCF() {
   return MONTHS.map(function(m,i){
     var ri=(i+2)-cd;
     var col=(ri>=0?extR[ri]:0)+(i<cd?rPm:0);
+    var ymE=m.y+'-'+(m.c<10?'0':'')+m.c;
+    (P.extraIn||[]).forEach(function(e){ if(e.ym===ymE) col+=e.k; });
     var pi=(i+2)-pd;
     var sup=(pi>=0?extP[pi]:0)+(i<pd?payPm:0);
     var is27m=m.y===2027;
