@@ -7,9 +7,13 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Punti di ripristino su GitHub (rami, i tag erano bloccati dal proxy): `ripristino-mattina-02-10-2026` (commit 11e47db, stato di inizio giornata) e `ripristino-sera-02-10-2026` (stato dopo tutte le modifiche del 02/10, commit 520b60c). Per tornare indietro: `git checkout <ramo> -- index.html params.json`, commit e push su `main`. Non cancellare questi rami.
 - Prossimo passaggio unico e controllato: ricostruzione completa quando arrivano le fatture di settembre e il bilancio al 30/09 (verso il 15/10), con checklist: acquisti e % materie/lavorazioni sul bilancio, personale (TFR, 13ª, CIG), incassi/pagamenti da scadenzari, IVA, imposte; mostrata e approvata prima di pubblicare.
 
+## REVISIONI (regola di Alex, 02/10/2026 sera)
+- **Ogni modifica a dati, parametri, formule o conclusioni già comunicate si registra in `docs/REVISIONI.md`** (numero progressivo R0xx, tipo PUBBLICATA/ANALISI/RITRATTATA/RIPRISTINO, prima → dopo, fonte, commit), nello stesso commit. Mai riscrivere o cancellare le righe precedenti. Leggere quel file all'inizio di ogni sessione e prima di ogni verifica richiesta da Alex.
+- Anche le affermazioni di Claude poi corrette vanno registrate (RITRATTATA). Niente garanzie sui risultati: sono stime finché non c'è il bilancio al 30/09.
+
 ## Come lavorare
 - **Documenti: cartella Google Drive `HTP-Dati`** (connettore Google Drive). Procedura e regole in `tools/README.md`; parser scadenzari in `tools/parse_pegaso.py` (totali verificati sul PDF). Il repo è PUBBLICO: mai committare documenti con dati di clienti/fornitori. Alex NON vuole più allegare file a ogni sessione: se il connettore Drive non è disponibile, dirlo subito e chiedere di collegarlo (https://claude.ai/customize/connectors) e di aprire una nuova sessione.
-- Storico e motivazioni delle decisioni del 02/10/2026 (CE 2026, imposte, fornitori, errori fatti): `docs/RIEPILOGO_02-10-2026.md`. Leggilo all'inizio di ogni sessione insieme a questo file.
+- Storico e motivazioni delle decisioni del 02/10/2026 (CE 2026, imposte, fornitori, errori fatti): `docs/RIEPILOGO_02-10-2026.md`; registro incrementale delle modifiche: `docs/REVISIONI.md`. Leggili all'inizio di ogni sessione insieme a questo file.
 - **REGOLA: aggiorna sempre.** A ogni nuovo PDF/dato (ordini aperti Pegaso, scadenziari, mastrini) rigenera subito `params.json` (OBACKLOG, OREV, `nc`, ORDCRIT, `_backlogSource`), ricalcola il totale anno, aggiorna "Stato" e "Aperto" in CLAUDE.md, poi commit + push su `main`. Non limitarti a segnalare.
 - Pubblica direttamente con `git commit` + `git push` su questo repo. Niente token, niente browser, niente passaggi manuali per Alex.
 - Metodo sempre più rapido e a minor consumo di token.
