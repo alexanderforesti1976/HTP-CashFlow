@@ -136,6 +136,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R074 | DATI (Alex) / ANALISI | PVGIS eseguito da Alex (punto 45,586 N 9,893 E, 97,46 kWp, perdite 14%, inclinazione e orientamento ottimizzati 39°/4°): 128.103 kWh/anno e istogramma mensile (lettura visiva). Risparmio mensile indicativo con la forma PVGIS sul totale E.ON 109.218 kWh, autoconsumo 70%, prezzo evitato 0,2925 €/kWh, RID 0,09: anno 25.312 € (22.363 + 2.949), nov-dic circa 1.139 e 1.078 € di risparmio contro canone 1.393,58. Inclinazione reale delle falde ancora sconosciuta; cassa dei risparmi con ritardo di circa un mese (bollette a 4 settimane) | Registrato in DATI_RICEVUTI §9; nessun effetto sul modello vecchio; da usare nel cash flow nuovo con decorrenza canone da confermare |
 
+| R075 | DATI (Alex) / CORREGGE R074 | Seconda prova PVGIS a 30°, orientamento −4°, per 1 kWp: 1.299,11 kWh/kWp l'anno (126.611 kWh per 97,46 kWp). Forma mensile a 30° sul totale E.ON: nov 4,75% e dic 4,44% dell'anno (a 39°: 5,09% e 4,82%). Risparmio mensile indicativo ricalcolato: nov 1.063 + 140 RID (netto dopo il canone −191), dic 994 + 131 (−269), gen −63, feb +181; anno invariato 22.363 + 2.949, netto 8.588. Sostituisce la tabella a 39° di R074 (che sovrastimava l'inverno). Inclinazione reale ancora da avere | Solo documentazione |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
