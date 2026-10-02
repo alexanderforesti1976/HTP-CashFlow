@@ -124,6 +124,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R068 | DATI (Alex) | Ricevute 2 bollette Sorgenia di agosto 2026 (PDF a immagini, lette a vista): totale 5.792,85 (imponibile 5.073,40; fisso 13,3%, variabile 85,3%, altre partite 1,4%; IVA 10% verificata; consumo annuo 327.099 kWh). Impianto fotovoltaico in installazione: dati da fornire. Nel passo 2 l'energia era 'fisso mensile da confermare': la struttura fisso/variabile è ora nota in agosto, ma il legame dei consumi con la produzione richiede altri mesi di bollette | Registrato in DATI_RICEVUTI §6 e in specifica; nessuna modifica a `nuova/` ancora |
 
+| R069 | DATI (Alex) | Ricevuta l'offerta E.ON Energia del 25/05/2026 per fotovoltaico 97,46 kWp: leasing operativo 84 mesi, canone 1.393,58 €/mese IVA esclusa, produzione 109.218-109.632 kWh/anno, autoconsumo 76.743 kWh/anno, immissione 32.890 kWh/anno a 0,09 €/kWh. Incoerenze nel documento (97,46 contro 97,83 kWp; 109.218 contro 109.632 kWh), copia senza data di accettazione né firma. Dati incrociati con le bollette (autoconsumo circa 23,5% di 327.099 kWh/anno). Registrati in DATI_RICEVUTI §7 e nella specifica | Nessuna modifica a `nuova/`: decorrenza del leasing DA FORNIRE |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
