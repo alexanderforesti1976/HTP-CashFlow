@@ -3,6 +3,7 @@
 App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilità Industriale** di High Tech Project S.r.l. (overmolding gomma-metallo/gomma-plastica, ~19 dipendenti, Palazzolo s/O). Rispondi in italiano, tecnico e diretto, brevissimo, un passo alla volta.
 
 ## Come lavorare
+- **Documenti: cartella Google Drive `HTP-Dati`** (connettore Google Drive). Procedura e regole in `tools/README.md`; parser scadenzari in `tools/parse_pegaso.py` (totali verificati sul PDF). Il repo è PUBBLICO: mai committare documenti con dati di clienti/fornitori. Alex NON vuole più allegare file a ogni sessione: se il connettore Drive non è disponibile, dirlo subito e chiedere di collegarlo (https://claude.ai/customize/connectors) e di aprire una nuova sessione.
 - Storico e motivazioni delle decisioni del 02/10/2026 (CE 2026, imposte, fornitori, errori fatti): `docs/RIEPILOGO_02-10-2026.md`. Leggilo all'inizio di ogni sessione insieme a questo file.
 - **REGOLA: aggiorna sempre.** A ogni nuovo PDF/dato (ordini aperti Pegaso, scadenziari, mastrini) rigenera subito `params.json` (OBACKLOG, OREV, `nc`, ORDCRIT, `_backlogSource`), ricalcola il totale anno, aggiorna "Stato" e "Aperto" in CLAUDE.md, poi commit + push su `main`. Non limitarti a segnalare.
 - Pubblica direttamente con `git commit` + `git push` su questo repo. Niente token, niente browser, niente passaggi manuali per Alex.
