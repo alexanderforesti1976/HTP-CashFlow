@@ -128,6 +128,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R070 | INFORMAZIONE (Alex) | Fotovoltaico: in installazione ora, attivo a fine ottobre 2026; produzione non assunta con precisione per il momento (stime dell'offerta indicative). Decorrenza del canone di leasing da confermare | Solo documentazione; nessun effetto sul cash flow finché non si decide come trattare produzione e canone |
 
+| R071 | DECISIONE (Alex) | Fotovoltaico: lavori finiti il 01/10/2026, Enel ha 30 giorni per la connessione; si assume entrata in funzione in ottobre 2026. Decorrenza del canone di leasing da confermare | Solo documentazione |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
