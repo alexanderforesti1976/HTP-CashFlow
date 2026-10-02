@@ -35,7 +35,7 @@
   "OREV": {
     "0": 213.6,
     "1": 91.8,
-    "2": 234.3,
+    "2": 142.5,
     "3": 225,
     "4": 190.3,
     "5": 128.3,
@@ -148,51 +148,47 @@
     },
     {
       "m": "Set 26",
-      "t": 234.3,
+      "t": 142.5,
       "c": [
         [
-          "Enextras",
-          92.6
-        ],
-        [
-          "Serotti",
-          60.4
-        ],
-        [
-          "Watts",
-          40.1
-        ],
-        [
           "Lav.El.Gomma",
-          47.2
-        ],
-        [
-          "T.Erre",
-          35.3
+          37.4
         ],
         [
           "Eurgomma",
           35
         ],
         [
-          "OMECA",
-          11.9
+          "Serotti",
+          19.2
+        ],
+        [
+          "Dichtungspartner",
+          12.3
+        ],
+        [
+          "T.Erre",
+          11.2
+        ],
+        [
+          "Cavagna",
+          7.2
+        ],
+        [
+          "Dubhe",
+          6.7
         ],
         [
           "Sagom Tubi",
           6
         ],
         [
-          "SASIC",
-          2.5
+          "Watts",
+          5.6
         ],
         [
-          "E.B.",
-          0.8
-        ],
-        [
-          "Kongsberg Automotive",
-          0.3
+          "OMR",
+          1.9
         ]
       ]
     },
@@ -1053,7 +1049,7 @@
       "spedizione": "2026-10-15"
     }
   ],
-  "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 01/10/2026 00:53; totale residuo verificato = 1.048.115,25). Metodo invariato: mese = periodo (data conferma); ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta gia' passata rispetto alla stampa (OMR 260091, Walker, Edscha 260164 PMC, Omeca 025005 30/7/26, T.Erre 260125 e 260126, Watts 260173/174/175/176 con data rich. 22-29/09, Serotti 260185/260187 15/09). Contratti oltre finestra esclusi: Omeca 025006/025002-4600014227/025001-4600014228/025004-4600014229, Kongsberg VV002019 04/06/2027. Finestra ora Ott26-Mag27 (Set26 e' interamente nel passato rispetto alla data di stampa e va sostituito col fatturato reale da mastrini quando disponibile). Lug26/Ago26 = fatturato reale invariato (213,6k e 91,8k). IMPORTANTE: l'intero ordine Enextras 260143 (7 righe, tot. 88.732,50, periodo Set26) risulta ancora 100% residuo, nessuna spedizione registrata nonostante data sped. prevista 30/09 gia' passata: escluso dal backlog fino a nuova data confermata, da verificare con Giusi/commerciale. Altri residui rimasti scaduti/esclusi: T.Erre 260054 (38,0k, sped. prevista 07/07 mai avvenuta, 80.000pz), 260053 (1,7k), Lav.El.Gomma 260134 (0,35k) e 260162 (0,26k), Serotti 260043/260144 (0,28k), T.Erre 260009 (0,21k), Dichtungspartner 230234/250200 (6,4k, periodi 2024/2025 residui). ORDCRIT rigenerato: ordini con data spedizione pianificata tra 01/07 e 15/10/2026, residuo > 0. CORREZIONE 01/10/2026: nel primo aggiornamento di oggi Set26 era stato rimosso dall'array invece di essere marcato come placeholder, disallineando tutti gli indici successivi di una posizione (Ott26 mostrava i dati di Nov26, ecc.). Corretto: Set26 mantiene il placeholder precedente (234,3k, backlog residuo stimato prima della chiusura del mese) in attesa del fatturato reale da mastrini; Ott26-Mag27 sono ora agli indici corretti (3-10).",
+  "_backlogSource": "Backlog ricalcolato da OrdiniVenditaAperti.pdf (stampa 01/10/2026 00:53; totale residuo verificato = 1.048.115,25). Metodo invariato: mese = periodo (data conferma); ordini 2099/2100 riassegnati al mese di 'Data rich. consegna' reale; esclusi quelli con data richiesta gia' passata rispetto alla stampa (OMR 260091, Walker, Edscha 260164 PMC, Omeca 025005 30/7/26, T.Erre 260125 e 260126, Watts 260173/174/175/176 con data rich. 22-29/09, Serotti 260185/260187 15/09). Contratti oltre finestra esclusi: Omeca 025006/025002-4600014227/025001-4600014228/025004-4600014229, Kongsberg VV002019 04/06/2027. Finestra ora Ott26-Mag27 (Set26 e' interamente nel passato rispetto alla data di stampa e va sostituito col fatturato reale da mastrini quando disponibile). Lug26/Ago26 = fatturato reale invariato (213,6k e 91,8k). IMPORTANTE: l'intero ordine Enextras 260143 (7 righe, tot. 88.732,50, periodo Set26) risulta ancora 100% residuo, nessuna spedizione registrata nonostante data sped. prevista 30/09 gia' passata: escluso dal backlog fino a nuova data confermata, da verificare con Giusi/commerciale. Altri residui rimasti scaduti/esclusi: T.Erre 260054 (38,0k, sped. prevista 07/07 mai avvenuta, 80.000pz), 260053 (1,7k), Lav.El.Gomma 260134 (0,35k) e 260162 (0,26k), Serotti 260043/260144 (0,28k), T.Erre 260009 (0,21k), Dichtungspartner 230234/250200 (6,4k, periodi 2024/2025 residui). ORDCRIT rigenerato: ordini con data spedizione pianificata tra 01/07 e 15/10/2026, residuo > 0. CORREZIONE 01/10/2026: nel primo aggiornamento di oggi Set26 era stato rimosso dall'array invece di essere marcato come placeholder, disallineando tutti gli indici successivi di una posizione (Ott26 mostrava i dati di Nov26, ecc.). Corretto: Set26 mantiene il placeholder precedente (234,3k, backlog residuo stimato prima della chiusura del mese) in attesa del fatturato reale da mastrini; Ott26-Mag27 sono ora agli indici corretti (3-10). | 02/10/2026: Set26 sostituito col fatturato reale emesso (SDI/Righe fatture vendita): 142,5k (10 fatture 260118-260127). Differenza vs vecchio backlog (-91,8k) = in gran parte Enextras 260143 (88,7k, non spedito) e residui Serotti/Watts/T.Erre/OMECA non fatturati. Argomm: nessuna bolla da luglio, nessun credito.",
   "H1_2026_mensile": {
     "_fonte": "Registro fatture per mese, confermato da Alex 01/10/2026",
     "_nota": "Fatturato mensile 2026 (k euro) usato come peso reale per la distribuzione 2027 nel revenue model.",
