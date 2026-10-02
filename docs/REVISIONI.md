@@ -58,6 +58,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R035 | CONFERMATO (Alex) / RITRATTATA | Il TFM è DEDUCIBILE dalle imposte: il modello (`taxBase = ebt − tfm`) è corretto. Ritirato il punto imposte −9k/−19k (R024, R033, R034). Correzione di un errore di calcolo di Claude: tolta quella voce, la fascia utile 2026 è circa 93-114k (estremo basso: altri costi con fisso 24,2k +2,8, interessi H1 +0,6, lug-ago reali −2,3 = 93,5k; estremo alto: fisso 18,3k +23,2, +0,6, −2,3 = 113,9k; partenza 92,4k), NON 83-114k come scritto in chat | Nessuna modifica al modello. Resta aperto solo perché le imposte 2025 sono il 42,1% dell'utile contro circa 22% del modello (altri costi indeducibili? da chiedere a Verusca/Luca), senza stima di effetto |
 
+| R036 | RITRATTATA | Il "42%" delle imposte 2025 non è un'aliquota. Aliquote del modello corrette: IRES 24%, IRAP 3,9% (Lombardia), verificate online; 27,9% sull'utile dopo TFM = 22,3% dell'utile lordo. Spiegazione del 2025: IRES 102.280 / 24% = imponibile 426k contro 296k di utile ante imposte; di +130k, 83,5k sono multe e ammende indeducibili (non ricorrenti, Alex: non esisteranno più) e 4,9k costi indeducibili. Residuo circa 40k altri indeducibili e base IRAP più larga (IRAP pagata 22,0k contro 11,5k col 3,9% sull'utile): non spiegato, nessuna stima | Nessuna modifica al modello. Da chiarire con Verusca/Luca col bilancio al 30/09 |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
