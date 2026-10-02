@@ -10,6 +10,11 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Non deviare dall'architettura; niente over-engineering. Alex corregge spesso: prendi sul serio le correzioni.
 - Mai inventare menu/opzioni dell'interfaccia: se non sai, dillo.
 
+## Ciclo di chiusura (regola di Alex, 02/10/2026)
+- Costi già registrati = consuntivo, restano. Costi non ancora registrati (fine settembre, ottobre-dicembre) = proiezione in proporzione ai ricavi del mese, finché non arrivano i dati veri. Il ricavo di settembre è PROVVISORIO: Alex manda 1-2 fatture non ancora passate allo SDI (03/10): aggiornare `OREV[2]`/OBACKLOG Set e `purchPartial`, ricalcolare costi proiettati e incassi.
+- Verso il 15/10 Verusca raccoglie tutte le fatture/costi nel bilancio al 30/09 corretto; Alex lo riallega. A quel punto: CE 2026 = costi reali gen-set + proiezione solo del 4° trimestre; ammortamenti, TFM, TFR e ferie vanno STIMATI esplicitamente e mostrati separati (il costo all-in del personale 58k/mese contiene già TFR, 13a, TFM: non duplicarli).
+- Costi assicurativi: non moltiplicarli; verificarli sui riscontri/polizze già allegati (da riallegare).
+
 ## Architettura
 - Stato condiviso in memoria tra i due tab: `P`, `OREV`, `OBACKLOG`, `H1_2026_REALE`. Contabilità non fa più `fetch()` di params.json.
 - `params.json` = fonte persistita (sync Firebase) dei parametri condivisi, incluso `H1_2026_reale`.
