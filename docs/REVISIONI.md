@@ -106,6 +106,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R059 | MEMORIA (Alex) | Creato `docs/DATI_RICEVUTI.md`: sintesi permanente dei documenti già allegati e verificati (bozza 30/06/2026, bilancio 2025, mastrini, situazione banche, altri). Regola in CLAUDE.md: non chiederli di nuovo. I file originali non sono nel repo (pubblico) e non sopravvivono alla sessione cloud | Solo documentazione |
 
+| R060 | REGOLA (Alex) / ERRORE di Claude | Claude ha detto più volte "non c'è" riferito a documenti che Alex aveva allegato (bilancio provvisorio 30/06, mastrini), senza controllare prima gli allegati della sessione, poi "hai ragione" al riallegato. Regola in CLAUDE.md: controllare gli allegati e DATI_RICEVUTI.md prima di dire che un file manca | Solo documentazione |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
