@@ -1100,5 +1100,16 @@
     "Elledi"
   ],
   "ivaCreditAnchor": 36.3,
-  "ivaRecoveryYM": "2027-04"
+  "ivaRecoveryYM": "2027-04",
+  "actualIn": {
+    "2026-07": 174.1,
+    "2026-08": 214.8,
+    "2026-09": 126.3
+  },
+  "actualOut": {
+    "2026-07": 111.6,
+    "2026-08": 57.3,
+    "2026-09": 79.2
+  },
+  "_actualSource": "Incassi/pagamenti reali lug-set 2026 dagli scadenzari Pegaso (data pagata/accredito, lordi IVA). Solo visualizzazione: il saldo dei mesi ancorati resta quello bancario."
 }
