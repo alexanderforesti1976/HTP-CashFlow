@@ -823,7 +823,7 @@ var P={
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
   startCash:1279.66, cashAnchor:'2026-09', openRec:0, openPay:0,
-  ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21,
+  ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
   openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, toInvoice:{'2026-09':77.5}
 };
@@ -975,7 +975,7 @@ function calcCF() {
   var bal=P.startCash;
   var anc=P.cashAnchor||'';
   var ymOf=function(mm){return mm.y+'-'+(mm.c<10?'0':'')+mm.c;};
-  var prevIvaNet=0;
+  var ivaBal=-(P.ivaCreditAnchor||0), credDec=0; // saldo IVA: negativo = credito riportato
   return MONTHS.map(function(m,i){
     var ym=ymOf(m);
     // Incassi: fatture già emesse = scadenzario reale (lordo IVA); mesi di fatturato fino all'ancoraggio
@@ -1015,10 +1015,13 @@ var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     if(m.y===2027&&m.c===11) taxes=t27*.5;
     var svcIva=energyM*(P.ivaEnergia||0)/100+otherM*(P.ivaRate||0)/100; // energia 10%, altri costi 22%
     ivaCred+=svcIva;
-    // Saldo IVA: credito/debito del mese precedente liquidato (credito compensato in F24, debito versato il 16)
-    var ivaSet=-prevIvaNet;
-    prevIvaNet=ivaDeb-ivaCred;
-    var out=sup+fixed+loans+taxes+svcIva-ivaSet;
+    // Saldo IVA: il credito si riporta di mese in mese (nessun rimborso) e si recupera in F24 solo dopo la dichiarazione annuale
+    // (P.ivaRecoveryYM); un eventuale debito si versa nel mese.
+    ivaBal+=ivaDeb-ivaCred;
+    var ivaPay=0; if(ivaBal>0){ ivaPay=ivaBal; ivaBal=0; }
+    if(m.y===2026&&m.c===12) credDec=Math.max(0,-ivaBal);
+    var ivaRel=0; if(P.ivaRecoveryYM && ym===P.ivaRecoveryYM){ ivaRel=credDec; ivaBal+=credDec; }
+    var out=sup+fixed+loans+taxes+svcIva+ivaPay-ivaRel;
     var net=col-out;
     // Ancoraggio al saldo reale: fino al mese di "cashAnchor" (incluso) il saldo è quello effettivo
     // da SITUAZIONE_BANCHE (P.startCash = saldo a fine mese di ancoraggio); la proiezione parte dal mese dopo.
@@ -1802,7 +1805,7 @@ function resetAll(){
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
     startCash:1279.66,cashAnchor:'2026-09',openRec:0,openPay:0,
-    ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,
+    ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
     openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},toInvoice:{'2026-09':77.5}
   };
