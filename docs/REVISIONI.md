@@ -56,6 +56,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R034 | RITRATTATA | Affermazione "il TFM non è deducibile finché non pagato" (R024, R033): regola fiscale NON verificata, presentata da Claude come fatto. Il TFM nel modello è il 20% dell'utile lordo prima del TFM (verificato sul 2025: 74.018 su 370.090 = 20,0%) ed è corretto. La stima imposte −9k/−19k su utile 2026 è ritirata | Aperto: perché le imposte 2025 sono 124,6k su 296k di utile (42,1%) mentre il modello dà circa 22%: da chiedere a Verusca/Luca (SGEA), non da dedurre. Nessuna modifica al modello |
 
+| R035 | CONFERMATO (Alex) / RITRATTATA | Il TFM è DEDUCIBILE dalle imposte: il modello (`taxBase = ebt − tfm`) è corretto. Ritirato il punto imposte −9k/−19k (R024, R033, R034). Correzione di un errore di calcolo di Claude: tolta quella voce, la fascia utile 2026 è circa 93-114k (estremo basso: altri costi con fisso 24,2k +2,8, interessi H1 +0,6, lug-ago reali −2,3 = 93,5k; estremo alto: fisso 18,3k +23,2, +0,6, −2,3 = 113,9k; partenza 92,4k), NON 83-114k come scritto in chat | Nessuna modifica al modello. Resta aperto solo perché le imposte 2025 sono il 42,1% dell'utile contro circa 22% del modello (altri costi indeducibili? da chiedere a Verusca/Luca), senza stima di effetto |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
