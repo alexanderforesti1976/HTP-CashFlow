@@ -813,7 +813,7 @@ function loanPayment(i){ var t=2026*12+6+i; return loanPaymentYM(Math.floor(t/12
 var P={
   rev26:2350, rev27:2000,
   h1Rev:1248.7,
-  dso:62, dpo:83,
+  dso:36, dpo:105,
   matPct:18, subPct:4,
   laborK:58, rentK:8.3, energyPct:3.3, commPct:2.2, royPct:1.5, otherFixedK:20, otherVarPct:3,
   labor27:58, rent27:8.3, energyPct27:2.35, otherFixedK27:21.4, otherVarPct27:3,
@@ -822,7 +822,9 @@ var P={
   amm26:110, amm27:100, tfmPct:20,
   iresR:24, irapR:3.9,
   cigW:0, cigH:50, cigW27:0, cigH27:50,
-  startCash:1279.66, cashAnchor:'2026-09', openRec:480, openPay:293
+  startCash:1279.66, cashAnchor:'2026-09', openRec:0, openPay:0,
+  ivaVend:3.5, ivaMat:11, ivaSvc:22,
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -958,17 +960,30 @@ function calcCF() {
   // Preceding months for lag (Apr=122k, May=120k from YTD bilancio)
   var mayRev=120, junRev=350; // Mag e Giu 2026 da bilancio/ordini
   var extR=[mayRev,junRev].concat(revPlan);
-  var extP=[mayRev*.27,junRev*.27,mayRev*.27].concat(purchPlan);
+  var extP=[mayRev*.27,junRev*.27].concat(purchPlan);
   var t26=calcPL(2026,false).taxes;
   var t27=calcPL(2027,false).taxes;
   var rPm=P.openRec/Math.max(1,cd);
   var payPm=P.openPay/Math.max(1,pd);
   var bal=P.startCash;
+  var anc=P.cashAnchor||'';
+  var ymOf=function(mm){return mm.y+'-'+(mm.c<10?'0':'')+mm.c;};
+  var prevIvaNet=0;
   return MONTHS.map(function(m,i){
-    var ri=(i+2)-cd;
-    var col=(ri>=0?extR[ri]:0)+(i<cd?rPm:0);
-    var pi=(i+2)-pd;
-    var sup=(pi>=0?extP[pi]:0)+(i<pd?payPm:0);
+    var ym=ymOf(m);
+    // Incassi: fatture già emesse = scadenzario reale (lordo IVA); mesi di fatturato fino all'ancoraggio
+    // contano solo per la quota ancora "da emettere"; dopo l'ancoraggio ricavi stimati con ritardo DSO + IVA sulla quota imponibile.
+    var r=i-cd, colNet=0;
+    if(r>=0){ var ymR=ymOf(MONTHS[r]); colNet=(anc&&ymR<=anc)?((P.toInvoice||{})[ymR]||0):revPlan[r]; }
+    else if(!anc){ colNet=extR[i+2-cd]||0; }
+    var col=colNet*(1+(P.ivaVend||0)/100)+((P.openRecSched||{})[ym]||0)+(i<cd&&!anc?rPm:0);
+    var ivaDeb=colNet*(P.ivaVend||0)/100;
+    // Pagamenti acquisti: fatture già registrate = scadenzario reale; poi acquisti stimati con ritardo DPO + IVA sulla quota non coperta da plafond
+    var pr=i-pd, supNet=0;
+    if(pr>=0){ var ymP=ymOf(MONTHS[pr]); supNet=(anc&&ymP<=anc)?0:purchPlan[pr]; }
+    else if(!anc){ supNet=extP[i+2-pd]||0; }
+    var sup=supNet*(1+(P.ivaMat||0)/100)+((P.openPaySched||{})[ym]||0)+(i<pd&&!anc?payPm:0);
+    var ivaCred=supNet*(P.ivaMat||0)/100;
     var is27m=m.y===2027;
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
@@ -988,11 +1003,15 @@ var fixed=effLcf+(is27m?P.rent27:P.rentK)+energyM+commM+royM+otherM+fc;
     if(m.y===2026&&m.c===11) taxes=t26*.5;
     if(m.y===2027&&m.c===6) taxes=t27*.5;
     if(m.y===2027&&m.c===11) taxes=t27*.5;
-    var out=sup+fixed+loans+taxes;
+    var svcIva=(energyM+otherM)*(P.ivaSvc||0)/100;
+    ivaCred+=svcIva;
+    // Saldo IVA: credito/debito del mese precedente liquidato (credito compensato in F24, debito versato il 16)
+    var ivaSet=-prevIvaNet;
+    prevIvaNet=ivaDeb-ivaCred;
+    var out=sup+fixed+loans+taxes+svcIva-ivaSet;
     var net=col-out;
     // Ancoraggio al saldo reale: fino al mese di "cashAnchor" (incluso) il saldo è quello effettivo
     // da SITUAZIONE_BANCHE (P.startCash = saldo a fine mese di ancoraggio); la proiezione parte dal mese dopo.
-    var ym=m.y+'-'+(m.c<10?'0':'')+m.c;
     if(P.cashAnchor && ym<=P.cashAnchor) bal=P.startCash; else bal+=net;
     return {l:m.l,c:m.c,y:m.y,
       rev:+revPlan[i].toFixed(1),col:+col.toFixed(1),
@@ -1764,7 +1783,7 @@ function render(){
 function resetAll(){
   var defaults={
     rev26:2350,rev27:2000,
-    h1Rev:1248.7,dso:62,dpo:83,
+    h1Rev:1248.7,dso:36,dpo:105,
     matPct:18,subPct:4,
     laborK:58,rentK:8.3,energyPct:3.3,commPct:2.2,royPct:1.5,otherFixedK:20,otherVarPct:3,
     labor27:58,rent27:8.3,energyPct27:2.35,otherFixedK27:21.4,otherVarPct27:3,
@@ -1772,7 +1791,9 @@ function resetAll(){
     invMPK:113,invIMBK:5,invSLK:58,invPFK:17,di27:0,amm26:110,amm27:100,tfmPct:20,
     iresR:24,irapR:3.9,
     cigW:0,cigH:50,cigW27:0,cigH27:50,
-    startCash:1279.66,cashAnchor:'2026-09',openRec:480,openPay:293
+    startCash:1279.66,cashAnchor:'2026-09',openRec:0,openPay:0,
+    ivaVend:3.5,ivaMat:11,ivaSvc:22,
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];
