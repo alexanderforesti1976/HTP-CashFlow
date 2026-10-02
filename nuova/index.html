@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js"></script>
+<script src="motore.js?v=1790984600103"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -113,7 +113,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790984500618; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790984600103; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -277,7 +277,7 @@ function verusca(R){
 }
 document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità reale 31/12/2025 e 30/06/2026; saldi al 30/09/2026 = previsione di Verusca (punto di partenza, da sostituire con i saldi reali); scadenzari clienti e fornitori Pegaso (02/10); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (02/10, settembre provvisorio 220k); mastrini gen-ago per i rapporti dei costi. <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Ipotesi non confermate:</b> imposte 2026 calcolate dal CE 2026 (sopra) con variazioni fiscali e ammortamenti stimati; la differenza con gli acconti 2026 (124.249) è credito, compensato a giugno e novembre 2027; seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 24.925 (31/08); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); rimanenze, TFM e ammortamenti non sono cassa ma entrano nel CE e quindi nelle imposte.';
 var rz=0; window.addEventListener('resize',function(){clearTimeout(rz); rz=setTimeout(function(){ if(D) render(); },150)});
-fetch('dati.json').then(function(r){return r.json()}).then(function(d){
+fetch('dati.json?v='+VER).then(function(r){return r.json()}).then(function(d){
   D=d; P0=Motore.parametriDefault(D); BASE=Motore.calcola(D,P0); P=Object.assign({},P0,carica());
   try{AGG_ALEX=JSON.parse(localStorage.getItem(AGG_KEY)||'null');}catch(e){}
   fetch('aggiornamento.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(c){AGG_CLAUDE=c; mostraAgg(); if(c.ts!==VER&&location.search.indexOf('v='+c.ts)<0) location.replace(location.pathname+'?v='+c.ts);}).catch(function(){});
