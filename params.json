@@ -1200,5 +1200,14 @@
   "shiftSupPct": 0.16,
   "shiftCustPct": 0,
   "_shiftSource": "shiftSupPct 16% = quota dei pagamenti fornitori (scadenzario fornitori 2026, scadenze da 01/04, esclusi RID/utenze) verso fornitori con RiBa fine mese SENZA +10 secondo Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx (join per codice): 84,8k su 530k classificati. Anno intero 21,3% (GBS 59k, Mecof 34,5k, SV Pievani 21,5k) ma GBS non fattura piu' da giugno. Verso i clienti nessuno slittamento.",
-  "_regSource": "02/10/2026: REGISTRI_IVA_ACQUISTI_2026 fino al 30/09 (acq. imponibile lug 94,2k / ago 68,1k / set 59,6k, tutte le spese): acquisti ago-set GIA' registrati -> purchRegYM 2026-09; REGISTRI_IVA_VENDITE fino al 21/09 (set solo 3,8k registrati vs 142,5k emessi SDI). Scadenzario clienti: aperto 133,0k (Enextras 112,2k) + RiBa presentate ott 83,7k = openRecSched ott 216,2k; scadenzario fornitori aperto ott 25,2+sett scaduto 38,9 = openPaySched ott 63,4k."
+  "_regSource": "02/10/2026: REGISTRI_IVA_ACQUISTI_2026 fino al 30/09 (acq. imponibile lug 94,2k / ago 68,1k / set 59,6k, tutte le spese): acquisti ago-set GIA' registrati -> purchRegYM 2026-09; REGISTRI_IVA_VENDITE fino al 21/09 (set solo 3,8k registrati vs 142,5k emessi SDI). Scadenzario clienti: aperto 133,0k (Enextras 112,2k) + RiBa presentate ott 83,7k = openRecSched ott 216,2k; scadenzario fornitori aperto ott 25,2+sett scaduto 38,9 = openPaySched ott 63,4k.",
+  "payLag": [
+    0.019,
+    0.084,
+    0.374,
+    0.235,
+    0.272,
+    0.017
+  ],
+  "_payLagSource": "payLag = distribuzione reale mesi tra data fattura e scadenza, fornitori con RiBa (scadenzario fornitori 2026, 363k, DPO 77 gg): 0m 1,9% 1m 8,4% 2m 37,4% 3m 23,5% 4m 27,2% 5m 1,7%. Hexpol/PMG/Selini: 98 gg (76% a 4 mesi). Bonifici (servizi): 82% stesso mese, non nel piano acquisti. Sostituisce il lag unico DPO 105 gg per i pagamenti stimati."
 }
