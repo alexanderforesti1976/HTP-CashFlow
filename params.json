@@ -1192,12 +1192,13 @@
   },
   "_actualSource": "Incassi/pagamenti reali lug-set 2026 dagli scadenzari Pegaso (data pagata/accredito, lordi IVA). Solo visualizzazione: il saldo dei mesi ancorati resta quello bancario.",
   "_dsoSource": "DSO 60 gg (era 36): media ponderata sulle condizioni di pagamento Pegaso 02/10/2026 e sul mix clienti ott-dic 26: RiBa 60 dffm = ~75 gg da fattura, R35 90 dffm = ~105 gg, Enextras/Arkimat pagamento anticipato. DPO 105 confermato (90 dffm+10 sui fornitori principali).",
-  "purchRegYM": "2026-07",
+  "purchRegYM": "2026-09",
   "shiftMonths": {
     "8": 9,
     "12": 1
   },
   "shiftSupPct": 0.16,
   "shiftCustPct": 0,
-  "_shiftSource": "shiftSupPct 16% = quota dei pagamenti fornitori (scadenzario fornitori 2026, scadenze da 01/04, esclusi RID/utenze) verso fornitori con RiBa fine mese SENZA +10 secondo Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx (join per codice): 84,8k su 530k classificati. Anno intero 21,3% (GBS 59k, Mecof 34,5k, SV Pievani 21,5k) ma GBS non fattura piu' da giugno. Verso i clienti nessuno slittamento."
+  "_shiftSource": "shiftSupPct 16% = quota dei pagamenti fornitori (scadenzario fornitori 2026, scadenze da 01/04, esclusi RID/utenze) verso fornitori con RiBa fine mese SENZA +10 secondo Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx (join per codice): 84,8k su 530k classificati. Anno intero 21,3% (GBS 59k, Mecof 34,5k, SV Pievani 21,5k) ma GBS non fattura piu' da giugno. Verso i clienti nessuno slittamento.",
+  "_regSource": "02/10/2026: REGISTRI_IVA_ACQUISTI_2026 fino al 30/09 (acq. imponibile lug 94,2k / ago 68,1k / set 59,6k, tutte le spese): acquisti ago-set GIA' registrati -> purchRegYM 2026-09; REGISTRI_IVA_VENDITE fino al 21/09 (set solo 3,8k registrati vs 142,5k emessi SDI). Scadenzario clienti: aperto 133,0k (Enextras 112,2k) + RiBa presentate ott 83,7k = openRecSched ott 216,2k; scadenzario fornitori aperto ott 25,2+sett scaduto 38,9 = openPaySched ott 63,4k."
 }
