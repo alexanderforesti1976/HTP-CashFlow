@@ -44,5 +44,990 @@
    "interessi_passivi": 828.5,
    "ricavi_operativi": 91754.58
   }
- }
+ },
+ "altri_conti": [
+  {
+   "conto": 6011010,
+   "nome": "ACQUISTO INDUMENTI DA LAVORO",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3578.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 3578.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6011011,
+   "nome": "ACQUISTO BENI STRUMENTALI INF.A 516,46€",
+   "mesi": [
+    122.14,
+    0.0,
+    325.39,
+    700.0,
+    154.91,
+    159.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 1461.44,
+   "ricorrente": false
+  },
+  {
+   "conto": 6012000,
+   "nome": "CARBURANTE AUTOVETTURE",
+   "mesi": [
+    328.01,
+    427.84,
+    149.29,
+    533.5,
+    1232.84,
+    519.05,
+    628.58,
+    633.82
+   ],
+   "tot_gen_ago": 4452.93,
+   "ricorrente": true
+  },
+  {
+   "conto": 6012001,
+   "nome": "CARBURANTE AUTOCARRI",
+   "mesi": [
+    83.79,
+    56.71,
+    98.31,
+    119.05,
+    0.0,
+    81.65,
+    83.15,
+    93.97
+   ],
+   "tot_gen_ago": 616.63,
+   "ricorrente": true
+  },
+  {
+   "conto": 6012002,
+   "nome": "CARBURANTE AUTOVETTURE USO DIPENDENTI",
+   "mesi": [
+    130.74,
+    167.48,
+    70.49,
+    1825.91,
+    238.19,
+    155.33,
+    81.97,
+    79.51
+   ],
+   "tot_gen_ago": 2749.62,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021200,
+   "nome": "SPESE TELEFONICHE",
+   "mesi": [
+    71.63,
+    143.88,
+    0.0,
+    144.52,
+    0.0,
+    144.69,
+    0.0,
+    144.84
+   ],
+   "tot_gen_ago": 649.56,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021201,
+   "nome": "SPESE TELEFONI CELLULARI",
+   "mesi": [
+    0.0,
+    135.17,
+    124.24,
+    124.24,
+    124.24,
+    255.84,
+    146.08,
+    170.35
+   ],
+   "tot_gen_ago": 1080.16,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021300,
+   "nome": "ASSICURAZIONI",
+   "mesi": [
+    10685.02,
+    238.64,
+    1266.72,
+    0.0,
+    0.0,
+    -2396.01,
+    1551.0,
+    4777.41
+   ],
+   "tot_gen_ago": 16122.78,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021301,
+   "nome": "ASSICURAZIONI AUTOVETTURE",
+   "mesi": [
+    2572.88,
+    85.59,
+    86.12,
+    2022.92,
+    812.22,
+    -1916.26,
+    88.29,
+    88.84
+   ],
+   "tot_gen_ago": 3840.6,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021400,
+   "nome": "CONSULENZE AMMINISTRATIVE",
+   "mesi": [
+    -20810.62,
+    0.0,
+    399.0,
+    399.0,
+    5645.12,
+    36165.5,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 21798.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021401,
+   "nome": "CONSULENZE TECNICHE",
+   "mesi": [
+    0.0,
+    3150.0,
+    0.0,
+    0.0,
+    0.0,
+    3300.0,
+    3300.0,
+    5600.0
+   ],
+   "tot_gen_ago": 15350.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021404,
+   "nome": "CONSULENZE LEGALI",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    6624.78,
+    0.0,
+    520.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 7144.78,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021405,
+   "nome": "CONSULENZA E PROGETTAZIONE",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    850.0,
+    0.0
+   ],
+   "tot_gen_ago": 850.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021406,
+   "nome": "COMPENSI REVISORE LEGALE",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    3121.27,
+    0.0,
+    0.0,
+    1583.62,
+    0.0
+   ],
+   "tot_gen_ago": 4704.89,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021500,
+   "nome": "SPESE VIAGGI E TRASFERTE",
+   "mesi": [
+    4.01,
+    8.81,
+    4.64,
+    92.88,
+    184.25,
+    40.7,
+    21.33,
+    7.48
+   ],
+   "tot_gen_ago": 364.1,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021501,
+   "nome": "SPESE DI VITTO",
+   "mesi": [
+    529.37,
+    513.39,
+    346.35,
+    509.32,
+    675.81,
+    445.86,
+    1264.51,
+    0.0
+   ],
+   "tot_gen_ago": 4284.61,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021502,
+   "nome": "SPESE DI RAPPRESENTANZA",
+   "mesi": [
+    0.0,
+    502.5,
+    950.0,
+    427.0,
+    851.0,
+    316.0,
+    33.0,
+    421.0
+   ],
+   "tot_gen_ago": 3500.5,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021503,
+   "nome": "SPESE VITTO PASTI AMM.",
+   "mesi": [
+    521.88,
+    467.9,
+    559.94,
+    629.86,
+    449.9,
+    485.89,
+    0.0,
+    791.82
+   ],
+   "tot_gen_ago": 3907.19,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021600,
+   "nome": "SPESE DI TRASPORTO",
+   "mesi": [
+    0.0,
+    224.65,
+    380.99,
+    269.67,
+    880.91,
+    438.61,
+    136.01,
+    104.2
+   ],
+   "tot_gen_ago": 2435.04,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021700,
+   "nome": "COMPENSO AMMINISTRATORE",
+   "mesi": [
+    9710.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    9710.0,
+    0.0
+   ],
+   "tot_gen_ago": 19420.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021701,
+   "nome": "CONTRIBUTI INPS L.335/95",
+   "mesi": [
+    2267.61,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    2267.61,
+    0.0
+   ],
+   "tot_gen_ago": 4535.22,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021703,
+   "nome": "SPESE VIAGGI E TRAFERTE AMM.",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 0.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021750,
+   "nome": "PRESTAZIONI OCCASIONALI",
+   "mesi": [
+    0.0,
+    4800.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 4800.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021800,
+   "nome": "SPESE DI CANCELLERIA",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    329.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 329.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021802,
+   "nome": "SERVIZIO SMALTIMENTO RIFIUTI",
+   "mesi": [
+    1185.0,
+    750.9,
+    0.0,
+    2956.0,
+    527.95,
+    1972.0,
+    1972.0,
+    452.28
+   ],
+   "tot_gen_ago": 9816.13,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021804,
+   "nome": "SPESE MEDICHE",
+   "mesi": [
+    0.0,
+    118.2,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    2210.51
+   ],
+   "tot_gen_ago": 2328.71,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021805,
+   "nome": "SERVIZI VARI AMMINISTRATIVI",
+   "mesi": [
+    1217.76,
+    750.0,
+    0.0,
+    1550.19,
+    325.0,
+    1102.75,
+    850.0,
+    500.0
+   ],
+   "tot_gen_ago": 6295.7,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021806,
+   "nome": "SERVIZI VARI COMMERCIALI",
+   "mesi": [
+    183.96,
+    184.37,
+    513.78,
+    270.8,
+    76.5,
+    6485.11,
+    583.2,
+    76.0
+   ],
+   "tot_gen_ago": 8373.72,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021807,
+   "nome": "SPESE DI PULIZIA",
+   "mesi": [
+    0.0,
+    251.15,
+    334.87,
+    669.74,
+    0.0,
+    669.74,
+    669.74,
+    0.0
+   ],
+   "tot_gen_ago": 2595.24,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021808,
+   "nome": "SPESE DI PUBBLICITA' E FIERE",
+   "mesi": [
+    22062.64,
+    10000.0,
+    0.0,
+    8000.0,
+    0.0,
+    6850.0,
+    9000.0,
+    0.0
+   ],
+   "tot_gen_ago": 55912.64,
+   "ricorrente": false
+  },
+  {
+   "conto": 6021900,
+   "nome": "SPESE BANCARIE",
+   "mesi": [
+    457.22,
+    263.34,
+    414.48,
+    352.13,
+    161.25,
+    1304.56,
+    257.74,
+    174.37
+   ],
+   "tot_gen_ago": 3385.09,
+   "ricorrente": true
+  },
+  {
+   "conto": 6021901,
+   "nome": "COMMISSIONI MESSA DISP. FONDI",
+   "mesi": [
+    0.0,
+    0.0,
+    295.47,
+    0.0,
+    0.0,
+    258.84,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 554.31,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022002,
+   "nome": "MANUTENZIONI ATTREZZATURE-MACCHINARI",
+   "mesi": [
+    0.0,
+    667.0,
+    3172.5,
+    354.01,
+    1700.0,
+    2203.5,
+    824.5,
+    0.0
+   ],
+   "tot_gen_ago": 8921.51,
+   "ricorrente": true
+  },
+  {
+   "conto": 6022004,
+   "nome": "MANUTENZIONI AUTOVETTURE",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    488.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 488.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022006,
+   "nome": "MANUTENZIONI BENI DI TERZI",
+   "mesi": [
+    0.0,
+    0.0,
+    3358.0,
+    0.0,
+    0.0,
+    0.0,
+    2000.0,
+    0.0
+   ],
+   "tot_gen_ago": 5358.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022008,
+   "nome": "CANONI MANUTENZIONI -USO E ASSISTENZA",
+   "mesi": [
+    0.0,
+    100.0,
+    0.0,
+    120.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 220.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022009,
+   "nome": "MANUTENZIONI MACCHINE ELETTRONICHE",
+   "mesi": [
+    0.0,
+    414.8,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 414.8,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022010,
+   "nome": "CANONI MANUTENZIONE -USO E ASSISTENZA SOFTWARE",
+   "mesi": [
+    3775.92,
+    2849.94,
+    415.8,
+    925.8,
+    372.6,
+    -1898.1,
+    1822.6,
+    372.6
+   ],
+   "tot_gen_ago": 8637.16,
+   "ricorrente": true
+  },
+  {
+   "conto": 6022100,
+   "nome": "TASSA CIRCOLAZIONE AUTOCARRI",
+   "mesi": [
+    0.0,
+    19.23,
+    0.0,
+    0.0,
+    0.0,
+    19.23,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 38.46,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022101,
+   "nome": "TASSA CIRCOLAZIONE AUTOVETTURE",
+   "mesi": [
+    0.0,
+    0.0,
+    302.54,
+    276.3,
+    0.0,
+    2002.32,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 2581.16,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022102,
+   "nome": "TASSA CIRCOLAZIONE AUTOVETTURE USO DIPEND.",
+   "mesi": [
+    0.0,
+    30.66,
+    0.0,
+    0.0,
+    200.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 230.66,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022103,
+   "nome": "TASSA DI CIRCOLAZIONE MOTOVEICOLI",
+   "mesi": [
+    0.0,
+    23.1,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 23.1,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022111,
+   "nome": "PEDAGGI AUTOSTRADALI AUTOVETTURE",
+   "mesi": [
+    57.0,
+    109.59,
+    107.83,
+    175.81,
+    219.96,
+    175.23,
+    258.38,
+    131.72
+   ],
+   "tot_gen_ago": 1235.52,
+   "ricorrente": true
+  },
+  {
+   "conto": 6022121,
+   "nome": "CAMBIO PNEUMATICI AUTOVETTURE",
+   "mesi": [
+    1516.88,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    254.7
+   ],
+   "tot_gen_ago": 1771.58,
+   "ricorrente": false
+  },
+  {
+   "conto": 6022130,
+   "nome": "PRATICHE AUTO/MOTOBILISTICHE",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    79.71,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 79.71,
+   "ricorrente": false
+  },
+  {
+   "conto": 6032001,
+   "nome": "CANONI DI LEASING AUTOVETTURE",
+   "mesi": [
+    305.65,
+    278.68,
+    278.68,
+    278.68,
+    278.68,
+    5130.54,
+    278.68,
+    278.68
+   ],
+   "tot_gen_ago": 7108.27,
+   "ricorrente": true
+  },
+  {
+   "conto": 6033000,
+   "nome": "NOLEGGIO ATTREZZATURE",
+   "mesi": [
+    0.0,
+    1860.0,
+    1680.0,
+    1860.0,
+    1800.0,
+    3660.0,
+    1800.0,
+    1860.0
+   ],
+   "tot_gen_ago": 14520.0,
+   "ricorrente": true
+  },
+  {
+   "conto": 6033001,
+   "nome": "NOLEGGIO AUTOVETTURE AZIENDALI",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    560.34
+   ],
+   "tot_gen_ago": 560.34,
+   "ricorrente": false
+  },
+  {
+   "conto": 6033003,
+   "nome": "NOLEGGI AUTOCARRI",
+   "mesi": [
+    584.97,
+    584.97,
+    584.97,
+    584.97,
+    584.97,
+    584.97,
+    584.97,
+    584.97
+   ],
+   "tot_gen_ago": 4679.76,
+   "ricorrente": true
+  },
+  {
+   "conto": 6033005,
+   "nome": "NOLEGGI AUTOVETTURE USO DIPENDENTI",
+   "mesi": [
+    4866.78,
+    1622.26,
+    1622.26,
+    0.0,
+    1775.99,
+    -1622.26,
+    1324.91,
+    914.66
+   ],
+   "tot_gen_ago": 10504.6,
+   "ricorrente": true
+  },
+  {
+   "conto": 6081001,
+   "nome": "SCONTI, RIBASSI E ABBUONI PASSIVI",
+   "mesi": [
+    0.09,
+    0.08,
+    0.11,
+    2.06,
+    0.0,
+    0.04,
+    0.0,
+    0.02
+   ],
+   "tot_gen_ago": 2.4,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081002,
+   "nome": "OMAGGI E REGALIE",
+   "mesi": [
+    150.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 150.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081003,
+   "nome": "ARROTONDAMENTI PASSIVI",
+   "mesi": [
+    0.02,
+    0.0,
+    0.5,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.1
+   ],
+   "tot_gen_ago": 0.42,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081005,
+   "nome": "CONTRIBUTI ED EROGAZIONI LIBERALI",
+   "mesi": [
+    312.0,
+    209.09,
+    190.0,
+    65.0,
+    150.0,
+    60.0,
+    50.0,
+    0.0
+   ],
+   "tot_gen_ago": 1036.09,
+   "ricorrente": true
+  },
+  {
+   "conto": 6081007,
+   "nome": "VALORI BOLLATI -VID.LIBRI SOCIALI",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    96.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 96.0,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081008,
+   "nome": "QUOTE ASSOCIATIVE",
+   "mesi": [
+    400.0,
+    39.69,
+    45.79,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 485.48,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081009,
+   "nome": "IMPOSTE E TASSE DEDUCUBILI",
+   "mesi": [
+    0.0,
+    32.0,
+    309.87,
+    0.0,
+    22.0,
+    0.0,
+    354.0,
+    232.0
+   ],
+   "tot_gen_ago": 949.87,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081011,
+   "nome": "MULTE E AMMENDE INDENDUCIBILI",
+   "mesi": [
+    0.0,
+    0.0,
+    36.52,
+    0.0,
+    0.0,
+    2025.95,
+    655.84,
+    0.0
+   ],
+   "tot_gen_ago": 2718.31,
+   "ricorrente": false
+  },
+  {
+   "conto": 6081012,
+   "nome": "COSTI INDEDUCIBILI",
+   "mesi": [
+    265.99,
+    298.88,
+    399.77,
+    241.9,
+    108.42,
+    644.31,
+    131.41,
+    1091.0
+   ],
+   "tot_gen_ago": 3181.68,
+   "ricorrente": true
+  },
+  {
+   "conto": 6093000,
+   "nome": "PERDITE DA REALIZZO",
+   "mesi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3590.25,
+    0.0,
+    0.0
+   ],
+   "tot_gen_ago": 3590.25,
+   "ricorrente": false
+  }
+ ],
+ "ricavi_previsti": [
+  {
+   "mese": "Settembre",
+   "totale": 220000,
+   "non_confermato": 0
+  },
+  {
+   "mese": "Ottobre",
+   "totale": 215500.0,
+   "non_confermato": 43670.0
+  },
+  {
+   "mese": "Novembre",
+   "totale": 161600.0,
+   "non_confermato": 59600.0
+  },
+  {
+   "mese": "Dicembre",
+   "totale": 153700.0,
+   "non_confermato": 36990.0
+  }
+ ],
+ "_nota_ricavi": "Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 142,5k emessi + 77,5k da emettere (provvisorio); non_confermato = programmi 2100 + righe 2099"
 }

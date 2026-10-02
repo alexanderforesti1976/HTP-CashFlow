@@ -26,10 +26,14 @@ def gruppo(c):
     if c == 7011300: return 'storno_ricavi'
     return None
 mov = collections.defaultdict(lambda: collections.defaultdict(float))
+conti = collections.defaultdict(lambda: [0.0]*8)
+nomi = {}
 wb = openpyxl.load_workbook(xlsx, data_only=True)
 for r in wb['Movimenti'].iter_rows(min_row=2, values_only=True):
     if r[14] == 'Sì' or not r[3]: continue
     g = gruppo(int(r[1]))
+    if g == 'altri_costi' and r[3].month <= 8:
+        conti[int(r[1])][r[3].month-1] += (r[8] or 0) - (r[9] or 0); nomi[int(r[1])] = r[2]
     if g and r[3].month in (7, 8):
         v = (r[8] or 0) - (r[9] or 0)
         if g in ('ricavi_operativi', 'ricavi_titoli', 'interessi_attivi'): v = -v
@@ -45,8 +49,19 @@ h1 = {
  'altri_costi': round(h['leasing'] + h['noleggi'] + h['manutenzioni'] + h['pubblicita'] + h['svariComm'] + h['consulAmm'] + h['consulTec'] + h['compensoAmm'] + h['revisore'] + h['speseBancarie'] + h['altriGA'], 2),
  'interessi_passivi': h['interessi'], 'esistenze_iniziali': h['esistenzeIniziali2026'],
 }
+altri_conti = []
+for c, mm in sorted(conti.items()):
+    ric = sum(1 for v in mm if abs(v) > 1) >= 6
+    altri_conti.append({'conto': c, 'nome': nomi[c], 'mesi': [round(v, 2) for v in mm], 'tot_gen_ago': round(sum(mm), 2), 'ricorrente': ric})
+P = json.load(open('params.json'))
+ricavi_previsti = []
+for i, lab in enumerate(['Settembre', 'Ottobre', 'Novembre', 'Dicembre']):
+    ob = P['OBACKLOG'][2 + i]
+    nc = round(sum(x[1] for x in ob.get('nc', [])), 2)
+    ricavi_previsti.append({'mese': lab, 'totale': round(ob['t'] * 1000, 2), 'non_confermato': round(nc * 1000, 2)})
 out = {'_fonte': 'H1: bozza bilancio 30/06/2026 del 13/07/2026 (riconciliata al centesimo, R058); luglio e agosto: mastrini 2026 estratti il 02/10/2026 16:02 (settembre incompleto, non usato). Importi in euro. Lo storno 41.502,04 (07011300) e dentro altri_costi del H1 per convenzione aziendale.',
        'bozza_totali': {'costi': 1215491.60, 'ricavi': 1257026.72, 'utile': 41535.12},
-       'h1': h1, 'mesi': mesi}
+       'h1': h1, 'mesi': mesi, 'altri_conti': altri_conti, 'ricavi_previsti': ricavi_previsti,
+       '_nota_ricavi': 'Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 142,5k emessi + 77,5k da emettere (provvisorio); non_confermato = programmi 2100 + righe 2099'}
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))
