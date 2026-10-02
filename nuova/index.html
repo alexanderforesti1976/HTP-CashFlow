@@ -31,14 +31,16 @@ svg{width:100%;height:auto;display:block;touch-action:pan-y}
 .par input[type=number],.par select{width:88px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--tx);font:inherit;text-align:right}
 .par.mod label{color:var(--acc);font-weight:600}
 button{font:inherit;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx);cursor:pointer}
-table{border-collapse:collapse;width:100%;min-width:700px;font-size:12px}th,td{padding:4px 7px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:900px;font-size:12px}th,td{padding:4px 7px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
+table.t2{min-width:0;font-size:15px}table.t2 th:first-child,table.t2 td:first-child{position:static;white-space:normal}table.t2 td{padding:8px 6px}table.t2 td:not(:first-child){font-variant-numeric:tabular-nums}
+#tab td:first-child,#tab th:first-child{max-width:130px;min-width:110px;white-space:normal;font-size:11px;z-index:1;box-shadow:2px 0 0 var(--line)}
 tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 .scroll{overflow-x:auto}
 #tip{position:fixed;pointer-events:none;background:var(--tx);color:var(--bg);padding:6px 9px;border-radius:8px;font-size:12px;display:none;z-index:9;max-width:240px}
 .note{font-size:12px;color:var(--mut)}
 #sav.ok{color:var(--pos)}#sav.wait{color:var(--warn)}#sav.off{color:var(--warn)}
-#nav{position:sticky;top:0;z-index:5;display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px 0;background:var(--bg);border-bottom:1px solid var(--line)}#nav a{padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--acc);text-decoration:none;font-size:14px;background:var(--card)}#nav button,.rs{padding:8px 12px;border:1px solid var(--neg);border-radius:8px;background:var(--card);color:var(--neg);font:inherit;font-size:14px;cursor:pointer}.rs{margin:4px 0 8px}
-html{scroll-padding-top:60px}
+#nav{position:sticky;top:0;z-index:5;display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;align-items:center;padding:6px 0;background:var(--bg);border-bottom:1px solid var(--line)}#nav a{white-space:nowrap;padding:6px 6px;border:1px solid var(--line);border-radius:8px;color:var(--acc);text-decoration:none;font-size:13px;background:var(--card)}#nav button{white-space:nowrap}#nav button,.rs{padding:6px 7px;border:1px solid var(--neg);border-radius:8px;background:var(--card);color:var(--neg);font:inherit;font-size:14px;cursor:pointer}.rs{margin:4px 0 8px}
+html{scroll-padding-top:50px}
 </style>
 </head>
 <body>
@@ -49,7 +51,7 @@ html{scroll-padding-top:60px}
 <div class="sub" id="agg" style="margin-top:4px"></div>
 <div class="sub" id="sav" style="margin-top:4px">Salvataggio automatico: ogni modifica si salva da sola.</div>
 </header>
-<nav id="nav"><a href="#kpis">Cassa</a><a href="#pnl">Parametri</a><a href="#cecard">Conto economico</a><a href="#vocicard">Voci mese per mese</a><button id="reset2">Ripristina</button></nav>
+<nav id="nav"><a href="#kpis">Cassa</a><a href="#pnl">Parametri</a><a href="#cecard">Economico</a><a href="#vocicard">Voci</a><button id="reset2">Ripristina</button></nav>
 <div class="kpis" id="kpis"></div>
 <div class="card"><h2>Cassa: storico e previsione</h2><div id="ch1"></div><div class="note" id="ch1n"></div></div>
 <div class="grid">
@@ -66,10 +68,10 @@ html{scroll-padding-top:60px}
 </div>
 </div>
 </div>
-<div class="card" id="cecard"><h2>Conto economico 2026 e imposte (calcolo automatico)</h2><div class="scroll"><table id="ce26" style="min-width:380px"></table></div><div class="note">Gen-ago: dati reali dei mastrini. Set-dic: variabili in proporzione ai ricavi, fissi per mese. TFR e 13ª integrati; TFM 20% dell'utile prima del TFM, deducibile; IRES 24% e IRAP 3,9% su basi proprie. Ammortamenti e variazioni fiscali sono stime da confermare con Verusca.</div></div>
+<div class="card" id="cecard"><h2>Conto economico 2026 e imposte (calcolo automatico)</h2><div class="scroll"><table id="ce26" class="t2"></table></div><div class="note">Gen-ago: dati reali dei mastrini. Set-dic: variabili in proporzione ai ricavi, fissi per mese. TFR e 13ª integrati; TFM 20% dell'utile prima del TFM, deducibile; IRES 24% e IRAP 3,9% su basi proprie. Ammortamenti e variazioni fiscali sono stime da confermare con Verusca.</div></div>
 <div class="card" id="vocicard"><h2>Tutte le voci, mese per mese</h2><div class="scroll"><table id="tab"></table></div></div>
 <div class="card"><h2>Cosa c'è dentro e cosa è ipotesi</h2><div class="note" id="ipo"></div></div>
-<div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" style="min-width:420px"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
+<div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
 <script src="motore.js"></script>
@@ -109,7 +111,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790984019570; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790984106889; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -254,7 +256,7 @@ function tabella(R){
 }
 function ce26(R){
   var c=R.ce, K=[['Ricavi',c.ricavi,0],['Rimanenze finali − iniziali',c.rimanenze,0],['Materie',-c.materie,0],['Lavorazioni c/terzi',-c.lavorazioni,0],['Provvigioni',-c.provvigioni,0],['Royalties 1,5%',-c.royalties,0],['Personale (con TFR e 13ª)',-c.personale,0],['Affitti',-c.affitti,0],['Energia',-c.energia,0],['Altri costi',-c.altri,0],['Ammortamenti',-c.ammortamenti,0],['Risultato operativo',c.operativo,2],['Interessi passivi',-c.int_passivi,0],['Interessi attivi e titoli',c.int_attivi,0],['Utile prima del TFM',c.ante_tfm,2],['TFM (20%)',-c.tfm,0],['Utile ante imposte',c.ante_imposte,2],['IRES 24% (imponibile '+EURf(c.imponibile_ires)+')',-c.ires,0],['IRAP 3,9% (imponibile '+EURf(c.imponibile_irap)+')',-c.irap,0],['Utile netto 2026',c.utile,2],['Imposte 2026 usate nel cash flow'+(P.imposte_2026>0?' (forzate)':''),R.riepilogo.imposte_2026,2],['Acconti 2026 già versati/da versare',124249,0]];
-  var t='';K.forEach(function(r){t+='<tr'+(r[2]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[1])+'</td></tr>'});
+  var t='';K.forEach(function(r){t+='<tr'+(r[2]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[1])+' €</td></tr>'});
   document.getElementById('ce26').innerHTML=t;
 }
 function verusca(R){
