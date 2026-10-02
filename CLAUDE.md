@@ -22,6 +22,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Ammortamenti, TFM, imposte calcolati da params, mai hardcoded.
 - Cash flow con tutto ciò che muove cassa, IVA inclusa, per aliquote/regimi reali (22%, 10%, non imponibile/dichiarazione d'intento), non percentuali medie.
 - Obiettivo 2.250k = ricavi netti IVA. Consuntivo + ordini NON vanno scalati: se superano l'obiettivo, segnalare "SFORATO".
+- Scadenze di agosto e dicembre sempre spostate al mese dopo (Italia): `shiftMonths` {8→9, 12→1} sposta incassi e pagamenti fornitori (non mutui/imposte/stipendi); dic 2027 esce dall'orizzonte.
 - Credito IVA recuperato con dichiarazione annuale (`ivaRecoveryYM` 2027-04), non TR trimestrali.
 - Input reali (scadenzari/registri Pegaso, condizioni per cliente/fornitore), non medie uniformi.
 - Pegaso ordini: consegna 31/12/2099 = in attesa conto lavoro (vale data richiesta); 31/12/2100 = programma (data richiesta = data massima ritiro; ripartire sullo storico ritiri). Non sommarli alle consegne confermate.

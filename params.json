@@ -1192,5 +1192,9 @@
   },
   "_actualSource": "Incassi/pagamenti reali lug-set 2026 dagli scadenzari Pegaso (data pagata/accredito, lordi IVA). Solo visualizzazione: il saldo dei mesi ancorati resta quello bancario.",
   "_dsoSource": "DSO 60 gg (era 36): media ponderata sulle condizioni di pagamento Pegaso 02/10/2026 e sul mix clienti ott-dic 26: RiBa 60 dffm = ~75 gg da fattura, R35 90 dffm = ~105 gg, Enextras/Arkimat pagamento anticipato. DPO 105 confermato (90 dffm+10 sui fornitori principali).",
-  "purchRegYM": "2026-07"
+  "purchRegYM": "2026-07",
+  "shiftMonths": {
+    "8": 9,
+    "12": 1
+  }
 }
