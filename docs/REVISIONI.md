@@ -52,6 +52,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R032 | CONFERMATO (Alex) | Oneri diversi: non si moltiplicano; multe e ammende (83,5k nel 2025, 2,7k gen-ago 2026) non esisteranno più. Nel modello nessuna riga dedicata: H1 reale una volta, H2 e 2027 dentro il fisso 25k + 3% | Nessuna modifica |
 
+| R033 | ANALISI (non applicata) | Effetto dei punti trovati il 02/10 sera, test headless con parametri di Alex (rev26 2.200, rev27 2.100, CIG 2026 1 operaio 15%, CIG 2027 6 operai 30%, magazzino 153,4k). Base del test = screenshot pagina 22:14 (utile 2026 92,4 contro 92 visto, 2027 112,3 contro 112, EBITDA 278,6 / 295,0). **Altri costi 2026 per competenza** (`otherFixedK` 2026 da 25 a 24,2 oppure 18,3): altri 454,0 → 449,2 / 413,8; EBITDA 2026 278,6 → 283,4 / 318,8; utile 2026 92,4 → 95,2 / 115,6; 2027 invariato 112,3; cassa dic-26 1.354 → 1.357 / 1.379, dic-27 1.372 → 1.374 / 1.388 (il valore basso vale solo se le consulenze amministrative set-dic sono già chiuse). Altri punti: interessi H1 dai mastrini +0,6k; imposte con TFM non deducibile −9k/−19k (stima Claude); lug-ago reali su materie, energia, provvigioni, personale netto circa −2k. Somma: utile 2026 tra circa 74k e 105k contro 92,4k | Nessuna modifica pubblicata. Da decidere con Alex dopo il bilancio al 30/09 |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
