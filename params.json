@@ -1149,8 +1149,8 @@
   "_loansSource": "Piani di ammortamento banche (BCC 1066083 e 1071107 del 07/05/2026, Unicredit 2529480 del 27/03/2025, Credem 8630473 del 13/05/2026) con quota capitale/interessi/residuo; BCC Sebino/Finlombarda da bilancio; 8823317 e Mini da scadenziario Verusca. Esclusi noleggi LeasePlan.",
   "cashAnchor": "2026-09",
   "openRecSched": {
-    "2026-10": 126.3,
-    "2026-11": 6.7
+    "2026-10": 216.2,
+    "2026-11": 66.1
   },
   "openPaySched": {
     "2026-10": 46.1,
@@ -1327,13 +1327,5 @@
     "otherFixedK27",
     "energyFixedK27"
   ],
-  "_params27": "02/10/2026: parametri 2027 allineati al ritmo reale 2026: personale come 2026 (labor27 = laborK 58k/mese, nessuna CIG), altri costi fissi 25k/mese, energia quasi fissa 7,5k/mese (energyFixedK27, sostituisce la % sul fatturato). _forceKeys: questi valori prevalgono sulle modifiche manuali salvate nella pagina/Firebase.",
-  "recLag": [
-    0.021,
-    0.48,
-    0.467,
-    0.032
-  ],
-  "recRegYM": "2026-08",
-  "_recSource": "02/10/2026: incassi ricostruiti dai dati. (1) recLag = distribuzione reale mesi tra mese fattura e incasso, fatture gen-giu 2026 incassate (1,33M, scadenzario clienti): 0m 2,1% / 1m 48,0% / 2m 46,7% / 3m 3,2% (DSO reale da data fattura 36,2 gg; le RiBa sono anticipate in banca: incasso a 37 gg contro 79 gg di scadenza contrattuale). Sostituisce il DSO a lag unico (36 gg -> 1 mese, 60 gg -> 2 mesi: nessuno dei due e' corretto). (2) openRecSched = solo il non incassato nello scadenzario clienti 02/10 (9 righe, 132.985,81 = totale PDF: Enextras 112,2k, Breka 8,4k, Terra Verde 5,4k, Cavagna 4,4k...). Le 8 RiBa con scadenza 31/10 (83,7k) sono GIA' incassate il 18/09 (anticipo): erano contate due volte. (3) Settembre (220k = 142,5 emessi + 77,5 da emettere) non e' in nessuno scadenzario Pegaso: incassa col recLag; toInvoice non e' piu' usato."
+  "_params27": "02/10/2026: parametri 2027 allineati al ritmo reale 2026: personale come 2026 (labor27 = laborK 58k/mese, nessuna CIG), altri costi fissi 25k/mese, energia quasi fissa 7,5k/mese (energyFixedK27, sostituisce la % sul fatturato). _forceKeys: questi valori prevalgono sulle modifiche manuali salvate nella pagina/Firebase."
 }
