@@ -51,6 +51,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Utile 2026 131,9k (era 237,2k con le % su tutto l'anno): EBITDA 347,0k, imposte 51,0k, TFM 45,7k. Royalties 2026 = 1,5% dei ricavi su tutto l'anno (34,6k; H1 reale basso = timing). Personale H1 + ratei non presenti nel bilancio provvisorio, stima esplicita 40,3k (TFR 12,3 su salari H1 al 7,41% meno 5,1 già a bilancio; 13a tredK/2 = 19,0; ferie maturate `ferieH1K` = 9,0 STIMA da confermare), mostrati nel CE come "di cui ratei H1". `otherFixedK` 2026 = 25.
 
 ## Aperto
+- RiBa clienti: NESSUN anticipo bancario (confermato da Alex, da 25 anni). Il "Pagata il" delle RiBa nello scadenzario è la data di presentazione in banca, NON l'incasso: la cassa arriva alla scadenza. Non ricavare DSO/incassi da quelle date (il DSO 36 "reale" era sbagliato per questo). Incassi = scadenza da condizioni di pagamento (DSO 60).
 - Inserire `accontoGiu26` (acconto imposte giugno 2026 dall'F24, da Luca/Verusca): oggi stima 62k. Confermare `ferieH1K` (ratei ferie H1, stima 9k).
 - Rigenerare `payMatrix` quando arrivano nuove fatture/condizioni (pesi fornitori da scadenzario).
 - Mastrini/trimestrale metà ottobre: sostituire costi stimati lug-set.
