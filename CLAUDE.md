@@ -4,7 +4,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 
 ## CONGELATO (regola di Alex, 02/10/2026 sera)
 - **Non cambiare più nessuna formula, percentuale o parametro di calcolo senza l'ok esplicito di Alex.** Ogni modifica va prima descritta con tabella prima/dopo (utile e cassa) e approvata; si pubblica solo dopo. Niente correzioni "a pezzi".
-- Punti di ripristino su GitHub: tag `stato-mattina-02-10-2026` (commit 11e47db, stato di inizio giornata) e `stato-sera-02-10-2026` (stato dopo tutte le modifiche del 02/10). Per tornare indietro: `git checkout <tag> -- index.html params.json`, commit e push su `main`.
+- Punti di ripristino su GitHub (rami, i tag erano bloccati dal proxy): `ripristino-mattina-02-10-2026` (commit 11e47db, stato di inizio giornata) e `ripristino-sera-02-10-2026` (stato dopo tutte le modifiche del 02/10, commit 520b60c). Per tornare indietro: `git checkout <ramo> -- index.html params.json`, commit e push su `main`. Non cancellare questi rami.
 - Prossimo passaggio unico e controllato: ricostruzione completa quando arrivano le fatture di settembre e il bilancio al 30/09 (verso il 15/10), con checklist: acquisti e % materie/lavorazioni sul bilancio, personale (TFR, 13ª, CIG), incassi/pagamenti da scadenzari, IVA, imposte; mostrata e approvata prima di pubblicare.
 
 ## Come lavorare
