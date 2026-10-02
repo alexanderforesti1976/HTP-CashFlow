@@ -253,6 +253,10 @@
         [
           "OMECA programma 2100",
           11.5
+        ],
+        [
+          "Watts 2099 (conto lavoro)",
+          22.0
         ]
       ]
     },
@@ -309,6 +313,14 @@
         [
           "OMECA programma 2100",
           11.5
+        ],
+        [
+          "Lav.El.Gomma 2099 (conto lavoro)",
+          28.4
+        ],
+        [
+          "Watts 2099 (conto lavoro)",
+          5.6
         ]
       ]
     },
@@ -357,6 +369,10 @@
         [
           "OMECA programma 2100",
           11.5
+        ],
+        [
+          "Watts 2099 (conto lavoro)",
+          7.9
         ]
       ]
     },
