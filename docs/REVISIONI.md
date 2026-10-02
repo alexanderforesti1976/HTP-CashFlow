@@ -132,6 +132,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R072 | TENTATIVO / LIMITE | Alex chiede il risparmio del fotovoltaico MENSILE (non annuale) con la produzione di un impianto da 97 kWp a Palazzolo sull'Oglio, esposizione sud, da dati in rete (poi da confrontare con i dati reali collegandosi al sistema). PVGIS (re.jrc.ec.europa.eu) è BLOCCATO dal proxy dell'ambiente (curl 403, WebFetch EGRESS_BLOCKED; anche altri siti): non ottenibile da qui. La ricerca web ha dato solo intervalli parziali per il Nord Italia (gen 35-60, feb 55-85, mar 90-120, apr 110-140, mag 125-155, giu 130-160 kWh/kWp; annuo 1.100-1.350), senza luglio-dicembre: nessuna distribuzione mensile completa e affidabile; non inventata. Offerta E.ON: 109.218-109.632 kWh/anno (circa 1.121 kWh/kWp) | Aperto: serve PVGIS (dominio da permettere o tabella da Alex) e inclinazione delle falde |
 
+| R073 | DATI (Alex) | Ricevuto lo studio di fattibilità EngUp (E.ON), 24/02/2026, preliminare: orientamento moduli 176° (4° dal sud), inclinazione NON indicata, 97,825 kWp (215 × 455 Wp, con ottimizzatori TIGO), diverso dall'offerta (97,46 kWp, 219 × 445 Wp, senza ottimizzatori). Orientamento trovato: sud −4°; resta da avere il tilt (progetto esecutivo) | Registrato in DATI_RICEVUTI §8; nessun effetto sul cash flow |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
