@@ -1,0 +1,62 @@
+# SPECIFICA PER LA RICOSTRUZIONE DELL'APP (02/10/2026)
+
+Scopo: base di partenza per rifare da zero Cash Flow e Contabilità Industriale di High Tech Project S.r.l. **Contiene solo regole date da Alex e dati reali. Dove manca un dato è scritto "DA FORNIRE": non va riempito con stime.** Il codice esistente (`index.html`, `params.json`) e i rami `ripristino-mattina-02-10-2026`, `ripristino-sera-02-10-2026` restano su GitHub e non vanno cancellati. Registro di tutte le modifiche e delle affermazioni ritrattate: `docs/REVISIONI.md`. Repo pubblico: niente dati di singoli clienti/fornitori.
+
+## 1. Principi di lavoro (Alex)
+1. Le stime seguono le regole di Alex, mai quelle di Claude. Nessuna formula, percentuale o parametro cambia senza ok esplicito, con prima/dopo (utile e cassa).
+2. Un numero è "della pagina di Alex" solo da un suo screenshot; altrimenti è "test" con i parametri usati.
+3. Ogni modifica a dati/formule/conclusioni si registra (REVISIONI).
+4. Nessuna garanzia sui risultati finché non c'è il bilancio al 30/09 (metà ottobre, Verusca).
+5. Mai inventare menu o opzioni dell'interfaccia. Italiano, tecnico, breve, un passo alla volta.
+
+## 2. Struttura richiesta
+- Un'unica pagina (GitHub Pages) con due tab: Cash Flow | Contabilità Industriale. Stato condiviso in memoria; parametri persistiti (sync Firebase `htp-tools`, nodi `htp_cashflow`, `htp_contabilita`).
+- CE per anno (2024, 2025 consuntivo; 2026, 2027 previsione) con rimanenze in VALORE ASSOLUTO (finali e iniziali), non in variazione. Pulsanti dei parametri leggibili su telefono, sola lettura per Valentina (`?mode=view`).
+- Obiettivo ricavi (2.200k nella pagina di Alex, 2.250k nel file): consuntivo + ordini NON si scalano; se superano l'obiettivo si segnala "SFORATO".
+
+## 3. Regole contabili e di cassa date da Alex
+- **Royalties:** 1,5% del fatturato (1% + 0,5%), maturate e PAGATE TRIMESTRALMENTE (un pagamento per trimestre = 1,5% dei ricavi dei 3 mesi, nel mese successivo; gen/apr/lug/ott). CE: 1,5% su tutto l'anno; il 2° trimestre si registra a luglio.
+- **TFM amministratore:** 20% dell'utile lordo prima del TFM (2025: 74.018 su 370.090 = 20,0%). Deducibile dalle imposte (Alex). Non è cassa mensile.
+- **Imposte:** IRES 24%, IRAP 3,9% (Lombardia) sull'utile dopo TFM. Cassa: acconti dell'anno N = 100% delle imposte N−1 in due rate (giugno e novembre); giugno N+1 = saldo N + 1ª rata acconto N+1; saldo a credito compensato nel mese, residuo con la rata successiva. Acconto di giugno 2026 reale (F24): DA FORNIRE.
+- **Personale:** TFR e 13ª vanno calcolati per competenza. Metodo di Alex: costo 2025 senza TFR e 13ª confrontato col costo H1 2026 registrato (che non li contiene), proporzione riportata su tutto l'anno; vedi R025 per i difetti trovati (interinale nel denominatore, 13/12 sui salari). La 13ª si paga a DICEMBRE. NON esiste la 14ª (CCNL gomma plastica). TFR = retribuzione annua incl. 13ª / 13,5 più rivalutazione (da conto 6041200 e quota previdenza complementare 6041201). Ferie e permessi non goduti: solo la variazione del debito, DA FORNIRE (consulente del lavoro). CIG = lavoratori / 20 × costo × % ore × 80%; la CIG 2026 e 2027 sono input di Alex e prevalgono sempre sul file. Costo all-in 58k/mese: DA CONFERMARE se comprende TFR e 13ª.
+- **Rimanenze:** iniziali 2026 = 168.359,33 (certo, bilancio 2025). Le finali sono un'IPOTESI MANUALE di Alex a fine anno (+/− rispetto alle iniziali), non un dato; iniziali 2027 = finali 2026.
+- **Storno Terra Verde:** conto 7011300 "Variazione ricavi per resi e premi" 41.502,04 (storno con rifatturazione a ricavo): contare UNA volta, ed escluderlo dai confronti sui costi.
+- **Incassi:** NESSUN anticipo bancario sulle RiBa (da 25 anni). Il "Pagata il" è la presentazione, non l'incasso. Incasso = scadenza per condizioni di pagamento cliente per cliente (RiBa fine mese, TT, prepagati).
+- **Slittamento scadenze:** solo RiBa fine mese SENZA +10: 31/08→10/09 e 31/12→10/01; mai sui bonifici; verso i clienti nessuno slittamento (i clienti non hanno +10); i fornitori principali con +10 e quelli senza (RiBa fine mese) sono nel file condizioni di pagamento.
+- **Pagamenti fornitori:** per scadenza reale (scadenzari Pegaso, parser verificato sui totali PDF) più acquisti previsti con le condizioni per fornitore.
+- **IVA:** per aliquote e regimi reali (22%, 10%, non imponibile / dichiarazione d'intento / plafond), non medie; credito IVA recuperato con la dichiarazione annuale (aprile 2027). Residui plafond clienti: DA FORNIRE.
+- **Assicurazioni:** non vanno moltiplicate. Oneri diversi non si moltiplicano; le multe e ammende (83,5k nel 2025) non esisteranno più. Pubblicità/fiere: non si spende più.
+- **Ordini Pegaso:** consegna 31/12/2099 = in attesa conto lavoro (vale la data richiesta); 31/12/2100 = programma (ripartire sullo storico dei ritiri). Mai sommare i non confermati alle consegne confermate; mostrarli a parte.
+- **Cassa 30/09/2026 = 1.279,66k** (4 c/c 1.870,46k − titoli e fondi 590,8k); la proiezione parte da ottobre. Polizza 75k non nettata.
+- **Ciclo di chiusura:** costi registrati = consuntivo; costi non ancora registrati = proiezione in proporzione ai ricavi del mese, finché non arrivano i dati veri. Settembre provvisorio (fatture non ancora allo SDI, acquisti incompleti).
+
+## 4. Dati reali (aggregati, k€)
+
+**CE 2025 (bilancio):** ricavi 3.060; materie 642; lavorazioni terzi 144; personale 847,2 (salari 542,3; interinale 67,4; contributi 165,8; INAIL 13,8; welfare 11,7; TFR 37,1 + 5,6; sanitaria 3,5); energia 102; affitti 97; provvigioni 68; royalties 38,5; altri costi 536 (di cui pubblicità 67,8 e multe e ammende 83,5, non ricorrenti); ammortamenti 124; interessi attivi 36,2; interessi passivi 30,1; TFM 74,0; utile prima delle imposte 296,1; IRES 102,3; IRAP 22,0; IRES anticipata 0,4; utile 171,5. Rimanenze: iniziali 265, finali 168,4.
+
+**Mastrini 2026 (xlsx di Alex, non nel repo), classi di costo, k€:**
+
+| | gen-giu | luglio | agosto | settembre (incompleto) |
+|---|---|---|---|---|
+| Ricavi (vendite + stampi + diversi) | 1.248,7 | 213,8 | 91,8 | 0 (provvisorio 220) |
+| Materie (acquisti) | 237,2 | 33,4 | 27,9 | 25,2 |
+| Lavorazioni terzi | 49,8 | 7,3 | 4,0 | 3,0 |
+| Energia | 48,0 | 7,4 | 9,0 | 5,4 |
+| Provvigioni + ENASARCO | 35,3 | 8,5 | 3,3 | 10,1 |
+| Royalties | 8,3 | 9,7 (2° trim.) | 0 | 0 |
+| Affitti | 52,4 | 8,2 | 8,2 | 8,2 |
+| Personale (senza TFR/13ª) | 336,8 | 54,3 | 48,8 | 0 (non registrato) |
+| Altri costi (senza storno) | 224,0 | 45,2 | 22,6 | 9,8 |
+| Interessi passivi | 13,4 | 1,0 | 0,8 | 0,1 |
+
+Altri costi: ricorrenti 16,4k al mese (voci presenti in almeno 6 mesi su 8); irregolari gen-ago 157,1k (di cui pubblicità 55,9, consulenze amministrative 21,8, compenso amministratore 19,4 e INPS 4,5 già chiusi per l'anno). Interessi H1 reali: attivi c/c 3,8 (non 2,1 del provvisorio), titoli 6,0, passivi 13,4.
+Rimanenze finali 2026: nessuna registrata. TFM e ammortamenti: non registrati (stime).
+
+## 5. Parametri da chiedere ad Alex prima di costruire
+Obiettivi ricavi 2026/2027; rimanenze finali ipotizzate; CIG 2026/2027; acconto IRES giugno 2026 (F24); frequenza di fatturazione delle consulenze amministrative (set-dic); se il 58k/mese comprende TFR e 13ª; ferie/permessi non goduti; piani di ammortamento aggiornati dei finanziamenti (interessi H2 2026 e 2027); plafond clienti residui; fatture di settembre mancanti.
+
+## 6. Errori da non ripetere (dal registro)
+Usare "Pagata il" come incasso; ripetere un pagamento (RiBa) già nella cassa bancaria; trattare costi annuali o trimestrali come mensili; contare lo storno Terra Verde due volte; presentare un test come stato della pagina; confrontare salari senza la 13ª con salari con la 13ª; mettere l'interinale nel denominatore dei ratei; stimare senza dire che è una stima; cambiare un calcolo senza prima/dopo approvato; regex sui PDF senza verifica dei totali.
+
+## 7. Fonti
+Bilancio 2025 PDF; mastrini 2026 (xlsx, estratti 02/10 16:02); registri IVA 2026; scadenzari Pegaso clienti/fornitori; condizioni di pagamento (xlsx); ordini aperti Pegaso 02/10; situazione banche; piani di ammortamento finanziamenti; bilancio provvisorio 30/06; bilancio al 30/09 (metà ottobre, DA RICEVERE).

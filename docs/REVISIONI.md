@@ -60,6 +60,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R036 | RITRATTATA | Il "42%" delle imposte 2025 non è un'aliquota. Aliquote del modello corrette: IRES 24%, IRAP 3,9% (Lombardia), verificate online; 27,9% sull'utile dopo TFM = 22,3% dell'utile lordo. Spiegazione del 2025: IRES 102.280 / 24% = imponibile 426k contro 296k di utile ante imposte; di +130k, 83,5k sono multe e ammende indeducibili (non ricorrenti, Alex: non esisteranno più) e 4,9k costi indeducibili. Residuo circa 40k altri indeducibili e base IRAP più larga (IRAP pagata 22,0k contro 11,5k col 3,9% sull'utile): non spiegato, nessuna stima | Nessuna modifica al modello. Da chiarire con Verusca/Luca col bilancio al 30/09 |
 
+| R037 | DECISIONE (Alex) | Alex decide di ricostruire l'app da zero (il vecchio codice non si ripristina né si ripulisce). Creato `docs/SPECIFICA_RICOSTRUZIONE.md` con regole di Alex, dati reali aggregati (bilancio 2025, mastrini 2026), parametri da fornire ed errori da non ripetere; nessuna stima di Claude. Il vecchio codice e i rami di ripristino restano | Nessuna modifica al modello esistente |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
