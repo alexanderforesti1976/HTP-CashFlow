@@ -1153,7 +1153,7 @@
     "2026-11": 66.1
   },
   "openPaySched": {
-    "2026-10": 77.8,
+    "2026-10": 46.1,
     "2026-11": 24.2,
     "2026-12": 10.3,
     "2027-01": 19.6
@@ -1162,7 +1162,7 @@
     "2026-09": 77.5
   },
   "_ivaSource": "IVA per aliquota/regime (registri IVA 2026, Pegaso 02/10): VENDITE imponibile 1.529,8k: 22% solo su clienti imponibili (T.Erre 210,2k, Watts 34,2k, Sagom 18,0k, OMR, Dubhe, Elledi, E.B., Scaligera, Breka; quota ~21%), tutto il resto non imponibile (intra-UE NI41 636,7k, dichiarazione d'intento DI8C 549,2k). ACQUISTI imponibile 785,0k: 218,9k senza IVA per dichiarazione d'intento HTP (Hexpol, PMG, Tecnoconf, FGR, Le Quattro C.; ~52% dei materiali/lavorazioni), resto 22%; energia (Sorgenia) 10%; altri costi 22%. Reverse charge (PMG East, MMBC) neutro. Saldo IVA liquidato col mese successivo (credito compensato). Recupero credito IVA: con dichiarazione annuale (Alex 02/10/2026) -> credito riportato mese su mese, compensato in F24 ad aprile 2027 (ivaRecoveryYM); ivaCreditAnchor 36,3k = credito Gen-Set 2026 (IVA acquisti 111,8k - IVA vendite 75,5k), da verificare con Luca.",
-  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10. | 02/10/2026 17:xx: openPaySched RIGENERATO dallo scadenzario fornitori 01/01-31/12/2026 con parser verificato (Dare 949.004,13 / Avere 1.061.303,72 / saldo aperto 112.299,59 = totali PDF; 77 righe aperte); data pagamento = scadenza (RiBa pagate a scadenza, -1,2 gg) o +17 gg (bonifici, media reale), scaduti -> ottobre; + 5 fatture settembre del registro IVA con scadenza 2027 non presenti nell'export (Hexpol 15.823,16, EU Silicones 2.766,96, L.G. Italia 786,90, Lav.El. 231,56 = 19.608,58 al 10/01/2027).",
+  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10. | 02/10/2026 17:xx: openPaySched RIGENERATO dallo scadenzario fornitori 01/01-31/12/2026 con parser verificato (Dare 949.004,13 / Avere 1.061.303,72 / saldo aperto 112.299,59 = totali PDF; 77 righe aperte); data pagamento = scadenza (RiBa pagate a scadenza, -1,2 gg) o +17 gg (bonifici, media reale), scaduti -> ottobre; + 5 fatture settembre del registro IVA con scadenza 2027 non presenti nell'export (Hexpol 15.823,16, EU Silicones 2.766,96, L.G. Italia 786,90, Lav.El. 231,56 = 19.608,58 al 10/01/2027). | CORREZIONE: escluse dall'aperto le RiBa e i RID fornitori con scadenza <= 30/09 (31,7k: Elledi 17,1k, Sorgenia, ALD, ecc.): la banca li addebita a scadenza, quindi sono gia' nella cassa bancaria del 30/09 anche se Pegaso non li ha ancora registrati come pagati.",
   "ivaRate": 22,
   "ivaEnergia": 10,
   "matPlafondShare": 52,
