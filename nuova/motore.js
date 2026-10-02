@@ -17,7 +17,7 @@
       altri_ricorrenti_mese: d.altri_ricorrenti_mese, costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
       imposte_2026: 0, acconto_prima_rata_pct: 50,
-      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2026, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
+      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2027, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
     };
   }
 
