@@ -126,6 +126,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R069 | DATI (Alex) | Ricevuta l'offerta E.ON Energia del 25/05/2026 per fotovoltaico 97,46 kWp: leasing operativo 84 mesi, canone 1.393,58 €/mese IVA esclusa, produzione 109.218-109.632 kWh/anno, autoconsumo 76.743 kWh/anno, immissione 32.890 kWh/anno a 0,09 €/kWh. Incoerenze nel documento (97,46 contro 97,83 kWp; 109.218 contro 109.632 kWh), copia senza data di accettazione né firma. Dati incrociati con le bollette (autoconsumo circa 23,5% di 327.099 kWh/anno). Registrati in DATI_RICEVUTI §7 e nella specifica | Nessuna modifica a `nuova/`: decorrenza del leasing DA FORNIRE |
 
+| R070 | INFORMAZIONE (Alex) | Fotovoltaico: in installazione ora, attivo a fine ottobre 2026; produzione non assunta con precisione per il momento (stime dell'offerta indicative). Decorrenza del canone di leasing da confermare | Solo documentazione; nessun effetto sul cash flow finché non si decide come trattare produzione e canone |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
