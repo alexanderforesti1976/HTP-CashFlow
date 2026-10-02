@@ -36,7 +36,7 @@
     "0": 213.6,
     "1": 91.8,
     "2": 234.3,
-    "3": 225.0,
+    "3": 225,
     "4": 190.3,
     "5": 128.3,
     "6": 33.7,
@@ -72,15 +72,15 @@
         ],
         [
           "T.Erre",
-          15.0
+          15
         ],
         [
           "Breka",
-          9.0
+          9
         ],
         [
           "Sagom Tubi",
-          6.0
+          6
         ],
         [
           "Scaligera",
@@ -88,7 +88,7 @@
         ],
         [
           "OMR",
-          4.0
+          4
         ],
         [
           "E.B.",
@@ -172,7 +172,7 @@
         ],
         [
           "Eurgomma",
-          35.0
+          35
         ],
         [
           "OMECA",
@@ -180,7 +180,7 @@
         ],
         [
           "Sagom Tubi",
-          6.0
+          6
         ],
         [
           "SASIC",
@@ -198,7 +198,7 @@
     },
     {
       "m": "Ott 26",
-      "t": 225.0,
+      "t": 225,
       "c": [
         [
           "Enextras",
@@ -206,11 +206,11 @@
         ],
         [
           "Watts",
-          47.0
+          47
         ],
         [
           "Lav.El.Gomma",
-          27.0
+          27
         ],
         [
           "Eurgomma",
@@ -272,7 +272,7 @@
         ],
         [
           "Sagom Tubi",
-          12.0
+          12
         ],
         [
           "Dubhe",
@@ -310,7 +310,7 @@
         ],
         [
           "MCM",
-          14.0
+          14
         ],
         [
           "Watts",
@@ -340,7 +340,7 @@
         ],
         [
           "Kongsberg Power",
-          1.0
+          1
         ]
       ]
     },
@@ -395,69 +395,187 @@
   ],
   "loans": [
     {
-      "name": "Unicredit 2529480",
-      "start": "2025-03-31",
-      "end": "2028-03-31",
-      "freq": 3,
-      "n": 13,
-      "rata": 36.5,
-      "color": "#f43f5e"
-    },
-    {
-      "name": "Credito Emiliano 8630473",
-      "start": "2025-04-20",
-      "end": "2028-03-20",
-      "freq": 1,
-      "n": 36,
-      "rata": 8.69,
-      "color": "#fb923c"
-    },
-    {
-      "name": "BCC Brescia 1071107",
-      "start": "2024-05-06",
-      "end": "2028-05-31",
-      "freq": 1,
-      "n": 48,
-      "rata": 5.23,
-      "color": "#fbbf24"
-    },
-    {
-      "name": "BCC Brescia 1066083",
-      "start": "2022-04-08",
-      "end": "2027-03-31",
-      "freq": 1,
-      "n": 59,
-      "rata": 2.4,
-      "color": "#4ade80"
-    },
-    {
       "name": "BCC Sebino 8021",
-      "start": "2021-04-01",
-      "end": "2026-10-01",
-      "freq": 6,
-      "n": 12,
-      "rata": 30.365,
+      "src": "FIN.8021 BCC SCAD.10/26",
+      "sched": {
+        "2026-04": 35.69,
+        "2026-10": 35.69
+      },
       "color": "#38bdf8"
     },
     {
       "name": "BCC Sebino 8021 – Finlombarda",
-      "start": "2021-04-01",
-      "end": "2026-10-01",
-      "freq": 6,
-      "n": 12,
-      "rata": 20.24,
+      "src": "FIN.8021 FINL C/BCC SCAD.10/26",
+      "sched": {
+        "2026-04": 24.23,
+        "2026-10": 24.23
+      },
       "color": "#818cf8"
     },
     {
-      "name": "Finanziamento BMW Mini",
-      "start": "2023-05-04",
-      "end": "2027-04-03",
-      "freq": 1,
-      "n": 47,
-      "rata": 2.068,
-      "riscatto": 17.38,
-      "riscattoAt": "2027-05",
+      "name": "Unicredit 8823317",
+      "src": "FIN.8823317 UNI SCAD.05/26",
+      "sched": {
+        "2026-02": 5.602,
+        "2026-05": 5.602
+      },
+      "color": "#94a3b8"
+    },
+    {
+      "name": "BCC Brescia 1066083",
+      "src": "FIN.1066083_BCC_BS SCAD.03/27",
+      "sched": {
+        "2026-01": 2.421,
+        "2026-02": 2.421,
+        "2026-03": 2.421,
+        "2026-04": 2.421,
+        "2026-05": 2.421,
+        "2026-06": 2.421,
+        "2026-07": 2.421,
+        "2026-08": 2.421,
+        "2026-09": 2.421,
+        "2026-10": 2.421,
+        "2026-11": 2.421,
+        "2026-12": 2.421,
+        "2027-01": 2.421,
+        "2027-02": 2.421,
+        "2027-03": 2.421
+      },
+      "color": "#4ade80"
+    },
+    {
+      "name": "BMW Mini 4362010 (+ riscatto 05/27)",
+      "src": "FINANZ.4362010 BMW X MINI RISC.05/27",
+      "sched": {
+        "2026-01": 0.242,
+        "2026-02": 0.242,
+        "2026-03": 0.242,
+        "2026-04": 0.242,
+        "2026-05": 0.242,
+        "2026-06": 0.242,
+        "2026-07": 0.242,
+        "2026-08": 0.242,
+        "2026-09": 0.242,
+        "2026-10": 0.242,
+        "2026-11": 0.242,
+        "2026-12": 0.242,
+        "2027-01": 0.242,
+        "2027-02": 0.242,
+        "2027-03": 0.242,
+        "2027-04": 0.242,
+        "2027-05": 17.383
+      },
       "color": "#a78bfa"
+    },
+    {
+      "name": "BMW Mini 4362011",
+      "src": "FINANZ.4362011 BMW X MINI",
+      "sched": {
+        "2026-01": 0.095,
+        "2026-02": 0.095,
+        "2026-03": 0.095,
+        "2026-04": 0.095,
+        "2026-05": 0.095,
+        "2026-06": 0.095,
+        "2026-07": 0.095,
+        "2026-08": 0.095,
+        "2026-09": 0.095,
+        "2026-10": 0.095,
+        "2026-11": 0.095,
+        "2026-12": 0.095,
+        "2027-01": 0.095,
+        "2027-02": 0.095,
+        "2027-03": 0.095,
+        "2027-04": 0.095,
+        "2027-05": 0.02
+      },
+      "color": "#c4b5fd"
+    },
+    {
+      "name": "Unicredit 2529480",
+      "src": "FIN.2529480 UNICREDIT SCAD.03/28",
+      "sched": {
+        "2026-03": 2.175,
+        "2026-06": 38.884,
+        "2026-09": 38.884,
+        "2026-12": 38.884,
+        "2027-03": 38.884,
+        "2027-06": 38.884,
+        "2027-09": 38.884,
+        "2027-12": 38.884,
+        "2028-03": 38.884
+      },
+      "color": "#f43f5e"
+    },
+    {
+      "name": "BCC Brescia 1071107",
+      "src": "FIN.1071107 BCCBS SCAD.05/2028",
+      "sched": {
+        "2026-01": 5.718,
+        "2026-02": 5.718,
+        "2026-03": 5.718,
+        "2026-04": 5.718,
+        "2026-05": 5.718,
+        "2026-06": 5.718,
+        "2026-07": 5.718,
+        "2026-08": 5.718,
+        "2026-09": 5.718,
+        "2026-10": 5.718,
+        "2026-11": 5.718,
+        "2026-12": 5.718,
+        "2027-01": 5.718,
+        "2027-02": 5.718,
+        "2027-03": 5.718,
+        "2027-04": 5.718,
+        "2027-05": 5.718,
+        "2027-06": 5.718,
+        "2027-07": 5.718,
+        "2027-08": 5.718,
+        "2027-09": 5.718,
+        "2027-10": 5.718,
+        "2027-11": 5.718,
+        "2027-12": 5.718,
+        "2028-01": 5.718,
+        "2028-02": 5.718,
+        "2028-03": 5.718,
+        "2028-04": 5.718,
+        "2028-05": 5.718
+      },
+      "color": "#fbbf24"
+    },
+    {
+      "name": "Credem 8630473",
+      "src": "FIN.8630473 CREDEM SCAD.03/2028",
+      "sched": {
+        "2026-01": 8.725,
+        "2026-02": 8.725,
+        "2026-03": 8.725,
+        "2026-04": 8.725,
+        "2026-05": 8.725,
+        "2026-06": 8.725,
+        "2026-07": 8.725,
+        "2026-08": 8.725,
+        "2026-09": 8.725,
+        "2026-10": 8.725,
+        "2026-11": 8.725,
+        "2026-12": 8.725,
+        "2027-01": 8.725,
+        "2027-02": 8.725,
+        "2027-03": 8.725,
+        "2027-04": 8.725,
+        "2027-05": 8.725,
+        "2027-06": 8.725,
+        "2027-07": 8.725,
+        "2027-08": 8.725,
+        "2027-09": 8.725,
+        "2027-10": 8.725,
+        "2027-11": 8.725,
+        "2027-12": 8.725,
+        "2028-01": 8.725,
+        "2028-02": 8.725,
+        "2028-03": 8.725
+      },
+      "color": "#fb923c"
     }
   ],
   "invMPK": 113,
@@ -469,7 +587,7 @@
     "_nota": "Dati reali gen-giu 2026, aggiornare qui quando arriva bilancio piu preciso. Ammortamenti/TFM/imposte NON inclusi (stimati da amm26/tfmPct/iresR/irapR sopra). La voce 07011300 'Variazione ricavi x resi e premi' (EUR 41.502,04) e' lo storno di una fattura errata (nc a Terra Verde), contabilizzato come costo per convenzione aziendale; la rifatturazione al cliente corretto e' un ricavo separato gia' incluso in Vendite Prodotti. Le due voci NON vanno nettate tra loro.",
     "ricavi": 1231150.31,
     "ricaviDiversi": 547.26,
-    "ricaviStampi": 17300.0,
+    "ricaviStampi": 17300,
     "mpAcquisti": 195559.11,
     "materialiConsumo": 9371.07,
     "imballi": 4174.22,
@@ -488,9 +606,9 @@
     "provvigioni": 34938.91,
     "pubblicita": 46912.64,
     "svariComm": 11268.42,
-    "royalties": 8315.0,
-    "consulAmm": 21798.0,
-    "consulTec": 6450.0,
+    "royalties": 8315,
+    "consulAmm": 21798,
+    "consulTec": 6450,
     "compensoAmm": 11977.61,
     "revisore": 3121.27,
     "speseBancarie": 3375.77,
@@ -510,14 +628,14 @@
       "ord": "260054",
       "cliente": "T.Erre",
       "articolo": "110002E",
-      "residuo": 38000.0,
+      "residuo": 38000,
       "spedizione": "2026-07-07"
     },
     {
       "ord": "260009",
       "cliente": "T.Erre",
       "articolo": "110005SN",
-      "residuo": 210.0,
+      "residuo": 210,
       "spedizione": "2026-09-08"
     },
     {
@@ -545,7 +663,7 @@
       "ord": "260144",
       "cliente": "Serotti & Ghidini",
       "articolo": "157005H",
-      "residuo": 210.0,
+      "residuo": 210,
       "spedizione": "2026-09-30"
     },
     {
@@ -566,14 +684,14 @@
       "ord": "260140",
       "cliente": "Eurgomma",
       "articolo": "067028HB",
-      "residuo": 20800.0,
+      "residuo": 20800,
       "spedizione": "2026-10-05"
     },
     {
       "ord": "260133",
       "cliente": "Lav.El. Gomma",
       "articolo": "011037N",
-      "residuo": 2550.0,
+      "residuo": 2550,
       "spedizione": "2026-10-07"
     },
     {
@@ -608,7 +726,7 @@
       "ord": "260083",
       "cliente": "T.Erre",
       "articolo": "110005SN",
-      "residuo": 210.0,
+      "residuo": 210,
       "spedizione": "2026-10-07"
     },
     {
@@ -643,7 +761,7 @@
       "ord": "250169",
       "cliente": "Eurgomma",
       "articolo": "067028HB",
-      "residuo": 4600.0,
+      "residuo": 4600,
       "spedizione": "2026-10-15"
     }
   ],
@@ -660,5 +778,6 @@
     "totGenMag": 963.82,
     "totGenGiu": 1201.97
   },
-  "_energyPctSource": "3.8% calcolato su H1_2026_reale (energia/ricavi H1 reale = 48.049,16/1.248.997,57). NON reimpostare a 3.3% (vecchio default) senza ricalcolare dai dati reali: gia perso una volta nel ripristino del 30/07/2026."
+  "_energyPctSource": "3.8% calcolato su H1_2026_reale (energia/ricavi H1 reale = 48.049,16/1.248.997,57). NON reimpostare a 3.3% (vecchio default) senza ricalcolare dai dati reali: gia perso una volta nel ripristino del 30/07/2026.",
+  "_loansSource": "Scadenziario mensile da SCADENZE ANNO 2022-2023-2024-2025-2026.xlsx (Verusca), caricato 02/10/2026. Esclusi noleggi LeasePlan (già nei costi)."
 }
