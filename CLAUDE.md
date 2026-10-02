@@ -22,7 +22,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Ammortamenti, TFM, imposte calcolati da params, mai hardcoded.
 - Cash flow con tutto ciò che muove cassa, IVA inclusa, per aliquote/regimi reali (22%, 10%, non imponibile/dichiarazione d'intento), non percentuali medie.
 - Obiettivo 2.250k = ricavi netti IVA. Consuntivo + ordini NON vanno scalati: se superano l'obiettivo, segnalare "SFORATO".
-- Slittamento scadenze (RiBa fine mese SENZA +10, mai bonifici): 31/08→10/09 e 31/12→10/01. Fonte: `Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx` (colonne Tipo pag. R, Fine mese, Giorni dopo fine mese). Parametri `shiftMonths` {8→9, 12→1}, `shiftCustPct` 0 (verso i clienti nessuno slittamento: confermato da Alex/Valentina, i nostri clienti non hanno +10) e `shiftSupPct` 0,16 (da scadenzario fornitori 2026 da aprile × condizioni xlsx: RiBa senza +10 = GBS, Mecof, SV Pievani, Carbocrom, Icierre…; anno intero 21%, ma GBS non fattura più da giugno). Fornitori principali materie con +10 (Hexpol, PMG, EU Silicones, Selini); **senza +10 e RiBa: GBS (R35), Lav.El., Gom-Fer, Zanini, Zincover, ecc.**
+- Slittamento scadenze (RiBa fine mese SENZA +10, mai bonifici): 31/08→10/09 e 31/12→10/01. Fonte: `Condizioni_pagamento_clienti_fornitori_2026-10-02.xlsx` (colonne Tipo pag. R, Fine mese, Giorni dopo fine mese). Parametri `shiftMonths` {8→9, 12→1}, `shiftCustPct` 0 (verso i clienti nessuno slittamento: confermato da Alex/Valentina, i nostri clienti non hanno +10) e `shiftSupPct` 0,25 (quota RiBa senza +10 sui soli pagamenti RiBa, da scadenzario fornitori 2026 da aprile × condizioni xlsx: RiBa senza +10 = GBS, Mecof, SV Pievani, Carbocrom, Icierre…; anno intero 31,5%, ma GBS non fattura più da giugno). Fornitori principali materie con +10 (Hexpol, PMG, EU Silicones, Selini); **senza +10 e RiBa: GBS (R35), Lav.El., Gom-Fer, Zanini, Zincover, ecc.**
 - Credito IVA recuperato con dichiarazione annuale (`ivaRecoveryYM` 2027-04), non TR trimestrali.
 - Input reali (scadenzari/registri Pegaso, condizioni per cliente/fornitore), non medie uniformi.
 - Pegaso ordini: consegna 31/12/2099 = in attesa conto lavoro (vale data richiesta); 31/12/2100 = programma (data richiesta = data massima ritiro; ripartire sullo storico ritiri). Non sommarli alle consegne confermate.
@@ -40,7 +40,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Personale all-in lug 54,3k / ago 48,8k (modello 58k), affitti 8,2k, energia 7,4/9,0k, royalties trimestrali ~9-10k a ottobre.
 
 ## Aperto
-- Rivalutare `shiftSupPct` (0,16) quando Pegaso registra ago/set e arrivano i mastrini.
+- Rivalutare `shiftSupPct` (0,25) quando Pegaso registra ago/set e arrivano i mastrini.
 - Mastrini/trimestrale metà ottobre: sostituire costi stimati lug-set.
 - Conferma recupero credito IVA con Luca (Studio SGEA). Registro IVA vendite fermo al 21/09 (set 3,8k registrati vs 142,5k emessi).
 - Plafond clienti (dichiarazioni d'intento): residui Lav.El. 58,3k (ott-nov 70,4k → ~12k oltre, IVA 22%), Cavagna/OMECA 35,8k (ott-dic ~37,6k), MCM 6,2k (ordine dic 14,0k). Servono nuove dichiarazioni o IVA sul superamento.
