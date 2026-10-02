@@ -1192,7 +1192,7 @@
   },
   "_actualSource": "Incassi/pagamenti reali lug-set 2026 dagli scadenzari Pegaso (data pagata/accredito, lordi IVA). Solo visualizzazione: il saldo dei mesi ancorati resta quello bancario.",
   "_dsoSource": "DSO 60 gg (era 36): media ponderata sulle condizioni di pagamento Pegaso 02/10/2026 e sul mix clienti ott-dic 26: RiBa 60 dffm = ~75 gg da fattura, R35 90 dffm = ~105 gg, Enextras/Arkimat pagamento anticipato. DPO 105 confermato (90 dffm+10 sui fornitori principali).",
-  "purchRegYM": "2026-09",
+  "purchRegYM": "2026-08",
   "shiftMonths": {
     "8": 9,
     "12": 1
@@ -1377,5 +1377,9 @@
   },
   "recRegYM": "2026-08",
   "_recSource": "02/10/2026: incassi = matrice cliente per cliente. Peso: clienti del backlog del mese (2026-09..12; media 2026 per gli altri mesi e per le voci senza condizione) x condizioni di pagamento da Condizioni_pagamento xlsx: Enextras e Terra Verde prepagati (lag 0), Serotti/Elring TT 30 (1 mese), T.Erre/Argomm/Watts/Eurgomma RiBa 60 dffm e Dichtungspartner TT 60 (2 mesi), Lav.El./Cavagna/OMECA/OMR RiBa 90 dffm (3 mesi). Media 2026: 25,3% stesso mese / 6,6% +1 / 46,3% +2 / 21,8% +3 (DSO pesato 51 gg). Nessun anticipo bancario: RiBa incassate alla scadenza (il Pagata il dello scadenzario e' la presentazione). openRecSched resta lo scadenzario clienti 02/10 (non incassato 133,0k + RiBa presentate con scadenza 31/10 83,7k). Settembre (220k) non e' in nessuno scadenzario Pegaso: incassa con la matrice. toInvoice e dso non piu' usati per gli incassi.",
-  "rateiH1On": 0
+  "rateiH1On": 0,
+  "purchPartial": {
+    "2026-09": 22.2
+  },
+  "_purchSource": "02/10/2026: acquisti COMPLETI fino ad agosto; settembre INCOMPLETO (le fatture di fine mese devono ancora arrivare, Alex le allega nei prossimi giorni): consuntivo registrato a credito (fornitori materiali/subforniture, imponibile) 22,2k, il resto del piano settembre (22% ricavi = 48,0k) si proietta con payMatrix: 25,8k. Ottobre-dicembre: solo proiezione. Registrato lug 29,6k / ago 13,6k / set 22,2k contro piano 46,6 / 19,8 / 48,0."
 }
