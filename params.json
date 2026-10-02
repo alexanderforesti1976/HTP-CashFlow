@@ -1069,9 +1069,6 @@
   "_energyPctSource": "3.8% calcolato su H1_2026_reale (energia/ricavi H1 reale = 48.049,16/1.248.997,57). NON reimpostare a 3.3% (vecchio default) senza ricalcolare dai dati reali: gia perso una volta nel ripristino del 30/07/2026.",
   "_loansSource": "Piani di ammortamento banche (BCC 1066083 e 1071107 del 07/05/2026, Unicredit 2529480 del 27/03/2025, Credem 8630473 del 13/05/2026) con quota capitale/interessi/residuo; BCC Sebino/Finlombarda da bilancio; 8823317 e Mini da scadenziario Verusca. Esclusi noleggi LeasePlan.",
   "cashAnchor": "2026-09",
-  "ivaVend": 4.9,
-  "ivaMat": 13,
-  "ivaSvc": 22,
   "openRecSched": {
     "2026-10": 216.2,
     "2026-11": 66.1
@@ -1085,6 +1082,21 @@
   "toInvoice": {
     "2026-09": 77.5
   },
-  "_ivaSource": "Registri IVA 2026 (Pegaso, 02/10): VENDITE imponibile 1.529,8k, IVA 75,5k = 4,9% (non imponibili: intra-UE NI41 636,7k + dichiarazioni d'intento DI8C 549,2k; imponibili 22% solo 320,7k). ACQUISTI imponibile 785,0k, IVA 111,8k = 14,2% (di cui 218,9k senza IVA con dichiarazione d'intento HTP: PMG, Hexpol, Le Quattro C., Tecnoconf, FGR; il resto ha IVA ~19,7%). Credito IVA strutturale ~4-8k/mese, compensato col mese successivo. Parametri modello: ivaVend 4,9%, ivaMat 13% su materiali/lavorazioni, ivaSvc 22% su energia e altri costi.",
-  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10."
+  "_ivaSource": "IVA per aliquota/regime (registri IVA 2026, Pegaso 02/10): VENDITE imponibile 1.529,8k: 22% solo su clienti imponibili (T.Erre 210,2k, Watts 34,2k, Sagom 18,0k, OMR, Dubhe, Elledi, E.B., Scaligera, Breka; quota ~21%), tutto il resto non imponibile (intra-UE NI41 636,7k, dichiarazione d'intento DI8C 549,2k). ACQUISTI imponibile 785,0k: 218,9k senza IVA per dichiarazione d'intento HTP (Hexpol, PMG, Tecnoconf, FGR, Le Quattro C.; ~52% dei materiali/lavorazioni), resto 22%; energia (Sorgenia) 10%; altri costi 22%. Reverse charge (PMG East, MMBC) neutro. Saldo IVA liquidato col mese successivo (credito compensato).",
+  "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10.",
+  "ivaRate": 22,
+  "ivaEnergia": 10,
+  "matPlafondShare": 52,
+  "vendTaxShareDef": 21,
+  "taxClients": [
+    "T.Erre",
+    "Watts",
+    "Sagom",
+    "OMR",
+    "Dubhe",
+    "Scaligera",
+    "E.B.",
+    "Breka",
+    "Elledi"
+  ]
 }
