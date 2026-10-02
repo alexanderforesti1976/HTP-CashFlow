@@ -72,6 +72,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R042 | DECISIONE (Alex) | Cassa di partenza: depositi inclusi (Cedola Long 400k e fondo BTP 150k sono cassa). Valore 1.829,66k se il fondo Onemarkets (40,8k) è già nei 1.870,46k, altrimenti 1.870,46k. Fondi comuni e polizza fuori dalla cassa | Registrata nella specifica per la ricostruzione. `startCash` del vecchio codice NON modificato (l'app sarà ricostruita); conferma sul fondo Onemarkets da avere |
 
+| R043 | DECISIONE (Alex) | Fondo Onemarkets (40,8k) lasciato fuori dalla cassa "per il momento": cassa di partenza 30/09/2026 = 1.829,66k (depositi inclusi, fondo e polizza esclusi) | Solo nella specifica. `startCash` del vecchio codice non modificato |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
