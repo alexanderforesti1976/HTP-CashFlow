@@ -74,6 +74,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R043 | DECISIONE (Alex) | Fondo Onemarkets (40,8k) lasciato fuori dalla cassa "per il momento": cassa di partenza 30/09/2026 = 1.829,66k (depositi inclusi, fondo e polizza esclusi) | Solo nella specifica. `startCash` del vecchio codice non modificato |
 
+| R044 | DECISIONE (Alex) / CORREGGE R043 | Cassa di partenza secondo la struttura del bilancio ("in funzione del bilancio"): fondo Onemarkets conto a sé (01074008), non nei conti bancari, quindi non si sottrae: **1.870,46k** (depositi BCC inclusi, fondo e polizza fuori), non 1.829,66k | Solo nella specifica; `startCash` del vecchio codice non modificato. Da verificare sul file "situazione banche" di ottobre |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
