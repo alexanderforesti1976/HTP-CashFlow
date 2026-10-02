@@ -826,7 +826,7 @@ var P={
   actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3}, actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
   ivaRate:22, ivaEnergia:10, matPlafondShare:52, vendTaxShareDef:21, ivaCreditAnchor:36.3, ivaRecoveryYM:'2027-04',
   taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, purchRegYM:'2026-09', payLag:[0.019,0.084,0.374,0.235,0.272,0.017], shiftMonths:{8:9,12:1}, shiftSupPct:0.25, shiftCustPct:0, toInvoice:{'2026-09':77.5}
+  openRecSched:{'2026-10':216.2,'2026-11':66.1}, openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8}, purchRegYM:'2026-09', payLag:[0.019,0.084,0.374,0.235,0.272,0.017], shiftMonths:{8:9,12:1}, shiftSupPct:0, payMatrix:{"1":[0,0.0359,0.1658,0.3389,0.4594,0,0],"2":[0,0.0359,0.1658,0.3389,0.4594,0,0],"3":[0,0.0359,0.1658,0.3389,0.4594,0,0],"4":[0,0.0359,0.1658,0.3389,0.4594,0,0],"5":[0,0.0359,0.1658,0.3122,0.4861,0,0],"6":[0,0.0359,0.0232,0.4815,0.4594,0,0],"7":[0,0.0014,0.2003,0.3389,0.4594,0,0],"8":[0,0.0359,0.1658,0.3389,0.4594,0,0],"9":[0,0.0359,0.1658,0.3122,0.4861,0,0],"10":[0,0.0359,0.0232,0.4815,0.4594,0,0],"11":[0,0.0014,0.2003,0.3389,0.4594,0,0],"12":[0,0.0359,0.1658,0.3389,0.4594,0,0]}, shiftCustPct:0, toInvoice:{'2026-09':77.5}
 };
 var VIEW='both', TAB='chart';
 
@@ -1008,17 +1008,17 @@ function calcCF() {
     var col=colNet*(1+tshare*(P.ivaRate||0)/100)+((P.openRecSched||{})[ym]||0)+(i<cd&&!anc?rPm:0);
     var ivaDeb=colNet*tshare*(P.ivaRate||0)/100;
     // Pagamenti acquisti: fatture già registrate = scadenzario reale; poi acquisti stimati con ritardo DPO + IVA sulla quota non coperta da plafond
-    // Distribuzione reale dei pagamenti per mese di ritardo (P.payLag[k] = quota pagata k mesi dopo l'acquisto, da scadenzario fornitori 2026).
+    // Pagamenti stimati: matrice P.payMatrix[mese acquisto][k] = quota pagata k mesi dopo, costruita fornitore per fornitore
+    // (peso = fatture 2026 da apr, condizioni di pagamento da anagrafica Pegaso, +10 gg, slittamento RiBa fine mese 31/08 e 31/12 senza +10).
     // Gli acquisti dei mesi gia' registrati (<= P.purchRegYM) sono nello scadenzario aperto; dopo, vale il piano acquisti.
     var supNet=0, supUnreg=false;
-    var pl=P.payLag||[0,0,0,0,1];
-    for(var k=0;k<pl.length;k++){
-      var prk=i-k; if(!(pl[k]>0)||prk<0) continue;
+    for(var prk=Math.max(0,i-6);prk<=i;prk++){
       var ymk=ymOf(MONTHS[prk]);
       if(P.purchRegYM?ymk<=P.purchRegYM:(anc&&ymk<=anc)) continue;
-      supNet+=pl[k]*purchPlan[prk];
+      var rowM=(P.payMatrix||{})[MONTHS[prk].c];
+      var f=rowM?(rowM[i-prk]||0):((i-prk)===pd?1:0);
+      supNet+=f*purchPlan[prk];
     }
-    if(i<pl.length&&!anc){ for(var k2=i+1;k2<pl.length;k2++){ var e=extP[i+2-k2]; if(pl[k2]>0&&e) supNet+=pl[k2]*e; } }
     var supG=supNet*(1+(1-(P.matPlafondShare||0)/100)*(P.ivaRate||0)/100), supOpen=((P.openPaySched||{})[ym]||0);
     var sup=supG+supOpen+(i<pd&&!anc?payPm:0);
     // IVA acquisti: materiali/lavorazioni 22% solo sulla quota NON coperta da dichiarazione d'intento (plafond)
@@ -1029,7 +1029,7 @@ function calcCF() {
       // solo fornitori con scadenza fine mese SENZA +10: 31/08 -> 10/09, 31/12 -> 10/01 (quota P.shiftSupPct dei pagamenti del mese). Clienti: nessuno ha questa condizione.
       var cin=carry[m.c]; if(cin){ sup+=cin[1]; col+=cin[0]; carry[m.c]=null; }
       // scadenzario aperto: date gia' spostate da Pegaso, niente doppio slittamento
-      var dst=P.shiftMonths[m.c]; if(dst){ var mvS=(sup-supOpen)*(P.shiftSupPct||0), mvC=col*(P.shiftCustPct||0); carry[dst]=[mvC,mvS]; sup-=mvS; col-=mvC; }
+      var dst=P.shiftMonths[m.c]; if(dst){ var mvS=0, mvC=col*(P.shiftCustPct||0); carry[dst]=[mvC,mvS]; sup-=mvS; col-=mvC; }
     }   var is27m=m.y===2027;
     var lk=is27m?P.labor27:P.laborK;
     var cigS=(is27m?P.cigW27:P.cigW)/20*lk*(is27m?P.cigH27:P.cigH)/100*0.80;
@@ -1844,7 +1844,7 @@ function resetAll(){
     actualIn:{'2026-07':174.1,'2026-08':214.8,'2026-09':126.3},actualOut:{'2026-07':111.6,'2026-08':57.3,'2026-09':79.2},
     ivaRate:22,ivaEnergia:10,matPlafondShare:52,vendTaxShareDef:21,ivaCreditAnchor:36.3,ivaRecoveryYM:'2027-04',
     taxClients:['T.Erre','Watts','Sagom','OMR','Dubhe','Scaligera','E.B.','Breka','Elledi'],
-    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},purchRegYM:'2026-09', payLag:[0.019,0.084,0.374,0.235,0.272,0.017], shiftMonths:{8:9,12:1}, shiftSupPct:0.25, shiftCustPct:0,toInvoice:{'2026-09':77.5}
+    openRecSched:{'2026-10':216.2,'2026-11':66.1},openPaySched:{'2026-10':63.4,'2026-11':23.9,'2026-12':8.4,'2027-01':19.8},purchRegYM:'2026-09', payLag:[0.019,0.084,0.374,0.235,0.272,0.017], shiftMonths:{8:9,12:1}, shiftSupPct:0, payMatrix:{"1":[0,0.0359,0.1658,0.3389,0.4594,0,0],"2":[0,0.0359,0.1658,0.3389,0.4594,0,0],"3":[0,0.0359,0.1658,0.3389,0.4594,0,0],"4":[0,0.0359,0.1658,0.3389,0.4594,0,0],"5":[0,0.0359,0.1658,0.3122,0.4861,0,0],"6":[0,0.0359,0.0232,0.4815,0.4594,0,0],"7":[0,0.0014,0.2003,0.3389,0.4594,0,0],"8":[0,0.0359,0.1658,0.3389,0.4594,0,0],"9":[0,0.0359,0.1658,0.3122,0.4861,0,0],"10":[0,0.0359,0.0232,0.4815,0.4594,0,0],"11":[0,0.0014,0.2003,0.3389,0.4594,0,0],"12":[0,0.0359,0.1658,0.3389,0.4594,0,0]}, shiftCustPct:0,toInvoice:{'2026-09':77.5}
   };
   Object.keys(defaults).forEach(function(k){
     P[k]=defaults[k];

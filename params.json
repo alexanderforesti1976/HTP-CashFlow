@@ -1197,17 +1197,120 @@
     "8": 9,
     "12": 1
   },
-  "shiftSupPct": 0.25,
+  "shiftSupPct": 0,
   "shiftCustPct": 0,
   "_shiftSource": "shiftSupPct 25% = quota dei pagamenti RiBa fornitori (stessa base di payLag) verso fornitori con RiBa fine mese SENZA +10 (Condizioni_pagamento xlsx, join per codice), scadenze da 01/04/2026: 82,5k su 333,5k. Anno intero 31,5% (GBS non fattura piu' da giugno). Verso i clienti nessuno slittamento. Il 16% precedente era calcolato su una base sbagliata (tutti i pagamenti, bonifici e utenze inclusi).",
   "_regSource": "02/10/2026: REGISTRI_IVA_ACQUISTI_2026 fino al 30/09 (acq. imponibile lug 94,2k / ago 68,1k / set 59,6k, tutte le spese): acquisti ago-set GIA' registrati -> purchRegYM 2026-09; REGISTRI_IVA_VENDITE fino al 21/09 (set solo 3,8k registrati vs 142,5k emessi SDI). Scadenzario clienti: aperto 133,0k (Enextras 112,2k) + RiBa presentate ott 83,7k = openRecSched ott 216,2k; scadenzario fornitori aperto ott 25,2+sett scaduto 38,9 = openPaySched ott 63,4k.",
-  "payLag": [
-    0.019,
-    0.084,
-    0.374,
-    0.235,
-    0.272,
-    0.017
-  ],
-  "_payLagSource": "payLag = distribuzione reale mesi tra data fattura e scadenza, fornitori con RiBa (scadenzario fornitori 2026, 363k, DPO 77 gg): 0m 1,9% 1m 8,4% 2m 37,4% 3m 23,5% 4m 27,2% 5m 1,7%. Hexpol/PMG/Selini: 98 gg (76% a 4 mesi). Bonifici (servizi): 82% stesso mese, non nel piano acquisti. Sostituisce il lag unico DPO 105 gg per i pagamenti stimati."
+  "_payLagSource": "payLag = distribuzione reale mesi tra data fattura e scadenza, fornitori con RiBa (scadenzario fornitori 2026, 363k, DPO 77 gg): 0m 1,9% 1m 8,4% 2m 37,4% 3m 23,5% 4m 27,2% 5m 1,7%. Hexpol/PMG/Selini: 98 gg (76% a 4 mesi). Bonifici (servizi): 82% stesso mese, non nel piano acquisti. Sostituisce il lag unico DPO 105 gg per i pagamenti stimati.",
+  "payMatrix": {
+    "1": [
+      0,
+      0.0359,
+      0.1658,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0.0359,
+      0.1658,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "3": [
+      0,
+      0.0359,
+      0.1658,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "4": [
+      0,
+      0.0359,
+      0.1658,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "5": [
+      0,
+      0.0359,
+      0.1658,
+      0.3122,
+      0.4861,
+      0,
+      0
+    ],
+    "6": [
+      0,
+      0.0359,
+      0.0232,
+      0.4815,
+      0.4594,
+      0,
+      0
+    ],
+    "7": [
+      0,
+      0.0014,
+      0.2003,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "8": [
+      0,
+      0.0359,
+      0.1658,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "9": [
+      0,
+      0.0359,
+      0.1658,
+      0.3122,
+      0.4861,
+      0,
+      0
+    ],
+    "10": [
+      0,
+      0.0359,
+      0.0232,
+      0.4815,
+      0.4594,
+      0,
+      0
+    ],
+    "11": [
+      0,
+      0.0014,
+      0.2003,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ],
+    "12": [
+      0,
+      0.0359,
+      0.1658,
+      0.3389,
+      0.4594,
+      0,
+      0
+    ]
+  },
+  "_payMatrixSource": "payMatrix[mese acquisto 1-12][k=0..6] = quota pagata k mesi dopo, calcolata fornitore per fornitore: peso = fatture fornitori a credito (escluse rimesse/RID/vista) con data doc da 01/04/2026 (scadenzario fornitori 02/10, 155k, 37 fornitori: Hexpol 24%, FGR 14%, Selini 9%, PMG 9%, PMG East 7%...); condizioni da Condizioni_pagamento xlsx (giorni, dffm, +10); RiBa fine mese senza +10 con scadenza agosto/dicembre -> +1 mese (10/09, 10/01). Sostituisce payLag e shiftSupPct."
 }
