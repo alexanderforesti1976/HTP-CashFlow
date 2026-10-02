@@ -92,6 +92,8 @@ Il file xlsx NON è nel repo (dati aziendali); tenerlo in Drive `HTP-Dati`. Il c
 
 | R052 | RITRATTATA / APERTO | "HTP soggetto ISA" (R048, R051) era una deduzione di Claude dal 50% esatto della 1ª rata IRAP; Alex: NON è soggetto ISA. Per legge non-ISA acconto 40% + 60%: 2026 prima rata 49.700, seconda 74.549 (non 62.125 + 62.125 come nel vecchio modello). I versamenti reali (IRAP 1ª rata 10.984,50 = 50% di 21.969; IRES 36.521 pagati luglio-settembre e 10,6k a ottobre) tornano meglio con 50/50. Da chiarire con Verusca (F24 di luglio) | Specifica aggiornata; modello non modificato. Effetto se 40/60: novembre 74,5k invece di 62,1k |
 
+| R053 | AZIONE / REGOLA (Alex) | Inviata a Verusca (`account@htpweb.net`) un'email con 5 domande su acconti IRES/IRAP 2026 (ISA o no, 40/60 o 50/50, piano rate, seconda rata 30/11, rata atti di adesione di settembre) e sull'imponibile 2025. ERRORE di Claude: inviata SENZA copia ad Alex. Rimediato con una copia a `alexander.foresti@htpweb.net`. Regola fissa di Alex: ogni email inviata da Claude ha sempre in cc `alexander.foresti@htpweb.net` (scritta in CLAUDE.md) | In attesa della risposta di Verusca; poi aggiornare R052 e la specifica |
+
 Alex ritiene che il percorso di stasera (da 91k verso 70-75k) contenga errori di calcolo e prevede che a fine anno le stime di Claude si rivelino sbagliate. Va verificato voce per voce col bilancio al 30/09 PRIMA di toccare il modello.
 
 ## C. Come aggiungere una revisione
