@@ -1082,7 +1082,7 @@
   "toInvoice": {
     "2026-09": 77.5
   },
-  "_ivaSource": "IVA per aliquota/regime (registri IVA 2026, Pegaso 02/10): VENDITE imponibile 1.529,8k: 22% solo su clienti imponibili (T.Erre 210,2k, Watts 34,2k, Sagom 18,0k, OMR, Dubhe, Elledi, E.B., Scaligera, Breka; quota ~21%), tutto il resto non imponibile (intra-UE NI41 636,7k, dichiarazione d'intento DI8C 549,2k). ACQUISTI imponibile 785,0k: 218,9k senza IVA per dichiarazione d'intento HTP (Hexpol, PMG, Tecnoconf, FGR, Le Quattro C.; ~52% dei materiali/lavorazioni), resto 22%; energia (Sorgenia) 10%; altri costi 22%. Reverse charge (PMG East, MMBC) neutro. Saldo IVA liquidato col mese successivo (credito compensato).",
+  "_ivaSource": "IVA per aliquota/regime (registri IVA 2026, Pegaso 02/10): VENDITE imponibile 1.529,8k: 22% solo su clienti imponibili (T.Erre 210,2k, Watts 34,2k, Sagom 18,0k, OMR, Dubhe, Elledi, E.B., Scaligera, Breka; quota ~21%), tutto il resto non imponibile (intra-UE NI41 636,7k, dichiarazione d'intento DI8C 549,2k). ACQUISTI imponibile 785,0k: 218,9k senza IVA per dichiarazione d'intento HTP (Hexpol, PMG, Tecnoconf, FGR, Le Quattro C.; ~52% dei materiali/lavorazioni), resto 22%; energia (Sorgenia) 10%; altri costi 22%. Reverse charge (PMG East, MMBC) neutro. Saldo IVA liquidato col mese successivo (credito compensato). Recupero credito IVA: con dichiarazione annuale (Alex 02/10/2026) -> credito riportato mese su mese, compensato in F24 ad aprile 2027 (ivaRecoveryYM); ivaCreditAnchor 36,3k = credito Gen-Set 2026 (IVA acquisti 111,8k - IVA vendite 75,5k), da verificare con Luca.",
   "_openSource": "openRecSched/openPaySched da scadenzari Pegaso al 02/10/2026 (clienti/fornitori fino al 31/12/2026 e 2027), lordi IVA, data = scadenza/data fattura + giorni medi reali per cliente (+7 gg fornitori). toInvoice = fatturato settembre ancora da emettere (stima Alex). dso 36 gg = media reale fattura-incasso 2026 (RiBa anticipate, Enextras/Terra Verde a pochi giorni); dpo 105 gg = fornitori materiali 90 gg FM + 10.",
   "ivaRate": 22,
   "ivaEnergia": 10,
@@ -1098,5 +1098,7 @@
     "E.B.",
     "Breka",
     "Elledi"
-  ]
+  ],
+  "ivaCreditAnchor": 36.3,
+  "ivaRecoveryYM": "2027-04"
 }
