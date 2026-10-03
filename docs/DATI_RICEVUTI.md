@@ -68,3 +68,6 @@ Totale agosto 5.792,85 (imponibile 5.073,40 + accise e IVA 719,45). IVA 10% (ver
 
 ## 10. Giacenze di magazzino (Alex, 03/10/2026)
 Valore pieno 245.527; azzerato −83.796; svalutato 30% −6.183; **valore finale 155.548** = prodotto finito 18.322 + semilavorato 35.152 + materia prima 96.291 + imballi 5.784. Alex: "prendi la colonna valore finale". Usato come giacenza al 30/06/2026 (parametro `giacenza_30_06`, R105).
+
+## 11. Seconda tabella giacenze (Alex, 03/10/2026)
+Prodotto finito: pieno 51.037, azzerato −30.599, svalutato 0, **finale 20.437**; semilavorato: 80.926, −36.334, −2.422, **42.170**; materia prima: 143.983, −43.676, −3.960, **96.348**; imballi: 5.784, 0, 0, **5.784**; totale: 281.730, −110.609, −6.382, **finale 164.739**. Alex: "usa ultima colonna". Data di riferimento: **30/06/2026** (confermato da Alex); sostituisce la tabella della sezione 10 (155.548).
