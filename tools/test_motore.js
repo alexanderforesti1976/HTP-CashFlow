@@ -16,4 +16,10 @@ const rb = M.calcola(D, Object.assign({}, P0, { ammortamenti_2026: 200000 })); c
 console.log('CE 2027: operativo', ra.ce27.operativo.toFixed(0), 'utile', ra.ce27.utile.toFixed(0), 'imposte', ra.ce27.imposte.toFixed(0)); if (!(ra.ce27.ricavi > 2.0e6 && ra.ce27.imposte > 0)) ok = false;
 const rc = M.calcola(D, Object.assign({}, P0, { cig27_lavoratori: 0 })); console.log('CIG 2027 = 0: utile 2027', rc.ce27.utile.toFixed(0), '(più basso di', ra.ce27.utile.toFixed(0) + ')'); if (!(rc.ce27.utile < ra.ce27.utile)) ok = false;
 const rf = M.calcola(D, Object.assign({}, P0, { f26_mp: P0.f26_mp + 10000 })); console.log('magazzino finale 2026 +10.000: risultato operativo 2026', rf.ce.operativo.toFixed(0), '(+10.000 su', ra.ce.operativo.toFixed(0) + ')'); if (Math.abs(rf.ce.operativo - ra.ce.operativo - 10000) > 1) ok = false;
+// Riscontro sul bilancio 2025 (imposte pagate: IRES 102.280, IRAP 21.969) con le stesse regole: IRES 24% su utile ante imposte + variazioni; IRAP 3,9% su risultato operativo + non deducibili
+const ante25 = 296071.79, op25 = 364600;
+const var25 = 83508.75 + 4894.83 + 0.8 * (6485.95 + 5111.06 + 829.52 + 1655.73 + 1422.76 + 2224.91 + 1618.54 + 3428.30 + 21346.83) + 0.3 * (1765.57 + 1269.55 + 17321.50 + 1646.10) + 0.2 * (2402.19 + 1627.20 + 456.17);
+const ires25 = 0.24 * (ante25 + var25), irap25 = 0.039 * (op25 + 19420 + 67386.33 + 23489.65 + 83508.75 + 2000);
+console.log('2025: IRES calcolata', ires25.toFixed(0), 'pagata 102280 | IRAP calcolata', irap25.toFixed(0), 'pagata 21969');
+if (Math.abs(ires25 / 102280 - 1) > 0.02 || Math.abs(irap25 / 21969 - 1) > 0.02) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);

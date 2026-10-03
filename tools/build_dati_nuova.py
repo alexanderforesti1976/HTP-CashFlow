@@ -177,14 +177,30 @@ int_sd = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() 
 int_27 = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2027-01' <= ym <= '2027-12')
 senza_int = [l['name'] for l in P['loans'] if 'int' not in l]
 cf['giacenze_30_06'] = {'prodotto_finito': 20952, 'semilavorato': 52578, 'materia_prima': 97294, 'imballi': 5784, 'totale_valore_finale': 176608, '_nota': 'Alex 03/10/2026 (terza tabella, definitiva, sostituisce le precedenti 155.548 e 164.739): valore pieno 316.843, azzerato -133.897, svalutato 30% -6.338, valore finale 176.607 (somma categorie 176.608, arrotondamento). Usata come giacenza al 30/06/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027'}
+
+# --- variazioni fiscali IRES (art. 164 TUIR auto 20%; art. 102 c.9 uso dipendenti 70%; telefonia 80%; costi indeducibili; multe): conti dei mastrini gen-ago
+# annualizzati x12/8 (fissi per periodo); ammortamento autovetture e telefoni = valore 2025 (21.346,83 e 456,17) riproporzionato sugli ammortamenti dell'anno.
+tot_c = {c['conto']: c['tot_gen_ago'] for c in altri_conti}
+g = lambda lst: sum(tot_c.get(x, 0) for x in lst) * 12 / 8
+AUTO20 = g([6012000, 6021301, 6022004, 6022005, 6022101, 6022111, 6022121, 6032001])
+AUTO70 = g([6012002, 6022102, 6033005, 6033006])
+TEL = g([6021200, 6021201])
+INDED = g([6081012]); MULTE = tot_c.get(6081011, 0)
+def var_anno(amm, con_multe):
+    k = amm / 124000.0
+    auto = 0.80 * (AUTO20 + 21346.83 * k) + 0.30 * AUTO70
+    tel = 0.20 * (TEL + 456.17 * k)
+    return {'auto_80pct_non_deducibile': round(auto, 2), 'telefonia_20pct': round(tel, 2), 'costi_indeducibili': round(INDED, 2), 'multe_e_ammende': round(MULTE if con_multe else 0, 2), 'totale': round(auto + tel + INDED + (MULTE if con_multe else 0), 2)}
+VAR = {'2026': var_anno(110000, True), '2027': var_anno(100000, False)}
 cf['ce2026'] = {
  'interessi_passivi_2027_piani': round(int_27, 2), 'prestiti_senza_piano_interessi': senza_int,
  'interessi_passivi_gen_ago': round(13432.12 + mesi['7']['interessi_passivi'] + mesi['8']['interessi_passivi'], 2),
  'interessi_attivi_gen_ago': 3821.36,
  'ricavi_titoli_gen_giu': h1['ricavi_titoli'],
  'esistenze_iniziali': h1['esistenze_iniziali'],
- 'compenso_amministratore_anno': round(sum(c['tot_gen_ago'] for c in altri_conti if c['conto'] == 6021700) * 12 / 8 / 1.0 if False else sum(c['mesi'][0] + c['mesi'][6] for c in altri_conti if c['conto'] == 6021700), 2),
+ 'compenso_amministratore_anno': round(sum(c['mesi'][0] + c['mesi'][6] for c in altri_conti if c['conto'] == 6021700), 2),
  'multe_indeducibili_gen_ago': round(sum(c['tot_gen_ago'] for c in altri_conti if c['conto'] == 6081011), 2),
+ 'variazioni_fiscali': VAR,
  'esistenze_iniziali_categorie': {'materie_prime': 118997.02, 'materiali_consumo_imballi': 3487.84, 'semilavorati': 23678.86, 'prodotti_finiti': 22195.61, '_fonte': 'bilancio 2025: rimanenze finali al 31/12/2025 (conti 00041000/41100/41200/41300), somma 168.359,33; materiali di consumo assimilati agli imballi (ipotesi)'},
  'royalties_registrate_gen_ago': round(h1['royalties'] + mesi['7']['royalties'], 2),
  'interessi_passivi_set_dic_piani': round(int_sd, 2),

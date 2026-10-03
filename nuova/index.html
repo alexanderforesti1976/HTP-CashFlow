@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790994063570"></script>
+<script src="motore.js?v=1790994267412"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -110,9 +110,10 @@ var SPEC=[
  {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2027',l:'Ammortamenti 2027 (stima)',min:60000,max:200000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2026',l:'Ammortamenti 2026 (stima)',min:60000,max:200000,step:1000,u:'€'},
- {g:'Imposte (variazioni fiscali)',id:'var_ires',l:'IRES 2026: costi indeducibili (multe e ammende gen-ago)',min:0,max:130000,step:500,u:'€'},
- {g:'Imposte (variazioni fiscali)',id:'var_ires_27',l:'IRES 2027: costi indeducibili',min:0,max:130000,step:500,u:'€'},
- {g:'Imposte (variazioni fiscali)',id:'add_irap',l:'IRAP: costi non deducibili (compenso amministratore)',min:0,max:200000,step:500,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'var_ires',l:'IRES 2026: variazioni in aumento (auto 80%, telefonia 20%, indeducibili, multe)',min:0,max:130000,step:500,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'var_ires_27',l:'IRES 2027: variazioni in aumento',min:0,max:130000,step:500,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'add_irap',l:'IRAP 2026: non deducibili (compenso amministratore, multe)',min:0,max:200000,step:500,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'add_irap_27',l:'IRAP 2027: non deducibili (compenso amministratore)',min:0,max:200000,step:500,u:'€'},
  {g:'Imposte',id:'imposte_2026',l:'Imposte 2026: 0 = calcolate dal CE; altro valore = forzate',min:0,max:200000,step:1000,u:'€'},
  {g:'Imposte',id:'acconto_prima_rata_pct',l:'Acconto: quota della 1ª rata',min:40,max:50,step:10,u:'%'},
  {g:'Fotovoltaico',id:'fv_produzione_pct',l:'Produzione rispetto alla stima E.ON',min:50,max:120,step:5,u:'%'},
@@ -123,7 +124,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790994063570; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790994267412; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;

@@ -1300,6 +1300,22 @@
    "esistenze_iniziali": 168359.33,
    "compenso_amministratore_anno": 19420.0,
    "multe_indeducibili_gen_ago": 2718.31,
+   "variazioni_fiscali": {
+    "2026": {
+     "auto_80pct_non_deducibile": 46991.23,
+     "telefonia_20pct": 599.85,
+     "costi_indeducibili": 4772.52,
+     "multe_e_ammende": 2718.31,
+     "totale": 55081.91
+    },
+    "2027": {
+     "auto_80pct_non_deducibile": 45614.02,
+     "telefonia_20pct": 592.49,
+     "costi_indeducibili": 4772.52,
+     "multe_e_ammende": 0,
+     "totale": 50979.03
+    }
+   },
    "esistenze_iniziali_categorie": {
     "materie_prime": 118997.02,
     "materiali_consumo_imballi": 3487.84,
