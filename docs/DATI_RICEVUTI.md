@@ -74,3 +74,6 @@ Prodotto finito: pieno 51.037, azzerato −30.599, svalutato 0, **finale 20.437*
 
 ## 12. Rimanenze per categoria dal bilancio 2025 (già in possesso, riletto 03/10)
 Rimanenze finali 31/12/2025: materie prime 118.997,02; materiali di consumo 3.487,84; semilavorati 23.678,86; prodotti finiti 22.195,61 = 168.359,33. Esistenze iniziali 2025: materie prime 163.209,41; materiali di consumo 4.522,69; semilavorati 46.128,81; prodotti finiti 51.180,37 = 265.041,28. Le finali 31/12/2025 sono le iniziali 2026. Materiali di consumo assimilati agli imballi (ipotesi). Il file ricevuto di nuovo (1264a62b) è identico a quello già in possesso (stesso md5).
+
+## 13. Terza tabella giacenze al 30/06/2026 (Alex, 03/10/2026) — DEFINITIVA
+Prodotto finito: pieno 63.612, azzerato −42.660, svalutato 0, **finale 20.952**; semilavorato: 103.944, −48.988, −2.378, **52.578**; materia prima: 143.503, −42.249, −3.960, **97.294**; imballi: 5.784, 0, 0, **5.784**; totale: 316.843, −133.897, −6.338, **finale 176.607** (somma delle categorie 176.608, arrotondamento). Alex: "nuova valutazione 30/06, usala come dato. Finale. 31/12/2026": usata come giacenza al 30/06 e come valore di partenza del magazzino al 31/12/2026 e 2027 (modificabile). Sostituisce le sezioni 10 e 11.

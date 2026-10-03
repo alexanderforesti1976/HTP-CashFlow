@@ -176,7 +176,7 @@ integ = {'tfr_da_aggiungere': round(tfr_annuo - tfr_reg, 2), 'tredicesima_con_co
 int_sd = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2026-09' <= ym <= '2026-12')
 int_27 = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2027-01' <= ym <= '2027-12')
 senza_int = [l['name'] for l in P['loans'] if 'int' not in l]
-cf['giacenze_30_06'] = {'prodotto_finito': 20437, 'semilavorato': 42170, 'materia_prima': 96348, 'imballi': 5784, 'totale_valore_finale': 164739, '_nota': 'Alex 03/10/2026 (seconda tabella, sostituisce la prima del 155.548): valore pieno 281.730, azzerato -110.609, svalutato 30% -6.382, valore finale 164.739 al 30/06/2026'}
+cf['giacenze_30_06'] = {'prodotto_finito': 20952, 'semilavorato': 52578, 'materia_prima': 97294, 'imballi': 5784, 'totale_valore_finale': 176608, '_nota': 'Alex 03/10/2026 (terza tabella, definitiva, sostituisce le precedenti 155.548 e 164.739): valore pieno 316.843, azzerato -133.897, svalutato 30% -6.338, valore finale 176.607 (somma categorie 176.608, arrotondamento). Usata come giacenza al 30/06/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027'}
 cf['ce2026'] = {
  'interessi_passivi_2027_piani': round(int_27, 2), 'prestiti_senza_piano_interessi': senza_int,
  'interessi_passivi_gen_ago': round(13432.12 + mesi['7']['interessi_passivi'] + mesi['8']['interessi_passivi'], 2),
@@ -190,7 +190,7 @@ cf['ce2026'] = {
  'addback_irap_2025_senza_interinale': 107400,
  'integrazioni': integ,
  '_note': 'Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca'}
-cf['defaults'].update({'ammortamenti_2026': 110000, 'ammortamenti_2027': 100000, 'giacenza_30_06': 164739, 'rimanenze_finali_2026': 153400})
+cf['defaults'].update({'ammortamenti_2026': 110000, 'ammortamenti_2027': 100000, 'giacenza_30_06': 176608, 'rimanenze_finali_2026': 153400})
 out['cf'] = cf
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))

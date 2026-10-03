@@ -8,10 +8,9 @@
   var FV_RID = [130, 165, 260, 295, 336, 358, 381, 336, 265, 192, 122, 107];
 
   function parametriDefault(D) {
-    var d = D.cf.defaults, G = D.cf.giacenze_30_06, tot = d.rimanenze_finali_2026, k = tot / G.totale_valore_finale;
-    // magazzino 31/12/2026 e 2027: totale precedente (153.400) ripartito per categoria come al 30/06, da sostituire con i valori reali
-    var F26 = { pf: Math.round(G.prodotto_finito * k), sl: Math.round(G.semilavorato * k), imb: Math.round(G.imballi * k) };
-    F26.mp = tot - F26.pf - F26.sl - F26.imb;
+    var d = D.cf.defaults, G = D.cf.giacenze_30_06;
+    // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
+    var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
       cig26_lavoratori: 1, cig26_ore: 15, cig27_lavoratori: 6, cig27_ore: 30,
       ricavi27_k: 2100, quota_non_confermato: 100,

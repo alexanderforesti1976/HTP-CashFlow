@@ -1270,7 +1270,7 @@
    "_nota": "Rapporti reali gen-ago 2026 (bozza 30/06 + mastrini lug-ago); altri costi dai conti dei mastrini (ricorrenti = presenti in almeno 6 mesi su 8; irregolari senza pubblicità/fiere)",
    "ammortamenti_2026": 110000,
    "ammortamenti_2027": 100000,
-   "giacenza_30_06": 164739,
+   "giacenza_30_06": 176608,
    "rimanenze_finali_2026": 153400
   },
   "non_confermato": {
@@ -1280,12 +1280,12 @@
    "Dicembre": 11575.89
   },
   "giacenze_30_06": {
-   "prodotto_finito": 20437,
-   "semilavorato": 42170,
-   "materia_prima": 96348,
+   "prodotto_finito": 20952,
+   "semilavorato": 52578,
+   "materia_prima": 97294,
    "imballi": 5784,
-   "totale_valore_finale": 164739,
-   "_nota": "Alex 03/10/2026 (seconda tabella, sostituisce la prima del 155.548): valore pieno 281.730, azzerato -110.609, svalutato 30% -6.382, valore finale 164.739 al 30/06/2026"
+   "totale_valore_finale": 176608,
+   "_nota": "Alex 03/10/2026 (terza tabella, definitiva, sostituisce le precedenti 155.548 e 164.739): valore pieno 316.843, azzerato -133.897, svalutato 30% -6.338, valore finale 176.607 (somma categorie 176.608, arrotondamento). Usata come giacenza al 30/06/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027"
   },
   "ce2026": {
    "interessi_passivi_2027_piani": 8357.69,
