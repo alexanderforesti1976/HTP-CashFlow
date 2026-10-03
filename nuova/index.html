@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790985402373"></script>
+<script src="motore.js?v=1790986391044"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -88,7 +88,7 @@ var SPEC=[
  {g:'Personale e CIG',id:'cig27_lavoratori',l:'CIG 2027 — lavoratori',min:0,max:19,step:1,u:''},
  {g:'Personale e CIG',id:'cig27_ore',l:'CIG 2027 — % ore',min:0,max:100,step:5,u:'%'},
  {g:'Personale e CIG',id:'pers_mese',l:'Costo personale mensile (senza CIG)',min:40000,max:70000,step:250,u:'€'},
- {g:'Costi variabili (% dei ricavi)',id:'pct_materie',l:'Materie e prodotti acquistati',min:10,max:30,step:0.1,u:'%'},
+ {g:'Magazzino e materie',id:'giacenza_30_06',l:'Giacenze al 30/06/2026 (valore finale)',min:100000,max:260000,step:1000,u:'€'},
  {g:'Costi variabili (% dei ricavi)',id:'pct_lavorazioni',l:'Lavorazioni c/terzi',min:0,max:10,step:0.1,u:'%'},
  {g:'Costi variabili (% dei ricavi)',id:'pct_provvigioni',l:'Provvigioni',min:0,max:6,step:0.1,u:'%'},
  {g:'Costi fissi mensili',id:'affitti_mese',l:'Affitti',min:6000,max:12000,step:100,u:'€'},
@@ -97,8 +97,8 @@ var SPEC=[
  {g:'Costi fissi mensili',id:'costi_irregolari_mese',l:'Costi irregolari (consulenze, compenso amm., manutenzioni)',min:0,max:30000,step:250,u:'€'},
  {g:'Ricavi',id:'ricavi27_k',l:'Ricavi 2027 (obiettivo)',min:1500,max:3000,step:25,u:'k€'},
  {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
- {g:'Conto economico 2026 e imposte',id:'rimanenze_finali_2026',l:'Magazzino finale 31/12/2026 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
- {g:'Conto economico 2026 e imposte',id:'rimanenze_finali_2027',l:'Magazzino finale 31/12/2027 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
+ {g:'Magazzino e materie',id:'rimanenze_finali_2026',l:'Magazzino finale 31/12/2026 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
+ {g:'Magazzino e materie',id:'rimanenze_finali_2027',l:'Magazzino finale 31/12/2027 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2027',l:'Ammortamenti 2027 (stima)',min:60000,max:200000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2026',l:'Ammortamenti 2026 (stima)',min:60000,max:200000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'var_ires',l:'Variazioni fiscali IRES in aumento (stima dal 2025)',min:0,max:130000,step:1000,u:'€'},
@@ -113,7 +113,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790985402373; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790986391044; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -262,6 +262,7 @@ function ce26(R){
   K.forEach(function(r){t+='<tr'+(r[3]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[2]*a[r[1]])+' €</td><td>'+EURf(r[2]*c[r[1]])+' €</td></tr>'});
   t+='<tr class="tot"><td>Imposte dell\'anno'+(P.imposte_2026>0?' (2026 forzate)':'')+'</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td><td>'+EURf(c.imposte)+' €</td></tr>';
   t+='<tr><td>Acconti versati sull\'anno</td><td>124.249 €</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td></tr>';
+  t+='<tr><td>Consumo materie (acquisti + iniziali − finali)</td><td>'+EURf(a.consumo_materie)+' €</td><td>'+EURf(c.consumo_materie)+' €</td></tr><tr><td>Consumo su ricavi</td><td>'+(100*a.consumo_materie/a.ricavi).toFixed(1).replace('.',',')+'%</td><td>'+(100*c.consumo_materie/c.ricavi).toFixed(1).replace('.',',')+'%</td></tr>';
   document.getElementById('ce26').innerHTML=t;
   var p=a.parti, f=function(x){return EURf(x)}, B='<tr><th>€</th><th>Gen-giu</th><th>Lug-ago</th><th>Set-dic</th><th>2026</th></tr>';
   [['Ricavi','ricavi'],['Materie prime e acquisti','materie'],['Lavorazioni c/terzi','lavorazioni'],['Provvigioni','provvigioni'],['Royalties 1,5%','royalties'],['Personale (senza TFR e 13ª)','personale'],['Affitti','affitti'],['Energia','energia'],['Altri costi','altri']].forEach(function(r){var v=p[r[1]]; B+='<tr><td>'+r[0]+'</td><td>'+f(v[0])+'</td><td>'+f(v[1])+'</td><td>'+f(v[2])+'</td><td><b>'+f(v[0]+v[1]+v[2])+'</b></td></tr>'});

@@ -2,15 +2,15 @@
 const fs = require('fs'), M = require('../nuova/motore.js');
 const D = JSON.parse(fs.readFileSync(__dirname + '/../nuova/dati.json', 'utf8'));
 const P0 = M.parametriDefault(D), P = Object.assign({}, P0, { imposte_2026: 124249 }), r = M.calcola(D, P).riepilogo; // R078: imposte 2026 fissate = acconti pagati
-const att = { cassa_2026: 1921559.05, cassa_2027: 1732612.56 };
+const att = { cassa_2026: 1921249.00, cassa_2027: 1718197.54 }; // R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
 let ok = true;
 for (const k in att) { const d = Math.round((r[k] - att[k]) * 100) / 100; console.log(k, r[k].toFixed(2), 'atteso', att[k], 'diff', d); if (Math.abs(d) > 10) ok = false; }
 console.log('minimo', r.minimo.toFixed(2), r.mese_minimo, '| entrate 2027', r.entrate_2027.toFixed(2), 'uscite 2027', r.uscite_2027.toFixed(2));
 // sensibilità: CIG 2027 a zero deve ALZARE le uscite 2027 del costo (un tagliare costi alza la cassa)
 const P2 = Object.assign({}, P, { cig27_lavoratori: 0 }), r2 = M.calcola(D, P2).riepilogo;
 console.log('CIG 2027 = 0: uscite 2027', r2.uscite_2027.toFixed(2), '(più alte di', r.uscite_2027.toFixed(2) + ')'); if (!(r2.uscite_2027 > r.uscite_2027)) ok = false;
-const P3 = Object.assign({}, P, { pct_materie: P.pct_materie + 2 }), r3 = M.calcola(D, P3).riepilogo;
-console.log('materie +2 punti: cassa 2027', r3.cassa_2027.toFixed(2), '(più bassa di', r.cassa_2027.toFixed(2) + ')'); if (!(r3.cassa_2027 < r.cassa_2027)) ok = false;
+const P3 = Object.assign({}, P, { giacenza_30_06: P.giacenza_30_06 - 20000 }), r3 = M.calcola(D, P3).riepilogo;
+console.log('giacenza 30/06 -20.000: consumo piu alto, cassa 2027', r3.cassa_2027.toFixed(2), '(più bassa di', r.cassa_2027.toFixed(2) + ')'); if (!(r3.cassa_2027 < r.cassa_2027)) ok = false;
 const ra = M.calcola(D, P0); console.log('imposte 2026 automatiche', ra.riepilogo.imposte_2026.toFixed(2), '= IRES', ra.ce.ires.toFixed(2), '+ IRAP', ra.ce.irap.toFixed(2), '| utile', ra.ce.utile.toFixed(2)); if (Math.abs(ra.ce.imposte - ra.riepilogo.imposte_2026) > 0.01 || ra.ce.imposte <= 0) ok = false;
 const rb = M.calcola(D, Object.assign({}, P0, { ammortamenti_2026: 200000 })); console.log('ammortamenti +90k: utile', rb.ce.utile.toFixed(0), '(più basso di', ra.ce.utile.toFixed(0) + ')'); if (!(rb.ce.utile < ra.ce.utile && rb.ce.imposte < ra.ce.imposte)) ok = false;
 console.log('CE 2027: operativo', ra.ce27.operativo.toFixed(0), 'utile', ra.ce27.utile.toFixed(0), 'imposte', ra.ce27.imposte.toFixed(0)); if (!(ra.ce27.ricavi > 2.0e6 && ra.ce27.imposte > 0)) ok = false;
