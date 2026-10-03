@@ -21,7 +21,7 @@
       g30_pf: G.prodotto_finito, g30_sl: G.semilavorato, g30_mp: G.materia_prima, g30_imb: G.imballi,
       f26_pf: F26.pf, f26_sl: F26.sl, f26_mp: F26.mp, f26_imb: F26.imb, f27_pf: F26.pf, f27_sl: F26.sl, f27_mp: F26.mp, f27_imb: F26.imb,
       imposte_2026: 0, acconto_prima_rata_pct: 50,
-      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2027, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
+      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2027, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: 0, add_irap: 0
     };
   }
 
@@ -116,7 +116,7 @@
     ce.tfm = Math.max(0, 0.20 * ce.ante_tfm);
     ce.ante_imposte = ce.ante_tfm - ce.tfm;
     ce.imponibile_ires = ce.ante_imposte + P.var_ires; ce.ires = Math.max(0, 0.24 * ce.imponibile_ires);
-    ce.imponibile_irap = ce.operativo + P.add_irap; ce.irap = Math.max(0, 0.039 * ce.imponibile_irap);
+    ce.imponibile_irap = ce.ante_imposte + P.add_irap; ce.irap = Math.max(0, 0.039 * ce.imponibile_irap);
     ce.imposte = ce.ires + ce.irap; ce.utile = ce.ante_imposte - ce.imposte;
     // CE 2027: tutto da previsione con le stesse regole (ricavi dei parametri, variabili in %, fissi per mese, CIG 2027, fotovoltaico a regime)
     var Y27 = YM.slice(12), ric27 = 0, en27 = 0, can27 = 0;
@@ -133,7 +133,7 @@
     c7.int_passivi = E.interessi_passivi_2027_piani; c7.int_attivi = 1900 * 4 + 5950.68 * 2;
     c7.ante_tfm = c7.operativo - c7.int_passivi + c7.int_attivi; c7.tfm = Math.max(0, 0.20 * c7.ante_tfm); c7.ante_imposte = c7.ante_tfm - c7.tfm;
     c7.imponibile_ires = c7.ante_imposte + P.var_ires; c7.ires = Math.max(0, 0.24 * c7.imponibile_ires);
-    c7.imponibile_irap = c7.operativo + P.add_irap; c7.irap = Math.max(0, 0.039 * c7.imponibile_irap);
+    c7.imponibile_irap = c7.ante_imposte + P.add_irap; c7.irap = Math.max(0, 0.039 * c7.imponibile_irap);
     c7.imposte = c7.ires + c7.irap; c7.utile = c7.ante_imposte - c7.imposte;
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
     var p1 = P.acconto_prima_rata_pct / 100, base26 = 124249, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
