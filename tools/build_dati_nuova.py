@@ -192,5 +192,6 @@ cf['ce2026'] = {
  '_note': 'Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca'}
 cf['defaults'].update({'ammortamenti_2026': 110000, 'ammortamenti_2027': 100000, 'giacenza_30_06': 176608, 'rimanenze_finali_2026': 153400})
 out['cf'] = cf
+out['versione_dati'] = '%d-%s' % (cf['giacenze_30_06']['totale_valore_finale'], stampa_o)  # cambia quando cambiano giacenze o ordini: i valori salvati del magazzino si azzerano ai nuovi dati
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))
