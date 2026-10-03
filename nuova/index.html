@@ -32,7 +32,7 @@ svg{width:100%;height:auto;display:block;touch-action:pan-y}
 .par.mod label{color:var(--acc);font-weight:600}
 button{font:inherit;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx);cursor:pointer}
 table{border-collapse:collapse;width:100%;min-width:900px;font-size:12px}th,td{padding:4px 7px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
-table.t2{min-width:0;font-size:15px}table.t4{font-size:10.5px;table-layout:auto}table.t4 td,table.t4 th{padding:6px 2px}table.t4 td:first-child,table.t4 th:first-child{width:68px;max-width:68px;font-size:10.5px}table.t2 th:first-child,table.t2 td:first-child{position:static;white-space:normal}table.t2 td{padding:8px 6px}table.t2 td:not(:first-child){font-variant-numeric:tabular-nums}
+table.t2{min-width:0;font-size:15px}tr.mag td{color:var(--mut);font-size:13px}table.t4{font-size:10.5px;table-layout:auto}table.t4 td,table.t4 th{padding:6px 2px}table.t4 td:first-child,table.t4 th:first-child{width:68px;max-width:68px;font-size:10.5px}table.t2 th:first-child,table.t2 td:first-child{position:static;white-space:normal}table.t2 td{padding:8px 6px}table.t2 td:not(:first-child){font-variant-numeric:tabular-nums}
 #tab td:first-child,#tab th:first-child{max-width:130px;min-width:110px;white-space:normal;font-size:11px;z-index:1;box-shadow:2px 0 0 var(--line)}
 tr.tot td{font-weight:700;border-top:2px solid var(--line)}
 .scroll{overflow-x:auto}
@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790993227850"></script>
+<script src="motore.js?v=1790993444386"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -122,7 +122,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790993227850; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790993444386; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -274,9 +274,10 @@ function tabella(R){
   document.getElementById('tab').innerHTML=t;
 }
 function ce26(R){
-  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['− Rimanenze iniziali prodotti finiti e semilavorati (01/01)','a2_in',-1,0],['+ Rimanenze finali prodotti finiti e semilavorati (31/12)','a2_fin',1,0],['Materie prime e acquisti','materie',-1,0],['+ Rimanenze iniziali materie prime e imballi (01/01)','b11_in',-1,0],['− Rimanenze finali materie prime e imballi (31/12)','b11_fin',1,0],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24%','ires',-1,0],['IRAP 3,9%','irap',-1,0],['Utile netto','utile',1,2]];
+  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['Rimanenze iniziali prodotti finiti e semilavorati (01/01) · da sottrarre','a2_in',1,3],['Rimanenze finali prodotti finiti e semilavorati (31/12) · da aggiungere','a2_fin',1,3],['VP','vp',1,2],['Acquisti materie prime e imballi','materie',-1,0],['Rimanenze iniziali materie prime e imballi (01/01) · da aggiungere al costo','b11_in',1,3],['Rimanenze finali materie prime e imballi (31/12) · da sottrarre dal costo','b11_fin',1,3],['CM','cm',-1,2],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24%','ires',-1,0],['IRAP 3,9%','irap',-1,0],['Utile netto','utile',1,2]];
   var t='<tr><th>Voce</th><th>2026</th><th>2027</th></tr>';
-  K.forEach(function(r){t+='<tr'+(r[3]===2?' class="tot"':'')+'><td>'+r[0]+'</td><td>'+EURf(r[2]*a[r[1]])+' €</td><td>'+EURf(r[2]*c[r[1]])+' €</td></tr>'});
+  [a,c].forEach(function(x){ x.vp=x.ricavi+x.a2_fin-x.a2_in; x.cm=x.materie+x.b11_in-x.b11_fin; });
+  K.forEach(function(r){ var lab=r[0]==='VP'?'= Valore della produzione (ricavi + finali − iniziali)':(r[0]==='CM'?'= Costo materie consumate (acquisti + iniziali − finali)':r[0]); t+='<tr'+(r[3]===2?' class="tot"':(r[3]===3?' class="mag"':''))+'><td>'+lab+'</td><td>'+EURf(r[2]*a[r[1]])+' €</td><td>'+EURf(r[2]*c[r[1]])+' €</td></tr>'});
   t+='<tr class="tot"><td>Imposte dell\'anno'+(P.imposte_2026>0?' (2026 forzate)':'')+'</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td><td>'+EURf(c.imposte)+' €</td></tr>';
   t+='<tr><td>Acconti versati sull\'anno</td><td>124.249 €</td><td>'+EURf(R.riepilogo.imposte_2026)+' €</td></tr>';
   t+='<tr><td>Consumo materie (acquisti + iniziali − finali)</td><td>'+EURf(a.consumo_materie)+' €</td><td>'+EURf(c.consumo_materie)+' €</td></tr><tr><td>Consumo su ricavi</td><td>'+(100*a.consumo_materie/a.ricavi).toFixed(1).replace('.',',')+'%</td><td>'+(100*c.consumo_materie/c.ricavi).toFixed(1).replace('.',',')+'%</td></tr>';
