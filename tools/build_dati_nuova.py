@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Genera nuova/dati.json: H1 dalla bozza 30/06/2026 (params.json H1_2026_reale, verificato al centesimo)
 e luglio/agosto dai mastrini 2026 (xlsx di Alex, NON nel repo), con la stessa riclassifica della bozza.
-Uso: python3 tools/build_dati_nuova.py /percorso/MASTRINI_2026.xlsx /percorso/OrdiniVenditaAperti.pdf"""
+Uso: python3 tools/build_dati_nuova.py /percorso/MASTRINI_2026.xlsx /percorso/OrdiniVenditaAperti.pdf /percorso/Condizioni_pagamento_clienti_fornitori.xlsx"""
 import json, sys, collections, openpyxl, re, subprocess, datetime as dt
-xlsx = sys.argv[1]; pdf_ordini = sys.argv[2]
+xlsx = sys.argv[1]; pdf_ordini = sys.argv[2]; xlsx_cond = sys.argv[3]
 h = json.load(open('params.json'))['H1_2026_reale']
 GRUPPI = {
  'materie':   lambda c: 6011000 <= c <= 6011008 and c != 6011004,
@@ -70,7 +70,7 @@ def parse_ordini(path):
         cli = re.sub(r'^\d\d/\d\d/\d{4}\s+', '', re.sub(r'\s+', ' ', ln[m.end():m.end() + 60]).strip()).upper()
         rows.append({'anno': m.group(1), 'mese': int(m.group(2)), 'date': date, 'cli': cli, 'res': float(nums[-1].replace('.', '').replace(',', '.'))})
     totale = round(sum(r['res'] for r in rows), 2)
-    mesi_o = collections.defaultdict(lambda: {'tot': 0.0, 'nc': 0.0, 'imp': 0.0})
+    mesi_o = collections.defaultdict(lambda: {'tot': 0.0, 'nc': 0.0, 'imp': 0.0, 'cli': collections.defaultdict(float)})
     for r in rows:
         if r['anno'] in ('2099', '2100'):
             d = giorno(r['date'][1]); nc = True
@@ -79,11 +79,30 @@ def parse_ordini(path):
             d = dt.date(int(r['anno']), r['mese'], 1); nc = False
         ym = d.strftime('%Y-%m')
         if not ('2026-10' <= ym <= '2027-05'): continue
-        mesi_o[ym]['tot'] += r['res']
+        mesi_o[ym]['tot'] += r['res']; mesi_o[ym]['cli'][re.sub(r'\s+(V0\\d|V11|PRV).*$', '', r['cli'])] += r['res']
         if nc: mesi_o[ym]['nc'] += r['res']
         if any(n.upper() in r['cli'] for n in P['taxClients']): mesi_o[ym]['imp'] += r['res']
     return stampa, totale, mesi_o
 stampa_o, totale_o, ORD = parse_ordini(pdf_ordini)
+
+# --- matrice incassi per ott-dic 2026 dal mix clienti del PDF x condizioni di pagamento (xlsx): mesi di ritardo dall'emissione
+def ritardo(cond):
+    c = cond.lower()
+    if any(x in c for x in ('prepayment', 'anticipato', 'vista', 'c.a.d')): return 0
+    m = re.search(r'(\d+)\s*(gg|days)', c)
+    return int(round(int(m.group(1)) / 30)) if m else 1
+wbc = openpyxl.load_workbook(xlsx_cond, data_only=True).active
+CL = [(r[2].upper(), ritardo(r[4] or ''), r[7]) for r in wbc.iter_rows(min_row=2, values_only=True) if r[0] == 'CLIENTE' and r[2] and str(r[10]).lower() != 'true']
+def ritardo_cliente(nome):
+    k = ' '.join(nome.upper().split()[:2])
+    m = [c for c in CL if k in c[0]] or [c for c in CL if nome.upper().split()[0][:7] in c[0]]
+    m = sorted(m, key=lambda c: c[2] != 'R')  # prima RiBa italiana
+    return m[0][1] if m else 2
+REC = {}
+for ym in ('2026-10', '2026-11', '2026-12'):
+    v = [0.0] * 7
+    for nome, tot in ORD[ym]['cli'].items(): v[min(6, ritardo_cliente(nome))] += tot
+    REC[ym] = [round(x / ORD[ym]['tot'], 4) for x in v]
 ricavi_previsti = []
 ricavi_previsti.append({'mese': 'Settembre', 'totale': round(P['OBACKLOG'][2]['t'] * 1000, 2), 'non_confermato': 0})
 for ym, lab in (('2026-10', 'Ottobre'), ('2026-11', 'Novembre'), ('2026-12', 'Dicembre')):
@@ -109,7 +128,7 @@ cf = {
  'cassa_30_09': 1870460.00,
  'ricavi': dict([('2026-09', round(ob['Set 26']['t'] * 1000, 2))] + [(ym, round(ORD[ym]['tot'], 2)) for ym in ('2026-10', '2026-11', '2026-12')]),
  'quota_iva_vendite': dict([('2026-09', quota_iva('Set 26'))] + [(ym, round(ORD[ym]['imp'] / ORD[ym]['tot'], 4)) for ym in ('2026-10', '2026-11', '2026-12')]),
- 'rec_matrix': {k: v for k, v in P['recMatrix'].items()},
+ 'rec_matrix': dict(list({k: v for k, v in P['recMatrix'].items()}.items()) + list(REC.items())),
  'pay_matrix': P['payMatrix'],
  'aperti_clienti': {k: round(v * 1000, 2) for k, v in P['openRecSched'].items()},
  'aperti_fornitori': {k: round(v * 1000, 2) for k, v in P['openPaySched'].items()},
