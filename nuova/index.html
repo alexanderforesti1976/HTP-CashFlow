@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790986391044"></script>
+<script src="motore.js?v=1790987051337"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -83,12 +83,23 @@ var EURk=function(v){return Math.round(v/1000).toLocaleString('it-IT')+'k'};
 var MES=Motore.MESI, D=null, P0=null, P=null, BASE=null, KEY='htp_cashflow_nuova_v1';
 var lab=function(ym){return MES[+ym.slice(5)-1]+' '+ym.slice(2,4)};
 var SPEC=[
+ {g:'Giacenze al 30/06/2026 (valore finale)',id:'g30_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
+ {g:'Giacenze al 30/06/2026 (valore finale)',id:'g30_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
+ {g:'Giacenze al 30/06/2026 (valore finale)',id:'g30_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
+ {g:'Giacenze al 30/06/2026 (valore finale)',id:'g30_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
+ {g:'Magazzino finale 31/12/2026',id:'f26_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2026',id:'f26_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2026',id:'f26_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2026',id:'f26_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
+ {g:'Magazzino finale 31/12/2027',id:'f27_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2027',id:'f27_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2027',id:'f27_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2027',id:'f27_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
  {g:'Personale e CIG',id:'cig26_lavoratori',l:'CIG 2026 — lavoratori',min:0,max:10,step:1,u:''},
  {g:'Personale e CIG',id:'cig26_ore',l:'CIG 2026 — % ore',min:0,max:100,step:5,u:'%'},
  {g:'Personale e CIG',id:'cig27_lavoratori',l:'CIG 2027 — lavoratori',min:0,max:19,step:1,u:''},
  {g:'Personale e CIG',id:'cig27_ore',l:'CIG 2027 — % ore',min:0,max:100,step:5,u:'%'},
  {g:'Personale e CIG',id:'pers_mese',l:'Costo personale mensile (senza CIG)',min:40000,max:70000,step:250,u:'€'},
- {g:'Magazzino e materie',id:'giacenza_30_06',l:'Giacenze al 30/06/2026 (valore finale)',min:100000,max:260000,step:1000,u:'€'},
  {g:'Costi variabili (% dei ricavi)',id:'pct_lavorazioni',l:'Lavorazioni c/terzi',min:0,max:10,step:0.1,u:'%'},
  {g:'Costi variabili (% dei ricavi)',id:'pct_provvigioni',l:'Provvigioni',min:0,max:6,step:0.1,u:'%'},
  {g:'Costi fissi mensili',id:'affitti_mese',l:'Affitti',min:6000,max:12000,step:100,u:'€'},
@@ -97,8 +108,6 @@ var SPEC=[
  {g:'Costi fissi mensili',id:'costi_irregolari_mese',l:'Costi irregolari (consulenze, compenso amm., manutenzioni)',min:0,max:30000,step:250,u:'€'},
  {g:'Ricavi',id:'ricavi27_k',l:'Ricavi 2027 (obiettivo)',min:1500,max:3000,step:25,u:'k€'},
  {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
- {g:'Magazzino e materie',id:'rimanenze_finali_2026',l:'Magazzino finale 31/12/2026 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
- {g:'Magazzino e materie',id:'rimanenze_finali_2027',l:'Magazzino finale 31/12/2027 (valore assoluto)',min:100000,max:260000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2027',l:'Ammortamenti 2027 (stima)',min:60000,max:200000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2026',l:'Ammortamenti 2026 (stima)',min:60000,max:200000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'var_ires',l:'Variazioni fiscali IRES in aumento (stima dal 2025)',min:0,max:130000,step:1000,u:'€'},
@@ -113,7 +122,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790986391044; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790987051337; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -146,7 +155,7 @@ function caricaOnline(){ // all'apertura: se online c'è una versione più recen
 function buildPars(){
   var host=document.getElementById('pars'), last='', h='';
   SPEC.forEach(function(s){
-    if(s.g!==last){ if(last) h+='</div>'; h+='<div class="pg"><h3>'+s.g+'</h3>'; last=s.g; }
+    if(s.g!==last){ if(last) h+='</div>'; h+='<div class="pg"><h3>'+s.g+(/^(g30|f26|f27)_/.test(s.id)?' — totale <span id="tot_'+s.id.split('_')[0]+'"></span> €':'')+'</h3>'; last=s.g; }
     h+='<div class="par" id="row_'+s.id+'"><label for="n_'+s.id+'">'+s.l+'</label><span class="pm"><button class="b" id="m_'+s.id+'" aria-label="meno">−</button><input type="number" id="n_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'"><button class="b" id="p_'+s.id+'" aria-label="più">+</button> '+s.u+'</span><div class="sv" id="sv_'+s.id+'"></div></div>';
   });
   h+='<div class="par" id="row_fv_canone_da"><label for="n_fv_canone_da">Fotovoltaico: primo mese di canone</label><select id="n_fv_canone_da"><option>2026-10</option><option>2026-11</option><option>2026-12</option><option>2027-01</option><option>2027-02</option><option>2027-03</option></select></div></div>';
@@ -170,6 +179,7 @@ function syncPars(){
     document.getElementById('row_'+s.id).className='par'+(Math.abs(v-P0[s.id])>1e-9?' mod':'');
     document.getElementById('sv_'+s.id).textContent='di partenza: '+(function(x){var p=String(Math.abs(x)).split('.');return (x<0?'-':'')+punti(p[0])+(p[1]?','+p[1]:'')})(Math.round(P0[s.id]*100)/100)+(s.u?' '+s.u:'');
   });
+  ['g30','f26','f27'].forEach(function(p){var e=document.getElementById('tot_'+p); if(e) e.textContent=EURf(['pf','sl','mp','imb'].reduce(function(a,c){return a+(P[p+'_'+c]||0)},0));});
   document.getElementById('n_fv_canone_da').value=P.fv_canone_da;
   document.getElementById('row_fv_canone_da').className='par'+(P.fv_canone_da!==P0.fv_canone_da?' mod':'');
 }

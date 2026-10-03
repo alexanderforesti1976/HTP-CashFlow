@@ -9,7 +9,7 @@ console.log('minimo', r.minimo.toFixed(2), r.mese_minimo, '| entrate 2027', r.en
 // sensibilità: CIG 2027 a zero deve ALZARE le uscite 2027 del costo (un tagliare costi alza la cassa)
 const P2 = Object.assign({}, P, { cig27_lavoratori: 0 }), r2 = M.calcola(D, P2).riepilogo;
 console.log('CIG 2027 = 0: uscite 2027', r2.uscite_2027.toFixed(2), '(più alte di', r.uscite_2027.toFixed(2) + ')'); if (!(r2.uscite_2027 > r.uscite_2027)) ok = false;
-const P3 = Object.assign({}, P, { giacenza_30_06: P.giacenza_30_06 - 20000 }), r3 = M.calcola(D, P3).riepilogo;
+const P3 = Object.assign({}, P, { g30_mp: P.g30_mp - 20000 }), r3 = M.calcola(D, P3).riepilogo;
 console.log('giacenza 30/06 -20.000: consumo piu alto, cassa 2027', r3.cassa_2027.toFixed(2), '(più bassa di', r.cassa_2027.toFixed(2) + ')'); if (!(r3.cassa_2027 < r.cassa_2027)) ok = false;
 const ra = M.calcola(D, P0); console.log('imposte 2026 automatiche', ra.riepilogo.imposte_2026.toFixed(2), '= IRES', ra.ce.ires.toFixed(2), '+ IRAP', ra.ce.irap.toFixed(2), '| utile', ra.ce.utile.toFixed(2)); if (Math.abs(ra.ce.imposte - ra.riepilogo.imposte_2026) > 0.01 || ra.ce.imposte <= 0) ok = false;
 const rb = M.calcola(D, Object.assign({}, P0, { ammortamenti_2026: 200000 })); console.log('ammortamenti +90k: utile', rb.ce.utile.toFixed(0), '(più basso di', ra.ce.utile.toFixed(0) + ')'); if (!(rb.ce.utile < ra.ce.utile && rb.ce.imposte < ra.ce.imposte)) ok = false;

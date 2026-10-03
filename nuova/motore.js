@@ -8,20 +8,27 @@
   var FV_RID = [130, 165, 260, 295, 336, 358, 381, 336, 265, 192, 122, 107];
 
   function parametriDefault(D) {
-    var d = D.cf.defaults;
+    var d = D.cf.defaults, G = D.cf.giacenze_30_06, tot = d.rimanenze_finali_2026, k = tot / G.totale_valore_finale;
+    // magazzino 31/12/2026 e 2027: totale precedente (153.400) ripartito per categoria come al 30/06, da sostituire con i valori reali
+    var F26 = { pf: Math.round(G.prodotto_finito * k), sl: Math.round(G.semilavorato * k), imb: Math.round(G.imballi * k) };
+    F26.mp = tot - F26.pf - F26.sl - F26.imb;
     return {
       cig26_lavoratori: 1, cig26_ore: 15, cig27_lavoratori: 6, cig27_ore: 30,
       ricavi27_k: 2100, quota_non_confermato: 100,
-      giacenza_30_06: d.giacenza_30_06, pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
+      pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
       altri_ricorrenti_mese: d.altri_ricorrenti_mese, costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
+      g30_pf: G.prodotto_finito, g30_sl: G.semilavorato, g30_mp: G.materia_prima, g30_imb: G.imballi,
+      f26_pf: F26.pf, f26_sl: F26.sl, f26_mp: F26.mp, f26_imb: F26.imb, f27_pf: F26.pf, f27_sl: F26.sl, f27_mp: F26.mp, f27_imb: F26.imb,
       imposte_2026: 0, acconto_prima_rata_pct: 50,
       ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2027, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_e_costi_indeducibili_2025_ricorrenti, add_irap: D.cf.ce2026.addback_irap_2025_senza_interinale
     };
   }
 
   function calcola(D, P) {
+    var somma = function (p) { return (P[p + '_pf'] || 0) + (P[p + '_sl'] || 0) + (P[p + '_mp'] || 0) + (P[p + '_imb'] || 0); };
+    P = Object.assign({}, P, { giacenza_30_06: somma('g30'), rimanenze_finali_2026: somma('f26'), rimanenze_finali_2027: somma('f27') });
     var C = D.cf, IR = C.iva.aliquota / 100, IE = C.iva.energia / 100, PL = C.iva.quota_plafond_acquisti / 100, QD = C.iva.quota_vendite_default / 100;
     var YM = []; for (var y = 2026; y <= 2027; y++) for (var mo = 1; mo <= 12; mo++) YM.push(y + '-' + (mo < 10 ? '0' : '') + mo);
     var FROM = YM.indexOf('2026-09');
