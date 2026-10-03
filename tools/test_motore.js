@@ -2,7 +2,7 @@
 const fs = require('fs'), M = require('../nuova/motore.js');
 const D = JSON.parse(fs.readFileSync(__dirname + '/../nuova/dati.json', 'utf8'));
 const P0 = M.parametriDefault(D), P = Object.assign({}, P0, { imposte_2026: 124249 }), r = M.calcola(D, P).riepilogo; // R078: imposte 2026 fissate = acconti pagati
-const att = { cassa_2026: 1921249.00, cassa_2027: 1718197.54 }; // R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
+const att = { cassa_2026: 1923144.79, cassa_2027: 1718361.39 }; // R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
 let ok = true;
 for (const k in att) { const d = Math.round((r[k] - att[k]) * 100) / 100; console.log(k, r[k].toFixed(2), 'atteso', att[k], 'diff', d); if (Math.abs(d) > 10) ok = false; }
 console.log('minimo', r.minimo.toFixed(2), r.mese_minimo, '| entrate 2027', r.entrate_2027.toFixed(2), 'uscite 2027', r.uscite_2027.toFixed(2));

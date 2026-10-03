@@ -40,7 +40,7 @@
     // ricavi mensili
     var W = {}; Object.keys(C.ricavi_2026_mensili).forEach(function (k) { W[k] = C.ricavi_2026_mensili[k]; });
     Object.keys(C.ricavi).forEach(function (k) { W[k] = C.ricavi[k]; });
-    var ord27 = {}; Object.keys(C.ordini_2027).forEach(function (k) { ord27[NOMI_MESI_ORD[k]] = C.ordini_2027[k]; });
+    var ord27 = {}; Object.keys(C.ordini_2027).forEach(function (k) { ord27[NOMI_MESI_ORD[k] || k] = C.ordini_2027[k]; });
     var sumOrd = 0; Object.keys(ord27).forEach(function (k) { sumOrd += ord27[k]; });
     var sumW = 0; for (var m1 = 1; m1 <= 12; m1++) sumW += W['2026-' + (m1 < 10 ? '0' : '') + m1];
     var rev27 = P.ricavi27_k * 1000, REV = {};

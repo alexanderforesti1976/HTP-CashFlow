@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Genera nuova/dati.json: H1 dalla bozza 30/06/2026 (params.json H1_2026_reale, verificato al centesimo)
 e luglio/agosto dai mastrini 2026 (xlsx di Alex, NON nel repo), con la stessa riclassifica della bozza.
-Uso: python3 tools/build_dati_nuova.py /percorso/MASTRINI_2026.xlsx"""
-import json, sys, collections, openpyxl
-xlsx = sys.argv[1]
+Uso: python3 tools/build_dati_nuova.py /percorso/MASTRINI_2026.xlsx /percorso/OrdiniVenditaAperti.pdf"""
+import json, sys, collections, openpyxl, re, subprocess, datetime as dt
+xlsx = sys.argv[1]; pdf_ordini = sys.argv[2]
 h = json.load(open('params.json'))['H1_2026_reale']
 GRUPPI = {
  'materie':   lambda c: 6011000 <= c <= 6011008 and c != 6011004,
@@ -56,11 +56,38 @@ for c, mm in sorted(conti.items()):
     ric = sum(1 for v in mm if abs(v) > 1) >= 6
     altri_conti.append({'conto': c, 'nome': nomi[c], 'mesi': [round(v, 2) for v in mm], 'tot_gen_ago': round(sum(mm), 2), 'ricorrente': ric})
 P = json.load(open('params.json'))
+# --- ordini aperti Pegaso (PDF, non nel repo): mese = periodo di conferma; righe 2099 (in attesa c/lavoro) e 2100 (programmi) al mese della
+# data richiesta consegna; esclusi i mesi gia passati rispetto alla stampa e, oltre la finestra Ott26-Mag27, i contratti con data lontana.
+def parse_ordini(path):
+    txt = subprocess.run(['pdftotext', '-layout', path, '-'], capture_output=True, text=True).stdout
+    stampa = dt.datetime.strptime(re.search(r'Stampa del (\d\d/\d\d/\d{4})', txt).group(1), '%d/%m/%Y').date()
+    giorno = lambda x: dt.datetime.strptime(x, '%d/%m/%Y').date()
+    rows = []
+    for ln in txt.split('\n'):
+        m = re.match(r'^(2\d{3})\s+(\d{1,2})\s+(\d{5,6})\s', ln)
+        if not m: continue
+        date = re.findall(r'\d\d/\d\d/\d{4}', ln); nums = re.findall(r'\d{1,3}(?:\.\d{3})*,\d+', ln)
+        cli = re.sub(r'^\d\d/\d\d/\d{4}\s+', '', re.sub(r'\s+', ' ', ln[m.end():m.end() + 60]).strip()).upper()
+        rows.append({'anno': m.group(1), 'mese': int(m.group(2)), 'date': date, 'cli': cli, 'res': float(nums[-1].replace('.', '').replace(',', '.'))})
+    totale = round(sum(r['res'] for r in rows), 2)
+    mesi_o = collections.defaultdict(lambda: {'tot': 0.0, 'nc': 0.0, 'imp': 0.0})
+    for r in rows:
+        if r['anno'] in ('2099', '2100'):
+            d = giorno(r['date'][1]); nc = True
+            if d <= stampa: continue
+        else:
+            d = dt.date(int(r['anno']), r['mese'], 1); nc = False
+        ym = d.strftime('%Y-%m')
+        if not ('2026-10' <= ym <= '2027-05'): continue
+        mesi_o[ym]['tot'] += r['res']
+        if nc: mesi_o[ym]['nc'] += r['res']
+        if any(n.upper() in r['cli'] for n in P['taxClients']): mesi_o[ym]['imp'] += r['res']
+    return stampa, totale, mesi_o
+stampa_o, totale_o, ORD = parse_ordini(pdf_ordini)
 ricavi_previsti = []
-for i, lab in enumerate(['Settembre', 'Ottobre', 'Novembre', 'Dicembre']):
-    ob = P['OBACKLOG'][2 + i]
-    nc = round(sum(x[1] for x in ob.get('nc', [])), 2)
-    ricavi_previsti.append({'mese': lab, 'totale': round(ob['t'] * 1000, 2), 'non_confermato': round(nc * 1000, 2)})
+ricavi_previsti.append({'mese': 'Settembre', 'totale': round(P['OBACKLOG'][2]['t'] * 1000, 2), 'non_confermato': 0})
+for ym, lab in (('2026-10', 'Ottobre'), ('2026-11', 'Novembre'), ('2026-12', 'Dicembre')):
+    ricavi_previsti.append({'mese': lab, 'totale': round(ORD[ym]['tot'], 2), 'non_confermato': round(ORD[ym]['nc'], 2)})
 out = {'_fonte': 'H1: bozza bilancio 30/06/2026 del 13/07/2026 (riconciliata al centesimo, R058); luglio e agosto: mastrini 2026 estratti il 02/10/2026 16:02 (settembre incompleto, non usato). Importi in euro. Lo storno 41.502,04 (07011300) e dentro altri_costi del H1 per convenzione aziendale.',
        'bozza_totali': {'costi': 1215491.60, 'ricavi': 1257026.72, 'utile': 41535.12},
        'h1': h1, 'mesi': mesi, 'altri_conti': altri_conti, 'ricavi_previsti': ricavi_previsti,
@@ -80,15 +107,16 @@ for l in P['loans']:
 m7r = mesi['7']['ricavi_operativi']; m8r = mesi['8']['ricavi_operativi']
 cf = {
  'cassa_30_09': 1870460.00,
- 'ricavi': {ym: round(ob[l]['t'] * 1000, 2) for ym, l in ym_lab.items()},
- 'quota_iva_vendite': {ym: quota_iva(l) for ym, l in ym_lab.items()},
+ 'ricavi': dict([('2026-09', round(ob['Set 26']['t'] * 1000, 2))] + [(ym, round(ORD[ym]['tot'], 2)) for ym in ('2026-10', '2026-11', '2026-12')]),
+ 'quota_iva_vendite': dict([('2026-09', quota_iva('Set 26'))] + [(ym, round(ORD[ym]['imp'] / ORD[ym]['tot'], 4)) for ym in ('2026-10', '2026-11', '2026-12')]),
  'rec_matrix': {k: v for k, v in P['recMatrix'].items()},
  'pay_matrix': P['payMatrix'],
  'aperti_clienti': {k: round(v * 1000, 2) for k, v in P['openRecSched'].items()},
  'aperti_fornitori': {k: round(v * 1000, 2) for k, v in P['openPaySched'].items()},
  'acquisti_settembre_registrati': round(P['purchPartial']['2026-09'] * 1000, 2),
  'ricavi_2026_mensili': {'2026-01': 136970, '2026-02': 228310, '2026-03': 198160, '2026-04': 202780, '2026-05': 197600, '2026-06': 238150, '2026-07': round(m7r,2), '2026-08': round(m8r,2)},
- 'ordini_2027': {ob[l]['m']: round(ob[l]['t']*1000,2) for l in ob if l.endswith('27')},
+ 'ordini_2027': {ym: round(ORD[ym]['tot'], 2) for ym in sorted(ORD) if ym >= '2027-01'},
+ 'ordini_fonte': {'stampa': str(stampa_o), 'residuo_totale_pdf': totale_o},
  'finanziamenti_mensili': {k: round(v, 2) for k, v in sorted(fin.items())},
  'iva': {'aliquota': P['ivaRate'], 'energia': P['ivaEnergia'], 'quota_plafond_acquisti': P['matPlafondShare'], 'quota_vendite_default': P['vendTaxShareDef']},
  '_fonti': 'recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)'}

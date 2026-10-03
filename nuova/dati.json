@@ -1015,18 +1015,18 @@
   },
   {
    "mese": "Ottobre",
-   "totale": 215500.0,
-   "non_confermato": 43670.0
+   "totale": 218117.89,
+   "non_confermato": 46257.0
   },
   {
    "mese": "Novembre",
-   "totale": 161600.0,
-   "non_confermato": 59600.0
+   "totale": 190315.25,
+   "non_confermato": 88335.84
   },
   {
    "mese": "Dicembre",
-   "totale": 153700.0,
-   "non_confermato": 36990.0
+   "totale": 128292.11,
+   "non_confermato": 11575.89
   }
  ],
  "_nota_ricavi": "Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 142,5k emessi + 77,5k da emettere (provvisorio); non_confermato = programmi 2100 + righe 2099",
@@ -1034,15 +1034,15 @@
   "cassa_30_09": 1870460.0,
   "ricavi": {
    "2026-09": 220000,
-   "2026-10": 215500.0,
-   "2026-11": 161600.0,
-   "2026-12": 153700.0
+   "2026-10": 218117.89,
+   "2026-11": 190315.25,
+   "2026-12": 128292.11
   },
   "quota_iva_vendite": {
    "2026-09": 0.1427,
-   "2026-10": 0.4499,
-   "2026-11": 0.3825,
-   "2026-12": 0.1934
+   "2026-10": 0.4564,
+   "2026-11": 0.3716,
+   "2026-12": 0.0647
   },
   "rec_matrix": {
    "default": [
@@ -1223,11 +1223,15 @@
    "2026-08": 91754.58
   },
   "ordini_2027": {
-   "Gen 27": 33400.0,
-   "Feb 27": 33400.0,
-   "Mar 27": 33400.0,
-   "Apr 27": 37200.0,
-   "Mag 27": 33400.0
+   "2027-01": 32775.0,
+   "2027-02": 19630.0,
+   "2027-03": 27064.07,
+   "2027-04": 4480.0,
+   "2027-05": 753.54
+  },
+  "ordini_fonte": {
+   "stampa": "2026-10-03",
+   "residuo_totale_pdf": 1032851.18
   },
   "finanziamenti_mensili": {
    "2026-10": 67686.99,
@@ -1271,9 +1275,9 @@
   },
   "non_confermato": {
    "Settembre": 0,
-   "Ottobre": 43670.0,
-   "Novembre": 59600.0,
-   "Dicembre": 36990.0
+   "Ottobre": 46257.0,
+   "Novembre": 88335.84,
+   "Dicembre": 11575.89
   },
   "giacenze_30_06": {
    "prodotto_finito": 18322,
