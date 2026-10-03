@@ -89,6 +89,10 @@
     var SD = ['2026-09', '2026-10', '2026-11', '2026-12'];
     var ce = { ricavi: ric26 };
     ce.rim_fin = P.rimanenze_finali_2026; ce.rim_in = E.esistenze_iniziali; ce.rimanenze = ce.rim_fin - ce.rim_in;
+    var EC = E.esistenze_iniziali_categorie;
+    // A2 (valore della produzione): prodotti finiti + semilavorati; B11 (costi): materie prime + imballi/consumo
+    ce.a2_in = EC.prodotti_finiti + EC.semilavorati; ce.a2_fin = P.f26_pf + P.f26_sl;
+    ce.b11_in = EC.materie_prime + EC.materiali_consumo_imballi; ce.b11_fin = P.f26_mp + P.f26_imb;
     ce.materie = gsum('materie') + ricSD * RT.mat; ce.lavorazioni = gsum('lavorazioni_terzi') + ricSD * RT.sub;
     ce.provvigioni = gsum('provvigioni') + ricSD * RT.prov; ce.royalties = 0.015 * ric26;
     ce.personale = gsum('personale') + 4 * pers26 + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
@@ -120,6 +124,7 @@
     Y27.forEach(function (ym) { ric27 += REV[ym]; en27 += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) can27 += P.fv_canone; });
     var base26p = gsum('personale') + 4 * pers26, scala = 12 * pers27 / base26p, c7 = { ricavi: ric27 };
     c7.rim_fin = P.rimanenze_finali_2027; c7.rim_in = P.rimanenze_finali_2026; c7.rimanenze = c7.rim_fin - c7.rim_in;
+    c7.a2_in = P.f26_pf + P.f26_sl; c7.a2_fin = P.f27_pf + P.f27_sl; c7.b11_in = P.f26_mp + P.f26_imb; c7.b11_fin = P.f27_mp + P.f27_imb;
     c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov; c7.royalties = 0.015 * ric27;
     c7.personale = 12 * pers27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
     c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + can27;
