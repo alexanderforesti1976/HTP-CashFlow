@@ -21,7 +21,7 @@
       g30_pf: G.prodotto_finito, g30_sl: G.semilavorato, g30_mp: G.materia_prima, g30_imb: G.imballi,
       f26_pf: F26.pf, f26_sl: F26.sl, f26_mp: F26.mp, f26_imb: F26.imb, f27_pf: F26.pf, f27_sl: F26.sl, f27_mp: F26.mp, f27_imb: F26.imb,
       imposte_2026: 0, acconto_prima_rata_pct: 50,
-      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2027, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: 0, add_irap: 0
+      ammortamenti_2026: d.ammortamenti_2026, ammortamenti_2027: d.ammortamenti_2027, rimanenze_finali_2027: d.rimanenze_finali_2026, rimanenze_finali_2026: d.rimanenze_finali_2026, var_ires: D.cf.ce2026.multe_indeducibili_gen_ago, var_ires_27: 0, add_irap: D.cf.ce2026.compenso_amministratore_anno
     };
   }
 
@@ -132,7 +132,7 @@
     c7.operativo = c7.ricavi + c7.rimanenze - c7.materie - c7.lavorazioni - c7.provvigioni - c7.royalties - c7.personale - c7.affitti - c7.energia - c7.altri - c7.ammortamenti;
     c7.int_passivi = E.interessi_passivi_2027_piani; c7.int_attivi = 1900 * 4 + 5950.68 * 2;
     c7.ante_tfm = c7.operativo - c7.int_passivi + c7.int_attivi; c7.tfm = Math.max(0, 0.20 * c7.ante_tfm); c7.ante_imposte = c7.ante_tfm - c7.tfm;
-    c7.imponibile_ires = c7.ante_imposte + P.var_ires; c7.ires = Math.max(0, 0.24 * c7.imponibile_ires);
+    c7.imponibile_ires = c7.ante_imposte + P.var_ires_27; c7.ires = Math.max(0, 0.24 * c7.imponibile_ires);
     c7.imponibile_irap = c7.operativo + P.add_irap; c7.irap = Math.max(0, 0.039 * c7.imponibile_irap);
     c7.imposte = c7.ires + c7.irap; c7.utile = c7.ante_imposte - c7.imposte;
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;

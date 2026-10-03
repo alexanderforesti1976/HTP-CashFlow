@@ -183,6 +183,8 @@ cf['ce2026'] = {
  'interessi_attivi_gen_ago': 3821.36,
  'ricavi_titoli_gen_giu': h1['ricavi_titoli'],
  'esistenze_iniziali': h1['esistenze_iniziali'],
+ 'compenso_amministratore_anno': round(sum(c['tot_gen_ago'] for c in altri_conti if c['conto'] == 6021700) * 12 / 8 / 1.0 if False else sum(c['mesi'][0] + c['mesi'][6] for c in altri_conti if c['conto'] == 6021700), 2),
+ 'multe_indeducibili_gen_ago': round(sum(c['tot_gen_ago'] for c in altri_conti if c['conto'] == 6081011), 2),
  'esistenze_iniziali_categorie': {'materie_prime': 118997.02, 'materiali_consumo_imballi': 3487.84, 'semilavorati': 23678.86, 'prodotti_finiti': 22195.61, '_fonte': 'bilancio 2025: rimanenze finali al 31/12/2025 (conti 00041000/41100/41200/41300), somma 168.359,33; materiali di consumo assimilati agli imballi (ipotesi)'},
  'royalties_registrate_gen_ago': round(h1['royalties'] + mesi['7']['royalties'], 2),
  'interessi_passivi_set_dic_piani': round(int_sd, 2),

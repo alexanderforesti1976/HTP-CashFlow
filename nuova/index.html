@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1790993939107"></script>
+<script src="motore.js?v=1790994063570"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -110,8 +110,9 @@ var SPEC=[
  {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2027',l:'Ammortamenti 2027 (stima)',min:60000,max:200000,step:1000,u:'€'},
  {g:'Conto economico 2026 e imposte',id:'ammortamenti_2026',l:'Ammortamenti 2026 (stima)',min:60000,max:200000,step:1000,u:'€'},
- {g:'Conto economico 2026 e imposte',id:'var_ires',l:'Variazioni fiscali IRES (0 = nessuna: IRES 24% sull\'utile ante imposte)',min:0,max:130000,step:1000,u:'€'},
- {g:'Conto economico 2026 e imposte',id:'add_irap',l:'Variazioni fiscali IRAP (0 = nessuna: IRAP 3,9% sul valore della produzione netta)',min:0,max:200000,step:1000,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'var_ires',l:'IRES 2026: costi indeducibili (multe e ammende gen-ago)',min:0,max:130000,step:500,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'var_ires_27',l:'IRES 2027: costi indeducibili',min:0,max:130000,step:500,u:'€'},
+ {g:'Imposte (variazioni fiscali)',id:'add_irap',l:'IRAP: costi non deducibili (compenso amministratore)',min:0,max:200000,step:500,u:'€'},
  {g:'Imposte',id:'imposte_2026',l:'Imposte 2026: 0 = calcolate dal CE; altro valore = forzate',min:0,max:200000,step:1000,u:'€'},
  {g:'Imposte',id:'acconto_prima_rata_pct',l:'Acconto: quota della 1ª rata',min:40,max:50,step:10,u:'%'},
  {g:'Fotovoltaico',id:'fv_produzione_pct',l:'Produzione rispetto alla stima E.ON',min:50,max:120,step:5,u:'%'},
@@ -122,7 +123,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1790993939107; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1790994063570; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -274,7 +275,7 @@ function tabella(R){
   document.getElementById('tab').innerHTML=t;
 }
 function ce26(R){
-  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['Rimanenze iniziali prodotti finiti e semilavorati (01/01) · da sottrarre','a2_in',1,3],['Rimanenze finali prodotti finiti e semilavorati (31/12) · da aggiungere','a2_fin',1,3],['VP','vp',1,2],['Acquisti materie prime e imballi','materie',-1,0],['Rimanenze iniziali materie prime e imballi (01/01) · da aggiungere al costo','b11_in',1,3],['Rimanenze finali materie prime e imballi (31/12) · da sottrarre dal costo','b11_fin',1,3],['CM','cm',-1,2],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24% (su utile ante imposte)','ires',-1,0],['IRAP 3,9% (su valore della produzione netta)','irap',-1,0],['Utile netto','utile',1,2]];
+  var a=R.ce, c=R.ce27, K=[['Ricavi','ricavi',1,0],['Rimanenze iniziali prodotti finiti e semilavorati (01/01) · da sottrarre','a2_in',1,3],['Rimanenze finali prodotti finiti e semilavorati (31/12) · da aggiungere','a2_fin',1,3],['VP','vp',1,2],['Acquisti materie prime e imballi','materie',-1,0],['Rimanenze iniziali materie prime e imballi (01/01) · da aggiungere al costo','b11_in',1,3],['Rimanenze finali materie prime e imballi (31/12) · da sottrarre dal costo','b11_fin',1,3],['CM','cm',-1,2],['Lavorazioni c/terzi','lavorazioni',-1,0],['Provvigioni','provvigioni',-1,0],['Royalties 1,5%','royalties',-1,0],['Personale (con TFR e 13ª)','personale',-1,0],['Affitti','affitti',-1,0],['Energia','energia',-1,0],['Altri costi','altri',-1,0],['Ammortamenti','ammortamenti',-1,0],['Risultato operativo','operativo',1,2],['Interessi passivi','int_passivi',-1,0],['Interessi attivi e titoli','int_attivi',1,0],['Utile prima del TFM','ante_tfm',1,2],['TFM (20%)','tfm',-1,0],['Utile ante imposte','ante_imposte',1,2],['IRES 24% (su utile ante imposte + indeducibili)','ires',-1,0],['IRAP 3,9% (su valore della produzione netta + non deducibili)','irap',-1,0],['Utile netto','utile',1,2]];
   var t='<tr><th>Voce</th><th>2026</th><th>2027</th></tr>';
   [a,c].forEach(function(x){ x.vp=x.ricavi+x.a2_fin-x.a2_in; x.cm=x.materie+x.b11_in-x.b11_fin; });
   K.forEach(function(r){ var lab=r[0]==='VP'?'= Valore della produzione (ricavi + finali − iniziali)':(r[0]==='CM'?'= Costo materie consumate (acquisti + iniziali − finali)':r[0]); t+='<tr'+(r[3]===2?' class="tot"':(r[3]===3?' class="mag"':''))+'><td>'+lab+'</td><td>'+EURf(r[2]*a[r[1]])+' €</td><td>'+EURf(r[2]*c[r[1]])+' €</td></tr>'});
