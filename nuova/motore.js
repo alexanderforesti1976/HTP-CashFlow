@@ -51,15 +51,12 @@
       } else REV[ym] = (ord27[ym] || 0) + Math.max(0, rev27 - sumOrd) * W['2026-' + ym.slice(5)] / sumW;
     });
     var QS = function (ym) { return C.quota_iva_vendite[ym] !== undefined ? C.quota_iva_vendite[ym] : QD; };
-    // Materie: consumo gen-giu = acquisti + rimanenze iniziali - giacenza al 30/06 (valore finale di Alex); lug-dic: stesso rapporto consumo/ricavi,
-    // acquisti = consumo + (giacenza 31/12 - giacenza 30/06); 2027: acquisti = consumo + (giacenza 31/12/2027 - 31/12/2026)
-    var Hh = D.h1, ricLA = D.mesi['7'].ricavi_operativi + D.mesi['8'].ricavi_operativi, ricSDt = 0, ric27t = 0;
-    ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { ricSDt += REV[ym]; });
-    YM.slice(12).forEach(function (ym) { ric27t += REV[ym]; });
+    // Materie: consumo gen-giu = acquisti + rimanenze iniziali - giacenza al 30/06 (valore finale di Alex) = rapporto consumo/ricavi;
+    // lug-dic e 2027: ACQUISTI in proporzione ai ricavi con quel rapporto; la giacenza finale (31/12) e un valore scelto da Alex:
+    // consumo = acquisti + iniziali - finali, quindi ogni euro di giacenza finale in piu e un euro di risultato in piu.
+    var Hh = D.h1;
     var rCons = (Hh.materie + C.ce2026.esistenze_iniziali - P.giacenza_30_06) / Hh.ricavi_operativi;
-    var acqH2 = rCons * (ricLA + ricSDt) + (P.rimanenze_finali_2026 - P.giacenza_30_06);
-    RT.mat = (acqH2 - D.mesi['7'].materie - D.mesi['8'].materie) / ricSDt;
-    RT.mat27 = (rCons * ric27t + P.rimanenze_finali_2027 - P.rimanenze_finali_2026) / ric27t;
+    RT.mat = rCons; RT.mat27 = rCons;
     var purch = {}; YM.forEach(function (ym) { purch[ym] = (REV[ym] || 0) * ((ym >= '2027-01' ? RT.mat27 : RT.mat) + RT.sub); });
     var fvSave = function (ym) { return ym < '2026-11' ? 0 : FV_RISPARMIO[+ym.slice(5) - 1] * fvK; };
     var fvRid = function (ym) { return ym < '2026-11' ? 0 : FV_RID[+ym.slice(5) - 1] * fvK; };
