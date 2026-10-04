@@ -210,6 +210,20 @@
     });
     return an;
   }
-  root.Motore = { calcola: calcola, indici: indici, parametriDefault: parametriDefault, MESI: MESI };
+  // Rating bancario (stessa scala e stessi punteggi della vecchia app). 2024-2025 da bilanci; 2026-2027 con STIME (totale attivo, liquidità, circolante).
+  function rating(D, r) {
+    var B = D.indici_base, S = B.rating_stime, TA = B.totale_attivo_30_06_2026 / 1000;
+    var sc = function (v, t) { for (var i = 0; i < t.length; i++) if (v <= t[i][0]) return t[i][1]; return t[t.length - 1][1]; };
+    var punteggio = function (a) { var s = [sc(a[0], [[0, 1], [1, 2], [2, 3], [3.5, 4], [99, 5]]), sc(a[1], [[0.3, 1], [0.7, 2], [1.2, 3], [2, 4], [99, 5]]), sc(a[2], [[3, 5], [5, 4], [8, 3], [15, 2], [99, 1]]), sc(a[3], [[1, 5], [1.5, 4], [2, 3], [3, 2], [99, 1]]), sc(a[4], [[10, 5], [13, 4], [18, 3], [25, 2], [99, 1]]), sc(a[5], [[5, 5], [8, 4], [12, 3], [20, 2], [99, 1]]), sc(a[6], [[2, 5], [4, 4], [7, 3], [12, 2], [99, 1]]), sc(a[7], [[3, 5], [5, 4], [9, 3], [15, 2], [99, 1]]), sc(a[8], [[0.1, 5], [0.2, 4], [0.3, 3], [0.5, 2], [99, 1]])]; return s.reduce(function (x, y) { return x + y; }, 0) / s.length; };
+    var classe = function (x) { return x <= 1.5 ? { c: 'C2', s: 'A / BBB+', col: '#0891b2', d: 'Rischio basso' } : x <= 2.0 ? { c: 'C3', s: 'A / BBB+', col: '#0891b2', d: 'Rischio contenuto' } : x <= 2.8 ? { c: 'C4', s: 'BBB / BB+', col: '#16a34a', d: 'Rischio moderato' } : x <= 3.5 ? { c: 'C5', s: 'BB', col: '#d97706', d: 'Rischio medio' } : { c: 'C6+', s: 'B', col: '#dc2626', d: 'Rischio elevato' }; };
+    var out = [{ anno: '2024', nota: 'bilancio definitivo', p: punteggio(B.rating_storico['2024']) }, { anno: '2025', nota: 'bilancio definitivo', p: punteggio(B.rating_storico['2025']) }];
+    indici(D, r).forEach(function (a) {
+      var k = a.deb / 1000, cs = a.cassa / 1000, v = a.v;
+      out.push({ anno: String(a.y), nota: 'proiezione con stime', p: punteggio([v.pfn_ebitda, v.debt_equity, v.copertura, (cs + k) / Math.max(1, k + S.liquidita_debiti_extra_k), v.ebitda_m, v.roe, a.ce.operativo / 1000 / TA * 100, v.utile_m, S['circolante_su_attivo_' + a.y]]) });
+    });
+    out.forEach(function (o) { o.k = classe(o.p); });
+    return out;
+  }
+  root.Motore = { calcola: calcola, indici: indici, rating: rating, parametriDefault: parametriDefault, MESI: MESI };
   if (typeof module !== 'undefined') module.exports = root.Motore;
 })(typeof window !== 'undefined' ? window : this);
