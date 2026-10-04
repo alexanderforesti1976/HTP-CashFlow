@@ -27,7 +27,7 @@ svg{width:100%;height:auto;display:block;touch-action:pan-y}
 .pg{margin:0 0 14px}.pg h3{font-size:13px;color:var(--mut);margin:0 0 6px;text-transform:uppercase;letter-spacing:.04em}
 .par{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
 .par label{font-size:14px}.par .sv{grid-column:1/3;font-size:11px;color:var(--mut)}
-.par .pm{display:inline-flex;align-items:center;gap:6px}.par button.b{width:40px;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--acc);font:inherit;font-size:24px;line-height:1;cursor:pointer;touch-action:manipulation}.par button.b:active{background:var(--line)}
+.par .pm{display:inline-flex;align-items:center;gap:6px}.par button.b{width:40px;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--acc);font:inherit;font-size:24px;line-height:1;cursor:pointer;touch-action:pan-y;user-select:none;-webkit-user-select:none}.par button.b:active{background:var(--line)}
 .par input[type=number],.par select{width:88px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--tx);font:inherit;text-align:right}
 .par.mod label{color:var(--acc);font-weight:600}
 button{font:inherit;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx);cursor:pointer}
@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1791141436443"></script>
+<script src="motore.js?v=1791141479026"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -133,7 +133,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1791141436443; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1791141479026; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -181,12 +181,15 @@ function buildPars(){
   SPEC.forEach(function(s){
     var n=document.getElementById('n_'+s.id);
     var on=function(v){ v=parseFloat(v); if(isNaN(v)) return; P[s.id]=v; LASTC=s.l+' = '+v; sync(); };
-    n.addEventListener('input',function(){on(n.value)});
+    n.addEventListener('input',function(){on(n.value)}); n.addEventListener('wheel',function(){n.blur()},{passive:true});
     var passo=function(d){ var v=Math.round((P[s.id]+d*s.step)/s.step*1e6)/1e6*s.step; v=Math.max(s.min,Math.min(s.max,Math.round(v*1e6)/1e6)); on(v); };
-    [['m_',-1],['p_',1]].forEach(function(b){ var el=document.getElementById(b[0]+s.id), t1=0, t2=0;
+    [['m_',-1],['p_',1]].forEach(function(b){ var el=document.getElementById(b[0]+s.id), t1=0, t2=0, down=false, moved=false, rep=false, x0=0, y0=0, tt=0;
+      // un tocco conta solo se il dito si alza senza essersi mosso (altrimenti è uno scorrimento della pagina); tenere premuto fermo ripete dopo 0,7 s
       var stop=function(){clearTimeout(t1);clearInterval(t2)};
-      el.addEventListener('pointerdown',function(ev){ev.preventDefault(); passo(b[1]); t1=setTimeout(function(){t2=setInterval(function(){passo(b[1])},120)},500)});
-      ['pointerup','pointerleave','pointercancel'].forEach(function(e){el.addEventListener(e,stop)}); });
+      el.addEventListener('pointerdown',function(ev){down=true;moved=false;rep=false;x0=ev.clientX;y0=ev.clientY;tt=Date.now(); t1=setTimeout(function(){ if(down&&!moved){rep=true; passo(b[1]); t2=setInterval(function(){passo(b[1])},150);} },700);});
+      el.addEventListener('pointermove',function(ev){ if(down&&(Math.abs(ev.clientX-x0)>6||Math.abs(ev.clientY-y0)>6)){moved=true; stop();} });
+      el.addEventListener('pointerup',function(){ var tap=down&&!moved&&!rep&&Date.now()-tt<650; down=false; stop(); if(tap) passo(b[1]); });
+      ['pointercancel','pointerleave'].forEach(function(e){el.addEventListener(e,function(){down=false;moved=true;stop();});}); });
   });
   CIGSEL.forEach(function(c){ document.getElementById('n_'+c[0]).addEventListener('change',function(e){P[c[0]]=e.target.value; LASTC=c[1]+' = '+e.target.value; sync();}); });
   document.getElementById('n_fv_canone_da').addEventListener('change',function(e){P.fv_canone_da=e.target.value; LASTC='primo mese canone fotovoltaico = '+e.target.value; sync();});
