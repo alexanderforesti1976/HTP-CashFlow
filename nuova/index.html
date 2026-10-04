@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HTP Hub Cash Flow</title>
+<title>HTP Cash Flow</title>
 <style>
 :root{--bg:#f4f6fa;--card:#ffffff;--tx:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--pos:#15803d;--neg:#b91c1c;--warn:#b45309;--c1:#2563eb;--c2:#0ea5e9;--c3:#8b5cf6;--c4:#f59e0b;--c5:#ef4444;--c6:#14b8a6;--c7:#64748b;--c8:#ec4899}
 @media (prefers-color-scheme: dark){:root{--bg:#0b1220;--card:#131c2e;--tx:#e5e7eb;--mut:#94a3b8;--line:#25324a;--acc:#60a5fa;--pos:#4ade80;--neg:#f87171;--warn:#fbbf24;--c1:#60a5fa;--c2:#38bdf8;--c3:#a78bfa;--c4:#fbbf24;--c5:#f87171;--c6:#2dd4bf;--c7:#94a3b8;--c8:#f472b6}}
@@ -46,7 +46,7 @@ html{scroll-padding-top:50px}
 <body>
 <div class="wrap">
 <header>
-<h1>HTP Hub — Cash Flow</h1>
+<h1>HTP Cash Flow</h1>
 <div class="sub">Dati reali fino al 30/09/2026 (bloccati) · da ottobre previsione con parametri che puoi cambiare · <a href="ce.html">conto economico e riconciliazioni</a> · app attuale: <a href="../">../</a></div>
 <div class="sub" id="agg" style="margin-top:4px"></div>
 <div class="sub" id="sav" style="margin-top:4px">Salvataggio automatico: ogni modifica si salva da sola.</div>
@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1791144664632"></script>
+<script src="motore.js?v=1791145891545"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -128,7 +128,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1791144664632; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1791145891545; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
