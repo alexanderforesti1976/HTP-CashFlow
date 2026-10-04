@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig_addizionale_pct: 9, cig26_lavoratori: 1, cig26_ore: 15, cig26_da: '2026-09', cig26_a: '2026-12', cig27_lavoratori: 6, cig27_ore: 30, cig27_da: '2027-01', cig27_a: '2027-12',
+      cig_addizionale_pct: 9, cig_anticipata: 1, cig26_lavoratori: 1, cig26_ore: 15, cig26_da: '2026-09', cig26_a: '2026-12', cig27_lavoratori: 6, cig27_ore: 30, cig27_da: '2027-01', cig27_a: '2027-12',
       ricavi27_k: 2100, quota_non_confermato: 100,
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
@@ -40,6 +40,13 @@
       var is26 = ym < '2027-01', w = is26 ? P.cig26_lavoratori : P.cig27_lavoratori, h = is26 ? P.cig26_ore : P.cig27_ore;
       var da = is26 ? P.cig26_da : P.cig27_da, a = is26 ? P.cig26_a : P.cig27_a;
       return P.pers_mese - (ym >= da && ym <= a ? w / 20 * h / 100 * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale) : 0);
+    };
+    // integrazione anticipata dall'azienda ai lavoratori (80% della retribuzione globale delle ore non lavorate): uscita nel mese, recuperata il mese dopo
+    // con il conguaglio sui contributi INPS (non è costo: è un credito verso l'INPS)
+    var cigAnt = function (ym) {
+      var is26 = ym < '2027-01', w = is26 ? P.cig26_lavoratori : P.cig27_lavoratori, h = is26 ? P.cig26_ore : P.cig27_ore;
+      var da = is26 ? P.cig26_da : P.cig27_da, a = is26 ? P.cig26_a : P.cig27_a;
+      return P.cig_anticipata >= 0.5 && ym >= da && ym <= a ? 0.80 * retribGlobale * w / 20 * h / 100 : 0;
     };
     var sumSD = 0, sum27 = 0;
     ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });
@@ -174,8 +181,9 @@
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
       L.iva = ivaPay[ym] || 0;
-      L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov;
-      L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
+      L.cigAnticipo = cigAnt(ym); L.cigRimborso = prev >= '2026-10' ? cigAnt(prev) : 0;
+      L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov + L.cigRimborso;
+      L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
       L.netto = L.entrate - L.uscite; L.apertura = cassa; cassa += L.netto; L.chiusura = cassa;
       L.ricavi = REV[ym] || 0;
       rows[ym] = L;
