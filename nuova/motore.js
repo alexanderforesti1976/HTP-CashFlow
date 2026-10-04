@@ -36,9 +36,9 @@
     // (9%, 6% se nessuna CIG da 24 mesi; 12% e 15% oltre 52 e 104 settimane) sulla retribuzione globale (con ratei di 13a) delle ore non lavorate.
     // Risparmio mensile = lavoratori/20 x % ore x (costo mensile - addizionale% x retribuzione globale mensile).
     var retribGlobale = D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi / 12 * 13 / 12;
-    // CIG per trimestre: persone e ore di CIG a persona nel trimestre (520 ore = 13 settimane x 40 = trimestre a zero ore); ore distribuite sui 3 mesi
+    // CIG per trimestre: persone e ore di CIG a persona AL MESE (le stesse in ciascuno dei 3 mesi del trimestre); 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
     var trim = function (ym) { var y = ym.slice(2, 4), mo = +ym.slice(5); return (ym >= '2026-10') ? y + 'q' + Math.ceil(mo / 3) : null; };
-    var quotaCig = function (ym) { var q = trim(ym); return q ? (P['cig_n_' + q] || 0) / 20 * (P['cig_h_' + q] || 0) / 520 : 0; };
+    var quotaCig = function (ym) { var q = trim(ym); return q ? (P['cig_n_' + q] || 0) / 20 * Math.min(1, (P['cig_h_' + q] || 0) / 173.33) : 0; };
     var persM = function (ym) { return P.pers_mese - quotaCig(ym) * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale); };
     var sumSD = 0, sum27 = 0;
     ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });

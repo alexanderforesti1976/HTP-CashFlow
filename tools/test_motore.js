@@ -2,14 +2,14 @@
 const fs = require('fs'), M = require('../nuova/motore.js');
 const D = JSON.parse(fs.readFileSync(__dirname + '/../nuova/dati.json', 'utf8'));
 const P0 = M.parametriDefault(D), P = Object.assign({}, P0, { imposte_2026: 124249 }), r = M.calcola(D, P).riepilogo; // R078: imposte 2026 fissate = acconti pagati
-const att = { cassa_2026: 1922518.43, cassa_2027: 1706462.19 }; // R135: CIG di partenza zero; R132: nessun anticipo CIG (paga INPS); R129: CIG da legge (addizionale); R115: giacenze 30/06 = 176.608; R113: acquisti in % dei ricavi, giacenza finale = leva; R110: giacenze 30/06 = 164.739; R109: matrice incassi da PDF; R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
+const att = { cassa_2026: 1922518.43, cassa_2027: 1706462.19 }; // R136: ore di CIG al mese; R135: CIG di partenza zero; R132: nessun anticipo CIG (paga INPS); R129: CIG da legge (addizionale); R115: giacenze 30/06 = 176.608; R113: acquisti in % dei ricavi, giacenza finale = leva; R110: giacenze 30/06 = 164.739; R109: matrice incassi da PDF; R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
 let ok = true;
 for (const k in att) { const d = Math.round((r[k] - att[k]) * 100) / 100; console.log(k, r[k].toFixed(2), 'atteso', att[k], 'diff', d); if (Math.abs(d) > 10) ok = false; }
 console.log('minimo', r.minimo.toFixed(2), r.mese_minimo, '| entrate 2027', r.entrate_2027.toFixed(2), 'uscite 2027', r.uscite_2027.toFixed(2));
 // sensibilità: CIG 2027 a zero deve ALZARE le uscite 2027 del costo (un tagliare costi alza la cassa)
-const CIG27 = { cig_n_27q1: 6, cig_h_27q1: 156, cig_n_27q2: 6, cig_h_27q2: 156, cig_n_27q3: 6, cig_h_27q3: 156, cig_n_27q4: 6, cig_h_27q4: 156 };
+const CIG27 = { cig_n_27q1: 6, cig_h_27q1: 52, cig_n_27q2: 6, cig_h_27q2: 52, cig_n_27q3: 6, cig_h_27q3: 52, cig_n_27q4: 6, cig_h_27q4: 52 };
 const P2 = Object.assign({}, P, CIG27), r2 = M.calcola(D, P2).riepilogo;
-console.log('CIG 2027 (6 persone x 156 ore a trimestre): uscite 2027', r2.uscite_2027.toFixed(2), '(più basse di', r.uscite_2027.toFixed(2) + ', CIG di partenza = zero)'); if (!(r2.uscite_2027 < r.uscite_2027)) ok = false;
+console.log('CIG 2027 (6 persone x 52 ore al mese): uscite 2027', r2.uscite_2027.toFixed(2), '(più basse di', r.uscite_2027.toFixed(2) + ', CIG di partenza = zero)'); if (!(r2.uscite_2027 < r.uscite_2027)) ok = false;
 const P3 = Object.assign({}, P, { g30_mp: P.g30_mp - 20000 }), r3 = M.calcola(D, P3).riepilogo;
 console.log('giacenza 30/06 -20.000: consumo piu alto, cassa 2027', r3.cassa_2027.toFixed(2), '(più bassa di', r.cassa_2027.toFixed(2) + ')'); if (!(r3.cassa_2027 < r.cassa_2027)) ok = false;
 const ra = M.calcola(D, P0); console.log('imposte 2026 automatiche', ra.riepilogo.imposte_2026.toFixed(2), '= IRES', ra.ce.ires.toFixed(2), '+ IRAP', ra.ce.irap.toFixed(2), '| utile', ra.ce.utile.toFixed(2)); if (Math.abs(ra.ce.imposte - ra.riepilogo.imposte_2026) > 0.01 || ra.ce.imposte <= 0) ok = false;
@@ -24,12 +24,12 @@ const ires25 = 0.24 * (ante25 + var25), irap25 = 0.039 * (op25 + 19420 + 67386.3
 console.log('2025: IRES calcolata', ires25.toFixed(0), 'pagata 102280 | IRAP calcolata', irap25.toFixed(0), 'pagata 21969');
 if (Math.abs(ires25 / 102280 - 1) > 0.02 || Math.abs(irap25 / 21969 - 1) > 0.02) ok = false;
 // periodo CIG: CIG 2027 (6 lavoratori 30%) solo gen-mar 2027 deve costare piu di tutto l'anno; CIG dal 2026-11 al 2027-01 riduce il personale solo in quei mesi
-const rg = M.calcola(D, Object.assign({}, P0, { cig_n_27q1: 6, cig_h_27q1: 156 })); console.log('CIG 2027 solo nel 1o trimestre: personale 2027', rg.ce27.personale.toFixed(0), '(più alto di', rc.ce27.personale.toFixed(0) + ', CIG in tutto l\'anno)'); if (!(rg.ce27.personale > rc.ce27.personale && rg.ce27.personale < ra.ce27.personale)) ok = false;
-const rp = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 130, cig_n_27q1: 5, cig_h_27q1: 130 }));
+const rg = M.calcola(D, Object.assign({}, P0, { cig_n_27q1: 6, cig_h_27q1: 52 })); console.log('CIG 2027 solo nel 1o trimestre: personale 2027', rg.ce27.personale.toFixed(0), '(più alto di', rc.ce27.personale.toFixed(0) + ', CIG in tutto l\'anno)'); if (!(rg.ce27.personale > rc.ce27.personale && rg.ce27.personale < ra.ce27.personale)) ok = false;
+const rp = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 43, cig_n_27q1: 5, cig_h_27q1: 43 }));
 const dm = rp.righe['2026-11'].personale - ra.righe['2026-11'].personale;
-console.log('CIG 5 persone x 130 ore nel trimestre: personale nov', dm.toFixed(0)); if (!(dm < 0)) ok = false;
+console.log('CIG 5 persone x 43 ore al mese: personale nov', dm.toFixed(0)); if (!(dm < 0)) ok = false;
 // la CIG del 2026 non deve cambiare il risultato 2027; la CIG del 2027 lo deve alzare
-const rz = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 0 })), rq = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 260 }));
+const rz = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 0 })), rq = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 87 }));
 console.log('utile 2027 con e senza CIG nel 2026:', rq.ce27.utile.toFixed(0), rz.ce27.utile.toFixed(0)); if (Math.abs(rq.ce27.utile - rz.ce27.utile) > 1) ok = false;
 // CIG di partenza zero: nessun risparmio sul personale
 if (Math.abs(ra.ce27.personale - (12 * P0.pers_mese + (D.cf.ce2026.integrazioni.tfr_da_aggiungere + D.cf.ce2026.integrazioni.tredicesima_con_contributi))) > 1) ok = false;
