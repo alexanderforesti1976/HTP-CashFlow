@@ -96,3 +96,8 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Classificazione IVA OMECA/Arkimat/locazione; storico ritiri vs mastrini; ripartizione T.Erre oltre tetti data.
 - Piano ammortamento BCC Sebino 8021 (opzionale); magazzino al 30/06/2025.
 - Argomm articolo 047002: cost breakdown per trattare il nuovo prezzo.
+
+## NOTA IN MEMORIA: margine latente del magazzino (Alex, 04/10/2026) — NON modificare l'app
+- Prodotti finiti + semilavorati al 30/06/2026: 73.529 € a costo di produzione (include materie, lavorazioni, manodopera: è un ricavo sospeso), che a listino (IVA esclusa) varrebbero **272.631 €** (calcolo di Alex dalla chat di Code; 263.003 € su listini scaduti ma "sono quelli", da dare per buoni). Margine latente ≈ 199.100 € (73%): si realizza quando si vende.
+- Il costo del magazzino è il 27% del prezzo, quasi uguale al 26,9% di costi variabili dell'app: il margine è già dentro la proiezione. Il cash flow, per la parte di ricavi venduta dal magazzino, paga comunque acquisti e lavorazioni al 21,8% (≈ 59k€ in uscita in più del reale): prudente. **Decisione di Alex: l'app resta com'è, nessun parametro né riga nuova.** Solo da tenere presente nelle valutazioni.
+- Problema vero dell'azienda secondo Alex: i volumi (pareggio ≈ 1,9–2,1M€ di ricavi; ogni 100k€ di ricavi spostano il risultato di circa 73k€).
