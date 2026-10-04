@@ -17,7 +17,9 @@ h1{font-size:22px;margin:0 0 2px}h2{font-size:16px;margin:0 0 8px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .kpi .l{color:var(--mut);font-size:12px}.kpi .v{font-size:20px;font-weight:700;margin-top:2px;white-space:nowrap}.kpi .d{font-size:12px;margin-top:2px}
 .pos{color:var(--pos)}.neg{color:var(--neg)}.mut{color:var(--mut)}
-.gt{background:rgba(37,99,235,.08)}
+.gt{background:rgba(37,99,235,.12);border-left:2px solid #2563eb;border-right:2px solid #2563eb;white-space:nowrap}
+#tab td,#tab th{border-left:1px solid var(--line);white-space:nowrap}
+#tab td:first-child,#tab th:first-child{white-space:normal}
 #tab td:first-child,#tab th:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:118px;max-width:118px;font-size:12px;box-shadow:2px 0 0 var(--line)}
 #tab tr.tot td:first-child{background:var(--card)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
@@ -73,12 +75,12 @@ html{scroll-padding-top:50px}
 </div>
 <div class="card" id="cecard"><h2>Conto economico 2026 e 2027 (calcolo automatico)</h2><div class="scroll"><table id="ce26" class="t2"></table></div><h3 style="margin:14px 0 4px;font-size:15px">Da dove vengono i numeri 2026</h3><div class="scroll"><table id="ce26b" class="t2 t4"></table></div><div class="note">Gen-giu: bozza di bilancio al 30/06 di Verusca (definitiva, riconciliata). Lug-ago: mastrini reali. Set-dic: previsione (variabili in % dei ricavi, fissi per mese). Valutazioni (non nella bozza): TFR, 13ª, ammortamenti, TFM, imposte e magazzino.</div><div class="note">2026: gen-ago dati reali dei mastrini, set-dic previsione. 2027: tutto previsione con le stesse regole (ricavi dei parametri, variabili in proporzione, fissi per mese, CIG 2027, fotovoltaico a regime; TFR e 13ª in proporzione al costo del personale; interessi dai piani dei finanziamenti, mancano Unicredit 8823317 e le due BMW Mini). Gli acconti e i saldi sono movimenti di cassa e stanno nel cash flow (Voci mese per mese), non nel conto economico. TFR e 13ª integrati; TFM 20% dell'utile prima del TFM, deducibile; IRES 24% e IRAP 3,9% su basi proprie. Ammortamenti e variazioni fiscali sono stime da confermare con Verusca.</div></div>
 <div class="card" id="indicicard"><h2>Indici bancari (economico-finanziari)</h2><div id="rating" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"></div><div class="scroll"><table id="indici" class="t2" style="table-layout:fixed;width:100%;min-width:0"></table></div><h3 style="margin:14px 0 4px;font-size:15px">Da dove vengono</h3><div class="scroll"><table id="indici2" class="t2"></table></div><p class="sv" style="margin-top:8px">Stesse formule e soglie della vecchia app. Debito finanziario dai piani di ammortamento; patrimonio netto = apertura 30/06/2026 (1.655.930 €) + utili 2026 e 2027, senza dividendi. Rating (scala C2-C6+, media di 9 punteggi come nella vecchia app): 2024-2025 da bilanci definitivi; 2026-2027 sono una PROIEZIONE con tre STIME come nella vecchia app (totale attivo fisso al 30/06/2026 = 5.170.399 €, liquidità = (cassa + debito) / (debito + 200k), circolante su attivo 0,38 e 0,40). Valore tra i punteggi: più basso = meglio.</p></div>
-<div class="card" id="vocicard"><h2>Tutte le voci: totali ott-dic 2026 e 2027, poi mese per mese</h2><div class="scroll"><table id="tab"></table></div></div>
+<div class="card" id="vocicard"><h2>Tutte le voci, mese per mese (con il totale di ogni anno)</h2><div class="scroll"><table id="tab"></table></div></div>
 <div class="card"><h2>Cosa c'è dentro e cosa è ipotesi</h2><div class="note" id="ipo"></div></div>
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1791149818500"></script>
+<script src="motore.js?v=1791149960166"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -132,7 +134,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1791149818500; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1791149960166; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -291,10 +293,12 @@ function render(){
 var RIGHE=[['ricavi','Fatturato emesso nel mese (ricavi, IVA esclusa)',3],['apertura','Cassa iniziale',0],['apertiCli','Incassi: scadenzario clienti (Pegaso 02/10)',1],['nuoviCli','Incassi: fatture da settembre',1],['rid','Incassi: energia immessa (RID), 2 mesi dopo',1],['ivaRel','Incasso: recupero credito IVA',1],['prov','Incassi: interessi attivi e cedola (previsione)',1],['entrate','Totale entrate',2],
  ['apertiFor','Pagamenti: scadenzario fornitori (Pegaso 02/10)',1],['nuoviFor','Pagamenti: acquisti da settembre',1],['personale','Personale (13ª a dicembre)',1],['affitti','Affitti',1],['energia','Energia (bolletta del mese prima, IVA 10%)',1],['altri','Altri costi ricorrenti (IVA 22%)',1],['irreg','Costi irregolari (IVA 22%)',1],['provvigioni','Provvigioni (mese dopo)',1],['royalties','Royalties (trimestrali)',1],['canone','Canone fotovoltaico (IVA 22%)',1],['finanz','Finanziamenti (rate)',1],['rateAcconti','Rate acconto IRES 2026',1],['accontiBase','Acconti e saldo imposte',1],['accertamenti','Rata accertamenti',1],['inail','Rata INAIL',1],['iva','IVA da versare',1],['uscite','Totale uscite',2],['netto','Flusso netto',2],['chiusura','Cassa finale',2]];
 function tabella(R){
-  var G=[['Ott-Dic 2026',R.mesi.filter(function(m){return m<'2027'})],['Anno 2027',R.mesi.filter(function(m){return m>='2027'})]];
-  var tot=function(k,ms){ if(k==='apertura') return R.righe[ms[0]][k]||0; if(k==='chiusura') return R.righe[ms[ms.length-1]][k]||0; return ms.reduce(function(a,m){return a+(R.righe[m][k]||0)},0); };
-  var t='<tr><th>Voce (importi in €)</th>'+G.map(function(g){return '<th class="gt">'+g[0]+'</th>'}).join('')+R.mesi.map(function(ym){return '<th>'+lab(ym)+'</th>'}).join('')+'</tr>';
-  RIGHE.forEach(function(r){ t+='<tr'+(r[2]===2?' class="tot"':'')+(r[2]===3?' style="font-style:italic"':'')+'><td>'+r[1]+'</td>'+G.map(function(g){return '<td class="gt"><b>'+EURf(tot(r[0],g[1]))+'</b></td>'}).join('')+R.mesi.map(function(ym){return '<td>'+EURf(R.righe[ym][r[0]]||0)+'</td>'}).join('')+'</tr>'});
+  // ordine cronologico: ott-dic 2026, TOTALE 2026, gen-dic 2027, TOTALE 2027
+  var m26=R.mesi.filter(function(m){return m<'2027'}), m27=R.mesi.filter(function(m){return m>='2027'});
+  var COL=m26.map(function(m){return {m:m}}).concat([{t:'Totale ott-dic 2026',ms:m26}]).concat(m27.map(function(m){return {m:m}})).concat([{t:'Totale 2027',ms:m27}]);
+  var val=function(k,c){ if(c.m) return R.righe[c.m][k]||0; if(k==='apertura') return R.righe[c.ms[0]][k]||0; if(k==='chiusura') return R.righe[c.ms[c.ms.length-1]][k]||0; return c.ms.reduce(function(a,m){return a+(R.righe[m][k]||0)},0); };
+  var t='<tr><th>Voce (importi in €)</th>'+COL.map(function(c){return c.m?'<th>'+lab(c.m)+'</th>':'<th class="gt">'+c.t+'</th>'}).join('')+'</tr>';
+  RIGHE.forEach(function(r){ t+='<tr'+(r[2]===2?' class="tot"':'')+(r[2]===3?' style="font-style:italic"':'')+'><td>'+r[1]+'</td>'+COL.map(function(c){ var v=EURf(val(r[0],c)); return c.m?'<td>'+v+'</td>':'<td class="gt"><b>'+v+'</b></td>'; }).join('')+'</tr>'});
   document.getElementById('tab').innerHTML=t;
 }
 function indiciBanca(R){
