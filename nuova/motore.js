@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig_addizionale_pct: 9, cig_n_26q4: 0, cig_h_26q4: 0, cig_n_27q1: 0, cig_h_27q1: 0, cig_n_27q2: 0, cig_h_27q2: 0, cig_n_27q3: 0, cig_h_27q3: 0, cig_n_27q4: 0, cig_h_27q4: 0,
+      cig_addizionale_pct: 9, cig_o_26q4: 0, cig_o_27q1: 0, cig_o_27q2: 0, cig_o_27q3: 0, cig_o_27q4: 0,
       ricavi27_k: 2100, quota_non_confermato: 100,
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
@@ -36,9 +36,9 @@
     // (9%, 6% se nessuna CIG da 24 mesi; 12% e 15% oltre 52 e 104 settimane) sulla retribuzione globale (con ratei di 13a) delle ore non lavorate.
     // Risparmio mensile = lavoratori/20 x % ore x (costo mensile - addizionale% x retribuzione globale mensile).
     var retribGlobale = D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi / 12 * 13 / 12;
-    // CIG per trimestre: persone e ore di CIG a persona AL MESE (le stesse in ciascuno dei 3 mesi del trimestre); 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
+    // CIG per trimestre: ore TOTALI di CIG al mese, tutti i lavoratori insieme (le stesse in ciascuno dei 3 mesi del trimestre); 20 lavoratori; 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
     var trim = function (ym) { var y = ym.slice(2, 4), mo = +ym.slice(5); return (ym >= '2026-10') ? y + 'q' + Math.ceil(mo / 3) : null; };
-    var quotaCig = function (ym) { var q = trim(ym); return q ? (P['cig_n_' + q] || 0) / 20 * Math.min(1, (P['cig_h_' + q] || 0) / 173.33) : 0; };
+    var quotaCig = function (ym) { var q = trim(ym); return q ? Math.min(1, (P['cig_o_' + q] || 0) / (20 * 173.33)) : 0; };
     var persM = function (ym) { return P.pers_mese - quotaCig(ym) * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale); };
     var sumSD = 0, sum27 = 0;
     ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });
