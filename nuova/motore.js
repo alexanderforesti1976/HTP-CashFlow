@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig26_lavoratori: 1, cig26_ore: 15, cig26_da: '2026-09', cig26_a: '2026-12', cig27_lavoratori: 6, cig27_ore: 30, cig27_da: '2027-01', cig27_a: '2027-12',
+      cig_addizionale_pct: 9, cig26_lavoratori: 1, cig26_ore: 15, cig26_da: '2026-09', cig26_a: '2026-12', cig27_lavoratori: 6, cig27_ore: 30, cig27_da: '2027-01', cig27_a: '2027-12',
       ricavi27_k: 2100, quota_non_confermato: 100,
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
@@ -31,11 +31,15 @@
     var C = D.cf, IR = C.iva.aliquota / 100, IE = C.iva.energia / 100, PL = C.iva.quota_plafond_acquisti / 100, QD = C.iva.quota_vendite_default / 100;
     var YM = []; for (var y = 2026; y <= 2027; y++) for (var mo = 1; mo <= 12; mo++) YM.push(y + '-' + (mo < 10 ? '0' : '') + mo);
     var FROM = YM.indexOf('2026-09');
-    // CIG: riduce il costo del personale solo nei mesi del periodo scelto (da - a), con lavoratori e % ore dell'anno (regola Alex: lavoratori/20 x costo x % ore x 80%)
+    // CIG ordinaria (D.Lgs. 148/2015): l'integrazione (80% della retribuzione globale per le ore non lavorate) la paga l'INPS, quindi per le ore
+    // in CIG l'azienda NON sostiene il costo del lavoratore (retribuzione e contributi); resta a carico dell'azienda il CONTRIBUTO ADDIZIONALE
+    // (9%, 6% se nessuna CIG da 24 mesi; 12% e 15% oltre 52 e 104 settimane) sulla retribuzione globale (con ratei di 13a) delle ore non lavorate.
+    // Risparmio mensile = lavoratori/20 x % ore x (costo mensile - addizionale% x retribuzione globale mensile).
+    var retribGlobale = D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi / 12 * 13 / 12;
     var persM = function (ym) {
       var is26 = ym < '2027-01', w = is26 ? P.cig26_lavoratori : P.cig27_lavoratori, h = is26 ? P.cig26_ore : P.cig27_ore;
       var da = is26 ? P.cig26_da : P.cig27_da, a = is26 ? P.cig26_a : P.cig27_a;
-      return P.pers_mese - (ym >= da && ym <= a ? w / 20 * P.pers_mese * h / 100 * 0.80 : 0);
+      return P.pers_mese - (ym >= da && ym <= a ? w / 20 * h / 100 * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale) : 0);
     };
     var sumSD = 0, sum27 = 0;
     ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });
