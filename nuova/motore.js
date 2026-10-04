@@ -149,10 +149,18 @@
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
     var p1 = P.acconto_prima_rata_pct / 100, base26 = 124249, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
     var cred = Math.max(0, base26 - t26), giu27 = t26 * p1 + (t26 - base26 > 0 ? t26 - base26 : -Math.min(cred, t26 * p1)), res = Math.max(0, cred - t26 * p1);
+    // 2027 cliente per cliente: ordini esistenti (per mesi di ritardo del loro cliente) + resto del mese con la quota 2026 per cliente (Terra Verde unita a Enextras)
+    var rigaRec = function (ymr) {
+      if (ymr >= '2027-01' && C.rec_quota_2027 && REV[ymr] > 0) {
+        var o = (C.rec_ordini_2027 || {})[ymr] || [0, 0, 0, 0, 0, 0, 0], ot = o.reduce(function (a, b) { return a + b; }, 0), sc = ot > REV[ymr] ? REV[ymr] / ot : 1, rest = Math.max(0, REV[ymr] - ot * sc);
+        return o.map(function (x, k) { return (x * sc + rest * C.rec_quota_2027[k]) / REV[ymr]; });
+      }
+      return C.rec_matrix[ymr] || C.rec_matrix['default'];
+    };
     OUT.forEach(function (ym, i) {
       var L = {}, ix = YM.indexOf(ym), prev = YM[ix - 1], is27 = ym >= '2027-01';
       L.apertiCli = C.aperti_clienti[ym] || 0;
-      var nu = 0; for (var j = FROM; j <= ix; j++) { var ymr = YM[j], k = ix - j, row = C.rec_matrix[ymr] || C.rec_matrix['default']; if (k <= 6) nu += (row[k] || 0) * (REV[ymr] || 0) * (1 + QS(ymr) * IR); }
+      var nu = 0; for (var j = FROM; j <= ix; j++) { var ymr = YM[j], k = ix - j, row = rigaRec(ymr); if (k <= 6) nu += (row[k] || 0) * (REV[ymr] || 0) * (1 + QS(ymr) * IR); }
       L.nuoviCli = nu;
       L.rid = i >= 2 ? fvRid(YM[ix - 2]) : 0;
       L.ivaRel = ym === '2027-04' ? credDic : 0;

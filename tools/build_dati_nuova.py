@@ -3,7 +3,7 @@
 e luglio/agosto dai mastrini 2026 (xlsx di Alex, NON nel repo), con la stessa riclassifica della bozza.
 Uso: python3 tools/build_dati_nuova.py /percorso/MASTRINI_2026.xlsx /percorso/OrdiniVenditaAperti.pdf /percorso/Condizioni_pagamento_clienti_fornitori.xlsx"""
 import json, sys, collections, openpyxl, re, subprocess, datetime as dt
-xlsx = sys.argv[1]; pdf_ordini = sys.argv[2]; xlsx_cond = sys.argv[3]
+xlsx = sys.argv[1]; pdf_ordini = sys.argv[2]; xlsx_cond = sys.argv[3]; csv_fatt = sys.argv[4] if len(sys.argv) > 4 else None
 h = json.load(open('params.json'))['H1_2026_reale']
 GRUPPI = {
  'materie':   lambda c: 6011000 <= c <= 6011008 and c != 6011004,
@@ -103,6 +103,28 @@ for ym in ('2026-10', '2026-11', '2026-12'):
     v = [0.0] * 7
     for nome, tot in ORD[ym]['cli'].items(): v[min(6, ritardo_cliente(nome))] += tot
     REC[ym] = [round(x / ORD[ym]['tot'], 4) for x in v]
+
+# --- 2027 cliente per cliente (R149): ordini esistenti per cliente (PDF, gen-mag) per mesi di ritardo + quota 2026 per cliente (CSV fatturato gen-set,
+# Terra Verde unita a Enextras: dal 09/2026 non esiste piu) per la parte da proiettare. Nel repo restano solo importi per mesi di ritardo, mai i nomi dei clienti.
+REC_ORD27 = {}; QUOTA27 = None
+if csv_fatt:
+    import csv
+    quota = [0.0] * 7
+    righe_f = list(csv.reader(open(csv_fatt, encoding='utf-8-sig'), delimiter=';'))[1:]
+    righe_f = [r for r in righe_f if r and r[0].strip() and r[0].strip().upper() != 'TOTALE']
+    tot_f = sum(float(r[4].replace('.', '').replace(',', '.')) for r in righe_f)
+    for r in righe_f:
+        nome = r[0].strip(); v = float(r[4].replace('.', '').replace(',', '.'))
+        if 'TERRA VERDE' in nome.upper(): nome = 'ENEXTRAS'
+        quota[min(6, ritardo_cliente(nome))] += v / tot_f
+    QUOTA27 = [round(x, 4) for x in quota]
+    for ym in sorted(ORD):
+        if ym < '2027-01': continue
+        v = [0.0] * 7
+        for nome, tot in ORD[ym]['cli'].items():
+            if 'TERRA VERDE' in nome.upper(): nome = 'ENEXTRAS'
+            v[min(6, ritardo_cliente(nome))] += tot
+        REC_ORD27[ym] = [round(x, 2) for x in v]
 ricavi_previsti = []
 ricavi_previsti.append({'mese': 'Settembre', 'totale': round(P['OBACKLOG'][2]['t'] * 1000, 2), 'non_confermato': 0})
 for ym, lab in (('2026-10', 'Ottobre'), ('2026-11', 'Novembre'), ('2026-12', 'Dicembre')):
@@ -128,6 +150,7 @@ cf = {
  'cassa_30_09': 1870460.00,
  'ricavi': dict([('2026-09', round(ob['Set 26']['t'] * 1000, 2))] + [(ym, round(ORD[ym]['tot'], 2)) for ym in ('2026-10', '2026-11', '2026-12')]),
  'quota_iva_vendite': dict([('2026-09', quota_iva('Set 26'))] + [(ym, round(ORD[ym]['imp'] / ORD[ym]['tot'], 4)) for ym in ('2026-10', '2026-11', '2026-12')]),
+ 'rec_ordini_2027': REC_ORD27, 'rec_quota_2027': QUOTA27,
  'rec_matrix': dict(list({k: v for k, v in P['recMatrix'].items()}.items()) + list(REC.items())),
  'pay_matrix': P['payMatrix'],
  'aperti_clienti': {k: round(v * 1000, 2) for k, v in P['openRecSched'].items()},
@@ -211,5 +234,6 @@ cf['ce2026'] = {
 cf['defaults'].update({'ammortamenti_2026': 110000, 'ammortamenti_2027': 100000, 'giacenza_30_06': 176608, 'rimanenze_finali_2026': 153400})
 out['cf'] = cf
 out['versione_dati'] = '%d-%s-cig0o' % (cf['giacenze_30_06']['totale_valore_finale'], stampa_o)  # cambia quando cambiano giacenze o ordini: i valori salvati del magazzino si azzerano ai nuovi dati
+import indici_base; out['indici_base'] = indici_base.calcola(P)  # rate, debiti, PN e rating storico per gli indici bancari (R146-R147)
 json.dump(out, open('nuova/dati.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(out, indent=1, ensure_ascii=False))
