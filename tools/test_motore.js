@@ -2,7 +2,7 @@
 const fs = require('fs'), M = require('../nuova/motore.js');
 const D = JSON.parse(fs.readFileSync(__dirname + '/../nuova/dati.json', 'utf8'));
 const P0 = M.parametriDefault(D), P = Object.assign({}, P0, { imposte_2026: 124249 }), r = M.calcola(D, P).riepilogo; // R078: imposte 2026 fissate = acconti pagati
-const att = { cassa_2026: 1923440.57, cassa_2027: 1761079.49 }; // R130: CIG anticipata e rimborso; R129: CIG da legge (addizionale); R115: giacenze 30/06 = 176.608; R113: acquisti in % dei ricavi, giacenza finale = leva; R110: giacenze 30/06 = 164.739; R109: matrice incassi da PDF; R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
+const att = { cassa_2026: 1923695.49, cassa_2027: 1764138.54 }; // R132: nessun anticipo CIG (paga INPS); R129: CIG da legge (addizionale); R115: giacenze 30/06 = 176.608; R113: acquisti in % dei ricavi, giacenza finale = leva; R110: giacenze 30/06 = 164.739; R109: matrice incassi da PDF; R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
 let ok = true;
 for (const k in att) { const d = Math.round((r[k] - att[k]) * 100) / 100; console.log(k, r[k].toFixed(2), 'atteso', att[k], 'diff', d); if (Math.abs(d) > 10) ok = false; }
 console.log('minimo', r.minimo.toFixed(2), r.mese_minimo, '| entrate 2027', r.entrate_2027.toFixed(2), 'uscite 2027', r.uscite_2027.toFixed(2));
@@ -25,6 +25,6 @@ if (Math.abs(ires25 / 102280 - 1) > 0.02 || Math.abs(irap25 / 21969 - 1) > 0.02)
 // periodo CIG: CIG 2027 (6 lavoratori 30%) solo gen-mar 2027 deve costare piu di tutto l'anno; CIG dal 2026-11 al 2027-01 riduce il personale solo in quei mesi
 const rg = M.calcola(D, Object.assign({}, P0, { cig_n_27q2: 0, cig_n_27q3: 0, cig_n_27q4: 0 })); console.log('CIG 2027 solo nel 1o trimestre: personale 2027', rg.ce27.personale.toFixed(0), '(più alto di', ra.ce27.personale.toFixed(0) + ')'); if (!(rg.ce27.personale > ra.ce27.personale)) ok = false;
 const rp = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 130, cig_n_27q1: 5, cig_h_27q1: 130 }));
-const dm = rp.righe['2026-11'].personale - ra.righe['2026-11'].personale, an = rp.righe['2026-11'].cigAnticipo;
-console.log('CIG 5 persone x 130 ore nel trimestre: personale nov', dm.toFixed(0), 'anticipo', an.toFixed(0)); if (!(dm < 0 && an > 0)) ok = false;
+const dm = rp.righe['2026-11'].personale - ra.righe['2026-11'].personale;
+console.log('CIG 5 persone x 130 ore nel trimestre: personale nov', dm.toFixed(0)); if (!(dm < 0)) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);
