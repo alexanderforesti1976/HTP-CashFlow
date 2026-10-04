@@ -27,4 +27,9 @@ const rg = M.calcola(D, Object.assign({}, P0, { cig_n_27q2: 0, cig_n_27q3: 0, ci
 const rp = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 130, cig_n_27q1: 5, cig_h_27q1: 130 }));
 const dm = rp.righe['2026-11'].personale - ra.righe['2026-11'].personale;
 console.log('CIG 5 persone x 130 ore nel trimestre: personale nov', dm.toFixed(0)); if (!(dm < 0)) ok = false;
+// la CIG del 2026 non deve cambiare il risultato 2027; la CIG del 2027 lo deve alzare
+const rz = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 0 })), rq = M.calcola(D, Object.assign({}, P0, { cig_n_26q4: 5, cig_h_26q4: 260 }));
+console.log('utile 2027 con e senza CIG nel 2026:', rq.ce27.utile.toFixed(0), rz.ce27.utile.toFixed(0)); if (Math.abs(rq.ce27.utile - rz.ce27.utile) > 1) ok = false;
+const rn = M.calcola(D, Object.assign({}, P0, { cig_n_27q1: 0, cig_n_27q2: 0, cig_n_27q3: 0, cig_n_27q4: 0 }));
+console.log('utile 2027 senza CIG 2027', rn.ce27.utile.toFixed(0), '< con CIG 2027', ra.ce27.utile.toFixed(0)); if (!(rn.ce27.utile < ra.ce27.utile)) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);

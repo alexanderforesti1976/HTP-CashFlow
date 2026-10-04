@@ -131,7 +131,8 @@
     // CE 2027: tutto da previsione con le stesse regole (ricavi dei parametri, variabili in %, fissi per mese, CIG 2027, fotovoltaico a regime)
     var Y27 = YM.slice(12), ric27 = 0, en27 = 0, can27 = 0;
     Y27.forEach(function (ym) { ric27 += REV[ym]; en27 += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) can27 += P.fv_canone; });
-    var base26p = gsum('personale') + sumSD, scala = sum27 / base26p, c7 = { ricavi: ric27 };
+    var scala = sum27 / (12 * P.pers_mese), // TFR e 13ª 2027 in proporzione al costo del personale del 2027 rispetto a un anno senza CIG (la CIG 2026 non li cambia)
+         c7 = { ricavi: ric27 };
     c7.rim_fin = P.rimanenze_finali_2027; c7.rim_in = P.rimanenze_finali_2026; c7.rimanenze = c7.rim_fin - c7.rim_in;
     c7.a2_in = P.f26_pf + P.f26_sl; c7.a2_fin = P.f27_pf + P.f27_sl; c7.b11_in = P.f26_mp + P.f26_imb; c7.b11_fin = P.f27_mp + P.f27_imb;
     c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov; c7.royalties = 0.015 * ric27;
