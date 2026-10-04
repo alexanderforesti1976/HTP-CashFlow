@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1791144310058"></script>
+<script src="motore.js?v=1791144334408"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -97,11 +97,11 @@ var SPEC=[
  {g:'Magazzino finale 31/12/2027',id:'f27_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
  {g:'Magazzino finale 31/12/2027',id:'f27_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
  {g:'Magazzino finale 31/12/2027',id:'f27_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
- {g:'CIG per trimestre',id:'cig_o_26q4',l:'CIG ott-dic 2026 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. 6 persone a casa 2 giorni a settimana per 4 settimane = 6×16×4 = 384 ore)',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q1',l:'CIG gen-mar 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. 6 persone a casa 2 giorni a settimana per 4 settimane = 6×16×4 = 384 ore)',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q2',l:'CIG apr-giu 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. 6 persone a casa 2 giorni a settimana per 4 settimane = 6×16×4 = 384 ore)',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q3',l:'CIG lug-set 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. 6 persone a casa 2 giorni a settimana per 4 settimane = 6×16×4 = 384 ore)',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q4',l:'CIG ott-dic 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. 6 persone a casa 2 giorni a settimana per 4 settimane = 6×16×4 = 384 ore)',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG per trimestre',id:'cig_o_26q4',l:'CIG ott-dic 2026 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. scrivi il calcolo: 6x16x4 = 384 ore (6 persone, 16 ore a settimana, 4 settimane))',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG per trimestre',id:'cig_o_27q1',l:'CIG gen-mar 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. scrivi il calcolo: 6x16x4 = 384 ore (6 persone, 16 ore a settimana, 4 settimane))',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG per trimestre',id:'cig_o_27q2',l:'CIG apr-giu 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. scrivi il calcolo: 6x16x4 = 384 ore (6 persone, 16 ore a settimana, 4 settimane))',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG per trimestre',id:'cig_o_27q3',l:'CIG lug-set 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. scrivi il calcolo: 6x16x4 = 384 ore (6 persone, 16 ore a settimana, 4 settimane))',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG per trimestre',id:'cig_o_27q4',l:'CIG ott-dic 2027 — ore di CIG TOTALI al mese (tutti i lavoratori insieme; es. scrivi il calcolo: 6x16x4 = 384 ore (6 persone, 16 ore a settimana, 4 settimane))',min:0,max:3466,step:8,u:'ore'},
  {g:'Personale e CIG',id:'cig_addizionale_pct',l:'CIG: contributo addizionale a carico azienda (9%; 6% se nessuna CIG da 24 mesi)',min:0,max:15,step:1,u:'%'},
  {g:'Personale e CIG',id:'pers_mese',l:'Costo personale mensile (senza CIG)',min:40000,max:70000,step:250,u:'€'},
  {g:'Costi variabili (% dei ricavi)',id:'pct_lavorazioni',l:'Lavorazioni c/terzi',min:0,max:10,step:0.1,u:'%'},
@@ -128,7 +128,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1791144310058; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1791144334408; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -168,7 +168,7 @@ function buildPars(){
   var host=document.getElementById('pars'), last='', h='';
   SPEC.forEach(function(s){
     if(s.g!==last){ if(last) h+='</div>'; h+='<div class="pg"><h3>'+s.g+(/^(g30|f26|f27)_/.test(s.id)?' — totale <span id="tot_'+s.id.split('_')[0]+'"></span> €':'')+'</h3>'; last=s.g; }
-    h+='<div class="par" id="row_'+s.id+'"><label for="n_'+s.id+'">'+s.l+'</label><span class="pm"><button class="b" id="m_'+s.id+'" aria-label="meno">−</button><input type="number" id="n_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'"><button class="b" id="p_'+s.id+'" aria-label="più">+</button> '+s.u+'</span><div class="sv" id="sv_'+s.id+'"></div></div>'+(/^(g30|f26|f27)_imb$/.test(s.id)?'<div class="par totm" id="trow_'+s.id.split('_')[0]+'"><label><b>Totale</b></label><span><b id="tv_'+s.id.split('_')[0]+'"></b></span><div class="sv">somma delle quattro categorie = 100%</div></div>':'');
+    h+='<div class="par" id="row_'+s.id+'"><label for="n_'+s.id+'">'+s.l+'</label><span class="pm"><button class="b" id="m_'+s.id+'" aria-label="meno">−</button>'+(/^cig_o_/.test(s.id)?'<input type="text" inputmode="text" autocomplete="off" id="n_'+s.id+'">':'<input type="number" id="n_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'">')+'<button class="b" id="p_'+s.id+'" aria-label="più">+</button> '+s.u+'</span><div class="sv" id="sv_'+s.id+'"></div></div>'+(/^(g30|f26|f27)_imb$/.test(s.id)?'<div class="par totm" id="trow_'+s.id.split('_')[0]+'"><label><b>Totale</b></label><span><b id="tv_'+s.id.split('_')[0]+'"></b></span><div class="sv">somma delle quattro categorie = 100%</div></div>':'');
   });
   h+='<div class="par" id="row_fv_canone_da"><label for="n_fv_canone_da">Fotovoltaico: primo mese di canone</label><select id="n_fv_canone_da"><option>2026-10</option><option>2026-11</option><option>2026-12</option><option>2027-01</option><option>2027-02</option><option>2027-03</option></select></div></div>';
   CIGSEL.forEach(function(c){ h+='<div class="par" id="row_'+c[0]+'"><label for="n_'+c[0]+'">'+c[1]+'</label><select id="n_'+c[0]+'">'+MESI_SEL+'</select></div>'; });
@@ -176,7 +176,11 @@ function buildPars(){
   SPEC.forEach(function(s){
     var n=document.getElementById('n_'+s.id);
     var on=function(v){ v=parseFloat(v); if(isNaN(v)) return; P[s.id]=v; LASTC=s.l+' = '+v; sync(); };
-    n.addEventListener('input',function(){on(n.value)}); n.addEventListener('wheel',function(){n.blur()},{passive:true});
+    if(/^cig_o_/.test(s.id)){ // si può scrivere anche un calcolo: 6x16x4 diventa 384
+      var calc=function(){ var t=String(n.value).replace(/[x×X]/g,'*').replace(/,/g,'.'); if(!/^[0-9+\-*\/(). ]+$/.test(t)) return null; try{ var r=Function('"use strict";return ('+t+')')(); return isFinite(r)?Math.max(s.min,Math.min(s.max,Math.round(r*100)/100)):null; }catch(e){ return null; } };
+      n.addEventListener('input',function(){ var r=calc(); if(r!==null) on(r); });
+      n.addEventListener('change',function(){ var r=calc(); if(r!==null){ on(r); n.value=r; } else n.value=P[s.id]; });
+    } else n.addEventListener('input',function(){on(n.value)}); n.addEventListener('wheel',function(){n.blur()},{passive:true});
     var passo=function(d){ var v=Math.round((P[s.id]+d*s.step)/s.step*1e6)/1e6*s.step; v=Math.max(s.min,Math.min(s.max,Math.round(v*1e6)/1e6)); on(v); };
     [['m_',-1],['p_',1]].forEach(function(b){ var el=document.getElementById(b[0]+s.id), t1=0, t2=0, down=false, moved=false, rep=false, x0=0, y0=0, tt=0;
       // un tocco conta solo se il dito si alza senza essersi mosso (altrimenti è uno scorrimento della pagina); tenere premuto fermo ripete dopo 0,7 s
