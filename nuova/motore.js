@@ -192,6 +192,24 @@
       }
     };
   }
-  root.Motore = { calcola: calcola, parametriDefault: parametriDefault, MESI: MESI };
+  // Indici economico-finanziari come li guardano le banche (stesse formule e soglie della vecchia app). Solo dati del modello e dei piani di ammortamento.
+  function indici(D, r) {
+    var B = D.indici_base, out = [];
+    var an = [
+      { y: 2026, ce: r.ce, cassa: r.riepilogo.cassa_2026, deb: B.debito_31_12_2026, rate: B.rate_2026 },
+      { y: 2027, ce: r.ce27, cassa: r.riepilogo.cassa_2027, deb: B.debito_31_12_2027, rate: B.rate_2027 }
+    ];
+    var pn = B.pn_apertura_2026;
+    an.forEach(function (a) {
+      var c = a.ce; pn += c.utile; a.pn = pn;
+      a.ebitda = c.operativo + c.ammortamenti; a.pfn = a.deb - a.cassa;
+      a.v = {
+        dscr: a.ebitda / a.rate, pfn_ebitda: a.pfn / a.ebitda, copertura: c.operativo / c.int_passivi,
+        ebitda_m: a.ebitda / c.ricavi * 100, debt_equity: a.deb / pn, utile_m: c.utile / c.ricavi * 100, roe: c.utile / pn * 100
+      };
+    });
+    return an;
+  }
+  root.Motore = { calcola: calcola, indici: indici, parametriDefault: parametriDefault, MESI: MESI };
   if (typeof module !== 'undefined') module.exports = root.Motore;
 })(typeof window !== 'undefined' ? window : this);

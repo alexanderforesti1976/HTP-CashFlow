@@ -1341,5 +1341,14 @@
    "_note": "Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca"
   }
  },
- "versione_dati": "176608-2026-10-03-cig0o"
+ "versione_dati": "176608-2026-10-03-cig0o",
+ "indici_base": {
+  "rate_2026": 436380.38,
+  "rate_2027": 352312.79,
+  "debito_31_12_2026": 435930.74,
+  "debito_31_12_2027": 92005.65,
+  "pn_apertura_2026": 1655929.71,
+  "debiti_bancari_30_06_2026": 637070.07,
+  "_fonte": "rate e debiti dai piani di ammortamento (params.json loans); patrimonio netto di apertura e debiti bancari dalla bozza 30/06/2026 (SP_H1_2026_reale)"
+ }
 }
