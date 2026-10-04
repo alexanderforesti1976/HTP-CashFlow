@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig26_lavoratori: 1, cig26_ore: 15, cig27_lavoratori: 6, cig27_ore: 30,
+      cig26_lavoratori: 1, cig26_ore: 15, cig26_da: '2026-09', cig26_a: '2026-12', cig27_lavoratori: 6, cig27_ore: 30, cig27_da: '2027-01', cig27_a: '2027-12',
       ricavi27_k: 2100, quota_non_confermato: 100,
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
@@ -31,8 +31,15 @@
     var C = D.cf, IR = C.iva.aliquota / 100, IE = C.iva.energia / 100, PL = C.iva.quota_plafond_acquisti / 100, QD = C.iva.quota_vendite_default / 100;
     var YM = []; for (var y = 2026; y <= 2027; y++) for (var mo = 1; mo <= 12; mo++) YM.push(y + '-' + (mo < 10 ? '0' : '') + mo);
     var FROM = YM.indexOf('2026-09');
-    var pers = function (w, h) { return P.pers_mese - w / 20 * P.pers_mese * h / 100 * 0.80; };
-    var pers26 = pers(P.cig26_lavoratori, P.cig26_ore), pers27 = pers(P.cig27_lavoratori, P.cig27_ore);
+    // CIG: riduce il costo del personale solo nei mesi del periodo scelto (da - a), con lavoratori e % ore dell'anno (regola Alex: lavoratori/20 x costo x % ore x 80%)
+    var persM = function (ym) {
+      var is26 = ym < '2027-01', w = is26 ? P.cig26_lavoratori : P.cig27_lavoratori, h = is26 ? P.cig26_ore : P.cig27_ore;
+      var da = is26 ? P.cig26_da : P.cig27_da, a = is26 ? P.cig26_a : P.cig27_a;
+      return P.pers_mese - (ym >= da && ym <= a ? w / 20 * P.pers_mese * h / 100 * 0.80 : 0);
+    };
+    var sumSD = 0, sum27 = 0;
+    ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });
+    ['2027-01', '2027-02', '2027-03', '2027-04', '2027-05', '2027-06', '2027-07', '2027-08', '2027-09', '2027-10', '2027-11', '2027-12'].forEach(function (ym) { sum27 += persM(ym); });
     var RT = { mat: 0, mat27: 0, sub: P.pct_lavorazioni / 100, prov: P.pct_provvigioni / 100 };
     var fvK = P.fv_produzione_pct / 100;
     var mesiNC = { '2026-09': 'Settembre', '2026-10': 'Ottobre', '2026-11': 'Novembre', '2026-12': 'Dicembre' };
@@ -94,7 +101,7 @@
     ce.b11_in = EC.materie_prime + EC.materiali_consumo_imballi; ce.b11_fin = P.f26_mp + P.f26_imb;
     ce.materie = gsum('materie') + ricSD * RT.mat; ce.lavorazioni = gsum('lavorazioni_terzi') + ricSD * RT.sub;
     ce.provvigioni = gsum('provvigioni') + ricSD * RT.prov; ce.royalties = 0.015 * ric26;
-    ce.personale = gsum('personale') + 4 * pers26 + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
+    ce.personale = gsum('personale') + sumSD + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
     ce.affitti = gsum('affitti') + 4 * P.affitti_mese;
     var enSD = 0, canSD = 0; SD.forEach(function (ym) { enSD += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) canSD += P.fv_canone; });
     ce.energia = gsum('energia') + enSD;
@@ -103,7 +110,7 @@
     ce.parti = {
       ricavi: [H.ricavi_operativi, ricLM, ricSD], materie: [H.materie, lm('materie'), ricSD * RT.mat], lavorazioni: [H.lavorazioni_terzi, lm('lavorazioni_terzi'), ricSD * RT.sub],
       provvigioni: [H.provvigioni, lm('provvigioni'), ricSD * RT.prov], royalties: [0.015 * H.ricavi_operativi, 0.015 * ricLM, 0.015 * ricSD],
-      personale: [H.personale, lm('personale'), 4 * pers26], affitti: [H.affitti, lm('affitti'), 4 * P.affitti_mese], energia: [H.energia, lm('energia'), enSD],
+      personale: [H.personale, lm('personale'), sumSD], affitti: [H.affitti, lm('affitti'), 4 * P.affitti_mese], energia: [H.energia, lm('energia'), enSD],
       altri: [H.altri_costi, lm('altri_costi'), 4 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + canSD]
     };
     ce.tfr13 = E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi;
@@ -121,11 +128,11 @@
     // CE 2027: tutto da previsione con le stesse regole (ricavi dei parametri, variabili in %, fissi per mese, CIG 2027, fotovoltaico a regime)
     var Y27 = YM.slice(12), ric27 = 0, en27 = 0, can27 = 0;
     Y27.forEach(function (ym) { ric27 += REV[ym]; en27 += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) can27 += P.fv_canone; });
-    var base26p = gsum('personale') + 4 * pers26, scala = 12 * pers27 / base26p, c7 = { ricavi: ric27 };
+    var base26p = gsum('personale') + sumSD, scala = sum27 / base26p, c7 = { ricavi: ric27 };
     c7.rim_fin = P.rimanenze_finali_2027; c7.rim_in = P.rimanenze_finali_2026; c7.rimanenze = c7.rim_fin - c7.rim_in;
     c7.a2_in = P.f26_pf + P.f26_sl; c7.a2_fin = P.f27_pf + P.f27_sl; c7.b11_in = P.f26_mp + P.f26_imb; c7.b11_fin = P.f27_mp + P.f27_imb;
     c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov; c7.royalties = 0.015 * ric27;
-    c7.personale = 12 * pers27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
+    c7.personale = sum27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
     c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + can27;
     c7.consumo_materie = c7.materie + c7.rim_in - c7.rim_fin; c7.acquisti_pct = RT.mat27;
     c7.ammortamenti = P.ammortamenti_2027;
@@ -149,7 +156,7 @@
       L.apertiFor = C.aperti_fornitori[ym] || 0;
       var nf = 0; for (var j2 = FROM; j2 <= ix; j2++) { var pm = YM[j2], k2 = ix - j2; if (k2 > 6) continue; var base = purch[pm] - (pm === '2026-09' ? C.acquisti_settembre_registrati : 0); nf += ((C.pay_matrix[+pm.slice(5)] || [])[k2] || 0) * Math.max(0, base) * (1 + (1 - PL) * IR); }
       L.nuoviFor = nf;
-      L.personale = (is27 ? pers27 : pers26) + (ym === '2026-12' || ym === '2027-12' ? 35000 : 0) + (ym === '2027-01' ? 17200 : 0);
+      L.personale = persM(ym) + (ym === '2026-12' || ym === '2027-12' ? 35000 : 0) + (ym === '2027-01' ? 17200 : 0);
       L.affitti = P.affitti_mese;
       L.energia = (P.energia_mese - fvSave(prev)) * (1 + IE);
       L.altri = P.altri_ricorrenti_mese * (1 + IR);

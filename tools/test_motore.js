@@ -22,4 +22,9 @@ const var25 = 83508.75 + 4894.83 + 0.8 * (6485.95 + 5111.06 + 829.52 + 1655.73 +
 const ires25 = 0.24 * (ante25 + var25), irap25 = 0.039 * (op25 + 19420 + 67386.33 + 23489.65 + 83508.75 + 2000);
 console.log('2025: IRES calcolata', ires25.toFixed(0), 'pagata 102280 | IRAP calcolata', irap25.toFixed(0), 'pagata 21969');
 if (Math.abs(ires25 / 102280 - 1) > 0.02 || Math.abs(irap25 / 21969 - 1) > 0.02) ok = false;
+// periodo CIG: CIG 2027 (6 lavoratori 30%) solo gen-mar 2027 deve costare piu di tutto l'anno; CIG dal 2026-11 al 2027-01 riduce il personale solo in quei mesi
+const rg = M.calcola(D, Object.assign({}, P0, { cig27_a: '2027-03' })); console.log('CIG 2027 solo gen-mar: personale 2027', rg.ce27.personale.toFixed(0), '(più alto di', ra.ce27.personale.toFixed(0) + ')'); if (!(rg.ce27.personale > ra.ce27.personale)) ok = false;
+const rp = M.calcola(D, Object.assign({}, P0, { cig26_lavoratori: 5, cig26_ore: 50, cig26_da: '2026-11', cig26_a: '2026-12', cig27_lavoratori: 5, cig27_ore: 50, cig27_da: '2027-01', cig27_a: '2027-01' }));
+const dm = (rp.righe['2026-11'].personale - ra.righe['2026-11'].personale), dg = (rp.righe['2027-01'].personale - ra.righe['2027-01'].personale), dd = (rp.righe['2026-10'].personale - ra.righe['2026-10'].personale);
+console.log('CIG 5 lav. al 50% da nov 2026 a gen 2027: personale nov', dm.toFixed(0), 'gen', dg.toFixed(0), 'ott (fuori periodo)', dd.toFixed(0)); if (!(dm < 0 && dd > 0 && dd < 500)) ok = false; // ottobre: senza la CIG di partenza (1 lavoratore al 15%) costa 337 in più
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);
