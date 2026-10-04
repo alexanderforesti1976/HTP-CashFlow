@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig_addizionale_pct: 9, cig_n_26q4: 1, cig_h_26q4: 78, cig_n_27q1: 6, cig_h_27q1: 156, cig_n_27q2: 6, cig_h_27q2: 156, cig_n_27q3: 6, cig_h_27q3: 156, cig_n_27q4: 6, cig_h_27q4: 156,
+      cig_addizionale_pct: 9, cig_n_26q4: 0, cig_h_26q4: 0, cig_n_27q1: 0, cig_h_27q1: 0, cig_n_27q2: 0, cig_h_27q2: 0, cig_n_27q3: 0, cig_h_27q3: 0, cig_n_27q4: 0, cig_h_27q4: 0,
       ricavi27_k: 2100, quota_non_confermato: 100,
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
