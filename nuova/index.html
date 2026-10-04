@@ -74,7 +74,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1791143331209"></script>
+<script src="motore.js?v=1791143581460"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -128,7 +128,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1791143331209; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1791143581460; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -317,10 +317,20 @@ document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità reale 31
   window.addEventListener('load',aggiorna); setTimeout(aggiorna,600);
 })();
 var rz=0; window.addEventListener('resize',function(){clearTimeout(rz); rz=setTimeout(function(){ if(D) render(); },150)});
+function controllaVersione(){
+  fetch('aggiornamento.json?x='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(c){
+    if(c.ts===VER) return;
+    var k='rl_'+c.ts, n=0; try{n=+sessionStorage.getItem(k)||0;}catch(e){}
+    if(n>=4) return;
+    try{sessionStorage.setItem(k,n+1);}catch(e){}
+    location.replace(location.pathname+'?v='+c.ts+'&r='+Date.now());
+  }).catch(function(){});
+}
 fetch('dati.json?v='+VER).then(function(r){return r.json()}).then(function(d){
   D=d; P0=Motore.parametriDefault(D); P0._vd=D.versione_dati; BASE=Motore.calcola(D,P0); var sv=carica(); P=Object.assign({},P0,sv); P._vd=sv._vd; if(versioneDati()) salva();
   try{AGG_ALEX=JSON.parse(localStorage.getItem(AGG_KEY)||'null');}catch(e){}
-  fetch('aggiornamento.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(c){AGG_CLAUDE=c; mostraAgg(); if(c.ts!==VER&&location.search.indexOf('v='+c.ts)<0) location.replace(location.pathname+'?v='+c.ts);}).catch(function(){});
+  fetch('aggiornamento.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(c){AGG_CLAUDE=c; mostraAgg(); }).catch(function(){});
+  controllaVersione(); document.addEventListener('visibilitychange',function(){if(!document.hidden)controllaVersione();}); window.addEventListener('pageshow',controllaVersione); window.addEventListener('focus',controllaVersione); setInterval(controllaVersione,60000);
   buildPars(); syncPars(); render(); mostraAgg();
   caricaOnline().then(function(cambiato){ var v=versioneDati(); if(v) salva(); if(cambiato||v){ syncPars(); render(); } });
   ['reset','reset2','reset3'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){ if(!confirm('Ripristinare tutti i parametri ai valori di partenza?')) return; P=Object.assign({},P0); LASTC='ripristino parametri di partenza'; sync();});});
