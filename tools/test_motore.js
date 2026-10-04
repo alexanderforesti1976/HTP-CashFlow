@@ -1,8 +1,9 @@
 // Test del motore: con i parametri di partenza deve dare gli stessi numeri del calcolo di R078 (cassa 31/12/2026 e 31/12/2027).
 const fs = require('fs'), M = require('../nuova/motore.js');
 const D = JSON.parse(fs.readFileSync(__dirname + '/../nuova/dati.json', 'utf8'));
-const P0 = M.parametriDefault(D), P = Object.assign({}, P0, { imposte_2026: 124249 }), r = M.calcola(D, P).riepilogo; // R078: imposte 2026 fissate = acconti pagati
-const att = { cassa_2026: 1922518.43, cassa_2027: 1706462.19 }; // R136: ore di CIG al mese; R135: CIG di partenza zero; R132: nessun anticipo CIG (paga INPS); R129: CIG da legge (addizionale); R115: giacenze 30/06 = 176.608; R113: acquisti in % dei ricavi, giacenza finale = leva; R110: giacenze 30/06 = 164.739; R109: matrice incassi da PDF; R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
+const CIG_ZERO = { cig_o_26q4: 0, cig_o_27q1: 0, cig_o_27q2: 0, cig_o_27q3: 0, cig_o_27q4: 0 }, PALEX = M.parametriDefault(D); // PALEX = valori di partenza (CIG di Alex); i confronti sotto sono a CIG zero
+const P0 = Object.assign({}, PALEX, CIG_ZERO), P = Object.assign({}, P0, { imposte_2026: 124249 }), r = M.calcola(D, P).riepilogo; // R078: imposte 2026 fissate = acconti pagati
+const att = { cassa_2026: 1922518.43, cassa_2027: 1689680.05 }; // R150: incassi 2027 cliente per cliente (era 1706462.19, -16.782); R136: ore di CIG al mese; R135: CIG di partenza zero; R132: nessun anticipo CIG (paga INPS); R129: CIG da legge (addizionale); R115: giacenze 30/06 = 176.608; R113: acquisti in % dei ricavi, giacenza finale = leva; R110: giacenze 30/06 = 164.739; R109: matrice incassi da PDF; R108: ordini da PDF 03/10 con date; R105: metodo consumo con giacenza 30/06 (imposte 2026 forzate a 124.249 come R078)
 let ok = true;
 for (const k in att) { const d = Math.round((r[k] - att[k]) * 100) / 100; console.log(k, r[k].toFixed(2), 'atteso', att[k], 'diff', d); if (Math.abs(d) > 10) ok = false; }
 console.log('minimo', r.minimo.toFixed(2), r.mese_minimo, '| entrate 2027', r.entrate_2027.toFixed(2), 'uscite 2027', r.uscite_2027.toFixed(2));
@@ -33,4 +34,6 @@ const rz = M.calcola(D, Object.assign({}, P0, { cig_o_26q4: 0 })), rq = M.calcol
 console.log('utile 2027 con e senza CIG nel 2026:', rq.ce27.utile.toFixed(0), rz.ce27.utile.toFixed(0)); if (Math.abs(rq.ce27.utile - rz.ce27.utile) > 1) ok = false;
 // CIG di partenza zero: nessun risparmio sul personale
 if (Math.abs(ra.ce27.personale - (12 * P0.pers_mese + (D.cf.ce2026.integrazioni.tfr_da_aggiungere + D.cf.ce2026.integrazioni.tredicesima_con_contributi))) > 1) ok = false;
+// valori di partenza = CIG impostata da Alex (384 ore al mese ott-dic 2026 e nei primi tre trimestri 2027): utile come nella sua pagina del 04/10 22:09
+const rA = M.calcola(D, PALEX); console.log('valori di partenza (CIG di Alex): utile 2026', rA.ce.utile.toFixed(0), 'utile 2027', rA.ce27.utile.toFixed(0), '(attesi 96133 e 106899)'); if (Math.abs(rA.ce.utile - 96133) > 2 || Math.abs(rA.ce27.utile - 106899) > 2) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);
