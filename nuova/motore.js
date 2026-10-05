@@ -30,7 +30,7 @@
     var somma = function (p) { return (P[p + '_pf'] || 0) + (P[p + '_sl'] || 0) + (P[p + '_mp'] || 0) + (P[p + '_imb'] || 0); };
     P = Object.assign({}, P, { giacenza_30_06: somma('g30'), rimanenze_finali_2026: somma('f26'), rimanenze_finali_2027: somma('f27') });
     var C = D.cf, IR = C.iva.aliquota / 100, IE = C.iva.energia / 100, PL = C.iva.quota_plafond_acquisti / 100, QD = C.iva.quota_vendite_default / 100;
-    var YM = []; for (var y = 2026; y <= 2027; y++) for (var mo = 1; mo <= 12; mo++) YM.push(y + '-' + (mo < 10 ? '0' : '') + mo);
+    var YM = []; for (var y = 2026; y <= 2028; y++) for (var mo = 1; mo <= 12; mo++) YM.push(y + '-' + (mo < 10 ? '0' : '') + mo);
     var FROM = YM.indexOf('2026-09');
     // CIG ordinaria (D.Lgs. 148/2015): l'integrazione (80% della retribuzione globale per le ore non lavorate) la paga l'INPS, quindi per le ore
     // in CIG l'azienda NON sostiene il costo del lavoratore (retribuzione e contributi); resta a carico dell'azienda il CONTRIBUTO ADDIZIONALE
@@ -45,7 +45,8 @@
     // ora di CIG (R165): ogni ora non lavorata risparmia il costo reale di un'ora lavorata (retribuzione + contributi + INAIL: 19,14 euro, prospetto costo orario gen-lug 2026,
     // 363.139 euro / 18.969 ore ordinarie) meno il contributo addizionale (9% della retribuzione globale oraria media); prima 15,09 euro/ora (costo mensile / ore teoriche)
     var oreCig = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_o_' + q] || 0, 20 * 173.33) : 0; };
-    var persM = function (ym) { return P.pers_mese - dimessi(ym) - oreCig(ym) * (P.cig_costo_ora - P.cig_addizionale_pct / 100 * retribGlobale / (20 * 173.33)); };
+    var f28 = Math.max(0, 19 - P.persone_in_meno_28) / 19, pm28 = (P.pers_mese - 6516) * f28; // 2028 (R174-R175): senza CIG e con N persone in meno
+    var persM = function (ym) { if (ym >= '2028-01') return pm28; return P.pers_mese - dimessi(ym) - oreCig(ym) * (P.cig_costo_ora - P.cig_addizionale_pct / 100 * retribGlobale / (20 * 173.33)); };
     // CIG anticipata dall'azienda in busta (voce "Anticipo CIG INPS", come nelle buste di aprile 2020) e recuperata il mese dopo con il conguaglio
     // sui contributi INPS: uscita nel mese e incasso il mese dopo, non è costo (credito verso l'INPS). Importo orario = minore tra 80% della paga
     // oraria media e massimale mensile INPS 2026 (circ. INPS 4/2026: 1.423,69 € lordi) / 176 ore (come in busta: 939,89 / 176 = 5,34 nel 2020); massimale 2027 = quello 2026 (non ancora noto)
@@ -67,7 +68,8 @@
       if (ym < '2027-01') {
         var nc = (C.non_confermato[mesiNC[ym]] || 0) * (1 - P.quota_non_confermato / 100);
         REV[ym] = (C.ricavi[ym] || 0) - nc;
-      } else REV[ym] = (ord27[ym] || 0) + Math.max(0, rev27 - sumOrd) * W['2026-' + ym.slice(5)] / sumW;
+      } else if (ym >= '2028-01') REV[ym] = P.ricavi28_k * 1000 * W['2026-' + ym.slice(5)] / sumW; // 2028 (R175): ricavi del campo, ripartiti sulla stagionalità del 2026, senza ordini noti
+      else REV[ym] = (ord27[ym] || 0) + Math.max(0, rev27 - sumOrd) * W['2026-' + ym.slice(5)] / sumW;
     });
     var QS = function (ym) { return C.quota_iva_vendite[ym] !== undefined ? C.quota_iva_vendite[ym] : QD; };
     // Materie: consumo gen-giu = acquisti + rimanenze iniziali - giacenza al 30/06 (valore finale di Alex) = rapporto consumo/ricavi;
@@ -98,7 +100,9 @@
     var ROY = {
       '2026-10': 0.015 * (D.mesi['7'].ricavi_operativi + D.mesi['8'].ricavi_operativi + (REV['2026-09'] || 0)),
       '2027-01': sumRoy('2026-10', '2026-11', '2026-12'), '2027-04': sumRoy('2027-01', '2027-02', '2027-03'),
-      '2027-07': sumRoy('2027-04', '2027-05', '2027-06'), '2027-10': sumRoy('2027-07', '2027-08', '2027-09')
+      '2027-07': sumRoy('2027-04', '2027-05', '2027-06'), '2027-10': sumRoy('2027-07', '2027-08', '2027-09'),
+      '2028-01': sumRoy('2027-10', '2027-11', '2027-12'), '2028-04': sumRoy('2028-01', '2028-02', '2028-03'),
+      '2028-07': sumRoy('2028-04', '2028-05', '2028-06'), '2028-10': sumRoy('2028-07', '2028-08', '2028-09')
     };
     var INAIL = ['2026-10', '2026-11', '2026-12', '2027-01', '2027-02', '2027-03', '2027-04'];
     // CE 2026: gen-ago reale, set-dic da regole (variabile in proporzione ai ricavi, fisso per mese); imposte automatiche
@@ -139,7 +143,7 @@
     ce.imponibile_irap = ce.operativo + P.add_irap; ce.irap = Math.max(0, 0.039 * ce.imponibile_irap);
     ce.imposte = ce.ires + ce.irap; ce.utile = ce.ante_imposte - ce.imposte;
     // CE 2027: tutto da previsione con le stesse regole (ricavi dei parametri, variabili in %, fissi per mese, CIG 2027, fotovoltaico a regime)
-    var Y27 = YM.slice(12), ric27 = 0, en27 = 0, can27 = 0;
+    var Y27 = YM.slice(12, 24), ric27 = 0, en27 = 0, can27 = 0;
     Y27.forEach(function (ym) { ric27 += REV[ym]; en27 += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) can27 += P.fv_canone; });
     var scala = sum27 / (12 * P.pers_mese), // TFR e 13ª 2027 in proporzione al costo del personale del 2027 rispetto a un anno senza CIG (la CIG 2026 non li cambia)
          c7 = { ricavi: ric27 };
@@ -159,7 +163,7 @@
     // CE 2028 (R174): stessa base del 2027 (stesse regole, stesse percentuali), SENZA CIG e con N persone in meno (campo `persone_in_meno_28`):
     // personale = costo mensile attuale (dopo le due dimissioni) x (organico - N) / organico; TFR e 13ª in proporzione; ricavi = campo `ricavi28_k`;
     // energia, affitti, altri costi e pubblicità come 2027; interessi passivi = STIMA (debito residuo 31/12/2027 che si estingue nel 2028 al tasso medio 2027)
-    var ORG = 19, f28 = Math.max(0, ORG - P.persone_in_meno_28) / ORG, pm28 = (P.pers_mese - 6516) * f28, ric28 = P.ricavi28_k * 1000,
+    var ric28 = P.ricavi28_k * 1000,
         c8 = { ricavi: ric28 };
     c8.rim_fin = P.rimanenze_finali_2027; c8.rim_in = P.rimanenze_finali_2027; c8.rimanenze = 0;
     c8.a2_in = P.f27_pf + P.f27_sl; c8.a2_fin = P.f27_pf + P.f27_sl; c8.b11_in = P.f27_mp + P.f27_imb; c8.b11_fin = P.f27_mp + P.f27_imb;
@@ -169,7 +173,7 @@
     c8.consumo_materie = c8.materie + c8.rim_in - c8.rim_fin; c8.acquisti_pct = RT.mat27;
     c8.ammortamenti = P.ammortamenti_2028;
     c8.operativo = c8.ricavi + c8.rimanenze - c8.materie - c8.lavorazioni - c8.provvigioni - c8.royalties - c8.personale - c8.affitti - c8.energia - c8.altri - c8.ammortamenti;
-    var BI = D.indici_base; c8.int_passivi = E.interessi_passivi_2027_piani / ((BI.debito_31_12_2026 + BI.debito_31_12_2027) / 2) * BI.debito_31_12_2027 / 2; c8.int_attivi = c7.int_attivi;
+    c8.int_passivi = E.interessi_passivi_2028_piani; c8.int_attivi = c7.int_attivi;
     c8.ante_tfm = c8.operativo - c8.int_passivi + c8.int_attivi; c8.tfm = Math.max(0, 0.20 * c8.ante_tfm); c8.ante_imposte = c8.ante_tfm - c8.tfm;
     c8.imponibile_ires = c8.ante_imposte + P.var_ires_27; c8.ires = Math.max(0, 0.24 * c8.imponibile_ires);
     c8.imponibile_irap = c8.operativo + P.add_irap_27; c8.irap = Math.max(0, 0.039 * c8.imponibile_irap);
@@ -177,6 +181,8 @@
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
     var p1 = P.acconto_prima_rata_pct / 100, base26 = 116024 /* acconti 2026 = 2 x (IRES 47.027,50 + IRAP 10.984,50), mail Luca Rizzi 05/10 (R162): DA RIVEDERE col bilancio al 30/09 */, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
     var cred = Math.max(0, base26 - t26), giu27 = t26 * p1 + (t26 - base26 > 0 ? t26 - base26 : -Math.min(cred, t26 * p1)), res = Math.max(0, cred - t26 * p1);
+    // imposte 2028 (R175): acconti 2028 = 100% imposte 2027, saldo 2027 = imposte 2027 - acconti 2027 (che sono le imposte 2026), stessa regola del 2027
+    var t27 = c7.imposte, cred27 = Math.max(0, t26 - t27), giu28 = t27 * p1 + (t27 - t26 > 0 ? t27 - t26 : -Math.min(cred27, t27 * p1)), res27 = Math.max(0, cred27 - t27 * p1);
     // 2027 cliente per cliente: ordini esistenti (per mesi di ritardo del loro cliente) + resto del mese con la quota 2026 per cliente (Terra Verde unita a Enextras)
     var rigaRec = function (ymr) {
       if (ymr >= '2027-01' && C.rec_quota_2027 && REV[ymr] > 0) {
@@ -192,11 +198,11 @@
       L.nuoviCli = nu;
       L.rid = i >= 2 ? fvRid(YM[ix - 2]) : 0;
       L.ivaRel = ym === '2027-04' ? credDic : 0;
-      L.prov = (['2026-12', '2027-06', '2027-12'].indexOf(ym) >= 0 ? 5950.68 : 0) + (['2026-12', '2027-03', '2027-06', '2027-09', '2027-12'].indexOf(ym) >= 0 ? 1900 : 0);
+      L.prov = (['2026-12', '2027-06', '2027-12', '2028-06', '2028-12'].indexOf(ym) >= 0 ? 5950.68 : 0) + (['2026-12', '2027-03', '2027-06', '2027-09', '2027-12', '2028-03', '2028-06', '2028-09', '2028-12'].indexOf(ym) >= 0 ? 1900 : 0);
       L.apertiFor = C.aperti_fornitori[ym] || 0;
       var nf = 0; for (var j2 = FROM; j2 <= ix; j2++) { var pm = YM[j2], k2 = ix - j2; if (k2 > 6) continue; var base = purch[pm] - (pm === '2026-09' ? C.acquisti_settembre_registrati : 0); nf += ((C.pay_matrix[+pm.slice(5)] || [])[k2] || 0) * Math.max(0, base) * (1 + (1 - PL) * IR); }
       L.nuoviFor = nf;
-      L.personale = persM(ym) + (ym === '2026-12' || ym === '2027-12' ? 35000 : 0) + (ym === '2027-01' ? 17200 : 0);
+      L.personale = persM(ym) + (ym === '2026-12' || ym === '2027-12' ? 35000 : 0) + (ym === '2028-12' ? 35000 * pm28 / P.pers_mese : 0) + (ym === '2027-01' ? 17200 : 0);
       L.affitti = P.affitti_mese;
       L.energia = (P.energia_mese - fvSave(prev)) * (1 + IE);
       L.altri = (P.altri_ricorrenti_mese + (P.pubblicita_2027[ym] || 0)) * (1 + IR);
@@ -206,7 +212,7 @@
       L.canone = ym >= P.fv_canone_da ? P.fv_canone * (1 + IR) : 0;
       L.finanz = C.finanziamenti_mensili[ym] || 0;
       L.rateAcconti = ym === '2026-10' ? 10606.70 : 0;
-      L.accontiBase = ym === '2026-11' ? 58012 : (ym === '2027-06' ? giu27 : (ym === '2027-11' ? Math.max(0, t26 * (1 - p1) - res) : 0));
+      L.accontiBase = ym === '2026-11' ? 58012 : (ym === '2027-06' ? giu27 : (ym === '2027-11' ? Math.max(0, t26 * (1 - p1) - res) : (ym === '2028-06' ? giu28 : (ym === '2028-11' ? Math.max(0, t27 * (1 - p1) - res27) : 0))));
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
       L.iva = ivaPay[ym] || 0;
@@ -219,13 +225,13 @@
     });
     var tot = function (anno, k) { var x = 0; OUT.forEach(function (ym) { if (ym.slice(0, 4) === anno) x += rows[ym][k]; }); return x; };
     var minC = Infinity, minM = '';
-    OUT.forEach(function (ym) { if (rows[ym].chiusura < minC) { minC = rows[ym].chiusura; minM = ym; } });
+    OUT.forEach(function (ym) { if (ym <= '2027-12' && rows[ym].chiusura < minC) { minC = rows[ym].chiusura; minM = ym; } });
     return {
       mesi: OUT, righe: rows, ricavi: REV, ce: ce, ce27: c7, ce28: c8,
       riepilogo: {
-        cassa_2026: rows['2026-12'].chiusura, cassa_2027: rows['2027-12'].chiusura, minimo: minC, mese_minimo: minM,
+        cassa_2026: rows['2026-12'].chiusura, cassa_2027: rows['2027-12'].chiusura, cassa_2028: rows['2028-12'].chiusura, minimo: minC, mese_minimo: minM,
         entrate_2026: tot('2026', 'entrate'), uscite_2026: tot('2026', 'uscite'), entrate_2027: tot('2027', 'entrate'), uscite_2027: tot('2027', 'uscite'),
-        imposte_2026: t26, utile_2026: ce.utile, utile_2027: c7.utile, utile_2028: c8.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
+        imposte_2026: t26, utile_2026: ce.utile, utile_2027: c7.utile, utile_2028: c8.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto'), entrate_2028: tot('2028', 'entrate'), uscite_2028: tot('2028', 'uscite'), netto_2028: tot('2028', 'netto')
       }
     };
   }

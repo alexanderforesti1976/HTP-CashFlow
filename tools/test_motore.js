@@ -46,4 +46,10 @@ console.log('CE 2028: personale', c8.personale.toFixed(0), '(atteso', att28.toFi
 if (Math.abs(c8.personale - att28) > 1 || Math.abs(c8.ricavi - 2000000) > 1) ok = false;
 const c80 = M.calcola(D, Object.assign({}, PALEX, { persone_in_meno_28: 0 })).ce28; if (!(c80.personale > c8.personale && c80.utile < c8.utile)) ok = false;
 const c8g = M.calcola(D, Object.assign({}, PALEX, { cig_o_27q1: 0, cig_o_27q2: 0, cig_o_27q3: 0, cig_o_27q4: 0, cig_o_26q4: 0 })).ce28; if (Math.abs(c8g.utile - c8.utile) > 1) ok = false; // il 2028 non dipende dalla CIG
+// cash flow 2028 (R175): rate dei piani 92.650, acconti 2028 = imposte 2027 (giugno = 50% + saldo 2027, novembre = 50%), chiusura = apertura + flusso
+const r28 = rA.righe, rate28 = ['2028-01','2028-02','2028-03','2028-04','2028-05'].reduce((x, m) => x + r28[m].finanz, 0);
+console.log('cash flow 2028: rate piani', rate28.toFixed(2), 'cassa 31/12/2028', rA.riepilogo.cassa_2028.toFixed(0), 'giugno acconti', r28['2028-06'].accontiBase.toFixed(0));
+if (Math.abs(rate28 - 92650.0) > 5 || Math.abs(r28['2028-11'].accontiBase - rA.ce27.imposte * 0.5) > 1) ok = false;
+if (Math.abs(rA.riepilogo.cassa_2028 - (rA.riepilogo.cassa_2027 + rA.riepilogo.netto_2028)) > 1) ok = false;
+if (Math.abs(rA.ce28.int_passivi - D.cf.ce2026.interessi_passivi_2028_piani) > 0.01) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);

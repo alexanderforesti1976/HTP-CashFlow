@@ -1304,7 +1304,12 @@
    "2027-09": 53111.93,
    "2027-10": 14227.89,
    "2027-11": 14227.89,
-   "2027-12": 53111.93
+   "2027-12": 53111.93,
+   "2028-01": 14227.89,
+   "2028-02": 14227.89,
+   "2028-03": 53111.93,
+   "2028-04": 5541.39,
+   "2028-05": 5541.39
   },
   "iva": {
    "aliquota": 22,
@@ -1395,7 +1400,8 @@
      "tfr_gia_registrato_h1": 5099.99
     }
    },
-   "_note": "Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca"
+   "_note": "Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca",
+   "interessi_passivi_2028_piani": 637.34
   }
  },
  "versione_dati": "176608-2026-10-03-cig0o",

@@ -144,7 +144,7 @@ ym_lab = {'2026-09': 'Set 26', '2026-10': 'Ott 26', '2026-11': 'Nov 26', '2026-1
 fin = collections.defaultdict(float)
 for l in P['loans']:
     for ym, v in l['sched'].items():
-        if '2026-10' <= ym <= '2027-12': fin[ym] += v * 1000
+        if '2026-10' <= ym <= '2028-12': fin[ym] += v * 1000
 m7r = mesi['7']['ricavi_operativi']; m8r = mesi['8']['ricavi_operativi']
 cf = {
  'cassa_30_09': 1870460.00,
@@ -201,6 +201,7 @@ integ = {'tfr_da_aggiungere': round(tfr_annuo - tfr_reg, 2), 'tredicesima_con_co
                       'tfr_quota_annua': round(tfr_annuo, 2), 'tfr_gia_registrato_h1': round(tfr_reg, 2)}}
 int_sd = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2026-09' <= ym <= '2026-12')
 int_27 = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2027-01' <= ym <= '2027-12')
+int_28 = sum(v * 1000 for l in P['loans'] for ym, v in l.get('int', {}).items() if '2028-01' <= ym <= '2028-12')  # R175: piani 2028
 senza_int = [l['name'] for l in P['loans'] if 'int' not in l]
 cf['giacenze_30_06'] = {'prodotto_finito': 20952, 'semilavorato': 52578, 'materia_prima': 97294, 'imballi': 5784, 'totale_valore_finale': 176608, '_nota': 'Alex 03/10/2026 (terza tabella, definitiva, sostituisce le precedenti 155.548 e 164.739): valore pieno 316.843, azzerato -133.897, svalutato 30% -6.338, valore finale 176.607 (somma categorie 176.608, arrotondamento). Usata come giacenza al 30/06/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027'}
 
@@ -219,7 +220,7 @@ def var_anno(amm, con_multe):
     return {'auto_80pct_non_deducibile': round(auto, 2), 'telefonia_20pct': round(tel, 2), 'costi_indeducibili': round(INDED, 2), 'multe_e_ammende': round(MULTE if con_multe else 0, 2), 'totale': round(auto + tel + INDED + (MULTE if con_multe else 0), 2)}
 VAR = {'2026': var_anno(110000, True), '2027': var_anno(100000, False)}
 cf['ce2026'] = {
- 'interessi_passivi_2027_piani': round(int_27, 2), 'prestiti_senza_piano_interessi': senza_int,
+ 'interessi_passivi_2027_piani': round(int_27, 2), 'interessi_passivi_2028_piani': round(int_28, 2), 'prestiti_senza_piano_interessi': senza_int,
  'interessi_passivi_gen_ago': round(13432.12 + mesi['7']['interessi_passivi'] + mesi['8']['interessi_passivi'], 2),
  'interessi_attivi_gen_ago': 3821.36,
  'ricavi_titoli_gen_giu': h1['ricavi_titoli'],

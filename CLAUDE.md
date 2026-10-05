@@ -103,7 +103,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - R162: acconti di novembre 2026 da Luca Rizzi (SGA): IRES 47.027,50 + IRAP 10.984,50 = 58.012; ISA 50/50 (R052 superata); base acconti 116.024. Rivedere con imposte 2026 reali.
 - R164: due dimissioni senza sostituto (cessati 31/05 e metà ottobre 2026): costo mensile −3.807 da settembre e −2.709 da novembre (ottobre −1.355); 13ª/TFR 2027 in proporzione; da rivedere col bilancio. - R165: TFR 2026 a 46,2k (reale gen-ago 30,8k × 12/8) e ora di CIG 19,14 € (`cig_costo_ora`, costo reale di un'ora lavorata gen-lug 2026 dal prospetto costo orario) meno addizionale 9%; da rivedere col bilancio.
 - R167-R172: pubblicità e fiere nel 2027 (sponsorizzazioni sportive; gen-ago 2026 55,9k): restano solo A.S.D. Franciacorta Ski 13.611,94 + Sci Club Sarnico 2001 8.450,70 (gennaio) e FP Sport 8.000 (aprile) = 30.062,64 (`pubblicita_2027`); le altre non ci sono. R167-R169 le avevano messe per errore in proporzione.
-- R174: CE 2028 (solo conto economico) sulla base del 2027, senza CIG, con `persone_in_meno_28` = 3 (organico 19) e `ricavi28_k` = 2.000; interessi 2028 stimati; cash flow 2028 NON fatto (mancano i piani di rimborso 2028). Da rivedere col bilancio.
+- R174-R175: 2028 (CE e cash flow) sulla base del 2027, senza CIG, con `persone_in_meno_28` = 3 (organico 19) e `ricavi28_k` = 2.000; interessi e rate 2028 dai piani dei finanziamenti (params.json); acconti 2028 = imposte 2027. Da rivedere col bilancio.
 - Dati personali delle buste (cartellini aprile 2020) NON nel repo (pubblico).
 
 ## NOTA IN MEMORIA: margine latente del magazzino (Alex, 04/10/2026) — NON modificare l'app
