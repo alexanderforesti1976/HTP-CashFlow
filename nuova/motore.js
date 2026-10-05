@@ -13,7 +13,7 @@
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
       cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
-      ricavi27_k: 2000, quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
+      ricavi27_k: 2000, ricavi28_k: 2000, persone_in_meno_28: 3, ammortamenti_2028: d.ammortamenti_2027, /* R174: CE 2028 sulla base del 2027, senza CIG, con 3 persone in meno (Alex 05/10) */ quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
@@ -156,6 +156,24 @@
     c7.imponibile_ires = c7.ante_imposte + P.var_ires_27; c7.ires = Math.max(0, 0.24 * c7.imponibile_ires);
     c7.imponibile_irap = c7.operativo + P.add_irap_27; c7.irap = Math.max(0, 0.039 * c7.imponibile_irap);
     c7.imposte = c7.ires + c7.irap; c7.utile = c7.ante_imposte - c7.imposte;
+    // CE 2028 (R174): stessa base del 2027 (stesse regole, stesse percentuali), SENZA CIG e con N persone in meno (campo `persone_in_meno_28`):
+    // personale = costo mensile attuale (dopo le due dimissioni) x (organico - N) / organico; TFR e 13ª in proporzione; ricavi = campo `ricavi28_k`;
+    // energia, affitti, altri costi e pubblicità come 2027; interessi passivi = STIMA (debito residuo 31/12/2027 che si estingue nel 2028 al tasso medio 2027)
+    var ORG = 19, f28 = Math.max(0, ORG - P.persone_in_meno_28) / ORG, pm28 = (P.pers_mese - 6516) * f28, ric28 = P.ricavi28_k * 1000,
+        c8 = { ricavi: ric28 };
+    c8.rim_fin = P.rimanenze_finali_2027; c8.rim_in = P.rimanenze_finali_2027; c8.rimanenze = 0;
+    c8.a2_in = P.f27_pf + P.f27_sl; c8.a2_fin = P.f27_pf + P.f27_sl; c8.b11_in = P.f27_mp + P.f27_imb; c8.b11_fin = P.f27_mp + P.f27_imb;
+    c8.materie = ric28 * RT.mat27; c8.lavorazioni = ric28 * RT.sub; c8.provvigioni = ric28 * RT.prov27; c8.royalties = 0.015 * ric28;
+    c8.personale = 12 * pm28 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * pm28 / P.pers_mese;
+    c8.affitti = c7.affitti; c8.energia = c7.energia; c8.altri = c7.altri;
+    c8.consumo_materie = c8.materie + c8.rim_in - c8.rim_fin; c8.acquisti_pct = RT.mat27;
+    c8.ammortamenti = P.ammortamenti_2028;
+    c8.operativo = c8.ricavi + c8.rimanenze - c8.materie - c8.lavorazioni - c8.provvigioni - c8.royalties - c8.personale - c8.affitti - c8.energia - c8.altri - c8.ammortamenti;
+    var BI = D.indici_base; c8.int_passivi = E.interessi_passivi_2027_piani / ((BI.debito_31_12_2026 + BI.debito_31_12_2027) / 2) * BI.debito_31_12_2027 / 2; c8.int_attivi = c7.int_attivi;
+    c8.ante_tfm = c8.operativo - c8.int_passivi + c8.int_attivi; c8.tfm = Math.max(0, 0.20 * c8.ante_tfm); c8.ante_imposte = c8.ante_tfm - c8.tfm;
+    c8.imponibile_ires = c8.ante_imposte + P.var_ires_27; c8.ires = Math.max(0, 0.24 * c8.imponibile_ires);
+    c8.imponibile_irap = c8.operativo + P.add_irap_27; c8.irap = Math.max(0, 0.039 * c8.imponibile_irap);
+    c8.imposte = c8.ires + c8.irap; c8.utile = c8.ante_imposte - c8.imposte;
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
     var p1 = P.acconto_prima_rata_pct / 100, base26 = 116024 /* acconti 2026 = 2 x (IRES 47.027,50 + IRAP 10.984,50), mail Luca Rizzi 05/10 (R162): DA RIVEDERE col bilancio al 30/09 */, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
     var cred = Math.max(0, base26 - t26), giu27 = t26 * p1 + (t26 - base26 > 0 ? t26 - base26 : -Math.min(cred, t26 * p1)), res = Math.max(0, cred - t26 * p1);
@@ -203,11 +221,11 @@
     var minC = Infinity, minM = '';
     OUT.forEach(function (ym) { if (rows[ym].chiusura < minC) { minC = rows[ym].chiusura; minM = ym; } });
     return {
-      mesi: OUT, righe: rows, ricavi: REV, ce: ce, ce27: c7,
+      mesi: OUT, righe: rows, ricavi: REV, ce: ce, ce27: c7, ce28: c8,
       riepilogo: {
         cassa_2026: rows['2026-12'].chiusura, cassa_2027: rows['2027-12'].chiusura, minimo: minC, mese_minimo: minM,
         entrate_2026: tot('2026', 'entrate'), uscite_2026: tot('2026', 'uscite'), entrate_2027: tot('2027', 'entrate'), uscite_2027: tot('2027', 'uscite'),
-        imposte_2026: t26, utile_2026: ce.utile, utile_2027: c7.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
+        imposte_2026: t26, utile_2026: ce.utile, utile_2027: c7.utile, utile_2028: c8.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto')
       }
     };
   }

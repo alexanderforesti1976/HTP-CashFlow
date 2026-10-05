@@ -39,4 +39,11 @@ const rA = M.calcola(D, PALEX); console.log('valori di partenza (CIG di Alex): u
 // CIG anticipata in busta (R161): 384 ore x min(80% paga oraria media, 1.423,69/176) = 3.106 euro anticipati in ottobre e recuperati a novembre; non è costo
 console.log('CIG anticipata: ottobre', rA.righe['2026-10'].cigAnticipo.toFixed(0), 'rimborso novembre', rA.righe['2026-11'].cigRimborso.toFixed(0));
 if (Math.abs(rA.righe['2026-10'].cigAnticipo - 432 * 1423.69 / 176) > 1 || Math.abs(rA.righe['2026-11'].cigRimborso - rA.righe['2026-10'].cigAnticipo) > 0.01 || Math.abs(rA.righe['2027-12'].cigAnticipo - 360 * 1423.69 / 176) > 1) ok = false;
+// CE 2028 (R174): sulla base del 2027, senza CIG, 3 persone in meno (organico 19): personale = 12 x (costo mensile - 6.516) x 16/19 + 13ª e TFR in proporzione
+const c8 = rA.ce28, f28 = 16 / 19, pm28 = (P0.pers_mese - 6516) * f28;
+const att28 = 12 * pm28 + (D.cf.ce2026.integrazioni.tfr_da_aggiungere + D.cf.ce2026.integrazioni.tredicesima_con_contributi) * pm28 / P0.pers_mese;
+console.log('CE 2028: personale', c8.personale.toFixed(0), '(atteso', att28.toFixed(0) + ') utile', c8.utile.toFixed(0));
+if (Math.abs(c8.personale - att28) > 1 || Math.abs(c8.ricavi - 2000000) > 1) ok = false;
+const c80 = M.calcola(D, Object.assign({}, PALEX, { persone_in_meno_28: 0 })).ce28; if (!(c80.personale > c8.personale && c80.utile < c8.utile)) ok = false;
+const c8g = M.calcola(D, Object.assign({}, PALEX, { cig_o_27q1: 0, cig_o_27q2: 0, cig_o_27q3: 0, cig_o_27q4: 0, cig_o_26q4: 0 })).ce28; if (Math.abs(c8g.utile - c8.utile) > 1) ok = false; // il 2028 non dipende dalla CIG
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);
