@@ -15,6 +15,7 @@
       cig_addizionale_pct: 9, cig_o_26q4: 384, cig_o_27q1: 384, cig_o_27q2: 384, cig_o_27q3: 384, cig_o_27q4: 0, /* CIG impostata da Alex il 04/10/2026 (6 persone x 16 ore x 4 settimane = 384 ore al mese), R150 */
       ricavi27_k: 2000, quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
+      pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
       altri_ricorrenti_mese: d.altri_ricorrenti_mese, costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
@@ -43,7 +44,7 @@
     var sumSD = 0, sum27 = 0;
     ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });
     ['2027-01', '2027-02', '2027-03', '2027-04', '2027-05', '2027-06', '2027-07', '2027-08', '2027-09', '2027-10', '2027-11', '2027-12'].forEach(function (ym) { sum27 += persM(ym); });
-    var RT = { mat: 0, mat27: 0, sub: P.pct_lavorazioni / 100, prov: P.pct_provvigioni / 100 };
+    var RT = { mat: 0, mat27: 0, sub: P.pct_lavorazioni / 100, prov: P.pct_provvigioni / 100, prov27: P.pct_provvigioni27 / 100 };
     var fvK = P.fv_produzione_pct / 100;
     var mesiNC = { '2026-09': 'Settembre', '2026-10': 'Ottobre', '2026-11': 'Novembre', '2026-12': 'Dicembre' };
     // ricavi mensili
@@ -135,7 +136,7 @@
          c7 = { ricavi: ric27 };
     c7.rim_fin = P.rimanenze_finali_2027; c7.rim_in = P.rimanenze_finali_2026; c7.rimanenze = c7.rim_fin - c7.rim_in;
     c7.a2_in = P.f26_pf + P.f26_sl; c7.a2_fin = P.f27_pf + P.f27_sl; c7.b11_in = P.f26_mp + P.f26_imb; c7.b11_fin = P.f27_mp + P.f27_imb;
-    c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov; c7.royalties = 0.015 * ric27;
+    c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov27; c7.royalties = 0.015 * ric27;
     c7.personale = sum27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
     c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + can27;
     c7.consumo_materie = c7.materie + c7.rim_in - c7.rim_fin; c7.acquisti_pct = RT.mat27;
@@ -173,7 +174,7 @@
       L.energia = (P.energia_mese - fvSave(prev)) * (1 + IE);
       L.altri = P.altri_ricorrenti_mese * (1 + IR);
       L.irreg = P.costi_irregolari_mese * (1 + IR);
-      L.provvigioni = (REV[prev] || 0) * RT.prov;
+      L.provvigioni = (REV[prev] || 0) * (ym >= '2027-01' ? RT.prov27 : RT.prov);
       L.royalties = ROY[ym] || 0;
       L.canone = ym >= P.fv_canone_da ? P.fv_canone * (1 + IR) : 0;
       L.finanz = C.finanziamenti_mensili[ym] || 0;
