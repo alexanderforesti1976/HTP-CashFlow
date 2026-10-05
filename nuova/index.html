@@ -80,7 +80,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1791152066503"></script>
+<script src="motore.js?v=1791198384940"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -134,7 +134,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1791152066503; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1791198384940; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -160,8 +160,8 @@ function salva(){
 }
 function caricaOnline(){ // all'apertura: se online c'è una versione più recente, la prendo
   return fetch(DB,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http'); return r.json(); }).then(function(d){
-    if(d&&d.P&&d.ts>tsLocale()){ Object.keys(d.P).forEach(function(k){ if(k in P0) P[k]=d.P[k]; }); P._vd=d.P._vd; try{localStorage.setItem(KEY,JSON.stringify(soloModificati())); localStorage.setItem(TS_KEY,String(d.ts));}catch(e){} AGG_ALEX={ts:d.ts,cosa:d.cosa||'parametri'}; try{localStorage.setItem(AGG_KEY,JSON.stringify(AGG_ALEX));}catch(e){} mostraAgg(); stato('ok','Caricato l\'ultimo salvataggio online ('+new Date(d.ts).toLocaleString('it-IT')+')'); return true; }
-    if(!d||!d.P){ salva(); } else { stato('ok','Salvataggio automatico attivo (online aggiornato)'); }
+    if(d&&d.P&&d.ts>tsLocale()){ Object.keys(P0).forEach(function(k){ if(k==='_vd') return; P[k]=(k in d.P)?d.P[k]:P0[k]; }); P._vd=d.P._vd; try{localStorage.setItem(KEY,JSON.stringify(soloModificati())); localStorage.setItem(TS_KEY,String(d.ts));}catch(e){} AGG_ALEX={ts:d.ts,cosa:d.cosa||'parametri'}; try{localStorage.setItem(AGG_KEY,JSON.stringify(AGG_ALEX));}catch(e){} mostraAgg(); stato('ok','Caricato l\'ultimo salvataggio online ('+new Date(d.ts).toLocaleString('it-IT')+')'); return true; }
+    if(!d||!d.P||d.ts<tsLocale()){ salva(); } else { stato('ok','Salvataggio automatico attivo (online aggiornato)'); }
     return false;
   }).catch(function(){ stato('off','Salvataggio automatico solo su questo dispositivo (online non raggiungibile)'); return false; });
 }
@@ -365,6 +365,9 @@ fetch('dati.json?v='+VER).then(function(r){return r.json()}).then(function(d){
   controllaVersione(); document.addEventListener('visibilitychange',function(){if(!document.hidden)controllaVersione();}); window.addEventListener('pageshow',controllaVersione); window.addEventListener('focus',controllaVersione); setInterval(controllaVersione,60000);
   buildPars(); syncPars(); render(); mostraAgg();
   caricaOnline().then(function(cambiato){ var v=versioneDati(); if(v) salva(); if(cambiato||v){ syncPars(); render(); } });
+  // stessi valori dappertutto: riguarda il salvataggio online quando si torna sulla scheda e ogni 30 secondi (non mentre si scrive in un campo)
+  var daOnline=function(){ var a=document.activeElement; if(a&&(a.tagName==='INPUT'||a.tagName==='SELECT')) return; caricaOnline().then(function(c){ if(c){ syncPars(); render(); } }); };
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) daOnline(); }); window.addEventListener('focus',daOnline); window.addEventListener('pageshow',daOnline); setInterval(daOnline,30000);
   ['reset','reset2','reset3'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){ if(!confirm('Ripristinare tutti i parametri ai valori di partenza?')) return; P=Object.assign({},P0); LASTC='ripristino parametri di partenza'; sync();});});
 }).catch(function(e){document.body.insertAdjacentHTML('beforeend','<p class="neg">Errore nel caricare i dati: '+e.message+'</p>')});
 </script>
