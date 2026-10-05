@@ -97,6 +97,12 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Piano ammortamento BCC Sebino 8021 (opzionale); magazzino al 30/06/2025.
 - Argomm articolo 047002: cost breakdown per trattare il nuovo prezzo.
 
+## DA RIVEDERE col bilancio al 30/09 definitivo (Alex, 05/10/2026) — applicati "per il momento"
+- R160: provvigioni 2027 senza l'agente Tusa (`pct_provvigioni27` 1,647% = 3,001% × (1 − 45,1%); quota Tusa 25.786 su 57.138 dai mastrini 2026). Verificare quota e se i ricavi di Tusa passano ad altri agenti.
+- R161: CIG ANTICIPATA in busta e recuperata il mese dopo (come nel 2020, R132 ritrattata); importo = ore × min(80% paga oraria media, massimale INPS 1.423,69/176 = 8,09 €/h); massimale 2027 = quello 2026, da aggiornare.
+- R162: acconti di novembre 2026 da Luca Rizzi (SGA): IRES 47.027,50 + IRAP 10.984,50 = 58.012; ISA 50/50 (R052 superata); base acconti 116.024. Rivedere con imposte 2026 reali.
+- Dati personali delle buste (cartellini aprile 2020) NON nel repo (pubblico).
+
 ## NOTA IN MEMORIA: margine latente del magazzino (Alex, 04/10/2026) — NON modificare l'app
 - Prodotti finiti + semilavorati al 30/06/2026: 73.529 € a costo di produzione (include materie, lavorazioni, manodopera: è un ricavo sospeso), che a listino (IVA esclusa) varrebbero **272.631 €** (calcolo di Alex dalla chat di Code; 263.003 € su listini scaduti ma "sono quelli", da dare per buoni). Margine latente ≈ 199.100 € (73%): si realizza quando si vende.
 - Il costo del magazzino è il 27% del prezzo, quasi uguale al 26,9% di costi variabili dell'app: il margine è già dentro la proiezione. Il cash flow, per la parte di ricavi venduta dal magazzino, paga comunque acquisti e lavorazioni al 21,8% (≈ 59k€ in uscita in più del reale): prudente. **Decisione di Alex: l'app resta com'è, nessun parametro né riga nuova.** Solo da tenere presente nelle valutazioni.

@@ -152,7 +152,7 @@
     c7.imponibile_irap = c7.operativo + P.add_irap_27; c7.irap = Math.max(0, 0.039 * c7.imponibile_irap);
     c7.imposte = c7.ires + c7.irap; c7.utile = c7.ante_imposte - c7.imposte;
     var OUT = YM.slice(YM.indexOf('2026-10')), rows = {}, cassa = C.cassa_30_09;
-    var p1 = P.acconto_prima_rata_pct / 100, base26 = 124249, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
+    var p1 = P.acconto_prima_rata_pct / 100, base26 = 116024 /* acconti 2026 = 2 x (IRES 47.027,50 + IRAP 10.984,50), mail Luca Rizzi 05/10 (R162): DA RIVEDERE col bilancio al 30/09 */, t26 = P.imposte_2026 > 0 ? P.imposte_2026 : ce.imposte;
     var cred = Math.max(0, base26 - t26), giu27 = t26 * p1 + (t26 - base26 > 0 ? t26 - base26 : -Math.min(cred, t26 * p1)), res = Math.max(0, cred - t26 * p1);
     // 2027 cliente per cliente: ordini esistenti (per mesi di ritardo del loro cliente) + resto del mese con la quota 2026 per cliente (Terra Verde unita a Enextras)
     var rigaRec = function (ymr) {
@@ -182,8 +182,8 @@
       L.royalties = ROY[ym] || 0;
       L.canone = ym >= P.fv_canone_da ? P.fv_canone * (1 + IR) : 0;
       L.finanz = C.finanziamenti_mensili[ym] || 0;
-      L.rateAcconti = ym === '2026-10' ? 10610.00 : (ym === '2026-11' ? 4112.48 : 0);
-      L.accontiBase = ym === '2026-11' ? base26 * (1 - p1) : (ym === '2027-06' ? giu27 : (ym === '2027-11' ? Math.max(0, t26 * (1 - p1) - res) : 0));
+      L.rateAcconti = ym === '2026-10' ? 10610.00 : 0;
+      L.accontiBase = ym === '2026-11' ? 58012 : (ym === '2027-06' ? giu27 : (ym === '2027-11' ? Math.max(0, t26 * (1 - p1) - res) : 0));
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
       L.iva = ivaPay[ym] || 0;
