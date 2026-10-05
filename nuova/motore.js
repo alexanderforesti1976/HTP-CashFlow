@@ -13,7 +13,7 @@
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
       cig_addizionale_pct: 9, cig_o_26q4: 384, cig_o_27q1: 384, cig_o_27q2: 384, cig_o_27q3: 384, cig_o_27q4: 0, /* CIG impostata da Alex il 04/10/2026 (6 persone x 16 ore x 4 settimane = 384 ore al mese), R150 */
-      ricavi27_k: 2100, quota_non_confermato: 100,
+      ricavi27_k: 2000, quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
       altri_ricorrenti_mese: d.altri_ricorrenti_mese, costi_irregolari_mese: d.costi_irregolari_mese,
