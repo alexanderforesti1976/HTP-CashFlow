@@ -1384,13 +1384,13 @@
    "multe_e_costi_indeducibili_2025_ricorrenti": 46600,
    "addback_irap_2025_senza_interinale": 107400,
    "integrazioni": {
-    "tfr_da_aggiungere": 30116.88,
+    "tfr_da_aggiungere": 41057.01,
     "tredicesima_con_contributi": 52325.36,
     "_calcolo": {
      "stipendi_12_mesi": 470623.5,
      "rapporto_contributi_su_stipendi": 0.3342,
      "tredicesima_lorda": 39218.62,
-     "tfr_quota_annua": 35216.87,
+     "tfr_quota_annua": 46156.5,
      "tfr_gia_registrato_h1": 5099.99
     }
    },

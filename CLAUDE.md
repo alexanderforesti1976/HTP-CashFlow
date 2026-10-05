@@ -101,7 +101,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - R160: provvigioni 2027 senza l'agente Tusa (`pct_provvigioni27` 1,647% = 3,001% × (1 − 45,1%); quota Tusa 25.786 su 57.138 dai mastrini 2026). Verificare quota e se i ricavi di Tusa passano ad altri agenti.
 - R161: CIG ANTICIPATA in busta e recuperata il mese dopo (come nel 2020, R132 ritrattata); importo = ore × min(80% paga oraria media, massimale INPS 1.423,69/176 = 8,09 €/h); massimale 2027 = quello 2026, da aggiornare.
 - R162: acconti di novembre 2026 da Luca Rizzi (SGA): IRES 47.027,50 + IRAP 10.984,50 = 58.012; ISA 50/50 (R052 superata); base acconti 116.024. Rivedere con imposte 2026 reali.
-- R164: due dimissioni senza sostituto (cessati 31/05 e metà ottobre 2026): costo mensile −3.807 da settembre e −2.709 da novembre (ottobre −1.355); 13ª/TFR 2027 in proporzione; da rivedere col bilancio. Ancora aperti: valore dell'ora di CIG (19,14 € reale contro 15,09 del modello) e TFR 2026 a ~46k (reale gen-ago 30,8k).
+- R164: due dimissioni senza sostituto (cessati 31/05 e metà ottobre 2026): costo mensile −3.807 da settembre e −2.709 da novembre (ottobre −1.355); 13ª/TFR 2027 in proporzione; da rivedere col bilancio. - R165: TFR 2026 a 46,2k (reale gen-ago 30,8k × 12/8) e ora di CIG 19,14 € (`cig_costo_ora`, costo reale di un'ora lavorata gen-lug 2026 dal prospetto costo orario) meno addizionale 9%; da rivedere col bilancio.
 - Dati personali delle buste (cartellini aprile 2020) NON nel repo (pubblico).
 
 ## NOTA IN MEMORIA: margine latente del magazzino (Alex, 04/10/2026) — NON modificare l'app

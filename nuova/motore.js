@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig_addizionale_pct: 9, cig_o_26q4: 384, cig_o_27q1: 384, cig_o_27q2: 384, cig_o_27q3: 384, cig_o_27q4: 0, /* CIG impostata da Alex il 04/10/2026 (6 persone x 16 ore x 4 settimane = 384 ore al mese), R150 */
+      cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 384, cig_o_27q1: 384, cig_o_27q2: 384, cig_o_27q3: 384, cig_o_27q4: 0, /* CIG impostata da Alex il 04/10/2026 (6 persone x 16 ore x 4 settimane = 384 ore al mese), R150 */
       ricavi27_k: 2000, quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
@@ -39,11 +39,13 @@
     var retribGlobale = D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi / 12 * 13 / 12;
     // CIG per trimestre: ore TOTALI di CIG al mese, tutti i lavoratori insieme (le stesse in ciascuno dei 3 mesi del trimestre); 20 lavoratori; 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
     var trim = function (ym) { var y = ym.slice(2, 4), mo = +ym.slice(5); return (ym >= '2026-10') ? y + 'q' + Math.ceil(mo / 3) : null; };
-    var quotaCig = function (ym) { var q = trim(ym); return q ? Math.min(1, (P['cig_o_' + q] || 0) / (20 * 173.33)) : 0; };
     // due dimissioni senza sostituto (Alex 05/10, R164): uno cessato il 31/05/2026 (3.807 euro/mese = 4.570 x 5/6, già fuori dal costo di giugno-agosto reale) e uno da metà ottobre
     // (2.709 euro/mese = costo medio gen-giu; a ottobre metà). Costi dal prospetto costo orario gen-ago 2026 senza TFR e 13ª. DA RIVEDERE col bilancio al 30/09
     var dimessi = function (ym) { return (ym >= '2026-09' ? 3807 : 0) + (ym === '2026-10' ? 1355 : (ym > '2026-10' ? 2709 : 0)); };
-    var persM = function (ym) { return P.pers_mese - dimessi(ym) - quotaCig(ym) * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale); };
+    // ora di CIG (R165): ogni ora non lavorata risparmia il costo reale di un'ora lavorata (retribuzione + contributi + INAIL: 19,14 euro, prospetto costo orario gen-lug 2026,
+    // 363.139 euro / 18.969 ore ordinarie) meno il contributo addizionale (9% della retribuzione globale oraria media); prima 15,09 euro/ora (costo mensile / ore teoriche)
+    var oreCig = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_o_' + q] || 0, 20 * 173.33) : 0; };
+    var persM = function (ym) { return P.pers_mese - dimessi(ym) - oreCig(ym) * (P.cig_costo_ora - P.cig_addizionale_pct / 100 * retribGlobale / (20 * 173.33)); };
     // CIG anticipata dall'azienda in busta (voce "Anticipo CIG INPS", come nelle buste di aprile 2020) e recuperata il mese dopo con il conguaglio
     // sui contributi INPS: uscita nel mese e incasso il mese dopo, non è costo (credito verso l'INPS). Importo orario = minore tra 80% della paga
     // oraria media e massimale mensile INPS 2026 (circ. INPS 4/2026: 1.423,69 € lordi) / 176 ore (come in busta: 939,89 / 176 = 5,34 nel 2020); massimale 2027 = quello 2026 (non ancora noto)

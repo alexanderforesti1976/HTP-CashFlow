@@ -193,6 +193,8 @@ tred_lordo = sal12 / 12
 tred = tred_lordo * (1 + r_contr)
 tfr_annuo = (sal12 + tred_lordo) / 13.5 - 0.005 * (sal12 + tred_lordo)
 tfr_reg = reg_h1[6041200] + reg_h1[6041201]
+# R165: TFR reale gen-ago 2026 dal prospetto costo orario (30.771 in 8 mesi) = 46.157 all'anno, al posto della stima di legge (35.217); DA RIVEDERE col bilancio al 30/09
+tfr_annuo = round(30771 / 8 * 12, 2)
 integ = {'tfr_da_aggiungere': round(tfr_annuo - tfr_reg, 2), 'tredicesima_con_contributi': round(tred, 2),
          '_calcolo': {'stipendi_12_mesi': round(sal12, 2), 'rapporto_contributi_su_stipendi': round(r_contr, 4), 'tredicesima_lorda': round(tred_lordo, 2),
                       'tfr_quota_annua': round(tfr_annuo, 2), 'tfr_gia_registrato_h1': round(tfr_reg, 2)}}
