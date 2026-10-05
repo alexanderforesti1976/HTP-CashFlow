@@ -52,4 +52,7 @@ console.log('cash flow 2028: rate piani', rate28.toFixed(2), 'cassa 31/12/2028',
 if (Math.abs(rate28 - 92650.0) > 5 || Math.abs(r28['2028-11'].accontiBase - rA.ce27.imposte * 0.5) > 1) ok = false;
 if (Math.abs(rA.riepilogo.cassa_2028 - (rA.riepilogo.cassa_2027 + rA.riepilogo.netto_2028)) > 1) ok = false;
 if (Math.abs(rA.ce28.int_passivi - D.cf.ce2026.interessi_passivi_2028_piani) > 0.01) ok = false;
+// indici 2028 (R176): rate dei piani 92.650, debito 31/12/2028 = 0, PN = PN 2027 + utile 2028
+const ix = M.indici(D, rA), i28 = ix[2], i27 = ix[1]; console.log('indici 2028: DSCR', i28.v.dscr.toFixed(2), 'debito', i28.deb, 'PN', i28.pn.toFixed(0));
+if (ix.length !== 3 || i28.y !== 2028 || i28.deb !== 0 || Math.abs(i28.rate - 92650.49) > 5 || Math.abs(i28.pn - (i27.pn + rA.ce28.utile)) > 1 || M.rating(D, rA).length !== 5) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);

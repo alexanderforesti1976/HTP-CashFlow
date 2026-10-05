@@ -1440,9 +1440,12 @@
   "rating_stime": {
    "circolante_su_attivo_2026": 0.38,
    "circolante_su_attivo_2027": 0.4,
-   "liquidita_debiti_extra_k": 200
+   "liquidita_debiti_extra_k": 200,
+   "circolante_su_attivo_2028": 0.4
   },
   "_fonte_rating": "valori 2024-2025 ereditati dalla vecchia app (bilanci definitivi): PFN/EBITDA, D/E, copertura interessi, liquidita, margine EBITDA, ROE, ROA, margine netto, circolante/attivo. 2026-2027: indici del modello + STIME come la vecchia app (totale attivo fisso 30/06, liquidita = (cassa+debito)/(debito+200k), circolante/attivo 0,38 e 0,40)",
-  "_fonte": "rate e debiti dai piani di ammortamento (params.json loans); patrimonio netto di apertura e debiti bancari dalla bozza 30/06/2026 (SP_H1_2026_reale)"
+  "_fonte": "rate e debiti dai piani di ammortamento (params.json loans); patrimonio netto di apertura e debiti bancari dalla bozza 30/06/2026 (SP_H1_2026_reale)",
+  "rate_2028": 92650.49,
+  "debito_31_12_2028": 0.0
  }
 }

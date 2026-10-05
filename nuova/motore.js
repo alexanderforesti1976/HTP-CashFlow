@@ -240,7 +240,8 @@
     var B = D.indici_base, out = [];
     var an = [
       { y: 2026, ce: r.ce, cassa: r.riepilogo.cassa_2026, deb: B.debito_31_12_2026, rate: B.rate_2026 },
-      { y: 2027, ce: r.ce27, cassa: r.riepilogo.cassa_2027, deb: B.debito_31_12_2027, rate: B.rate_2027 }
+      { y: 2027, ce: r.ce27, cassa: r.riepilogo.cassa_2027, deb: B.debito_31_12_2027, rate: B.rate_2027 },
+      { y: 2028, ce: r.ce28, cassa: r.riepilogo.cassa_2028, deb: B.debito_31_12_2028, rate: B.rate_2028 }
     ];
     var pn = B.pn_apertura_2026;
     an.forEach(function (a) {
@@ -253,7 +254,7 @@
     });
     return an;
   }
-  // Rating bancario (stessa scala e stessi punteggi della vecchia app). 2024-2025 da bilanci; 2026-2027 con STIME (totale attivo, liquidità, circolante).
+  // Rating bancario (stessa scala e stessi punteggi della vecchia app). 2024-2025 da bilanci; 2026-2028 con STIME (totale attivo, liquidità, circolante).
   function rating(D, r) {
     var B = D.indici_base, S = B.rating_stime, TA = B.totale_attivo_30_06_2026 / 1000;
     var sc = function (v, t) { for (var i = 0; i < t.length; i++) if (v <= t[i][0]) return t[i][1]; return t[t.length - 1][1]; };
