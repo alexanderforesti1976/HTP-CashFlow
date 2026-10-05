@@ -17,7 +17,7 @@
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
-      altri_ricorrenti_mese: d.altri_ricorrenti_mese, pubblicita_2027: 13611.94, /* R171: nel 2027 resta solo A.S.D. Franciacorta Ski, stesso importo della fattura di competenza 2026 (13.611,94); in cassa a gennaio 2027 con IVA come gli altri costi; il resto di pubblicità e fiere non si spende più */ costi_irregolari_mese: d.costi_irregolari_mese,
+      altri_ricorrenti_mese: d.altri_ricorrenti_mese, pubblicita_2027: { '2027-01': 22062.64, '2027-04': 8000 }, /* R171-R173: nel 2027 restano A.S.D. Franciacorta Ski 13.611,94 + Sci Club Sarnico 2001 8.450,70 (gennaio, come i risconti 2026) e FP Sport 8.000 (aprile, come il 01/04/2026); in cassa nello stesso mese con IVA come gli altri costi; il resto di pubblicità e fiere non si spende più */ costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
       g30_pf: G.prodotto_finito, g30_sl: G.semilavorato, g30_mp: G.materia_prima, g30_imb: G.imballi,
       f26_pf: F26.pf, f26_sl: F26.sl, f26_mp: F26.mp, f26_imb: F26.imb, f27_pf: F26.pf, f27_sl: F26.sl, f27_mp: F26.mp, f27_imb: F26.imb,
@@ -85,7 +85,7 @@
       if (i < FROM) return;
       ivaDeb[ym] = (REV[ym] || 0) * QS(ym) * IR;
       var en = P.energia_mese - fvSave(ym);
-      ivaCrd[ym] = (purch[ym] || 0) * (1 - PL) * IR + en * IE + (P.altri_ricorrenti_mese + P.costi_irregolari_mese + (ym === '2027-01' ? P.pubblicita_2027 : 0)) * IR + (ym >= P.fv_canone_da ? P.fv_canone * IR : 0);
+      ivaCrd[ym] = (purch[ym] || 0) * (1 - PL) * IR + en * IE + (P.altri_ricorrenti_mese + P.costi_irregolari_mese + (P.pubblicita_2027[ym] || 0)) * IR + (ym >= P.fv_canone_da ? P.fv_canone * IR : 0);
     });
     var ivaBal = -24925.00, ivaPay = {}, credDic = 0;
     YM.forEach(function (ym, i) {
@@ -147,7 +147,7 @@
     c7.a2_in = P.f26_pf + P.f26_sl; c7.a2_fin = P.f27_pf + P.f27_sl; c7.b11_in = P.f26_mp + P.f26_imb; c7.b11_fin = P.f27_mp + P.f27_imb;
     c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov27; c7.royalties = 0.015 * ric27;
     c7.personale = sum27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
-    c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + P.pubblicita_2027 + can27;
+    c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + (P.pubblicita_2027['2027-01'] + P.pubblicita_2027['2027-04']) + can27;
     c7.consumo_materie = c7.materie + c7.rim_in - c7.rim_fin; c7.acquisti_pct = RT.mat27;
     c7.ammortamenti = P.ammortamenti_2027;
     c7.operativo = c7.ricavi + c7.rimanenze - c7.materie - c7.lavorazioni - c7.provvigioni - c7.royalties - c7.personale - c7.affitti - c7.energia - c7.altri - c7.ammortamenti;
@@ -181,7 +181,7 @@
       L.personale = persM(ym) + (ym === '2026-12' || ym === '2027-12' ? 35000 : 0) + (ym === '2027-01' ? 17200 : 0);
       L.affitti = P.affitti_mese;
       L.energia = (P.energia_mese - fvSave(prev)) * (1 + IE);
-      L.altri = (P.altri_ricorrenti_mese + (ym === '2027-01' ? P.pubblicita_2027 : 0)) * (1 + IR);
+      L.altri = (P.altri_ricorrenti_mese + (P.pubblicita_2027[ym] || 0)) * (1 + IR);
       L.irreg = P.costi_irregolari_mese * (1 + IR);
       L.provvigioni = (REV[prev] || 0) * (ym >= '2027-01' ? RT.prov27 : RT.prov);
       L.royalties = ROY[ym] || 0;

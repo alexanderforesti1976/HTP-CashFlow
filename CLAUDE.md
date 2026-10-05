@@ -102,7 +102,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - R161: CIG ANTICIPATA in busta e recuperata il mese dopo (come nel 2020, R132 ritrattata); importo = ore × min(80% paga oraria media, massimale INPS 1.423,69/176 = 8,09 €/h); massimale 2027 = quello 2026, da aggiornare.
 - R162: acconti di novembre 2026 da Luca Rizzi (SGA): IRES 47.027,50 + IRAP 10.984,50 = 58.012; ISA 50/50 (R052 superata); base acconti 116.024. Rivedere con imposte 2026 reali.
 - R164: due dimissioni senza sostituto (cessati 31/05 e metà ottobre 2026): costo mensile −3.807 da settembre e −2.709 da novembre (ottobre −1.355); 13ª/TFR 2027 in proporzione; da rivedere col bilancio. - R165: TFR 2026 a 46,2k (reale gen-ago 30,8k × 12/8) e ora di CIG 19,14 € (`cig_costo_ora`, costo reale di un'ora lavorata gen-lug 2026 dal prospetto costo orario) meno addizionale 9%; da rivedere col bilancio.
-- R167-R171: pubblicità e fiere (sponsorizzazioni di società sportive, gen-ago 2026 55,9k) nel 2027: resta solo A.S.D. Franciacorta Ski, 13.611,94 € (`pubblicita_2027`, a gennaio in cassa); le altre non ci sono. R167-R169 le avevano messe per errore in proporzione.
+- R167-R172: pubblicità e fiere nel 2027 (sponsorizzazioni sportive; gen-ago 2026 55,9k): restano solo A.S.D. Franciacorta Ski 13.611,94 + Sci Club Sarnico 2001 8.450,70 (gennaio) e FP Sport 8.000 (aprile) = 30.062,64 (`pubblicita_2027`); le altre non ci sono. R167-R169 le avevano messe per errore in proporzione.
 - Dati personali delle buste (cartellini aprile 2020) NON nel repo (pubblico).
 
 ## NOTA IN MEMORIA: margine latente del magazzino (Alex, 04/10/2026) — NON modificare l'app
