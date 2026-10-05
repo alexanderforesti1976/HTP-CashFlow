@@ -17,7 +17,7 @@
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
       pers_mese: d.pers_mese, affitti_mese: d.affitti_mese, energia_mese: d.energia_mese,
-      altri_ricorrenti_mese: d.altri_ricorrenti_mese, pubblicita_2027: { '2027-01': 22062.64, '2027-04': 8000 }, /* R171-R173: nel 2027 restano A.S.D. Franciacorta Ski 13.611,94 + Sci Club Sarnico 2001 8.450,70 (gennaio, come i risconti 2026) e FP Sport 8.000 (aprile, come il 01/04/2026); in cassa nello stesso mese con IVA come gli altri costi; il resto di pubblicità e fiere non si spende più */ costi_irregolari_mese: d.costi_irregolari_mese,
+      altri_ricorrenti_mese: d.altri_ricorrenti_mese, pubblicita_2027: { '2027-01': 22062.64, '2027-04': 8000, '2028-01': 22062.64, '2028-04': 8000 }, /* R171-R173: nel 2027 restano A.S.D. Franciacorta Ski 13.611,94 + Sci Club Sarnico 2001 8.450,70 (gennaio, come i risconti 2026) e FP Sport 8.000 (aprile, come il 01/04/2026); in cassa nello stesso mese con IVA come gli altri costi; il resto di pubblicità e fiere non si spende più */ costi_irregolari_mese: d.costi_irregolari_mese,
       fv_produzione_pct: 100, fv_canone_da: '2026-11', fv_canone: 1393.58,
       g30_pf: G.prodotto_finito, g30_sl: G.semilavorato, g30_mp: G.materia_prima, g30_imb: G.imballi,
       f26_pf: F26.pf, f26_sl: F26.sl, f26_mp: F26.mp, f26_imb: F26.imb, f27_pf: F26.pf, f27_sl: F26.sl, f27_mp: F26.mp, f27_imb: F26.imb,
