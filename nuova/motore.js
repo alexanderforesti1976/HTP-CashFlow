@@ -40,7 +40,10 @@
     // CIG per trimestre: ore TOTALI di CIG al mese, tutti i lavoratori insieme (le stesse in ciascuno dei 3 mesi del trimestre); 20 lavoratori; 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
     var trim = function (ym) { var y = ym.slice(2, 4), mo = +ym.slice(5); return (ym >= '2026-10') ? y + 'q' + Math.ceil(mo / 3) : null; };
     var quotaCig = function (ym) { var q = trim(ym); return q ? Math.min(1, (P['cig_o_' + q] || 0) / (20 * 173.33)) : 0; };
-    var persM = function (ym) { return P.pers_mese - quotaCig(ym) * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale); };
+    // due dimissioni senza sostituto (Alex 05/10, R164): uno cessato il 31/05/2026 (3.807 euro/mese = 4.570 x 5/6, già fuori dal costo di giugno-agosto reale) e uno da metà ottobre
+    // (2.709 euro/mese = costo medio gen-giu; a ottobre metà). Costi dal prospetto costo orario gen-ago 2026 senza TFR e 13ª. DA RIVEDERE col bilancio al 30/09
+    var dimessi = function (ym) { return (ym >= '2026-09' ? 3807 : 0) + (ym === '2026-10' ? 1355 : (ym > '2026-10' ? 2709 : 0)); };
+    var persM = function (ym) { return P.pers_mese - dimessi(ym) - quotaCig(ym) * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale); };
     // CIG anticipata dall'azienda in busta (voce "Anticipo CIG INPS", come nelle buste di aprile 2020) e recuperata il mese dopo con il conguaglio
     // sui contributi INPS: uscita nel mese e incasso il mese dopo, non è costo (credito verso l'INPS). Importo orario = minore tra 80% della paga
     // oraria media e massimale mensile INPS 2026 (circ. INPS 4/2026: 1.423,69 € lordi) / 176 ore (come in busta: 939,89 / 176 = 5,34 nel 2020); massimale 2027 = quello 2026 (non ancora noto)
