@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 384, cig_o_27q1: 384, cig_o_27q2: 384, cig_o_27q3: 384, cig_o_27q4: 0, /* CIG impostata da Alex il 04/10/2026 (6 persone x 16 ore x 4 settimane = 384 ore al mese), R150 */
+      cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
       ricavi27_k: 2000, quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
