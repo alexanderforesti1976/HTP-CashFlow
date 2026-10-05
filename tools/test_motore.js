@@ -36,4 +36,7 @@ console.log('utile 2027 con e senza CIG nel 2026:', rq.ce27.utile.toFixed(0), rz
 if (Math.abs(ra.ce27.personale - (12 * P0.pers_mese + (D.cf.ce2026.integrazioni.tfr_da_aggiungere + D.cf.ce2026.integrazioni.tredicesima_con_contributi))) > 1) ok = false;
 // valori di partenza = CIG impostata da Alex (384 ore al mese ott-dic 2026 e nei primi tre trimestri 2027): utile come nella sua pagina del 04/10 22:09
 const rA = M.calcola(D, PALEX); console.log('valori di partenza (CIG di Alex): utile 2026', rA.ce.utile.toFixed(0), 'utile 2027', rA.ce27.utile.toFixed(0), '(attesi 90006 e 80390: CIG di Alex, ricavi 2027 2.000k, non confermati 90%)'); if (Math.abs(rA.ce.utile - 90006) > 2 || Math.abs(rA.ce27.utile - 80390) > 2) ok = false;
+// CIG anticipata in busta (R161): 384 ore x min(80% paga oraria media, 1.423,69/176) = 3.106 euro anticipati in ottobre e recuperati a novembre; non è costo
+console.log('CIG anticipata: ottobre', rA.righe['2026-10'].cigAnticipo.toFixed(0), 'rimborso novembre', rA.righe['2026-11'].cigRimborso.toFixed(0));
+if (Math.abs(rA.righe['2026-10'].cigAnticipo - 384 * 1423.69 / 176) > 1 || Math.abs(rA.righe['2026-11'].cigRimborso - rA.righe['2026-10'].cigAnticipo) > 0.01 || rA.righe['2027-12'].cigAnticipo !== 0) ok = false;
 console.log(ok ? 'TEST OK' : 'TEST FALLITO'); process.exit(ok ? 0 : 1);

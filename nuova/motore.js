@@ -41,6 +41,10 @@
     var trim = function (ym) { var y = ym.slice(2, 4), mo = +ym.slice(5); return (ym >= '2026-10') ? y + 'q' + Math.ceil(mo / 3) : null; };
     var quotaCig = function (ym) { var q = trim(ym); return q ? Math.min(1, (P['cig_o_' + q] || 0) / (20 * 173.33)) : 0; };
     var persM = function (ym) { return P.pers_mese - quotaCig(ym) * (P.pers_mese - P.cig_addizionale_pct / 100 * retribGlobale); };
+    // CIG anticipata dall'azienda in busta (voce "Anticipo CIG INPS", come nelle buste di aprile 2020) e recuperata il mese dopo con il conguaglio
+    // sui contributi INPS: uscita nel mese e incasso il mese dopo, non è costo (credito verso l'INPS). Importo orario = minore tra 80% della paga
+    // oraria media e massimale mensile INPS 2026 (circ. INPS 4/2026: 1.423,69 € lordi) / 176 ore (come in busta: 939,89 / 176 = 5,34 nel 2020); massimale 2027 = quello 2026 (non ancora noto)
+    var cigAnt = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_o_' + q] || 0, 20 * 173.33) * Math.min(0.80 * retribGlobale / (20 * 173.33), 1423.69 / 176) : 0; };
     var sumSD = 0, sum27 = 0;
     ['2026-09', '2026-10', '2026-11', '2026-12'].forEach(function (ym) { sumSD += persM(ym); });
     ['2027-01', '2027-02', '2027-03', '2027-04', '2027-05', '2027-06', '2027-07', '2027-08', '2027-09', '2027-10', '2027-11', '2027-12'].forEach(function (ym) { sum27 += persM(ym); });
@@ -183,8 +187,9 @@
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
       L.iva = ivaPay[ym] || 0;
-      L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov;
-      L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
+      L.cigAnticipo = cigAnt(ym); L.cigRimborso = prev >= '2026-10' ? cigAnt(prev) : 0;
+      L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov + L.cigRimborso;
+      L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
       L.netto = L.entrate - L.uscite; L.apertura = cassa; cassa += L.netto; L.chiusura = cassa;
       L.ricavi = REV[ym] || 0;
       rows[ym] = L;
