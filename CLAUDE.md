@@ -102,7 +102,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - R161: CIG ANTICIPATA in busta e recuperata il mese dopo (come nel 2020, R132 ritrattata); importo = ore × min(80% paga oraria media, massimale INPS 1.423,69/176 = 8,09 €/h); massimale 2027 = quello 2026, da aggiornare.
 - R162: acconti di novembre 2026 da Luca Rizzi (SGA): IRES 47.027,50 + IRAP 10.984,50 = 58.012; ISA 50/50 (R052 superata); base acconti 116.024. Rivedere con imposte 2026 reali.
 - R164: due dimissioni senza sostituto (cessati 31/05 e metà ottobre 2026): costo mensile −3.807 da settembre e −2.709 da novembre (ottobre −1.355); 13ª/TFR 2027 in proporzione; da rivedere col bilancio. - R165: TFR 2026 a 46,2k (reale gen-ago 30,8k × 12/8) e ora di CIG 19,14 € (`cig_costo_ora`, costo reale di un'ora lavorata gen-lug 2026 dal prospetto costo orario) meno addizionale 9%; da rivedere col bilancio.
-- R167/R168: pubblicità e fiere (6.989 €/mese, ritmo gen-ago 2026) aggiunte agli altri costi SOLO del 2027 (il 2027 ricalca il 2026 in proporzione; il 2026 non si tocca); da rivedere col bilancio.
+- R167-R169: pubblicità e fiere = 3,597% dei ricavi (gen-ago 2026: 55,9k su 1.554,5k), applicata ai ricavi 2027 (71,9k); il 2026 non si tocca; da rivedere col bilancio.
 - Dati personali delle buste (cartellini aprile 2020) NON nel repo (pubblico).
 
 ## NOTA IN MEMORIA: margine latente del magazzino (Alex, 04/10/2026) — NON modificare l'app

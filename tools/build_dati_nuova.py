@@ -174,6 +174,7 @@ cf['defaults'] = {
  'pct_materie': round(gsum('materie') / ric_ga * 100, 3),
  'pct_lavorazioni': round(gsum('lavorazioni_terzi') / ric_ga * 100, 3),
  'pct_provvigioni': round(gsum('provvigioni') / ric_ga * 100, 3),
+ 'pct_pubblicita': round(pub / ric_ga * 100, 3),  # R169: pubblicità e fiere gen-ago in % dei ricavi gen-ago, applicata ai ricavi 2027
  'affitti_mese': mesi['8']['affitti'],
  'energia_mese': round(gsum('energia') / 8, 2),
  'altri_ricorrenti_mese': round(rec / 8, 2),

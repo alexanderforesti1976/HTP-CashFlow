@@ -1322,6 +1322,7 @@
    "energia_mese": 8052.15,
    "altri_ricorrenti_mese": 16381.17,
    "costi_irregolari_mese": 13732.21,
+   "pct_pubblicita": 3.597,
    "pubblicita_gen_ago": 55912.64,
    "_nota": "Rapporti reali gen-ago 2026 (bozza 30/06 + mastrini lug-ago); altri costi dai conti dei mastrini (ricorrenti = presenti in almeno 6 mesi su 8; irregolari senza pubblicità/fiere)",
    "ammortamenti_2026": 110000,
