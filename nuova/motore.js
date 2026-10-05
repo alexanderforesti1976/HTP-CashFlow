@@ -182,7 +182,7 @@
       L.royalties = ROY[ym] || 0;
       L.canone = ym >= P.fv_canone_da ? P.fv_canone * (1 + IR) : 0;
       L.finanz = C.finanziamenti_mensili[ym] || 0;
-      L.rateAcconti = ym === '2026-10' ? 10610.00 : 0;
+      L.rateAcconti = ym === '2026-10' ? 10606.70 : 0;
       L.accontiBase = ym === '2026-11' ? 58012 : (ym === '2027-06' ? giu27 : (ym === '2027-11' ? Math.max(0, t26 * (1 - p1) - res) : 0));
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
