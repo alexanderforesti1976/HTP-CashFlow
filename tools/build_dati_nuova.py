@@ -132,7 +132,7 @@ for ym, lab in (('2026-10', 'Ottobre'), ('2026-11', 'Novembre'), ('2026-12', 'Di
 out = {'_fonte': 'H1: bozza bilancio 30/06/2026 del 13/07/2026 (riconciliata al centesimo, R058); luglio e agosto: mastrini 2026 estratti il 02/10/2026 16:02 (settembre incompleto, non usato). Importi in euro. Lo storno 41.502,04 (07011300) e dentro altri_costi del H1 per convenzione aziendale.',
        'bozza_totali': {'costi': 1215491.60, 'ricavi': 1257026.72, 'utile': 41535.12},
        'h1': h1, 'mesi': mesi, 'altri_conti': altri_conti, 'ricavi_previsti': ricavi_previsti,
-       '_nota_ricavi': 'Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 142,5k emessi + 77,5k da emettere (provvisorio); non_confermato = programmi 2100 + righe 2099'}
+       '_nota_ricavi': 'Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 231.237,87 fatturato reale (file Fatturato 2026 per cliente gen-set, 09/10/2026; prima 220.000 provvisorio); non_confermato = programmi 2100 + righe 2099'}
 
 # --- dati per il cash flow (passo 3): ereditati da params.json (R005, R009: verificati su scadenzari e condizioni di pagamento)
 ob = {x['m']: x for x in P['OBACKLOG']}
@@ -148,7 +148,7 @@ for l in P['loans']:
 m7r = mesi['7']['ricavi_operativi']; m8r = mesi['8']['ricavi_operativi']
 cf = {
  'cassa_30_09': 1870460.00,
- 'ricavi': dict([('2026-09', round(ob['Set 26']['t'] * 1000, 2))] + [(ym, round(ORD[ym]['tot'], 2)) for ym in ('2026-10', '2026-11', '2026-12')]),
+ 'ricavi': dict([('2026-09', 231237.87)] + [(ym, round(ORD[ym]['tot'], 2)) for ym in ('2026-10', '2026-11', '2026-12')]),
  'quota_iva_vendite': dict([('2026-09', quota_iva('Set 26'))] + [(ym, round(ORD[ym]['imp'] / ORD[ym]['tot'], 4)) for ym in ('2026-10', '2026-11', '2026-12')]),
  'rec_ordini_2027': REC_ORD27, 'rec_quota_2027': QUOTA27,
  'rec_matrix': dict(list({k: v for k, v in P['recMatrix'].items()}.items()) + list(REC.items())),

@@ -1029,11 +1029,11 @@
    "non_confermato": 11575.89
   }
  ],
- "_nota_ricavi": "Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 142,5k emessi + 77,5k da emettere (provvisorio); non_confermato = programmi 2100 + righe 2099",
+ "_nota_ricavi": "Ordini aperti Pegaso stampa 02/10/2026 17:50 (OBACKLOG di params.json); settembre = 231.237,87 fatturato reale (file Fatturato 2026 per cliente gen-set, 09/10/2026; prima 220.000 provvisorio); non_confermato = programmi 2100 + righe 2099",
  "cf": {
   "cassa_30_09": 1870460.0,
   "ricavi": {
-   "2026-09": 220000,
+   "2026-09": 231237.87,
    "2026-10": 218117.89,
    "2026-11": 190315.25,
    "2026-12": 128292.11
