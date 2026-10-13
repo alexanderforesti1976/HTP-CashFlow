@@ -1317,6 +1317,7 @@
    "quota_plafond_acquisti": 52,
    "quota_vendite_default": 21
   },
+  "_nota_ottobre": "PROVVISORIO (R192/R193): ricavi ottobre = ordini aperti stampa 13/10 (141.096,32) + bolle/fatture emesse al 13/10 (48.195,13). Solo per l'aggiornamento corrente: a fine mese le bolle diventano fatture e il dato va SOSTITUITO con il fatturato reale di ottobre (non sommare di nuovo); a ogni nuova stampa ordini ricalcolare ordini aperti + emesso a quella data.",
   "_fonti": "recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)",
   "defaults": {
    "pers_mese": 56137.97,
