@@ -84,6 +84,11 @@ def parse_ordini(path):
         if any(n.upper() in r['cli'] for n in P['taxClients']): mesi_o[ym]['imp'] += r['res']
     return stampa, totale, mesi_o
 stampa_o, totale_o, ORD = parse_ordini(pdf_ordini)
+# R192: bolle di vendita (DDT) emesse a ottobre fino al 13/10 + fattura 260130 non da bolla (chat del software, R190): escono dalla stampa ordini del 13/10, quindi si SOMMANO (imponibile, parziale)
+BOLLE_OTT = [('LAV.EL. GOMMA SRL A', 17678.39), ('EURGOMMA SRL', 18200.00), ('OMECA DIV. DI', 6932.49), ('WATTS INDUSTRIES', 5384.25)]
+for _n, _v in BOLLE_OTT:
+    ORD['2026-10']['tot'] += _v; ORD['2026-10']['cli'][_n] += _v
+    if any(t.upper() in _n for t in P['taxClients']): ORD['2026-10']['imp'] += _v
 
 # --- matrice incassi per ott-dic 2026 dal mix clienti del PDF x condizioni di pagamento (xlsx): mesi di ritardo dall'emissione
 def ritardo(cond):
