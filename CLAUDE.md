@@ -98,6 +98,12 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - Piano ammortamento BCC Sebino 8021 (opzionale); magazzino al 30/06/2025.
 - Argomm articolo 047002: cost breakdown per trattare il nuovo prezzo.
 
+## REGOLE SUGLI ORDINI APERTI (Valentina, mail 07/10 e 13/10; registrate in R187) — da applicare a ogni nuova stampa ODV, NON richiederle ad Alex
+- **Dove sono scritte:** Gmail (connettore): "PREV. FATTURATO 2026" e "Ordini da evadere entro il 31/12/2026" (Valentina 07/10, con la risposta "avevi ragione su tutto" del gestionale), "Programma consegne T.Erre" (Raffaella 13/10). Cercarle lì PRIMA di dire che non ci sono.
+- Riferimento di Valentina per il 2026: **2.280.000 €** (fatturato al 30/09 1.735.000 compreso Enextras); fatturato teorico dal gestionale 2.313.000 (1.655.000 emesso + ~658.000 da evadere). Le mie stime iniziali (~2,4 milioni) erano sbagliate.
+- Righe 2099 (attesa inserti) = ordini in essere da evadere, NON scaduti. Programmi PRV: conta il RESIDUO (ordinato − ritiri confermati), non l'ordinato totale (OMECA 025002 residuo 3.350 pz; DPH PV018002VV/003VV 100.000 pz ciascuno). Edscha 182001 programma al 31/12/2100, non scaduto. OMECA 025003 scade 30/11/2027.
+- **T.Erre 110002E: i programmi 2100 OV 260125-260130 (188.100 €) sono ANNULLATI (T.Erre li ha mantenuti annullati il 12/10): NON contarli nei ricavi.** Consegne vere = righe normali (260224 40k pz 30/11 = 19.000; 260156 mar-27; 260225 apr-27; 260226 giu-27; 260054 80k pz luglio ancora da evadere). Nel modello (R184) sono ancora dentro: nov −27.550, gen-27 −32.775, feb-27 −19.000 da togliere con l'ok di Alex (test: ricavi 2026 −24,8k, utile 2026 −10,4k, cassa dic-26 −6,2k, minimo −21,1k).
+
 ## DA RIVEDERE col bilancio al 30/09 definitivo (Alex, 05/10/2026) — applicati "per il momento"
 - R160: provvigioni 2027 senza l'agente Tusa (`pct_provvigioni27` 1,647% = 3,001% × (1 − 45,1%); quota Tusa 25.786 su 57.138 dai mastrini 2026). Verificare quota e se i ricavi di Tusa passano ad altri agenti.
 - R161: CIG ANTICIPATA in busta e recuperata il mese dopo (come nel 2020, R132 ritrattata); importo = ore × min(80% paga oraria media, massimale INPS 1.423,69/176 = 8,09 €/h); massimale 2027 = quello 2026, da aggiornare.
