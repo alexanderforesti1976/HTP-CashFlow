@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
+      ferie_saldo_2026: 0, /* R204: saldo ferie MATURATE meno GODUTE del 2026 (ore dai cedolini x costo orario), da inserire; oggi 0 */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
       ricavi27_k: 2000, ricavi28_k: 2000, persone_in_meno_28: 3, ammortamenti_2028: d.ammortamenti_2027, /* R174: CE 2028 sulla base del 2027, senza CIG, con 3 persone in meno (Alex 05/10) */ quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
@@ -119,7 +119,7 @@
     ce.b11_in = EC.materie_prime + EC.materiali_consumo_imballi; ce.b11_fin = P.f26_mp + P.f26_imb;
     ce.materie = gsum('materie') + ricSD * RT.mat; ce.lavorazioni = gsum('lavorazioni_terzi') + ricSD * RT.sub;
     ce.provvigioni = gsum('provvigioni') + ricSD * RT.prov; ce.royalties = 0.015 * ric26;
-    ce.personale = gsum('personale') + sumSD + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi + E.integrazioni.ferie_rateo_fine_2026;
+    ce.personale = gsum('personale') + sumSD + E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi + E.integrazioni.ferie_rateo_fine_2026 + P.ferie_saldo_2026;
     ce.affitti = gsum('affitti') + 3 * P.affitti_mese;
     var enSD = 0, canSD = 0; SD.forEach(function (ym) { enSD += P.energia_mese - fvSave(ym); if (ym >= P.fv_canone_da) canSD += P.fv_canone; });
     ce.energia = gsum('energia') + enSD;
@@ -131,7 +131,7 @@
       personale: [H.personale, lm('personale'), M9.personale + sumSD], affitti: [H.affitti, lm('affitti'), M9.affitti + 3 * P.affitti_mese], energia: [H.energia, lm('energia'), enS9 + enSD],
       altri: [H.altri_costi, lm('altri_costi'), M9.altri_costi + 3 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + canSD]
     };
-    ce.tfr13 = E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi; ce.ferie = E.integrazioni.ferie_rateo_fine_2026;
+    ce.tfr13 = E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi; ce.ferie = E.integrazioni.ferie_rateo_fine_2026; ce.ferie_saldo = P.ferie_saldo_2026;
     ce.consumo_materie = ce.materie + ce.rim_in - ce.rim_fin; ce.consumo_pct_gen_giu = rCons; ce.acquisti_pct_setdic = RT.mat;
     ce.ammortamenti = P.ammortamenti_2026;
     ce.operativo = ce.ricavi + ce.rimanenze - ce.materie - ce.lavorazioni - ce.provvigioni - ce.royalties - ce.personale - ce.affitti - ce.energia - ce.altri - ce.ammortamenti;
