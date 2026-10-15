@@ -43,6 +43,17 @@
    "personale": 48782.2,
    "interessi_passivi": 828.5,
    "ricavi_operativi": 91754.58
+  },
+  "9": {
+   "_nota": "R199: settembre = bilancio 30/09/2026 (stampa 14/10) meno gen-ago del modello; comprende le rettifiche dell'H1 definitivo rispetto alla bozza 13/07 (circa -40k); costi gia contenuti nel bilancio (non proiettati)",
+   "materie": 31625.34,
+   "altri_costi": 22181.23,
+   "energia": 8506.19,
+   "lavorazioni_terzi": -2149.67,
+   "provvigioni": 9765.53,
+   "affitti": 5709.97,
+   "personale": 49020.54,
+   "ricavi_operativi": 231235.6
   }
  },
  "altri_conti": [
@@ -1321,9 +1332,9 @@
   "_fonti": "recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)",
   "defaults": {
    "pers_mese": 56137.97,
-   "pct_materie": 18.857,
-   "pct_lavorazioni": 3.929,
-   "pct_provvigioni": 3.001,
+   "pct_materie": 17.72,
+   "pct_lavorazioni": 3.3,
+   "pct_provvigioni": 3.159,
    "affitti_mese": 8195.06,
    "energia_mese": 8052.15,
    "altri_ricorrenti_mese": 16381.17,
@@ -1391,7 +1402,9 @@
    "multe_e_costi_indeducibili_2025_ricorrenti": 46600,
    "addback_irap_2025_senza_interinale": 107400,
    "integrazioni": {
-    "tfr_da_aggiungere": 41057.01,
+    "tfr_da_aggiungere": 39286.09,
+    "ferie_rateo_fine_2026": 32136.45,
+    "_nota_ferie": "R199: rateo ferie e costi maturati non liquidati al 31/12/2026 = valore del 31/12/2025 (conto 05033201, bilancio 2025), stornato il 02/01/2026; da rivedere con il valore reale",
     "tredicesima_con_contributi": 52325.36,
     "_calcolo": {
      "stipendi_12_mesi": 470623.5,

@@ -236,6 +236,12 @@ cf['ce2026'] = {
  'integrazioni': integ,
  '_note': 'Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca'}
 cf['defaults'].update({'ammortamenti_2026': 110000, 'ammortamenti_2027': 100000, 'giacenza_30_06': 176608, 'rimanenze_finali_2026': 153400})
+# R199: bilancio al 30/09/2026 (stampa 14/10) e mastrini gen-set (CSV): settembre = bilancio meno gen-ago; percentuali sui 9 mesi; TFR da aggiungere dopo 6.870,41 registrati; rateo ferie 31/12/2026 = valore 31/12/2025 (conto 05033201, bilancio 2025)
+out['mesi']['9'] = {'_nota': "R199: settembre = bilancio 30/09/2026 (stampa 14/10) meno gen-ago del modello; comprende le rettifiche dell'H1 definitivo rispetto alla bozza 13/07 (circa -40k); costi gia contenuti nel bilancio (non proiettati)",
+                    'materie': 31625.34, 'altri_costi': 22181.23, 'energia': 8506.19, 'lavorazioni_terzi': -2149.67, 'provvigioni': 9765.53, 'affitti': 5709.97, 'personale': 49020.54, 'ricavi_operativi': 231235.6}
+cf['defaults'].update({'pct_materie': 17.72, 'pct_lavorazioni': 3.3, 'pct_provvigioni': 3.159})
+cf['ce2026']['integrazioni'].update({'tfr_da_aggiungere': 39286.09, 'ferie_rateo_fine_2026': 32136.45,
+    '_nota_ferie': 'R199: rateo ferie e costi maturati non liquidati al 31/12/2026 = valore del 31/12/2025 (conto 05033201, bilancio 2025), stornato il 02/01/2026; da rivedere con il valore reale'})
 out['cf'] = cf
 out['versione_dati'] = '%d-%s-cig0o' % (cf['giacenze_30_06']['totale_valore_finale'], stampa_o)  # cambia quando cambiano giacenze o ordini: i valori salvati del magazzino si azzerano ai nuovi dati
 import indici_base; out['indici_base'] = indici_base.calcola(P)  # rate, debiti, PN e rating storico per gli indici bancari (R146-R147)
