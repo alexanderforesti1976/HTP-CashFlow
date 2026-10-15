@@ -10,7 +10,8 @@ pdf = sys.argv[1]; ESCL = '--escludi-terre' in sys.argv; BOLLE = '--bolle-ott' i
 RITARDI = [('ENEXTRAS', 0), ('TERRA VERDE', 0), ('SEROTTI', 1), ('ELRING', 1), ('EDSCHA', 1), ('T.ERRE', 2), ('ARGOMM', 2), ('WATTS', 2), ('EUROGOMMA', 2), ('DICHTUNG', 2),
            ('LAV.EL', 3), ('OMECA', 3), ('CAVAGNA', 3), ('OMR', 3)]  # altri clienti: 2 mesi (default dello script di build)
 TAX = ['T.ERRE', 'WATTS', 'SAGOM', 'OMR', 'DUBHE', 'SCALIGERA', 'E.B.', 'BREKA', 'ELLEDI']
-BOLLE_OTT = [('LAV.EL. GOMMA', 17678.39), ('EUROGOMMA', 18200.00), ('OMECA', 6932.49), ('WATTS', 5384.25)]  # bolle + fatture emesse fino al 13/10 (R190, R192)
+BOLLE_OTT = [('LAV.EL. GOMMA', 17678.39), ('EUROGOMMA', 18200.00), ('OMECA', 6932.49), ('WATTS', 5384.25),
+             ('EUROGOMMA', 4244.00), ('OMECA', 4378.00)]  # bolle + fatture emesse fino al 13/10 (R190, R192) + spedito tra le stampe del 13/10 e del 15/10 (calo dei residui: Eurgomma 4.244, OMECA 4.378; R201)
 TERRE_ANNULLATI = {'260125', '260126', '260127', '260128', '260129', '260130'}
 def ritardo(nome):
     n = nome.upper()
