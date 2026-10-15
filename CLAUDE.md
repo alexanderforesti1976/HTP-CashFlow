@@ -106,6 +106,8 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 
 - **Fatturato del mese = BOLLE (DDT) emesse, non solo fatture** (chat software 13/10, R190): ottobre al 13/10 = 48.195,13 (parziale), che si somma agli ordini aperti della stampa del 13/10 (le bolle già emesse sono uscite dall'elenco: nessun doppio conteggio). **Il dato di ottobre è PROVVISORIO e NON è nello script di build: vive solo in `dati.json` (`_nota_ottobre`); a fine mese si SOSTITUISCE con il fatturato reale (fatture), mai sommato; a ogni nuova stampa ordini ricalcolare ordini aperti + emesso a quella data (R193).** Se manca un dato a bolle, chiederlo ad Alex (lo porta alla sessione del gestionale). I messaggi dall'altra sessione possono non arrivare come notifiche: leggerli con list_events su `session_018JtRJpt2aHrxhhbQGGDBVa`.
 
+- **Nuova stampa ordini aperti: usare `python3 tools/ordini_to_dati.py stampa.pdf --escludi-terre --bolle-ott --scrivi`** (R200): rigenera ricavi ott-dic, quote IVA, matrici di incasso e ordini noti 2027; poi test, REVISIONI, `aggiorna_nuova.py`. Le bolle di ottobre sono PROVVISORIE (R193): quando arrivano le fatture reali si tolgono `--bolle-ott` e si sostituisce il totale.
+
 ## DA RIVEDERE col bilancio al 30/09 definitivo (Alex, 05/10/2026) — applicati "per il momento"
 - R160: provvigioni 2027 senza l'agente Tusa (`pct_provvigioni27` 1,647% = 3,001% × (1 − 45,1%); quota Tusa 25.786 su 57.138 dai mastrini 2026). Verificare quota e se i ricavi di Tusa passano ad altri agenti.
 - R161: CIG ANTICIPATA in busta e recuperata il mese dopo (come nel 2020, R132 ritrattata); importo = ore × min(80% paga oraria media, massimale INPS 1.423,69/176 = 8,09 €/h); massimale 2027 = quello 2026, da aggiornare.

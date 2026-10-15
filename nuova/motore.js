@@ -79,6 +79,7 @@
     var rCons = (Hh.materie + D.mesi['7'].materie + D.mesi['8'].materie + D.mesi['9'].materie + C.ce2026.esistenze_iniziali - P.giacenza_30_06) / (Hh.ricavi_operativi + D.mesi['7'].ricavi_operativi + D.mesi['8'].ricavi_operativi + D.mesi['9'].ricavi_operativi); // R199: 9 mesi del bilancio 30/09, giacenza = stima Alex
     RT.mat = rCons; RT.mat27 = rCons;
     var purch = {}; YM.forEach(function (ym) { purch[ym] = (REV[ym] || 0) * ((ym >= '2027-01' ? RT.mat27 : RT.mat) + RT.sub); });
+    purch['2026-09'] = D.mesi['9'].materie + D.mesi['9'].lavorazioni_terzi; // R200: acquisti di settembre REALI dal bilancio 30/09 (materie + lavorazioni), non proiettati
     var fvSave = function (ym) { return ym < '2026-11' ? 0 : FV_RISPARMIO[+ym.slice(5) - 1] * fvK; };
     var fvRid = function (ym) { return ym < '2026-11' ? 0 : FV_RID[+ym.slice(5) - 1] * fvK; };
     // IVA
