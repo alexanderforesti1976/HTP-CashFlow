@@ -1354,12 +1354,12 @@
    "Dicembre": 8604.0
   },
   "giacenze_30_06": {
-   "prodotto_finito": 20952,
-   "semilavorato": 52578,
-   "materia_prima": 97294,
-   "imballi": 5784,
-   "totale_valore_finale": 176608,
-   "_nota": "Alex 03/10/2026 (terza tabella, definitiva, sostituisce le precedenti 155.548 e 164.739): valore pieno 316.843, azzerato -133.897, svalutato 30% -6.338, valore finale 176.607 (somma categorie 176.608, arrotondamento). Usata come giacenza al 30/06/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027"
+   "prodotto_finito": 27647.9,
+   "semilavorato": 69376.59,
+   "materia_prima": 84910.74,
+   "imballi": 6871.42,
+   "totale_valore_finale": 188806.65,
+   "_nota": "R202: valutazione giacenze al 30/09/2026 dalla pagina del gestionale (screenshot Alex 15/10 18:23): materie prime 84.910,74; imballi 6.871,42; semilavorati/finiti 97.024,49 (diviso 71,5% semilavorati e 28,5% prodotti finiti come al 30/06); totale 188.806,65; regola MAGRILAV svalutazione 30%; 105 magazzini inclusi; 167 righe non determinate. Usata come giacenza al 30/09/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027 (la chiave resta giacenze_30_06). Prima (30/06): 176.608"
   },
   "ce2026": {
    "interessi_passivi_2027_piani": 8357.69,
@@ -1418,7 +1418,7 @@
    "interessi_passivi_2028_piani": 637.34
   }
  },
- "versione_dati": "176608-2026-10-03-cig0o",
+ "versione_dati": "188807-2026-10-15-cig0o",
  "indici_base": {
   "rate_2026": 436380.38,
   "rate_2027": 352312.79,
