@@ -3,10 +3,10 @@
 senza bisogno dei mastrini xlsx né del file condizioni (i ritardi di incasso per cliente sono in RITARDI, da CLAUDE.md).
 Regole (R108, R187): ordini normali nel mese di conferma; righe 2099 e programmi 2100 al mese della data richiesta, solo se > data di stampa;
 programmi 2100 di T.Erre 110002E OV 260125-260130 ANNULLATI (R187) esclusi con --escludi-terre; finestra ott-26 / mag-27.
-Uso: python3 tools/ordini_to_dati.py OrdiniVenditaAperti.pdf [--escludi-terre] [--arretrato-terre] [--piano-terre] [--bolle-ott] [--scrivi]
+Uso: python3 tools/ordini_to_dati.py OrdiniVenditaAperti.pdf [--arretrati] [--bolle-ott] [--scrivi]
  senza --scrivi stampa solo il confronto con i valori attuali di dati.json."""
 import re, sys, json, subprocess, datetime as dt, collections
-pdf = sys.argv[1]; PIANO_TERRE = '--piano-terre' in sys.argv; ARRETRATO_TERRE = '--arretrato-terre' in sys.argv; ESCL = '--escludi-terre' in sys.argv; BOLLE = '--bolle-ott' in sys.argv; SCRIVI = '--scrivi' in sys.argv
+pdf = sys.argv[1]; ARRETRATI = '--arretrati' in sys.argv; ESCL = '--escludi-terre' in sys.argv; BOLLE = '--bolle-ott' in sys.argv; SCRIVI = '--scrivi' in sys.argv
 RITARDI = [('ENEXTRAS', 0), ('TERRA VERDE', 0), ('SEROTTI', 1), ('ELRING', 1), ('EDSCHA', 1), ('T.ERRE', 2), ('ARGOMM', 2), ('WATTS', 2), ('EUROGOMMA', 2), ('DICHTUNG', 2),
            ('LAV.EL', 3), ('OMECA', 3), ('CAVAGNA', 3), ('OMR', 3)]  # altri clienti: 2 mesi (default dello script di build)
 TAX = ['T.ERRE', 'WATTS', 'SAGOM', 'OMR', 'DUBHE', 'SCALIGERA', 'E.B.', 'BREKA', 'ELLEDI']
@@ -35,18 +35,12 @@ for ln in txt.split('\n'):
         if ESCL and anno == '2100' and m.group(3) in TERRE_ANNULLATI and 'T.ERRE' in cli: continue
     else:
         d = dt.date(int(anno), int(m.group(2)), 1); nc = False
+        if ARRETRATI and d < dt.date(2026, 10, 1): d = dt.date(2026, 10, 1)  # R207: righe ancora aperte di periodi passati = da spedire, contate a ottobre
     ym = d.strftime('%Y-%m')
-    if PIANO_TERRE and 'T.ERRE' in cli and ' 110002E ' in ln: continue  # sostituito dal piano di Alex
     if not ('2026-10' <= ym <= '2027-05'): continue
     e = M[ym]; e['tot'] += res; e['v'][min(6, ritardo(cli))] += res
     if nc: e['nc'] += res
     if any(t in cli for t in TAX): e['imp'] += res
-if ARRETRATO_TERRE:  # R206: OV 260054 110002E, 80.000 pz (38.000 €) ancora da spedire (data 10/07, arretrato): meta ottobre e meta novembre (ipotesi sul mese)
-    for ym in ('2026-10', '2026-11'):
-        e = M[ym]; e['tot'] += 19000.0; e['v'][ritardo('T.ERRE')] += 19000.0; e['imp'] += 19000.0
-if PIANO_TERRE:
-    for ym, v in PIANO_110002E.items():
-        e = M[ym]; e['tot'] += v; e['v'][ritardo('T.ERRE')] += v; e['imp'] += v
 if BOLLE:
     e = M['2026-10']
     for n, v in BOLLE_OTT:
