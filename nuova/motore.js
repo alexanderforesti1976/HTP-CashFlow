@@ -12,7 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
-      ferie_saldo_2026: 3655, /* R204/R209/R210: saldo ferie+ex festivita+ROL MATURATE meno GODUTE 2026 = 168,69 h gen-set (prospetto ratei Paghe Infinity settembre 2026) + 56,2 h stimate per ott-dic (stesso ritmo dei 9 mesi) = 224,9 h x 16,25 EUR/h (valore del rateo 2025: 32.136,45 / 1.977,70 h) */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
+      ferie_saldo_2026: 3655, /* R204/R209/R210: saldo ferie+ex festivita+ROL MATURATE meno GODUTE 2026 = 168,69 h gen-set (prospetto ratei Paghe Infinity settembre 2026) + 56,2 h stimate per ott-dic (stesso ritmo dei 9 mesi) = 224,9 h x 16,25 EUR/h (valore del rateo 2025: 32.136,45 / 1.977,70 h) */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, cig_o_28q1: 0, cig_o_28q2: 0, cig_o_28q3: 0, cig_o_28q4: 0, /* R212: CIG 2028 (ore al mese per trimestre), partenza 0 */ /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
       ricavi27_k: 2000, ricavi28_k: 2000, persone_in_meno_28: 3, ammortamenti_2028: d.ammortamenti_2027, /* R174: CE 2028 sulla base del 2027, senza CIG, con 3 persone in meno (Alex 05/10) */ quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
@@ -46,7 +46,8 @@
     // 363.139 euro / 18.969 ore ordinarie) meno il contributo addizionale (9% della retribuzione globale oraria media); prima 15,09 euro/ora (costo mensile / ore teoriche)
     var oreCig = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_o_' + q] || 0, 20 * 173.33) : 0; };
     var f28 = Math.max(0, 19 - P.persone_in_meno_28) / 19, pm28 = (P.pers_mese - 6516) * f28; // 2028 (R174-R175): senza CIG e con N persone in meno
-    var persM = function (ym) { if (ym >= '2028-01') return pm28; return P.pers_mese - dimessi(ym) - oreCig(ym) * (P.cig_costo_ora - P.cig_addizionale_pct / 100 * retribGlobale / (20 * 173.33)); };
+    var cigRisp = P.cig_costo_ora - P.cig_addizionale_pct / 100 * retribGlobale / (20 * 173.33); // risparmio per ora di CIG
+    var persM = function (ym) { if (ym >= '2028-01') return pm28 - oreCig(ym) * cigRisp; /* R212: CIG 2028 (partenza 0) */ return P.pers_mese - dimessi(ym) - oreCig(ym) * cigRisp; };
     // CIG anticipata dall'azienda in busta (voce "Anticipo CIG INPS", come nelle buste di aprile 2020) e recuperata il mese dopo con il conguaglio
     // sui contributi INPS: uscita nel mese e incasso il mese dopo, non è costo (credito verso l'INPS). Importo orario = minore tra 80% della paga
     // oraria media e massimale mensile INPS 2026 (circ. INPS 4/2026: 1.423,69 € lordi) / 176 ore (come in busta: 939,89 / 176 = 5,34 nel 2020); massimale 2027 = quello 2026 (non ancora noto)
@@ -169,7 +170,7 @@
     c8.rim_fin = P.rimanenze_finali_2027; c8.rim_in = P.rimanenze_finali_2027; c8.rimanenze = 0;
     c8.a2_in = P.f27_pf + P.f27_sl; c8.a2_fin = P.f27_pf + P.f27_sl; c8.b11_in = P.f27_mp + P.f27_imb; c8.b11_fin = P.f27_mp + P.f27_imb;
     c8.materie = ric28 * RT.mat27; c8.lavorazioni = ric28 * RT.sub; c8.provvigioni = ric28 * RT.prov27; c8.royalties = 0.015 * ric28;
-    c8.personale = 12 * pm28 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * pm28 / P.pers_mese;
+    c8.personale = 12 * pm28 - ['2028-01','2028-02','2028-03','2028-04','2028-05','2028-06','2028-07','2028-08','2028-09','2028-10','2028-11','2028-12'].reduce(function (a, ym) { return a + oreCig(ym) * cigRisp; }, 0) + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * pm28 / P.pers_mese;
     c8.affitti = c7.affitti; c8.energia = c7.energia; c8.altri = c7.altri;
     c8.consumo_materie = c8.materie + c8.rim_in - c8.rim_fin; c8.acquisti_pct = RT.mat27;
     c8.ammortamenti = P.ammortamenti_2028;
