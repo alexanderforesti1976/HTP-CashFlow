@@ -12,7 +12,7 @@ RITARDI = [('ENEXTRAS', 0), ('TERRA VERDE', 0), ('SEROTTI', 1), ('ELRING', 1), (
 TAX = ['T.ERRE', 'WATTS', 'SAGOM', 'OMR', 'DUBHE', 'SCALIGERA', 'E.B.', 'BREKA', 'ELLEDI']
 BOLLE_OTT = [('LAV.EL. GOMMA', 17678.39), ('EUROGOMMA', 18200.00), ('OMECA', 6932.49), ('WATTS', 5384.25),
              ('EUROGOMMA', 4244.00), ('OMECA', 4378.00),
-             ('SEROTTI', 9134.80), ('LAV.EL. GOMMA', 9198.03), ('OMR', 2945.25), ('WATTS', 2080.00), ('OMECA', 6076.45), ('ARKIMAT', 4800.00)]  # R215: DDT REALI emessi 20-28/10 dal Pegaso (10 DDT, 34.234,53 €: 260258-260267; Arkimat 4.800 = anche fattura 260131, contato una volta); sostituiscono le stime R213 dal calo dei residui. Ordine 260231 T.Erre: non esiste più nel Pegaso (buco di numerazione), non spedito, non contato
+             ('SEROTTI', 9134.80), ('LAV.EL. GOMMA', 9198.03), ('OMR', 2945.25), ('WATTS', 2080.00), ('OMECA', 6076.45), ('ARKIMAT', 4800.00), ('WATTS', 7307.30)]  # R215: DDT REALI emessi 20-28/10 dal Pegaso (10 DDT, 34.234,53 €: 260258-260267; Arkimat 4.800 = anche fattura 260131, contato una volta); R218: Watts 7.307,30 (OV 260123, riga di ottobre sparita tra le stampe del 28/10 e del 02/11 = spedita 29-31/10, inferita dal calo del residuo); sostituiscono le stime R213 dal calo dei residui. Ordine 260231 T.Erre: non esiste più nel Pegaso (buco di numerazione), non spedito, non contato
 PIANO_110002E = {'2026-10': 19000.0, '2026-11': 19000.0, '2026-12': 19000.0, '2027-02': 19000.0, '2027-04': 19000.0}  # piano T.Erre 110002E di Alex 15/10: 80.000 pz (ott+nov) + 40.000 dicembre, febbraio, aprile, a 0,475 (R205)
 TERRE_ANNULLATI = {'260125', '260126', '260127', '260128', '260129', '260130'}
 def ritardo(nome):
@@ -23,6 +23,7 @@ def ritardo(nome):
 txt = subprocess.run(['pdftotext', '-layout', pdf, '-'], capture_output=True, text=True).stdout
 stampa = dt.datetime.strptime(re.search(r'Stampa del (\d\d/\d\d/\d{4})', txt).group(1), '%d/%m/%Y').date()
 giorno = lambda x: dt.datetime.strptime(x, '%d/%m/%Y').date()
+FLOOR = dt.date(stampa.year, stampa.month, 1)
 M = collections.defaultdict(lambda: {'tot': 0.0, 'nc': 0.0, 'imp': 0.0, 'v': [0.0] * 7})
 for ln in txt.split('\n'):
     m = re.match(r'^(2\d{3})\s+(\d{1,2})\s+(\d{5,6})\s', ln)
@@ -36,7 +37,7 @@ for ln in txt.split('\n'):
         if ESCL and anno == '2100' and m.group(3) in TERRE_ANNULLATI and 'T.ERRE' in cli: continue
     else:
         d = dt.date(int(anno), int(m.group(2)), 1); nc = False
-        if ARRETRATI and d < dt.date(2026, 10, 1): d = dt.date(2026, 10, 1)  # R207: righe ancora aperte di periodi passati = da spedire, contate a ottobre
+        if ARRETRATI and d < FLOOR: d = FLOOR  # R207/R218: righe ancora aperte di periodi passati = da spedire, contate nel mese della stampa (ottobre fino al 31/10, poi novembre)
     ym = d.strftime('%Y-%m')
     if not ('2026-10' <= ym <= '2027-05'): continue
     e = M[ym]; e['tot'] += res; e['v'][min(6, ritardo(cli))] += res
