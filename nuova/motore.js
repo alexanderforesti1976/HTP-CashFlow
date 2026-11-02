@@ -231,6 +231,7 @@
     return {
       mesi: OUT, righe: rows, ricavi: REV, ce: ce, ce27: c7, ce28: c8,
       riepilogo: {
+        ord27_tot: sumOrd, ric27: rev27, /* R219: ordini noti 2027 e obiettivo, per la segnalazione SFORATO (nessun effetto sui calcoli) */
         cassa_2026: rows['2026-12'].chiusura, cassa_2027: rows['2027-12'].chiusura, cassa_2028: rows['2028-12'].chiusura, minimo: minC, mese_minimo: minM,
         entrate_2026: tot('2026', 'entrate'), uscite_2026: tot('2026', 'uscite'), entrate_2027: tot('2027', 'entrate'), uscite_2027: tot('2027', 'uscite'),
         imposte_2026: t26, utile_2026: ce.utile, utile_2027: c7.utile, utile_2028: c8.utile, netto_2026: tot('2026', 'netto'), netto_2027: tot('2027', 'netto'), entrate_2028: tot('2028', 'entrate'), uscite_2028: tot('2028', 'uscite'), netto_2028: tot('2028', 'netto')
