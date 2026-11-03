@@ -1043,7 +1043,6 @@
  "_nota_ricavi": "Ordini aperti Pegaso stampa 13/10/2026 17:38 (OrdiniVenditaAperti_3); settembre = 231.237,87 fatturato reale (file Fatturato 2026 per cliente gen-set, 09/10/2026; prima 220.000 provvisorio); non_confermato = programmi 2100 + righe 2099",
  "cf": {
   "cassa_30_09": 1870460.0,
-  "cassa_reale": {"2026-10": 1865770.0},
   "ricavi": {
    "2026-09": 231237.87,
    "2026-10": 98358.96,
