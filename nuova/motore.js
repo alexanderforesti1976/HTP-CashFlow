@@ -221,6 +221,9 @@
       L.cigAnticipo = cigAnt(ym); L.cigRimborso = prev >= '2026-10' ? cigAnt(prev) : 0;
       L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov + L.cigRimborso;
       L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
+      L.rettEntrate = 0; L.rettUscite = 0;
+      var MV = C.movimenti_verusca && C.movimenti_verusca[ym]; // R227: mese con movimenti bancari NOTI di Verusca (scadenzario fornitori Mago + fatture registrate): sostituiscono la proiezione, il CE non cambia
+      if (MV) { L.rettEntrate = MV.entrate - L.entrate; L.rettUscite = MV.uscite - L.uscite; L.entrate = MV.entrate; L.uscite = MV.uscite; }
       L.netto = L.entrate - L.uscite; L.apertura = cassa; cassa += L.netto; L.chiusura = cassa;
       L.ricavi = REV[ym] || 0;
       rows[ym] = L;
