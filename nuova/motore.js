@@ -221,7 +221,7 @@
       L.cigAnticipo = cigAnt(ym); L.cigRimborso = prev >= '2026-10' ? cigAnt(prev) : 0;
       L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov + L.cigRimborso;
       L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
-      L.netto = L.entrate - L.uscite; L.apertura = cassa; cassa += L.netto; L.chiusura = cassa;
+      L.netto = L.entrate - L.uscite; L.apertura = cassa; cassa += L.netto; L.rettifica = 0; if (C.cassa_reale && C.cassa_reale[ym] != null) { L.rettifica = C.cassa_reale[ym] - cassa; cassa = C.cassa_reale[ym]; } /* R225: cassa REALE di fine mese da Verusca (lordo, depositi inclusi, Onemarkets e polizza fuori, R044) al posto della proiezione */ L.chiusura = cassa;
       L.ricavi = REV[ym] || 0;
       rows[ym] = L;
     });
