@@ -88,4 +88,4 @@ Prodotto finito: pieno 63.612, azzerato −42.660, svalutato 0, **finale 20.952*
 - Colonne del prospetto costi: Costo retribuzione + contributivo + INAIL per voce (Costi ord., Costi str., Ferie/Perm., Mens.Agg. = 13ª, T.F.R.), ore ordinarie e straordinarie; la riga Totalizzazioni dà totale costo, ore e costo medio orario.
 - Totale azienda gen-lug all-in 482.996 / 19.904 ore = 24,27 €/h; senza 13ª e TFR 424.618 = 60.660 €/mese (20 persone, circa 3.030 a testa).
 - TFR residuo in azienda al 08/2026: totale aziendale 14.105,45 (solo tre dipendenti hanno quota c/azienda); il resto del TFR matura in fondi/Tesoreria.
-
+- ATTENZIONE: nel prospetto costi personale il mese di AGOSTO è incompleto per tutta l'azienda (totale 35.952 contro 65-75k degli altri mesi): usare gen-lug, non gen-ago (R235).
