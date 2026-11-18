@@ -1342,12 +1342,12 @@
   "_nota_ottobre": "R256: ottobre CHIUSO con il bilancio provvisorio 31/10/2026 (Verusca 18/11): fatture di ottobre 153.136,96 + stampi 850 = 153.986,96 (cassa/incassi); costi e ricavi del CE da dati.mesi['10']. Le bolle provvisorie (98.358,96) sono sostituite, non sommate.",
   "_fonti": "recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)",
   "defaults": {
-   "pers_mese": 56137.97,
+   "pers_mese": 59834.45,
    "pct_materie": 17.72,
-   "pct_lavorazioni": 3.3,
-   "pct_provvigioni": 3.159,
+   "pct_lavorazioni": 3.514,
+   "pct_provvigioni": 3.217,
    "affitti_mese": 8195.06,
-   "energia_mese": 8052.15,
+   "energia_mese": 8292.05,
    "altri_ricorrenti_mese": 16381.17,
    "costi_irregolari_mese": 13732.21,
    "pct_pubblicita": 3.597,
@@ -1356,7 +1356,8 @@
    "ammortamenti_2026": 110000,
    "ammortamenti_2027": 100000,
    "giacenza_30_06": 176608,
-   "rimanenze_finali_2026": 153400
+   "rimanenze_finali_2026": 153400,
+   "_nota_R259": "R259 (18/11): medie ricalcolate sui 10 mesi reali gen-ott (bilancio e mastrini 31/10): personale/mese = (545.818 + storno ferie 32.136,45 + dimissioni gia' avvenute 19.035 + 1.355)/10 = 59.834,45 (organico di inizio anno; prima 56.138 = H1/6 con lo storno ferie dentro); energia 82.920,51/10; lavorazioni 68.580,01 e provvigioni 62.799,15 su ricavi 1.951.889,05. Regola di Alex: a ogni chiusura mensile le medie si riproporzionano sui mesi trascorsi."
   },
   "non_confermato": {
    "Settembre": 0,
