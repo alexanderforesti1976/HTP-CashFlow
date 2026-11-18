@@ -26,6 +26,9 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 ## DATE E DICITURE NELLE PAGINE: AGGIORNARLE SEMPRE (regola di Alex, 18/11/2026, arrabbiato)
 - **A OGNI aggiornamento dei dati si aggiornano SUBITO anche tutte le date e diciture scritte nelle pagine** (`nuova/index.html`: riga sotto il titolo 'Dati reali fino al ...', nota 'Dati reali' (`ipo`), etichette delle righe e dei grafici; `nuova/ce.html`: etichette tipo 'ordini aperti ...'), oltre a `aggiorna_nuova.py`. Prima del commit: `grep -n "30/09\|02/10\|bloccati" nuova/index.html nuova/ce.html` e controllare che ogni data scritta sia ancora vera. Il 18/11 la pagina diceva ancora 'Dati reali fino al 30/09/2026' dopo aver caricato il bilancio al 31/10. Nei testi JS tra apici singoli NON usare apostrofi (rompono la pagina): usare 'è' o scrivere \\'.
 
+## DOCUMENTI PER LUCA / VALENTINA (regola di Alex, 18/11/2026)
+- **Niente 'domande per Luca' nei documenti**: Alex non vuole risposte da Luca, sa come funzionano le cose. Solo situazione economica e finanziaria, IRES/IRAP e scenari. Documenti in chat con SendUserFile, mai email senza ok esplicito. R268.
+
 ## MEDIE E PERCENTUALI SUI MESI TRASCORSI (regola di Alex, 18/11/2026)
 - **Man mano che passano i mesi, medie e percentuali del modello (personale/mese, energia/mese, % lavorazioni e provvigioni, ecc.) si ricalcolano sui mesi reali trascorsi e si proiettano solo i mesi che mancano**, per avvicinarsi alla realta' del 31/12. Il mese appena chiuso si sostituisce con bilancio/fatture. Attenzione al segno dei saldi (ERARIO C/IVA = credito, R258) e allo storno ferie di gennaio nel personale (media di organico completo). R259.
 
