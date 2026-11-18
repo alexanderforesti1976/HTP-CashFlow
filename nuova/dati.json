@@ -1412,24 +1412,26 @@
     "_fonte": "bilancio 2025: rimanenze finali al 31/12/2025 (conti 00041000/41100/41200/41300), somma 168.359,33; materiali di consumo assimilati agli imballi (ipotesi)"
    },
    "royalties_registrate_gen_ago": 18000.0,
-   "interessi_passivi_set_dic_piani": 7131.38,
+   "interessi_passivi_set_dic_piani": 10160.64,
    "multe_e_costi_indeducibili_2025_ricorrenti": 46600,
    "addback_irap_2025_senza_interinale": 107400,
    "integrazioni": {
     "tfr_da_aggiungere": 39286.09,
     "ferie_rateo_fine_2026": 32136.45,
     "_nota_ferie": "R203: il debito ferie e un saldo di stato patrimoniale, non un costo degli anni precedenti. Nei mastrini 2026 il debito del 31/12/2025 (32.136,45, conto 05033201) e stato STORNATO a conto economico il 02/01/2026 (credito su 06041000/06041100/06041101), quindi il 2026 contiene un provento di 32.136,45 da neutralizzare; a questo si aggiunge solo il saldo tra ferie maturate e godute nel 2026 (oggi 0: servono le ore dai cedolini 2026)",
-    "tredicesima_con_contributi": 52325.36,
+    "tredicesima_con_contributi": 55646.81,
     "_calcolo": {
-     "stipendi_12_mesi": 470623.5,
+     "stipendi_12_mesi": 500496.0,
      "rapporto_contributi_su_stipendi": 0.3342,
-     "tredicesima_lorda": 39218.62,
+     "tredicesima_lorda": 41708.0,
      "tfr_quota_annua": 46156.5,
      "tfr_gia_registrato_h1": 5099.99
-    }
+    },
+    "_nota_R270": "R270 (18/11): base stipendi corretta: la vecchia base (H1 x 2 = 470.623,50) conteneva il credito di 24.323,86 dello storno ferie di gennaio; base reale = 41.708 al mese (gen-ott neutralizzato: 417.079 / 10) x 12 = 500.496; 13a = una mensilita 41.708 + contributi 33,42% = 55.646,34 (prima 52.325,36); stipendi_12_mesi 500.496 (usato anche per la retribuzione globale della CIG)."
    },
    "_note": "Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca",
-   "interessi_passivi_2028_piani": 637.34
+   "interessi_passivi_2028_piani": 637.34,
+   "_nota_interessi_R270": "R270: interessi passivi 2026 = reali gen-ott 21.884,17 (bilancio 31/10) + previsione nov-dic dal piano dei finanziamenti (7.131,38 per set-dic, 2 mesi su 4 = 3.565,69) = 25.449,86 (prima 22.420,60)."
   },
   "pay_matrix_ym": {
    "2026-09": [
