@@ -92,9 +92,10 @@
       var en = P.energia_mese - fvSave(ym);
       ivaCrd[ym] = (purch[ym] || 0) * (1 - PL) * IR + en * IE + (P.altri_ricorrenti_mese + P.costi_irregolari_mese + (P.pubblicita_2027[ym] || 0)) * IR + (ym >= P.fv_canone_da ? P.fv_canone * IR : 0);
     });
-    var ivaBal = 0, ivaPay = { '2026-10': 23196.87 }, credDic = 0; // R199: ERARIO C/IVA al 30/09 = DEBITO 23.196,87 (bilancio 30/09), si paga a ottobre; prima credito 24.925 (segno sbagliato, R077)
+    var ivaBal = 0, ivaPay = {}, credDic = 0; // R258: ERARIO C/IVA = CREDITO (saldo dare nei mastrini, colonna attivita' del bilancio): 23.196,87 al 30/09, 28.164,62 al 31/10 (ottobre reale); nessun versamento a ottobre. R199 lo aveva letto come debito
     YM.forEach(function (ym, i) {
       if (i < FROM) return;
+      if (ym <= '2026-10') { ivaBal = ym === '2026-10' ? -28164.62 : 0; return; }
       ivaBal += ivaDeb[ym] - ivaCrd[ym];
       if (ym === '2026-12') credDic = Math.max(0, -ivaBal);
       var nx = YM[i + 1]; if (nx && ivaBal > 0) { ivaPay[nx] = ivaBal; ivaBal = 0; }
