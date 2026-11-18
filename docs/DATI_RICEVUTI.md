@@ -89,3 +89,6 @@ Prodotto finito: pieno 63.612, azzerato −42.660, svalutato 0, **finale 20.952*
 - Totale azienda gen-lug all-in 482.996 / 19.904 ore = 24,27 €/h; senza 13ª e TFR 424.618 = 60.660 €/mese (20 persone, circa 3.030 a testa).
 - TFR residuo in azienda al 08/2026: totale aziendale 14.105,45 (solo tre dipendenti hanno quota c/azienda); il resto del TFR matura in fondi/Tesoreria.
 - ATTENZIONE: nel prospetto costi personale il mese di AGOSTO è incompleto per tutta l'azienda (totale 35.952 contro 65-75k degli altri mesi): usare gen-lug, non gen-ago (R235).
+
+## Bilancio al 31/10/2026 (stampa 18/11, BILANCIO_31-10-2026.pdf, Verusca) — ricevuto il 18/11/2026
+- Utile 139.811,55; ricavi 1.951.889,05 (vendite prodotti 1.920.847,26; stampi 18.150); costi 1.812.077,50; SP 4.936.846,27. Banche: c/c 1.212.967 + depositi BCC 547.550 = 1.760.518. Confronto con il modello in REVISIONI R247. Nessun mastrino per conto: il PDF e' il bilancio analitico.
