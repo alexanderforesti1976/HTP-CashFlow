@@ -1135,20 +1135,20 @@
    "2026-09": [
     0.0892,
     0.1107,
-    0.5121,
-    0.2881,
-    0.0,
-    0.0,
-    0.0
+    0,
+    0,
+    0,
+    0,
+    0
    ],
    "2026-10": [
-    0.0,
-    0.0929,
-    0.4272,
+    0,
+    0,
+    0,
     0.48,
-    0.0,
-    0.0,
-    0.0
+    0,
+    0,
+    0
    ],
    "2026-11": [
     0.3286,
@@ -1281,12 +1281,13 @@
   },
   "aperti_clienti": {
    "2026-10": 216200.0,
-   "2026-11": 66100.0
+   "2026-11": 307358.16,
+   "2026-12": 87128.05
   },
   "aperti_fornitori": {
    "2026-10": 46100.0,
-   "2026-11": 24200.0,
-   "2026-12": 10300.0,
+   "2026-11": 58988.22,
+   "2026-12": 14761.11,
    "2027-01": 19600.0
   },
   "acquisti_settembre_registrati": 22200.0,
@@ -1428,7 +1429,29 @@
    },
    "_note": "Integrazioni di competenza: TFR e 13a calcolati con il metodo standard (DATI_RICEVUTI/R025). Variazioni fiscali IRES e addebiti IRAP stimati dal 2025: IRES 2025 imponibile 426,2k contro utile ante imposte 296,1k (variazioni +130,1k di cui multe 83,5k non ricorrenti: restano 46,6k); IRAP 2025 imponibile 563,3k contro risultato operativo 365k (+198,3k, di cui interinale circa 90,9k: restano 107,4k). Entrambi DA CONFERMARE con Verusca/Luca",
    "interessi_passivi_2028_piani": 637.34
-  }
+  },
+  "pay_matrix_ym": {
+   "2026-09": [
+    0,
+    0.0318,
+    0,
+    0,
+    0.5422,
+    0,
+    0
+   ],
+   "2026-10": [
+    0,
+    0,
+    0,
+    0.4349,
+    0.5128,
+    0,
+    0
+   ]
+  },
+  "cassa_31_10": 1760517.62,
+  "_nota_scadenzari_R265": "R265 (18/11): scadenzari Pegaso clienti e fornitori (Donatella, scadenza fino al 31/12/2026, stampa 18/11): aperti clienti nov = Dichtungspartner 12.348 + Serotti scaduto 19.158,50 + Serotti 9.134,80 + RiBa 30/11 69.557,11 + Enextras pagate 16/11 59.450,75 + Enextras ancora da incassare 137.709 (260128 + 260139, incasso entro novembre prima del ritiro, Alex) = 307.358,16; dic = RiBa 31/12 87.128,05; esclusi i residui vecchi 30.217,25 (Ecotec, Foresti, Terra Verde). Fornitori: nov 25.542,65 scaduto + 33.445,57; dic 14.761,11; gen 2027 19.600 (invariato). Le quote delle matrici di settembre-ottobre per nov-dic sono azzerate (gia' nello scadenzario). Cassa: ancorata al 31/10 reale (bilancio: c/c 1.212.967,40 + depositi BCC 547.550,22 = 1.760.517,62; altri crediti verso banche 4.419,88 esclusi)."
  },
  "versione_dati": "188807-2026-10-15-cig0o",
  "indici_base": {

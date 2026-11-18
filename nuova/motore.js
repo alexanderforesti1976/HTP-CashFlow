@@ -204,7 +204,7 @@
       L.ivaRel = ym === '2027-04' ? credDic : 0;
       L.prov = (['2026-12', '2027-06', '2027-12', '2028-06', '2028-12'].indexOf(ym) >= 0 ? 5950.68 : 0) + (['2026-12', '2027-03', '2027-06', '2027-09', '2027-12', '2028-03', '2028-06', '2028-09', '2028-12'].indexOf(ym) >= 0 ? 1900 : 0);
       L.apertiFor = C.aperti_fornitori[ym] || 0;
-      var nf = 0; for (var j2 = FROM; j2 <= ix; j2++) { var pm = YM[j2], k2 = ix - j2; if (k2 > 6) continue; var base = purch[pm] - (pm === '2026-09' ? C.acquisti_settembre_registrati : 0); nf += ((C.pay_matrix[+pm.slice(5)] || [])[k2] || 0) * Math.max(0, base) * (1 + (1 - PL) * IR); }
+      var nf = 0; for (var j2 = FROM; j2 <= ix; j2++) { var pm = YM[j2], k2 = ix - j2; if (k2 > 6) continue; var base = purch[pm] - (pm === '2026-09' ? C.acquisti_settembre_registrati : 0); nf += (((C.pay_matrix_ym && C.pay_matrix_ym[pm]) || C.pay_matrix[+pm.slice(5)] || [])[k2] || 0) * Math.max(0, base) * (1 + (1 - PL) * IR); }
       L.nuoviFor = nf;
       L.personale = persM(ym) + (ym === '2026-12' || ym === '2027-12' ? 35000 : 0) + (ym === '2028-12' ? 35000 * pm28 / P.pers_mese : 0) + (ym === '2027-01' ? 17200 : 0);
       L.affitti = P.affitti_mese;
@@ -223,7 +223,9 @@
       L.cigAnticipo = cigAnt(ym); L.cigRimborso = prev >= '2026-10' ? cigAnt(prev) : 0;
       L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov + L.cigRimborso;
       L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
-      L.netto = L.entrate - L.uscite; L.apertura = cassa; cassa += L.netto; L.chiusura = cassa;
+      L.netto = L.entrate - L.uscite; L.apertura = cassa; L.rettifica = 0;
+      if (ym === '2026-10' && C.cassa_31_10) L.rettifica = C.cassa_31_10 - (cassa + L.netto); // R265: cassa reale al 31/10 (bilancio): rettifica = reale meno calcolo
+      L.netto += L.rettifica; cassa += L.netto; L.chiusura = cassa;
       L.ricavi = REV[ym] || 0;
       rows[ym] = L;
     });
