@@ -26,6 +26,9 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 ## DATE E DICITURE NELLE PAGINE: AGGIORNARLE SEMPRE (regola di Alex, 18/11/2026, arrabbiato)
 - **A OGNI aggiornamento dei dati si aggiornano SUBITO anche tutte le date e diciture scritte nelle pagine** (`nuova/index.html`: riga sotto il titolo 'Dati reali fino al ...', nota 'Dati reali' (`ipo`), etichette delle righe e dei grafici; `nuova/ce.html`: etichette tipo 'ordini aperti ...'), oltre a `aggiorna_nuova.py`. Prima del commit: `grep -n "30/09\|02/10\|bloccati" nuova/index.html nuova/ce.html` e controllare che ogni data scritta sia ancora vera. Il 18/11 la pagina diceva ancora 'Dati reali fino al 30/09/2026' dopo aver caricato il bilancio al 31/10. Nei testi JS tra apici singoli NON usare apostrofi (rompono la pagina): usare 'è' o scrivere \\'.
 
+## SISTEMARE TUTTO IN UN COLPO SOLO, MAI A PEZZI (regola di Alex, 18/11/2026, arrabbiato)
+- **Ogni correzione o aggiornamento si fa INTERO nello stesso momento: prima si elencano TUTTE le voci toccate dai nuovi dati (medie, percentuali, basi, interessi, 13ª/TFR, IVA, date nelle pagine, ecc.), si correggono tutte insieme e si pubblica una volta sola, con una sola tabella prima/dopo.** Mai tirare fuori una correzione alla volta in messaggi successivi (il 18/11: altri costi sugli 8 mesi, poi 13ª, poi interessi, sistemati a pezzi in giorni diversi della stessa sessione). Se una voce dipende da un controllo di Alex (es. magazzino), si dice subito nella stessa lista e si applica appena arriva. R271.
+
 ## DOCUMENTI PER LUCA / VALENTINA (regola di Alex, 18/11/2026)
 - **Niente 'domande per Luca' nei documenti**: Alex non vuole risposte da Luca, sa come funzionano le cose. Solo situazione economica e finanziaria, IRES/IRAP e scenari. Documenti in chat con SendUserFile, mai email senza ok esplicito. R268.
 
