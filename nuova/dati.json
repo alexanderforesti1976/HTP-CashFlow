@@ -54,6 +54,17 @@
    "affitti": 5709.97,
    "personale": 49020.54,
    "ricavi_operativi": 231235.6
+  },
+  "10": {
+   "materie": 26560.87,
+   "lavorazioni_terzi": 9649.73,
+   "energia": 9997.12,
+   "affitti": 10680.15,
+   "provvigioni": 6387.12,
+   "personale": 56874.12,
+   "altri_costi": 48874.49,
+   "ricavi_operativi": 166130.75,
+   "_nota": "R256: ottobre = bilancio provvisorio 31/10/2026 (Verusca, 18/11) meno bilancio 30/09 (stampa 14/10) per categoria; costi totali ottobre 178.735,00 (royalties 8.050 booked e interessi 1.661 fuori: royalties al 1,5% e interessi dai piani); fatturato di cassa ottobre = fatture reali (mastrino 07011000 153.136,96 + stampi 850)"
   }
  },
  "altri_conti": [
@@ -1045,7 +1056,7 @@
   "cassa_30_09": 1870460.0,
   "ricavi": {
    "2026-09": 231237.87,
-   "2026-10": 98358.96,
+   "2026-10": 153986.96,
    "2026-11": 292163.84,
    "2026-12": 196680.1
   },
@@ -1328,7 +1339,7 @@
    "quota_plafond_acquisti": 52,
    "quota_vendite_default": 21
   },
-  "_nota_ottobre": "PROVVISORIO (R192/R193): ricavi ottobre = ordini aperti stampa 13/10 (141.096,32) + bolle/fatture emesse al 13/10 (48.195,13). Solo per l'aggiornamento corrente: a fine mese le bolle diventano fatture e il dato va SOSTITUITO con il fatturato reale di ottobre (non sommare di nuovo); a ogni nuova stampa ordini ricalcolare ordini aperti + emesso a quella data.",
+  "_nota_ottobre": "R256: ottobre CHIUSO con il bilancio provvisorio 31/10/2026 (Verusca 18/11): fatture di ottobre 153.136,96 + stampi 850 = 153.986,96 (cassa/incassi); costi e ricavi del CE da dati.mesi['10']. Le bolle provvisorie (98.358,96) sono sostituite, non sommate.",
   "_fonti": "recMatrix, payMatrix, aperti clienti/fornitori, finanziamenti e quote IVA ereditati da params.json (derivati da scadenzari Pegaso 02/10, condizioni di pagamento, piani di ammortamento; R005, R007, R009); cassa 30/09 dal file situazione banche (R045)",
   "defaults": {
    "pers_mese": 56137.97,
