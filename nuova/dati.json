@@ -1349,8 +1349,8 @@
    "pct_provvigioni": 3.217,
    "affitti_mese": 8195.06,
    "energia_mese": 8292.05,
-   "altri_ricorrenti_mese": 16381.17,
-   "costi_irregolari_mese": 13732.21,
+   "altri_ricorrenti_mese": 16398.17,
+   "costi_irregolari_mese": 13329.45,
    "pct_pubblicita": 3.597,
    "pubblicita_gen_ago": 55912.64,
    "_nota": "Rapporti reali gen-ago 2026 (bozza 30/06 + mastrini lug-ago); altri costi dai conti dei mastrini (ricorrenti = presenti in almeno 6 mesi su 8; irregolari senza pubblicità/fiere)",
@@ -1358,7 +1358,8 @@
    "ammortamenti_2027": 100000,
    "giacenza_30_06": 176608,
    "rimanenze_finali_2026": 153400,
-   "_nota_R259": "R259 (18/11): medie ricalcolate sui 10 mesi reali gen-ott (bilancio e mastrini 31/10): personale/mese = (545.818 + storno ferie 32.136,45 + dimissioni gia' avvenute 19.035 + 1.355)/10 = 59.834,45 (organico di inizio anno; prima 56.138 = H1/6 con lo storno ferie dentro); energia 82.920,51/10; lavorazioni 68.580,01 e provvigioni 62.799,15 su ricavi 1.951.889,05. Regola di Alex: a ogni chiusura mensile le medie si riproporzionano sui mesi trascorsi."
+   "_nota_R259": "R259 (18/11): medie ricalcolate sui 10 mesi reali gen-ott (bilancio e mastrini 31/10): personale/mese = (545.818 + storno ferie 32.136,45 + dimissioni gia' avvenute 19.035 + 1.355)/10 = 59.834,45 (organico di inizio anno; prima 56.138 = H1/6 con lo storno ferie dentro); energia 82.920,51/10; lavorazioni 68.580,01 e provvigioni 62.799,15 su ricavi 1.951.889,05. Regola di Alex: a ogni chiusura mensile le medie si riproporzionano sui mesi trascorsi.",
+   "_nota_R269": "R269 (18/11): altri costi (esclusa pubblicita e storno resi e premi 41.502) ricalcolati sui 10 mesi gen-ott dai mastrini 31/10: ricorrenti (conti presenti in almeno 7 mesi su 10) 16.398,17 al mese, irregolari 13.329,45; prima 16.381,17 e 13.732,21 sui primi 8 mesi."
   },
   "non_confermato": {
    "Settembre": 0,
