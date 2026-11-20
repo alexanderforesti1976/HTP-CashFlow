@@ -1057,8 +1057,8 @@
   "ricavi": {
    "2026-09": 231237.87,
    "2026-10": 153986.96,
-   "2026-11": 292163.84,
-   "2026-12": 196680.1
+   "2026-11": 250783.6,
+   "2026-12": 168823.57
   },
   "quota_iva_vendite": {
    "2026-09": 0.1427,
@@ -1364,8 +1364,8 @@
   "non_confermato": {
    "Settembre": 0,
    "Ottobre": 0.0,
-   "Novembre": 3016.0,
-   "Dicembre": 7884.0
+   "Novembre": 2588.83,
+   "Dicembre": 6767.36
   },
   "giacenze_30_06": {
    "prodotto_finito": 27647.9,
@@ -1454,7 +1454,18 @@
    ]
   },
   "cassa_31_10": 1760517.62,
-  "_nota_scadenzari_R265": "R265 (18/11): scadenzari Pegaso clienti e fornitori (Donatella, scadenza fino al 31/12/2026, stampa 18/11): aperti clienti nov = Dichtungspartner 12.348 + Serotti scaduto 19.158,50 + Serotti 9.134,80 + RiBa 30/11 69.557,11 + Enextras pagate 16/11 59.450,75 + Enextras ancora da incassare 137.709 (260128 + 260139, incasso entro novembre prima del ritiro, Alex) = 307.358,16; dic = RiBa 31/12 87.128,05; esclusi i residui vecchi 30.217,25 (Ecotec, Foresti, Terra Verde). Fornitori: nov 25.542,65 scaduto + 33.445,57; dic 14.761,11; gen 2027 19.600 (invariato). Le quote delle matrici di settembre-ottobre per nov-dic sono azzerate (gia' nello scadenzario). Cassa: ancorata al 31/10 reale (bilancio: c/c 1.212.967,40 + depositi BCC 547.550,22 = 1.760.517,62; altri crediti verso banche 4.419,88 esclusi)."
+  "_nota_scadenzari_R265": "R265 (18/11): scadenzari Pegaso clienti e fornitori (Donatella, scadenza fino al 31/12/2026, stampa 18/11): aperti clienti nov = Dichtungspartner 12.348 + Serotti scaduto 19.158,50 + Serotti 9.134,80 + RiBa 30/11 69.557,11 + Enextras pagate 16/11 59.450,75 + Enextras ancora da incassare 137.709 (260128 + 260139, incasso entro novembre prima del ritiro, Alex) = 307.358,16; dic = RiBa 31/12 87.128,05; esclusi i residui vecchi 30.217,25 (Ecotec, Foresti, Terra Verde). Fornitori: nov 25.542,65 scaduto + 33.445,57; dic 14.761,11; gen 2027 19.600 (invariato). Le quote delle matrici di settembre-ottobre per nov-dic sono azzerate (gia' nello scadenzario). Cassa: ancorata al 31/10 reale (bilancio: c/c 1.212.967,40 + depositi BCC 547.550,22 = 1.760.517,62; altri crediti verso banche 4.419,88 esclusi).",
+  "_ordini_02_11_originali": {
+   "ricavi": {
+    "2026-11": 292163.84,
+    "2026-12": 196680.1
+   },
+   "non_confermato": {
+    "Novembre": 3016.0,
+    "Dicembre": 7884.0
+   }
+  },
+  "_nota_R273": "R273 (20/11): stima di Valentina a voce (Alex): fatturato 2026 intorno a 2.350.000. Novembre-dicembre degli ordini aperti 02/11 (ricavi e non confermato) scalati di k=0.858366 in modo che vendite+stampi+diversi gen-ott reali (1.939.749,02) + nov-dic = 2.350.000. Valori originali in _ordini_02_11_originali. Una nuova stampa ordini (ordini_to_dati.py) o i DDT/fatture di novembre sostituiscono questa stima."
  },
  "versione_dati": "188807-2026-10-15-cig0o",
  "indici_base": {
