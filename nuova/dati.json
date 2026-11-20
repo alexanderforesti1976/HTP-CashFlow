@@ -1368,12 +1368,12 @@
    "Dicembre": 6767.36
   },
   "giacenze_30_06": {
-   "prodotto_finito": 27647.9,
-   "semilavorato": 69376.59,
-   "materia_prima": 84910.74,
-   "imballi": 6871.42,
-   "totale_valore_finale": 188806.65,
-   "_nota": "R202: valutazione giacenze al 30/09/2026 dalla pagina del gestionale (screenshot Alex 15/10 18:23): materie prime 84.910,74; imballi 6.871,42; semilavorati/finiti 97.024,49 (diviso 71,5% semilavorati e 28,5% prodotti finiti come al 30/06); totale 188.806,65; regola MAGRILAV svalutazione 30%; 105 magazzini inclusi; 167 righe non determinate. Usata come giacenza al 30/09/2026 e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027 (la chiave resta giacenze_30_06). Prima (30/06): 176.608"
+   "prodotto_finito": 28715.47,
+   "semilavorato": 72040.56,
+   "materia_prima": 92538.82,
+   "imballi": 6318.44,
+   "totale_valore_finale": 199613.29,
+   "_nota": "R274 (20/11): valutazione giacenze al 31/10/2026 dal gestionale (screenshot Alex 18/11 14:28): materie prime 92.538,82; imballi 6.318,44; semilavorati/finiti 100.756,03 (diviso 71,5% semilavorati e 28,5% prodotti finiti come al 30/06); totale 199.613,29; regola MAGRILAV svalutazione 30%; 97 righe non determinate (prima 167). Usata come giacenza al 31/10/2026 per il consumo materie sui 10 mesi e come valore di partenza del magazzino al 31/12/2026 e 31/12/2027 (ipotesi neutra: il valore a fine anno non e' conoscibile prima dell'inventario di dicembre; si modifica nei Parametri). La chiave resta giacenze_30_06. Prima (30/09): 188.806,65"
   },
   "ce2026": {
    "interessi_passivi_2027_piani": 8357.69,

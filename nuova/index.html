@@ -82,7 +82,7 @@ html{scroll-padding-top:50px}
 <div class="card"><h2>Controllo: ottobre contro il piano di Verusca</h2><div class="scroll"><table id="cvr" class="t2"></table></div><div class="note">Il piano di Verusca (situazione banche) contiene solo pagamenti noti; giroconti esclusi. Si ricalcola con i parametri correnti.</div></div>
 </div>
 <div id="tip"></div>
-<script src="motore.js?v=1795193123609"></script>
+<script src="motore.js?v=1795195382320"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -96,18 +96,18 @@ var SPEC=[
  {g:'Ricavi',id:'ricavi27_k',l:'Ricavi 2027 (obiettivo)',min:1500,max:3000,step:25,u:'k€'},
  {g:'Ricavi',id:'ricavi28_k',l:'Ricavi 2028 (obiettivo)',min:1500,max:3000,step:25,u:'k€'},
  {g:'Ricavi',id:'quota_non_confermato',l:'Ricavi non confermati ott-dic 2026 che si realizzano',min:0,max:100,step:5,u:'%'},
- {g:'Giacenze al 30/09/2026 (valore finale)',id:'g30_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
- {g:'Giacenze al 30/09/2026 (valore finale)',id:'g30_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
- {g:'Giacenze al 30/09/2026 (valore finale)',id:'g30_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
- {g:'Giacenze al 30/09/2026 (valore finale)',id:'g30_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
- {g:'Magazzino finale 31/12/2026',id:'f26_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
- {g:'Magazzino finale 31/12/2026',id:'f26_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
- {g:'Magazzino finale 31/12/2026',id:'f26_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
- {g:'Magazzino finale 31/12/2026',id:'f26_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
- {g:'Magazzino finale 31/12/2027',id:'f27_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
- {g:'Magazzino finale 31/12/2027',id:'f27_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
- {g:'Magazzino finale 31/12/2027',id:'f27_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
- {g:'Magazzino finale 31/12/2027',id:'f27_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
+ {g:'Giacenze al 31/10/2026 (valore finale)',id:'g30_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
+ {g:'Giacenze al 31/10/2026 (valore finale)',id:'g30_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
+ {g:'Giacenze al 31/10/2026 (valore finale)',id:'g30_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
+ {g:'Giacenze al 31/10/2026 (valore finale)',id:'g30_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
+ {g:'Magazzino finale 31/12/2026 (ipotesi: come al 31/10)',id:'f26_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2026 (ipotesi: come al 31/10)',id:'f26_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2026 (ipotesi: come al 31/10)',id:'f26_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2026 (ipotesi: come al 31/10)',id:'f26_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
+ {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_pf',l:'Prodotto finito',min:0,max:100000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
+ {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
  {g:'CIG per trimestre',id:'cig_o_26q4',l:'CIG ott-dic 2026 — ore al mese',min:0,max:3466,step:8,u:'ore'},
  {g:'CIG per trimestre',id:'cig_o_27q1',l:'CIG gen-mar 2027 — ore al mese',min:0,max:3466,step:8,u:'ore'},
  {g:'CIG per trimestre',id:'cig_o_27q2',l:'CIG apr-giu 2027 — ore al mese',min:0,max:3466,step:8,u:'ore'},
@@ -144,7 +144,7 @@ function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1795193123609; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1795195382320; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -367,7 +367,7 @@ function verusca(R){
   V.forEach(function(r){t+='<tr><td>'+r[0]+'</td><td>'+EURf(r[1])+'</td><td>'+EURf(r[2])+'</td><td>'+EURf(r[2]-r[1])+'</td></tr>'});
   document.getElementById('cvr').innerHTML=t;
 }
-document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità reale 31/12/2025 e 30/06/2026; saldi al 30/09/2026 = previsione di Verusca (punto di partenza, da sostituire con i saldi reali; bilancio 31/10: banche e depositi 1.760.518); bilancio e mastrini al 31/10/2026 (ottobre reale); scadenzari clienti e fornitori Pegaso (18/11, scadenze fino al 31/12/2026; oltre solo matrice); cassa di partenza = reale 31/10 (bilancio, banche e depositi 1.760.518); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (stampa 02/11) con novembre-dicembre ridotti alla stima di Valentina di 2,35M di fatturato 2026 (20/11); ottobre reale dal bilancio 31/10; medie e percentuali dei costi sui 10 mesi gen-ott (bilancio e mastrini 31/10). <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Come si calcola la CIG (D.Lgs. 148/2015):</b> l\'integrazione, pari all\'80% della retribuzione globale per le ore non lavorate, la paga l\'INPS direttamente ai lavoratori (HTP non anticipa nulla). Per le ore in CIG l\'azienda non sostiene il costo del lavoratore; paga il contributo addizionale (9%, 6% se nessuna CIG da 24 mesi) sulla retribuzione globale di quelle ore. Si inseriscono per ogni trimestre le persone in CIG e le ore di CIG a persona al mese (173 ore = mese a tempo pieno, cioè zero ore lavorate), uguali in ciascuno dei tre mesi del trimestre: risparmio mensile = persone ÷ 20 × (ore al mese ÷ 173,33) × (costo mensile del personale − addizionale × retribuzione globale mensile). <b>Ipotesi non confermate:</b> imposte 2026 calcolate dal CE 2026 (sopra) con variazioni fiscali e ammortamenti stimati; la differenza con gli acconti 2026 (124.249) è credito, compensato a giugno e novembre 2027; seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 28.164,62 al 31/10 (da bilancio, ERARIO C/IVA è un credito); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); rimanenze, TFM e ammortamenti non sono cassa ma entrano nel CE e quindi nelle imposte.';
+document.getElementById('ipo').innerHTML='<b>Dati reali:</b> liquidità reale 31/12/2025 e 30/06/2026; saldi al 30/09/2026 = previsione di Verusca (punto di partenza, da sostituire con i saldi reali; bilancio 31/10: banche e depositi 1.760.518); bilancio e mastrini al 31/10/2026 (ottobre reale); scadenzari clienti e fornitori Pegaso (18/11, scadenze fino al 31/12/2026; oltre solo matrice); cassa di partenza = reale 31/10 (bilancio, banche e depositi 1.760.518); condizioni di pagamento cliente per cliente e fornitore per fornitore; piani di ammortamento dei finanziamenti; ordini aperti (stampa 02/11) con novembre-dicembre ridotti alla stima di Valentina di 2,35M di fatturato 2026 (20/11); ottobre reale dal bilancio 31/10; medie e percentuali dei costi sui 10 mesi gen-ott (bilancio e mastrini 31/10); magazzino al 31/10 199.613 dal gestionale (a fine anno ipotesi uguale al 31/10, non conoscibile prima dell inventario di dicembre). <b>Regole di Alex:</b> royalties 1,5% pagate a trimestre; nessun anticipo bancario; variabile in proporzione ai ricavi, fisso per quota periodica; IVA 22% sulla quota imponibile dei ricavi, 22% sul 48% degli acquisti non coperto da plafond, 10% sull\'energia. <b>Come si calcola la CIG (D.Lgs. 148/2015):</b> l\'integrazione, pari all\'80% della retribuzione globale per le ore non lavorate, la paga l\'INPS direttamente ai lavoratori (HTP non anticipa nulla). Per le ore in CIG l\'azienda non sostiene il costo del lavoratore; paga il contributo addizionale (9%, 6% se nessuna CIG da 24 mesi) sulla retribuzione globale di quelle ore. Si inseriscono per ogni trimestre le persone in CIG e le ore di CIG a persona al mese (173 ore = mese a tempo pieno, cioè zero ore lavorate), uguali in ciascuno dei tre mesi del trimestre: risparmio mensile = persone ÷ 20 × (ore al mese ÷ 173,33) × (costo mensile del personale − addizionale × retribuzione globale mensile). <b>Ipotesi non confermate:</b> imposte 2026 calcolate dal CE 2026 (sopra) con variazioni fiscali e ammortamenti stimati; la differenza con gli acconti 2026 (124.249) è credito, compensato a giugno e novembre 2027; seconda rata di acconto 2026 del 50% (se 40/60 sarebbero 74.549); rata di settembre degli accertamenti già pagata (poi 9.462,94 a dic, mar, giu, set); fotovoltaico: canone dal mese scelto, risparmio e RID dalla forma PVGIS a 15° (inclinazione reale non nota), RID incassato 2 mesi dopo; provvigioni pagate il mese dopo; 13ª netta 35.000 a dicembre e contributi 17.200 a gennaio; credito IVA di partenza 28.164,62 al 31/10 (da bilancio, ERARIO C/IVA è un credito); interessi attivi 1.900 a trimestre e cedola 5.950,68 a semestre (il deposito scade 03/27: rinnovo assunto); costi irregolari = media mensile gen-ago senza pubblicità (frequenze da confermare); rimanenze, TFM e ammortamenti non sono cassa ma entrano nel CE e quindi nelle imposte.';
 
 (function(){
   var L=[].slice.call(document.querySelectorAll('#nav a')), forz='', tf=0;
