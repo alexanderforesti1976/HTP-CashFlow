@@ -72,10 +72,10 @@ row('1) Ricavi delle vendite e delle prestazioni',vend+stampi+div,ricSD,None,ven
 row('Vendite prodotti (conto 07011000)',vend,None,None,None,'d',1)
 row('Ricavi per vendita stampi (07011400)',stampi,None,None,None,'d',1)
 row('Ricavi diversi (07011200)',div,None,None,None,'d',1)
-row('Novembre-dicembre: ordini aperti del 02/11 (previsione)',None,ricSD,None,None,'d',1)
+row('Novembre-dicembre: ordini aperti del 02/11 ridotti alla stima di Valentina (fatturato 2026 circa 2.350.000)',None,ricSD,None,None,'d',1)
 a2=c['a2_fin']-c['a2_in']
 row('2) Variazione rimanenze prodotti finiti e semilavorati',None,None,a2,a2,'t')
-row('Finali 97.024 (valore al 30/09 dal gestionale) meno iniziali 45.874',None,None,None,None,'d',1)
+row('Finali %s (valore al 31/10 dal gestionale, ipotesi uguale a fine anno) meno iniziali %s'%(f(c['a2_fin']),f(c['a2_in'])),None,None,None,None,'d',1)
 altr=RIC('07051001')+RIC('07051002')
 row('5) Altri ricavi (sconti, abbuoni e arrotondamenti attivi)',altr,None,None,altr,'t')
 A_gen=vend+stampi+div+altr
@@ -88,7 +88,7 @@ projmat=c['materie']-(SG('mat')-216.50)
 row('6) Materie prime, sussidiarie, di consumo e merci',mat,projmat,None,mat+projmat,'t')
 for code,nm,a in sorted(rows['mat']): row('%s %s'%(code[1:],nm.title()),a,None,None,None,'d',1)
 row('Resi e abbuoni su acquisti (06011006)',-216.50,None,None,None,'d',1)
-row('Novembre-dicembre: consumo 16,95% dei ricavi (previsione)',None,projmat,None,None,'d',1)
+row('Novembre-dicembre: consumo '+('%.2f'%(c['acquisti_pct_setdic']*100)).replace('.',',')+'% dei ricavi (previsione)',None,projmat,None,None,'d',1)
 # servizi
 altri_proj=c['altri']-G['altri']
 groups=[('en','Energia e riscaldamento',c['energia']-G['en']),('lav','Lavorazioni c/terzi',c['lavorazioni']-G['lav']),('prov','Provvigioni e Enasarco',c['provvigioni']-G['prov'])]
@@ -101,7 +101,7 @@ for g,nm,p in groups:
 for g,nm in (('cons','Consulenze e compensi professionali'),('ass','Assicurazioni'),('man','Manutenzioni e assistenza'),('pub','Pubblicità e fiere'),('serv','Altri servizi (carburanti, telefono, viaggi, banche, trasporti, auto, ecc.)')):
     row(nm,SG(g),None,None,SG(g),'s',1)
     for code,n2,a in sorted(rows[g]): row('%s %s'%(code[1:],n2.title()),a,None,None,None,'d',2)
-row('Novembre-dicembre: altri costi ricorrenti e irregolari a media 30.113 al mese + canone fotovoltaico (previsione, anche servizi, noleggi e oneri)',None,altri_proj,None,altri_proj,'s',1)
+row('Novembre-dicembre: altri costi ricorrenti e irregolari a media '+f(M['P']['altri'])+' al mese (10 mesi) + canone fotovoltaico (previsione, anche servizi, noleggi e oneri)',None,altri_proj,None,altri_proj,'s',1)
 roy_p=c['royalties']-SG('roy')
 god_gen=SG('aff')+SG('roy')+SG('god')
 god_proj=(c['affitti']-SG('aff'))+roy_p
@@ -115,7 +115,7 @@ pers_proj=M['ce']['personale']-SG('pers')-integ_tfr-integ_13-integ_fer
 rett_pers=integ_tfr+integ_13+integ_fer
 row('9) Costi per il personale',SG('pers'),pers_proj,rett_pers,c['personale'],'t')
 for code,n2,a in sorted(rows['pers']): row('%s %s'%(code[1:],n2.title()),a,None,None,None,'d',1)
-row('Novembre-dicembre: costo medio 53.318 al mese (organico dopo le due dimissioni)',None,pers_proj,None,None,'d',1)
+row('Novembre-dicembre: costo medio '+f(pers_proj/2)+' al mese (organico dopo le due dimissioni)',None,pers_proj,None,None,'d',1)
 row('TFR di competenza da aggiungere (maturato annuo 46.157 meno già registrato)',None,None,integ_tfr,None,'d',1)
 row('Tredicesima con contributi',None,None,integ_13,None,'d',1)
 row('Ferie: rateo 32.136 (neutralizza lo storno di gennaio) + saldo 3.655',None,None,integ_fer,None,'d',1)
@@ -123,7 +123,7 @@ amm=c['ammortamenti']
 row('10) Ammortamenti (stima, non ancora registrati)',None,None,amm,amm,'t')
 b11=c['b11_in']-c['b11_fin']
 row('11) Variazione rimanenze materie prime, sussidiarie e consumo',None,None,b11,b11,'t')
-row('Iniziali 122.485 meno finali 91.782 (valore al 30/09 dal gestionale)',None,None,None,None,'d',1)
+row('Iniziali '+f(c['b11_in'])+' meno finali '+f(c['b11_fin'])+' (valore al 31/10 dal gestionale, ipotesi uguale a fine anno)',None,None,None,None,'d',1)
 tfm=c['tfm']
 row('13) Accantonamento indennità fine mandato amministratore (TFM, 20% del risultato)',None,None,tfm,tfm,'t')
 ond=SG('onedi')
@@ -145,15 +145,15 @@ row('Novembre-dicembre: cedola di dicembre e interessi (previsione)',None,pf_pro
 ip=SG('intp');ip_proj=c['int_passivi']-ip
 row('17) Interessi e altri oneri finanziari',-ip,-ip_proj,None,-(ip+ip_proj),'t')
 for code,n2,a in sorted(rows['intp']): row('%s %s'%(code[1:],n2.title()),-a,None,None,None,'d',1)
-row('Novembre-dicembre: residuo del piano finanziamenti (da rivedere: i mutui hanno già 21.884 a ottobre)',None,-ip_proj,None,None,'d',1)
+row('Novembre-dicembre: piano dei finanziamenti (2 mesi)',None,-ip_proj,None,None,'d',1)
 fin_gen=pf-ip;fin_proj=pf_proj-ip_proj
 row('TOTALE PROVENTI E ONERI FINANZIARI',fin_gen,fin_proj,None,fin_gen+fin_proj,'tt')
 ante=A_tot-B_tot+fin_gen+fin_proj
 row('RISULTATO PRIMA DELLE IMPOSTE',None,None,None,ante,'tt')
 ires,irap=c['ires'],c['irap']
 row('20) Imposte sul reddito: IRES (24%) e IRAP (3,9%) di competenza',None,None,-(ires+irap),-(ires+irap),'t')
-row('IRES su imponibile 256.481 (risultato 201.399 + variazioni fiscali 55.082)',None,None,-ires,None,'d',1)
-row('IRAP su imponibile 276.785',None,None,-irap,None,'d',1)
+row('IRES su imponibile '+f(c['imponibile_ires'])+' (utile ante imposte '+f(c['ante_imposte'])+' + variazioni fiscali '+f(c['imponibile_ires']-c['ante_imposte'])+')',None,None,-ires,None,'d',1)
+row('IRAP su imponibile '+f(c['imponibile_irap']),None,None,-irap,None,'d',1)
 ut=ante-ires-irap
 row('UTILE (PERDITA) DELL\'ESERCIZIO',None,None,None,ut,'tt')
 print('ante',round(ante,2),'(app',round(c['ante_imposte'],2),') utile',round(ut,2),'(app',round(c['utile'],2),')')
@@ -168,11 +168,12 @@ tr.t td{font-weight:bold;background:#f3f6fa}tr.tt td{font-weight:bold;background
 tr.s td{font-weight:600}tr.d td{color:#444}.box{background:#fff6e5;border-left:4px solid #d98200;padding:5px 9px;margin:6px 0;font-size:8.6pt}
 .ok{background:#eef6ee;border-left:4px solid #2e7d32;padding:5px 9px;margin:6px 0;font-size:8.6pt}</style></head><body>
 <h1>HTP S.r.l. — Conto economico 2026 (stima a fine anno)</h1>
-<div class="sub">Schema civilistico (art. 2425 c.c.) con il dettaglio dei conti. Colonne: <b>gen-ott</b> = bilancio provvisorio al 31/10/2026 di Verusca (conti reali); <b>nov-dic</b> = previsione del modello (ordini aperti e medie dei costi sui 10 mesi); <b>rettifiche</b> = voci di competenza che il bilancio provvisorio non contiene ancora (rimanenze, ammortamenti, TFR, 13ª, ferie, TFM). Importi in euro. Preparato per Alex Foresti il 18/11/2026: sono stime, non dati definitivi.</div>
+<div class="sub">Schema civilistico (art. 2425 c.c.) con il dettaglio dei conti. Colonne: <b>gen-ott</b> = bilancio provvisorio al 31/10/2026 di Verusca (conti reali); <b>nov-dic</b> = previsione del modello (ordini aperti e medie dei costi sui 10 mesi); <b>rettifiche</b> = voci di competenza che il bilancio provvisorio non contiene ancora (rimanenze, ammortamenti, TFR, 13ª, ferie, TFM). Importi in euro. Preparato per Alex Foresti il 21/11/2026: sono stime, non dati definitivi.</div>
 <table><tr><th>Voce</th><th>Gen-ott reale</th><th>Nov-dic previsione</th><th>Rettifiche di competenza</th><th>Totale 2026</th></tr>
 '''+body+'''
 </table>
-<div class="ok"><b>Quadratura:</b> il risultato prima delle imposte (201.399) e l'utile (129.049) coincidono con la pagina Economico dell'app. Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
-<div class="box"><b>Punti aperti:</b> (1) magazzino: usato il valore al 30/09 dal gestionale (188.807); la valorizzazione al 31/10 (199.613, 97 righe non determinate) è in controllo e darebbe +10.807 di rimanenze; (2) interessi passivi: i mutui hanno già 21.884 a ottobre, il piano ne prevede 22.421 per l'anno; (3) TFR e 13ª: la base degli stipendi corretta porterebbe la 13ª a circa +3.300; (4) consulenze di ottobre 48.538, di cui 33.000 fatture da ricevere; (5) novembre-dicembre solo ordini aperti, nessun ordine nuovo.</div>
+<div class="ok"><b>Quadratura:</b> il risultato prima delle imposte ({ANTE}) e l'utile netto ({UTILE}) coincidono con la pagina Economico dell'app (differenza di pochi euro per arrotondamenti). Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
+<div class="box"><b>Ipotesi e punti aperti:</b> (1) novembre-dicembre: stima di Valentina (fatturato 2026 circa 2.350.000) al posto degli ordini aperti (478k); (2) magazzino: valore al 31/10 dal gestionale (199.613, 97 righe non determinate) usato anche come ipotesi a fine anno, che si conosce solo dopo l'inventario di dicembre (ogni 10.000 di magazzino valgono circa 5.700 di utile netto); (3) ammortamenti 110.000 e TFM 20% stimati; (4) consulenze di ottobre 48.538, di cui 33.000 fatture da ricevere; (5) interessi passivi: reali gen-ott più piano dei finanziamenti.</div>
 </body></html>'''
+doc=doc.replace('{ANTE}',f(ante)).replace('{UTILE}',f(ut))
 open(S+'acc/ce2026.html','w').write(doc)
