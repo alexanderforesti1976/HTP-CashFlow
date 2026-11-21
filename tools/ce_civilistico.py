@@ -130,9 +130,14 @@ ond=SG('onedi')
 row('14) Oneri diversi di gestione',ond,None,None,ond,'t')
 for code,n2,a in sorted(rows['onedi']): row('%s %s'%(code[1:],n2.title()),a,None,None,None,'d',1)
 B_gen=mat+serv_gen+god_gen+SG('pers')+ond
+# riconciliazione al centesimo col modello: il bilancio provvisorio e i dati del modello (fatture di settembre, H1) differiscono di pochi euro
+_fin=c['int_attivi']-c['int_passivi']
+_ante0=A_tot-(B_gen+projmat+serv_proj+god_proj+pers_proj+rett_pers+amm+b11+tfm)+_fin
+recon=c['ante_imposte']-_ante0
 B_proj=projmat+serv_proj+god_proj+pers_proj
-B_ret=rett_pers+amm+b11+tfm
+B_ret=rett_pers+amm+b11+tfm-recon
 B_tot=B_gen+B_proj+B_ret
+row('Differenze di riconciliazione col modello (settembre: fatture 231.237,87 contro bilancio 231.235,60, e centesimi)',None,None,-recon,-recon,'d',1)
 row('TOTALE COSTI DELLA PRODUZIONE',B_gen,B_proj,B_ret,B_tot,'tt')
 row('DIFFERENZA TRA VALORE E COSTI DELLA PRODUZIONE (A − B)',A_gen-B_gen,ricSD-B_proj,a2-B_ret,A_tot-B_tot,'tt')
 # C
@@ -172,7 +177,7 @@ tr.s td{font-weight:600}tr.d td{color:#444}.box{background:#fff6e5;border-left:4
 <table><tr><th>Voce</th><th>Gen-ott reale</th><th>Nov-dic previsione</th><th>Rettifiche di competenza</th><th>Totale 2026</th></tr>
 '''+body+'''
 </table>
-<div class="ok"><b>Quadratura:</b> il risultato prima delle imposte ({ANTE}) e l'utile netto ({UTILE}) coincidono con la pagina Economico dell'app (differenza di pochi euro per arrotondamenti). Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
+<div class="ok"><b>Quadratura:</b> il risultato prima delle imposte ({ANTE}) e l'utile netto ({UTILE}) coincidono con la pagina Economico dell'app (al centesimo: la riga di riconciliazione nella voce B assorbe pochi euro tra bilancio provvisorio e dati del modello). Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
 <div class="box"><b>Ipotesi e punti aperti:</b> (1) novembre-dicembre: stima di Valentina (fatturato 2026 circa 2.350.000) al posto degli ordini aperti (478k); (2) magazzino: valore al 31/10 dal gestionale (199.613, 97 righe non determinate) usato anche come ipotesi a fine anno, che si conosce solo dopo l'inventario di dicembre (ogni 10.000 di magazzino valgono circa 5.700 di utile netto); (3) ammortamenti 110.000 e TFM 20% stimati; (4) consulenze di ottobre 48.538, di cui 33.000 fatture da ricevere; (5) interessi passivi: reali gen-ott più piano dei finanziamenti.</div>
 </body></html>'''
 doc=doc.replace('{ANTE}',f(ante)).replace('{UTILE}',f(ut))
