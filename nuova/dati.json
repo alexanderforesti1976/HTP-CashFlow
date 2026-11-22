@@ -62,9 +62,9 @@
    "affitti": 10680.15,
    "provvigioni": 6387.12,
    "personale": 56874.12,
-   "altri_costi": 48874.49,
+   "altri_costi": 48875.18,
    "ricavi_operativi": 166130.75,
-   "_nota": "R256: ottobre = bilancio provvisorio 31/10/2026 (Verusca, 18/11) meno bilancio 30/09 (stampa 14/10) per categoria; costi totali ottobre 178.735,00 (royalties 8.050 booked e interessi 1.661 fuori: royalties al 1,5% e interessi dai piani); fatturato di cassa ottobre = fatture reali (mastrino 07011000 153.136,96 + stampi 850)"
+   "_nota": "R256: ottobre = bilancio provvisorio 31/10/2026 (Verusca, 18/11) meno bilancio 30/09 (stampa 14/10) per categoria; costi totali ottobre 178.735,00 (royalties 8.050 booked e interessi 1.661 fuori: royalties al 1,5% e interessi dai piani); fatturato di cassa ottobre = fatture reali (mastrino 07011000 153.136,96 + stampi 850) R283: altri costi 48.874,49 -> 48.875,18 (+0,69): totale ottobre 178.735,00 meno royalties 8.050,00 meno interessi reali 1.660,71 (mastrini; nella prima versione 1.661 arrotondato, e 0,40 di errore di somma) meno le altre categorie 120.149,11."
   }
  },
  "altri_conti": [

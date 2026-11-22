@@ -78,9 +78,11 @@ row('2) Variazione rimanenze prodotti finiti e semilavorati',None,None,a2,a2,'t'
 row('Finali %s (valore al 31/10 dal gestionale, ipotesi uguale a fine anno) meno iniziali %s'%(f(c['a2_fin']),f(c['a2_in'])),None,None,None,None,'d',1)
 altr=RIC('07051001')+RIC('07051002')
 row('5) Altri ricavi (sconti, abbuoni e arrotondamenti attivi)',altr,None,None,altr,'t')
+sep9=D['cf']['ricavi']['2026-09']-D['mesi']['9']['ricavi_operativi']  # settembre: fatture chiuse (modello) contro registrato in bilancio
+row('Settembre: fatture emesse (231.237,87) oltre il registrato in bilancio (231.235,60)',None,None,sep9,sep9,'t')
 A_gen=vend+stampi+div+altr
-A_tot=A_gen+ricSD+a2
-row('TOTALE VALORE DELLA PRODUZIONE',A_gen,ricSD,a2,A_tot,'tt')
+A_tot=A_gen+ricSD+a2+sep9
+row('TOTALE VALORE DELLA PRODUZIONE',A_gen,ricSD,a2+sep9,A_tot,'tt')
 # B
 sec('B) COSTI DELLA PRODUZIONE')
 mat=SG('mat')-216.50
@@ -135,11 +137,10 @@ _fin=c['int_attivi']-c['int_passivi']
 _ante0=A_tot-(B_gen+projmat+serv_proj+god_proj+pers_proj+rett_pers+amm+b11+tfm)+_fin
 recon=c['ante_imposte']-_ante0
 B_proj=projmat+serv_proj+god_proj+pers_proj
-B_ret=rett_pers+amm+b11+tfm-recon
+B_ret=rett_pers+amm+b11+tfm
 B_tot=B_gen+B_proj+B_ret
-row('Differenze di riconciliazione col modello (settembre: fatture 231.237,87 contro bilancio 231.235,60, e centesimi)',None,None,-recon,-recon,'d',1)
 row('TOTALE COSTI DELLA PRODUZIONE',B_gen,B_proj,B_ret,B_tot,'tt')
-row('DIFFERENZA TRA VALORE E COSTI DELLA PRODUZIONE (A − B)',A_gen-B_gen,ricSD-B_proj,a2-B_ret,A_tot-B_tot,'tt')
+row('DIFFERENZA TRA VALORE E COSTI DELLA PRODUZIONE (A − B)',A_gen-B_gen,ricSD-B_proj,a2+sep9-B_ret,A_tot-B_tot,'tt')
 # C
 sec('C) PROVENTI E ONERI FINANZIARI')
 pf=RIC('07051004')+RIC('07051901');pf_proj=c['int_attivi']-pf
@@ -161,6 +162,7 @@ row('IRES su imponibile '+f(c['imponibile_ires'])+' (utile ante imposte '+f(c['a
 row('IRAP su imponibile '+f(c['imponibile_irap']),None,None,-irap,None,'d',1)
 ut=ante-ires-irap
 row('UTILE (PERDITA) DELL\'ESERCIZIO',None,None,None,ut,'tt')
+assert abs(ante-c['ante_imposte'])<0.005 and abs(ut-c['utile'])<0.005,'CE non quadra con il modello al centesimo'
 print('ante',round(ante,2),'(app',round(c['ante_imposte'],2),') utile',round(ut,2),'(app',round(c['utile'],2),')')
 print('A_tot',round(A_tot),'B_tot',round(B_tot),'A-B',round(A_tot-B_tot))
 body='\n'.join(H)
@@ -177,7 +179,7 @@ tr.s td{font-weight:600}tr.d td{color:#444}.box{background:#fff6e5;border-left:4
 <table><tr><th>Voce</th><th>Gen-ott reale</th><th>Nov-dic previsione</th><th>Rettifiche di competenza</th><th>Totale 2026</th></tr>
 '''+body+'''
 </table>
-<div class="ok"><b>Quadratura:</b> il risultato prima delle imposte ({ANTE}) e l'utile netto ({UTILE}) coincidono con la pagina Economico dell'app (al centesimo: la riga di riconciliazione nella voce B assorbe pochi euro tra bilancio provvisorio e dati del modello). Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
+<div class="ok"><b>Quadratura:</b> il risultato prima delle imposte ({ANTE}) e l'utile netto ({UTILE}) coincidono con la pagina Economico dell'app (al centesimo, senza righe di riconciliazione). Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
 <div class="box"><b>Ipotesi e punti aperti:</b> (1) novembre-dicembre: stima di Valentina (fatturato 2026 circa 2.350.000) al posto degli ordini aperti (478k); (2) magazzino: valore al 31/10 dal gestionale (199.613, 97 righe non determinate) usato anche come ipotesi a fine anno, che si conosce solo dopo l'inventario di dicembre (ogni 10.000 di magazzino valgono circa 5.700 di utile netto); (3) ammortamenti 110.000 e TFM 20% stimati; (4) consulenze di ottobre 48.538, di cui 33.000 fatture da ricevere; (5) interessi passivi: reali gen-ott più piano dei finanziamenti.</div>
 </body></html>'''
 doc=doc.replace('{ANTE}',f(ante)).replace('{UTILE}',f(ut))
