@@ -12,6 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
+      dividendo_2026_pct: 1, /* R281 (Alex 22/11): dividendo = 100% dell'utile netto 2026, pagato dopo l'approvazione del bilancio (maggio 2027), a HFA e HFV 50% e 50% */
       ferie_saldo_2026: 3655, /* R204/R209/R210: saldo ferie+ex festivita+ROL MATURATE meno GODUTE 2026 = 168,69 h gen-set (prospetto ratei Paghe Infinity settembre 2026) + 56,2 h stimate per ott-dic (stesso ritmo dei 9 mesi) = 224,9 h x 16,25 EUR/h (valore del rateo 2025: 32.136,45 / 1.977,70 h) */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, cig_o_28q1: 0, cig_o_28q2: 0, cig_o_28q3: 0, cig_o_28q4: 0, /* R212: CIG 2028 (ore al mese per trimestre), partenza 0 */ /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
       ricavi27_k: 2000, ricavi28_k: 2000, persone_in_meno_28: 3, ammortamenti_2028: d.ammortamenti_2027, /* R174: CE 2028 sulla base del 2027, senza CIG, con 3 persone in meno (Alex 05/10) */ quota_non_confermato: 90, /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
@@ -220,9 +221,10 @@
       L.accertamenti = ['2026-12', '2027-03', '2027-06', '2027-09'].indexOf(ym) >= 0 ? 9462.94 : 0;
       L.inail = INAIL.indexOf(ym) >= 0 ? 1873.98 : 0;
       L.iva = ivaPay[ym] || 0;
+      L.dividendo = ym === '2027-05' ? Math.max(0, ce.utile) * P.dividendo_2026_pct : 0;
       L.cigAnticipo = cigAnt(ym); L.cigRimborso = prev >= '2026-10' ? cigAnt(prev) : 0;
       L.entrate = L.apertiCli + L.nuoviCli + L.rid + L.ivaRel + L.prov + L.cigRimborso;
-      L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva;
+      L.uscite = L.apertiFor + L.nuoviFor + L.personale + L.cigAnticipo + L.affitti + L.energia + L.altri + L.irreg + L.provvigioni + L.royalties + L.canone + L.finanz + L.rateAcconti + L.accontiBase + L.accertamenti + L.inail + L.iva + L.dividendo;
       L.netto = L.entrate - L.uscite; L.apertura = cassa; L.rettifica = 0;
       if (ym === '2026-10' && C.cassa_31_10) L.rettifica = C.cassa_31_10 - (cassa + L.netto); // R265: cassa reale al 31/10 (bilancio): rettifica = reale meno calcolo
       L.netto += L.rettifica; cassa += L.netto; L.chiusura = cassa;
