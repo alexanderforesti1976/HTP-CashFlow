@@ -1057,21 +1057,21 @@
   "ricavi": {
    "2026-09": 231237.87,
    "2026-10": 153986.96,
-   "2026-11": 164000.0,
-   "2026-12": 150000.0
+   "2026-11": 223405.33,
+   "2026-12": 168624.71
   },
   "quota_iva_vendite": {
    "2026-09": 0.1427,
    "2026-10": 0.1801,
-   "2026-11": 0.4401,
-   "2026-12": 0.1946
+   "2026-11": 0.4698,
+   "2026-12": 0.0973
   },
   "rec_ordini_2027": {
    "2027-01": [
     0.0,
     28482.6,
-    61190.4,
-    61724.6,
+    80400.4,
+    71978.98,
     0.0,
     0.0,
     0.0
@@ -1097,7 +1097,7 @@
    "2027-04": [
     0.0,
     0.0,
-    2610.28,
+    2610.27,
     0.0,
     0.0,
     0.0,
@@ -1151,19 +1151,19 @@
     0
    ],
    "2026-11": [
-    0.1822,
-    0.0695,
-    0.5259,
-    0.2224,
+    0.1945,
+    0.0742,
+    0.5161,
+    0.2152,
     0.0,
     0.0,
     0.0
    ],
    "2026-12": [
-    0.2374,
-    0.0727,
-    0.495,
-    0.1949,
+    0.2577,
+    0.0789,
+    0.4834,
+    0.1801,
     0.0,
     0.0,
     0.0
@@ -1302,10 +1302,10 @@
    "2026-08": 91754.58
   },
   "ordini_2027": {
-   "2027-01": 151397.6,
+   "2027-01": 180861.98,
    "2027-02": 420.0,
    "2027-03": 93880.0,
-   "2027-04": 2610.28,
+   "2027-04": 2610.27,
    "2027-05": 488.6
   },
   "ordini_fonte": {
@@ -1365,7 +1365,7 @@
    "Settembre": 0,
    "Ottobre": 0.0,
    "Novembre": 0.0,
-   "Dicembre": 6461.83
+   "Dicembre": 7884.0
   },
   "giacenze_30_06": {
    "prodotto_finito": 28715.47,
@@ -1466,18 +1466,7 @@
    }
   },
   "_nota_R273": "R273 (20/11): stima di Valentina a voce (Alex): fatturato 2026 intorno a 2.350.000. Novembre-dicembre degli ordini aperti 02/11 (ricavi e non confermato) scalati di k=0.858366 in modo che vendite+stampi+diversi gen-ott reali (1.939.749,02) + nov-dic = 2.350.000. Valori originali in _ordini_02_11_originali. Una nuova stampa ordini (ordini_to_dati.py) o i DDT/fatture di novembre sostituiscono questa stima.",
-  "_nota_R284": "R284 (23/11): stampa ordini aperti del 23/11/2026 (ore 14:02) applicata con ordini_to_dati.py --arretrati --ddt-nov: novembre = 84.084,63 (DDT emessi fino al 23/11, Pegaso dettaglio righe per cliente) + 139.320,70 (aperti) = 223.405,33; dicembre 168.624,71; sostituisce la stima di Valentina (R273). Righe aperte con data di spedizione gia passata (ritardi): 65.866,65 a novembre + 6.766,20 vecchie, contate a novembre fino a nuove date dall'ufficio.",
-  "_ordini_23_11_originali": {
-   "ricavi": {
-    "2026-11": 238481.33,
-    "2026-12": 183013.09
-   },
-   "non_confermato": {
-    "Novembre": 0.0,
-    "Dicembre": 7884.0
-   }
-  },
-  "_nota_R285": "R285 (23/11): stampa ordini aperti delle 14:20 (file Pegaso di Valentina, righe per data di spedizione: date dei ritardi aggiornate) e numeri di Valentina (mail 23/11 13:47): novembre 164.000 (DDT 84.000 + da fatturare 80.000), dicembre 150.000 (130.000 + 4.000 + 16.000 di ritardi di novembre), chiusura 2026 prevista 2.208.000. Applicati: novembre = DDT 84.084,63 + da fatturare 79.915,37 (stampa 14:20 scalata di 0,5176), dicembre 150.000 (stampa 14:20 scalata di 0,8196); valori della stampa in _ordini_23_11_originali (novembre 238.481,33, dicembre 183.013,09). Una nuova stampa o i DDT e le fatture sostituiscono questa stima."
+  "_nota_R284": "R284 (23/11): stampa ordini aperti del 23/11/2026 (ore 14:02) applicata con ordini_to_dati.py --arretrati --ddt-nov: novembre = 84.084,63 (DDT emessi fino al 23/11, Pegaso dettaglio righe per cliente) + 139.320,70 (aperti) = 223.405,33; dicembre 168.624,71; sostituisce la stima di Valentina (R273). Righe aperte con data di spedizione gia passata (ritardi): 65.866,65 a novembre + 6.766,20 vecchie, contate a novembre fino a nuove date dall'ufficio."
  },
  "versione_dati": "188807-2026-10-15-cig0o",
  "indici_base": {
