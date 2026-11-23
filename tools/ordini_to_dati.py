@@ -6,7 +6,7 @@ programmi 2100 di T.Erre 110002E OV 260125-260130 ANNULLATI (R187) esclusi con -
 Uso: python3 tools/ordini_to_dati.py OrdiniVenditaAperti.pdf [--arretrati] [--bolle-ott] [--ddt-nov] [--scrivi]
  senza --scrivi stampa solo il confronto con i valori attuali di dati.json."""
 import re, sys, json, subprocess, datetime as dt, collections
-pdf = sys.argv[1]; ARRETRATI = '--arretrati' in sys.argv; ESCL = '--escludi-terre' in sys.argv; BOLLE = '--bolle-ott' in sys.argv; DDTNOV = '--ddt-nov' in sys.argv; SCRIVI = '--scrivi' in sys.argv
+pdf = sys.argv[1]; ARRETRATI = '--arretrati' in sys.argv; ESCL = '--escludi-terre' in sys.argv; BOLLE = '--bolle-ott' in sys.argv; DDTNOV = '--ddt-nov' in sys.argv; ESCLPRV = '--escludi-prv' in sys.argv; EXTRADIC = '--extra-dic' in sys.argv; SCRIVI = '--scrivi' in sys.argv
 RITARDI = [('ENEXTRAS', 0), ('TERRA VERDE', 0), ('SEROTTI', 1), ('ELRING', 1), ('EDSCHA', 1), ('T.ERRE', 2), ('ARGOMM', 2), ('WATTS', 2), ('EUROGOMMA', 2), ('DICHTUNG', 2),
            ('LAV.EL', 3), ('OMECA', 3), ('CAVAGNA', 3), ('OMR', 3)]  # altri clienti: 2 mesi (default dello script di build)
 TAX = ['T.ERRE', 'WATTS', 'SAGOM', 'OMR', 'DUBHE', 'SCALIGERA', 'E.B.', 'BREKA', 'ELLEDI']
@@ -16,6 +16,8 @@ BOLLE_OTT = [('LAV.EL. GOMMA', 17678.39), ('EUROGOMMA', 18200.00), ('OMECA', 693
 PIANO_110002E = {'2026-10': 19000.0, '2026-11': 19000.0, '2026-12': 19000.0, '2027-02': 19000.0, '2027-04': 19000.0}  # piano T.Erre 110002E di Alex 15/10: 80.000 pz (ott+nov) + 40.000 dicembre, febbraio, aprile, a 0,475 (R205)
 DDT_NOV = [('EDSCHA', 4766.30), ('EURGOMMA', 180.00), ('KONGSBERG', 1050.00), ('LAV.EL. GOMMA', 19695.90), ('OMECA', 9263.08), ('OMR', 3724.95),
            ('SCALIGERA', 16372.50), ('SEROTTI', 11810.50), ('T.ERRE', 7568.00), ('WATTS', 9653.40)]  # R284: DDT di novembre emessi fino al 23/11/2026 (Pegaso 'dettaglio righe per cliente', ad oggi, imponibile): totale 84.084,63; le righe aperte della stampa sono gia' al netto di questi DDT
+PRV_DPH = {'250022', '260034'}  # R288 (Valentina 23/11): DPH ha inserito la causale PRV (programma) negli ordini di vendita di dicembre: 10.100 + 10.500 = 20.600, NON sono ordini fermi
+EXTRA_DIC = [('OMR', 4500.00)]  # R288: 178002 OMR, 4.500 EUR che Valentina prevede di spedire a dicembre e che non ha inserito (nessun programma aggiornato)
 TERRE_ANNULLATI = {'260125', '260126', '260127', '260128', '260129', '260130'}
 def ritardo(nome):
     n = nome.upper()
@@ -41,6 +43,7 @@ for ln in txt.split('\n'):
         d = dt.date(int(anno), int(m.group(2)), 1); nc = False
         if ARRETRATI and d < FLOOR: d = FLOOR  # R207/R218: righe ancora aperte di periodi passati = da spedire, contate nel mese della stampa (ottobre fino al 31/10, poi novembre)
     ym = d.strftime('%Y-%m')
+    if ESCLPRV and m.group(3) in PRV_DPH and 'DICHTUNG' in cli and ym == '2026-12': continue
     if not ('2026-10' <= ym <= '2027-05'): continue
     e = M[ym]; e['tot'] += res; e['v'][min(6, ritardo(cli))] += res
     if nc: e['nc'] += res
@@ -48,6 +51,11 @@ for ln in txt.split('\n'):
 if BOLLE:
     e = M['2026-10']
     for n, v in BOLLE_OTT:
+        e['tot'] += v; e['v'][ritardo(n)] += v
+        if any(t in n for t in TAX): e['imp'] += v
+if EXTRADIC:
+    e = M['2026-12']
+    for n, v in EXTRA_DIC:
         e['tot'] += v; e['v'][ritardo(n)] += v
         if any(t in n for t in TAX): e['imp'] += v
 if DDTNOV:
