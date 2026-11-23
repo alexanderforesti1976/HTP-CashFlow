@@ -32,13 +32,13 @@
  {
   "data": "23/11",
   "tema": "CIG 2027 e ricavi",
-  "nota": "Oggi ricavi 2027 2.000k con 936/936/936/464 ore di CIG: non coerenti (circa 2,1 giorni a settimana per 12 operai). Giorni lavorati = 5 x ricavi 2027 / ricavi 2026: 2.000k = circa 4,3 giorni (circa 230 ore/mese); 3 giorni su 5 = circa 730 ore (ricavi 1.400-1.600k). Utile netto 2027 (test): 183.102 piano di oggi, 101.430 con 230 ore, 161.642 con 730 ore.",
-  "stato": "Da decidere"
+  "nota": "Il piano e COERENTE (Alex 23/11): le 936/936/936/464 ore di CIG si calcolano sulle ORE TOTALI di tutti, selezione e uffici compresi (18 persone senza Ademi): le presse lavorano circa 3,1 giorni su 5 e il fatturato per persona torna vicino al 2024 (2.000k / circa 11 persone equivalenti = circa 180k contro 196k nel 2024 con 23 persone). Il confronto col 2026 (5 giorni con capacita non usata) era sbagliato (R304).",
+  "stato": "Coerente"
  },
  {
   "data": "23/11",
   "tema": "Reparti e CIG",
-  "nota": "Produzione: 13 operai oggi, 12 dal 2027 (stampaggio 9 poi 8, selezione 4: una fa controlli qualita in stampaggio, la responsabile cernita ridurra le ore). Sbavatura, selezione e logistica fanno CIG anch'esse. Una persona in malattia lunga non paga l'azienda (non contata).",
+  "nota": "Produzione: 13 operai oggi, 12 dal 2027 (stampaggio 9 poi 8, selezione 4: una fa controlli qualita in stampaggio, la responsabile cernita ridurra le ore). Selezione, sbavatura, logistica E UFFICI fanno CIG: le ore di CIG si dividono su tutto l'organico (18 persone senza Ademi). Una persona in malattia lunga non paga l'azienda (non contata).",
   "stato": "Informazione"
  },
  {
