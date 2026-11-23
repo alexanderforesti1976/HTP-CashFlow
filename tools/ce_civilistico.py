@@ -72,7 +72,7 @@ row('1) Ricavi delle vendite e delle prestazioni',vend+stampi+div,ricSD,None,ven
 row('Vendite prodotti (conto 07011000)',vend,None,None,None,'d',1)
 row('Ricavi per vendita stampi (07011400)',stampi,None,None,None,'d',1)
 row('Ricavi diversi (07011200)',div,None,None,None,'d',1)
-row('Novembre-dicembre: ordini aperti del 02/11 ridotti alla stima di Valentina (fatturato 2026 circa 2.350.000)',None,ricSD,None,None,'d',1)
+row('Novembre: DDT emessi fino al 23/11 (84.085) più ordini aperti della stampa 23/11; dicembre: ordini aperti 23/11 senza le righe PRV di DPH (20.600) e con OMR 178002 (4.500)',None,ricSD,None,None,'d',1)
 a2=c['a2_fin']-c['a2_in']
 row('2) Variazione rimanenze prodotti finiti e semilavorati',None,None,a2,a2,'t')
 row('Finali %s (valore al 31/10 dal gestionale, ipotesi uguale a fine anno) meno iniziali %s'%(f(c['a2_fin']),f(c['a2_in'])),None,None,None,None,'d',1)
@@ -175,12 +175,12 @@ tr.t td{font-weight:bold;background:#f3f6fa}tr.tt td{font-weight:bold;background
 tr.s td{font-weight:600}tr.d td{color:#444}.box{background:#fff6e5;border-left:4px solid #d98200;padding:5px 9px;margin:6px 0;font-size:8.6pt}
 .ok{background:#eef6ee;border-left:4px solid #2e7d32;padding:5px 9px;margin:6px 0;font-size:8.6pt}</style></head><body>
 <h1>HTP S.r.l. — Conto economico 2026 (stima a fine anno)</h1>
-<div class="sub">Schema civilistico (art. 2425 c.c.) con il dettaglio dei conti. Colonne: <b>gen-ott</b> = bilancio provvisorio al 31/10/2026 di Verusca (conti reali); <b>nov-dic</b> = previsione del modello (ordini aperti e medie dei costi sui 10 mesi); <b>rettifiche</b> = voci di competenza che il bilancio provvisorio non contiene ancora (rimanenze, ammortamenti, TFR, 13ª, ferie, TFM). Importi in euro. Preparato per Alex Foresti il 21/11/2026: sono stime, non dati definitivi.</div>
+<div class="sub">Schema civilistico (art. 2425 c.c.) con il dettaglio dei conti. Colonne: <b>gen-ott</b> = bilancio provvisorio al 31/10/2026 di Verusca (conti reali); <b>nov-dic</b> = previsione del modello (ordini aperti e medie dei costi sui 10 mesi); <b>rettifiche</b> = voci di competenza che il bilancio provvisorio non contiene ancora (rimanenze, ammortamenti, TFR, 13ª, ferie, TFM). Importi in euro. Preparato per Alex Foresti il 23/11/2026 (dati Pegaso del 23/11): sono stime, non dati definitivi.</div>
 <table><tr><th>Voce</th><th>Gen-ott reale</th><th>Nov-dic previsione</th><th>Rettifiche di competenza</th><th>Totale 2026</th></tr>
 '''+body+'''
 </table>
 <div class="ok"><b>Quadratura:</b> il risultato prima delle imposte ({ANTE}) e l'utile netto ({UTILE}) coincidono con la pagina Economico dell'app (al centesimo, senza righe di riconciliazione). Il bilancio provvisorio al 31/10 ha utile 139.812 prima di rimanenze, ammortamenti, TFR/13ª/ferie, TFM e imposte.</div>
-<div class="box"><b>Ipotesi e punti aperti:</b> (1) novembre-dicembre: stima di Valentina (fatturato 2026 circa 2.350.000) al posto degli ordini aperti (478k); (2) magazzino: valore al 31/10 dal gestionale (199.613, 97 righe non determinate) usato anche come ipotesi a fine anno, che si conosce solo dopo l'inventario di dicembre (ogni 10.000 di magazzino valgono circa 5.700 di utile netto); (3) ammortamenti 110.000 e TFM 20% stimati; (4) consulenze di ottobre 48.538, di cui 33.000 fatture da ricevere; (5) interessi passivi: reali gen-ott più piano dei finanziamenti.</div>
+<div class="box"><b>Ipotesi e punti aperti:</b> (1) novembre-dicembre: DDT emessi fino al 23/11 e ordini aperti del 23/11 (stampa 14:02), con T.Erre 110002E incerto (accordo non firmato: circa 34.100 in nov-dic e 19.000 a gennaio, ogni 53.000 di ricavi T.Erre valgono circa 22.600 di utile netto); (2) magazzino: valore al 31/10 dal gestionale (199.613, 97 righe non determinate) usato anche come ipotesi a fine anno: l'inventario del 31/12 si fa a gennaio 2027 (ogni 10.000 di magazzino valgono circa 5.700 di utile netto); (3) ammortamenti 110.000 e TFM 20% stimati; (4) consulenze di ottobre 48.538, di cui 33.000 fatture da ricevere; (5) interessi passivi: reali gen-ott più piano dei finanziamenti.</div>
 </body></html>'''
 doc=doc.replace('{ANTE}',f(ante)).replace('{UTILE}',f(ut))
 open(S+'acc/ce2026.html','w').write(doc)
