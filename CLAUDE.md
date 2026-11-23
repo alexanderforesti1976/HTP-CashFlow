@@ -50,6 +50,12 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 ## NON AFFERMARE SENZA CONTROLLARE (regola di Alex, 23/11/2026, arrabbiato)
 - **Mai dire che una cosa è fatta, non è fatta, c'è o non c'è senza averla verificata davvero.** Il 23/11 dissi che una mail era 'nei messaggi inviati' senza controllare, e poi che 'non era partita' solo perché la ricerca Gmail non la trovava: la mail era arrivata (screenshot di Alex). Se non riesco a verificare, dico 'non riesco a verificarlo' e riporto solo la conferma dell'invio. Una ricerca che non trova nulla NON prova che la mail non esista. R307.
 
+## FIRMA DI ALEX NELLE MAIL (regola di Alex, 24/11/2026, arrabbiato) — R308
+- **Firma di Alex (da usare quando la mail e' scritta A NOME SUO, in prima persona, a persone ESTERNE come E.ON, fornitori, consulenti):**
+  `Grazie e un saluto,` / `HighTechProject S.r.l.` / `Foresti Alexander` / `CEO` (tre righe, senza logo e senza informativa privacy; l'opzione `includeSignature` di Gmail aggiunge quella completa configurata sul suo account). Testo in prima persona ('ci servirebbe...'), senza presentarsi come Claude.
+- **Mail INTERNE (Valentina, Verusca, Raffaella):** come prima, 'ti scrivo per conto di Alex' e firma `Claude, per conto di Alex`. Non cambiare questo uso senza che Alex lo chieda.
+- **Finestra di autorizzazione dell'invio:** sul TELEFONO di Alex mostra il testo grezzo con `\n` (illeggibile); sul PC e' formattata (A, Cc, oggetto, testo). Prima di ogni invio: mostrare in chat destinatario, Cc, oggetto e testo completo; se Alex e' al telefono, dare un LINK `mailto:` gia' compilato (si apre Gmail con la firma sua) oppure aspettare che sia al PC. Mai riprovare l'invio piu' volte di fila dopo un 'Nega'.
+
 ## REVISIONI (regola di Alex, 02/10/2026 sera)
 - **Ogni modifica a dati, parametri, formule o conclusioni già comunicate si registra in `docs/REVISIONI.md`** (numero progressivo R0xx, tipo PUBBLICATA/ANALISI/RITRATTATA/RIPRISTINO, prima → dopo, fonte, commit), nello stesso commit. Mai riscrivere o cancellare le righe precedenti. Leggere quel file all'inizio di ogni sessione e prima di ogni verifica richiesta da Alex.
 - **Un risultato si chiama "della pagina di Alex" SOLO se viene da un suo screenshot recente.** Un numero calcolato in headless va scritto "test headless" con i parametri usati (rev26/rev27, magazzino, CIG, otherFixedK...). Il 02/10 un test senza la CIG di Alex fu presentato come stato della pagina (R030).
