@@ -28,6 +28,7 @@ giorno = lambda x: dt.datetime.strptime(x, '%d/%m/%Y').date()
 FLOOR = dt.date(stampa.year, stampa.month, 1)
 M = collections.defaultdict(lambda: {'tot': 0.0, 'nc': 0.0, 'imp': 0.0, 'v': [0.0] * 7})
 for ln in txt.split('\n'):
+    ln = ln.lstrip()  # le stampe lanciate dall'ufficio hanno la riga indentata
     m = re.match(r'^(2\d{3})\s+(\d{1,2})\s+(\d{5,6})\s', ln)
     if not m: continue
     date = re.findall(r'\d\d/\d\d/\d{4}', ln); nums = re.findall(r'\d{1,3}(?:\.\d{3})*,\d+', ln)

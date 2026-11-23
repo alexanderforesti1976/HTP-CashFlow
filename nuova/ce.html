@@ -104,7 +104,7 @@ fetch('dati.json').then(function(r){return r.json()}).then(function(D){
     var persMese=g(h,'personale')/6, cigMese=cigW/20*persMese*cigH/100*0.80;
     var royAnno=0.015*(ricGA+ricSD);
     var rows=[
-     ['Ricavi operativi','ottobre reale dal bilancio 31/10; novembre = DDT emessi fino al 23/11 + ordini aperti della stampa 23/11; dicembre = ordini aperti 23/11',ricGA,ricSD,1],
+     ['Ricavi operativi','ottobre reale dal bilancio 31/10; novembre 164.000 e dicembre 150.000 secondo Valentina (23/11: DDT 84.000 e ordini aperti stampa 14:20)',ricGA,ricSD,1],
      ['Materie e prodotti acquistati','variabile: '+(ratio('materie')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('materie'),ratio('materie')*ricSD,0],
      ['Lavorazioni c/terzi','variabile: '+(ratio('lavorazioni_terzi')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('lavorazioni_terzi'),ratio('lavorazioni_terzi')*ricSD,0],
      ['Provvigioni e ENASARCO','variabile: '+(ratio('provvigioni')*100).toFixed(2).replace('.',',')+'% dei ricavi',ga('provvigioni'),ratio('provvigioni')*ricSD,0],
