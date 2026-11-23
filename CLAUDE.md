@@ -47,6 +47,9 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - **T.Erre 110002E:** accordo non firmato, quantita' indefinite; nel modello 34.090 in nov-dic (33.250 + 840) + 7.568 di DDT gia' emessi; 19.000 a gennaio. Se fatturato, T.Erre paga SUBITO (incasso nello stesso mese), non a 60 gg: oggi nel modello e' a 60 gg (R291, non applicato: +45.857 di cassa a dicembre). Alex mandera' la lettera firmata con date, quantita' e pagamenti.
 - **Dividendo 2027:** 100% dell'utile netto 2026 a HFA e HFV (50% e 50%), aprile-maggio 2027; nel modello a maggio (netto 98,8%) e giugno (imposta 1,2%) (R281-R282). Inventario 31/12/2026 a gennaio 2027 (magazzino finale ipotesi uguale al 31/10).
 
+## NON AFFERMARE SENZA CONTROLLARE (regola di Alex, 23/11/2026, arrabbiato)
+- **Mai dire che una cosa è fatta, non è fatta, c'è o non c'è senza averla verificata davvero.** Il 23/11 dissi che una mail era 'nei messaggi inviati' senza controllare, e poi che 'non era partita' solo perché la ricerca Gmail non la trovava: la mail era arrivata (screenshot di Alex). Se non riesco a verificare, dico 'non riesco a verificarlo' e riporto solo la conferma dell'invio. Una ricerca che non trova nulla NON prova che la mail non esista. R307.
+
 ## REVISIONI (regola di Alex, 02/10/2026 sera)
 - **Ogni modifica a dati, parametri, formule o conclusioni già comunicate si registra in `docs/REVISIONI.md`** (numero progressivo R0xx, tipo PUBBLICATA/ANALISI/RITRATTATA/RIPRISTINO, prima → dopo, fonte, commit), nello stesso commit. Mai riscrivere o cancellare le righe precedenti. Leggere quel file all'inizio di ogni sessione e prima di ogni verifica richiesta da Alex.
 - **Un risultato si chiama "della pagina di Alex" SOLO se viene da un suo screenshot recente.** Un numero calcolato in headless va scritto "test headless" con i parametri usati (rev26/rev27, magazzino, CIG, otherFixedK...). Il 02/10 un test senza la CIG di Alex fu presentato come stato della pagina (R030).
