@@ -1,0 +1,134 @@
+[
+ {
+  "data": "23/11",
+  "tema": "Dividendo 2027",
+  "nota": "Dividendo ai soci HFA e HFV (50% e 50%) pari al 100% dell'utile netto 2026, dopo l'approvazione del bilancio (aprile-maggio 2027): nel modello netto a maggio (98,8%) e imposta 1,2% a giugno (R281-R282).",
+  "stato": "Applicato"
+ },
+ {
+  "data": "23/11",
+  "tema": "Ricavi novembre-dicembre",
+  "nota": "Novembre = DDT emessi fino al 23/11 (84.085) + ordini aperti della stampa 23/11 (ore 14:02); dicembre senza le due righe PRV (programmi) di DPH (20.600) e con 4.500 di OMR 178002 (Valentina). Valentina conta 164.000 e 150.000 (senza T.Erre): da rivedere con le nuove stampe e le fatture di fine mese (R284, R288).",
+  "stato": "Applicato"
+ },
+ {
+  "data": "23/11",
+  "tema": "Ritardi nelle consegne",
+  "nota": "Righe aperte con data di spedizione gia passata: 65.867 a novembre (Sagom, T.Erre, OMR, Dubhe, Lav.El) + 6.766 di righe vecchie. Sono contate a novembre finche l'ufficio non mette date nuove nel Pegaso; poi nuova stampa.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "23/11",
+  "tema": "T.Erre 110002E",
+  "nota": "Accordo non firmato, quantita indefinite (ne 0 ne 53.000). Nel modello: DDT 7.568 + 34.090 da spedire in nov-dic e 19.000 a gennaio 2027. Se fatturato T.Erre paga SUBITO (incasso nello stesso mese): nel modello e ancora a 60 giorni fine mese (+45.857 di cassa a dicembre 2026 se subito, R291). Aspetto la lettera firmata con date, quantita e pagamenti.",
+  "stato": "Non applicato"
+ },
+ {
+  "data": "23/11",
+  "tema": "Dipendente di stampaggio dimesso",
+  "nota": "Esce entro il 31/12/2026, non c'e nel 2027 (R292). Costo circa 2.900/mese, pari a circa 161 ore di CIG al mese (17,97 euro/ora): se gli altri fanno meno CIG il risparmio si compensa (R293). TFR da liquidare circa 11.400 e ferie: non in cassa a gennaio.",
+  "stato": "Non applicato"
+ },
+ {
+  "data": "23/11",
+  "tema": "CIG 2027 e ricavi",
+  "nota": "Oggi ricavi 2027 2.000k con 936/936/936/464 ore di CIG: non coerenti (circa 2,1 giorni a settimana per 12 operai). Giorni lavorati = 5 x ricavi 2027 / ricavi 2026: 2.000k = circa 4,3 giorni (circa 230 ore/mese); 3 giorni su 5 = circa 730 ore (ricavi 1.400-1.600k). Utile netto 2027 (test): 183.102 piano di oggi, 101.430 con 230 ore, 161.642 con 730 ore.",
+  "stato": "Da decidere"
+ },
+ {
+  "data": "23/11",
+  "tema": "Reparti e CIG",
+  "nota": "Produzione: 13 operai oggi, 12 dal 2027 (stampaggio 9 poi 8, selezione 4: una fa controlli qualita in stampaggio, la responsabile cernita ridurra le ore). Sbavatura, selezione e logistica fanno CIG anch'esse. Una persona in malattia lunga non paga l'azienda (non contata).",
+  "stato": "Informazione"
+ },
+ {
+  "data": "23/11",
+  "tema": "Lavorazioni portate in interno",
+  "nota": "PM043 (trattamenti oggi di SV) e codici PM025 si trattano in interno (Seruaghetti ai trattamenti lavora un po piu degli altri): circa 5.000 ANNUALI a costo SV in meno dal 2027 (R303). Il costo delle ore interne non e incluso (pareggio circa 23 ore/mese).",
+  "stato": "Applicato"
+ },
+ {
+  "data": "23/11",
+  "tema": "Lavorazioni a FGR",
+  "nota": "Fatture FGR: 2024 158.393, 2025 98.439, 2026 gen-set 30.621. Se si usano piu ore interne le lavorazioni verso FGR calano: nel modello le lavorazioni c/terzi restano il 3,5% dei ricavi (nessun legame con le ore interne).",
+  "stato": "Non modellato"
+ },
+ {
+  "data": "23/11",
+  "tema": "Inventario 31/12",
+  "nota": "L'inventario del 31/12/2026 si fa a gennaio 2027: magazzino finale 2026 = valore al 31/10 (199.613). Ogni 10.000 di magazzino = circa 8.000 di imponibile.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "23/11",
+  "tema": "Imposte 2026",
+  "nota": "Secondo acconto 30/11: storico 58.012 (IRES 47.027,50 + IRAP 10.984,50) oppure previsionale (IRES stimata 47.163 meno 47.027,50 = 136). Comunicazione Agenzia sul 2024: 3.109,22 entro circa 08/01/2027, non in cassa (R278-R279).",
+  "stato": "Da decidere"
+ },
+ {
+  "data": "23/11",
+  "tema": "Cassa e pagamenti",
+  "nota": "I costi di novembre-dicembre si pagano in gran parte a gennaio-marzo 2027 (fornitori 60-105 giorni, provvigioni il mese dopo, royalties del 4 trimestre a gennaio): la cassa di fine 2026 e piu alta del risultato per competenza.",
+  "stato": "Informazione"
+ },
+ {
+  "data": "05/10",
+  "tema": "Provvigioni 2027",
+  "nota": "Senza l'agente Tusa: 1,647% (R160). Verificare quota e ricavi passati ad altri agenti.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "05/10",
+  "tema": "CIG anticipata",
+  "nota": "In busta e recuperata il mese dopo; massimale INPS 8,09 euro/ora (R161). Aggiornare il massimale 2027.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "05/10",
+  "tema": "Acconti novembre 2026",
+  "nota": "Metodo storico 58.012 (ISA 50/50, Luca 05/10), R162: rivedere con le imposte 2026 reali.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "05/10",
+  "tema": "Dimissioni gia nel modello",
+  "nota": "Due dimissioni senza sostituto: cessati 31/05 e meta ottobre 2026 (R164); 13a e TFR 2027 in proporzione; rivedere col bilancio.",
+  "stato": "Applicato"
+ },
+ {
+  "data": "05/10",
+  "tema": "TFR e ora di CIG",
+  "nota": "TFR 2026 46,2k e ora di CIG 19,14 euro (risparmio 17,97 dopo l'addizionale 9%) (R165): rivedere col bilancio.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "05/10",
+  "tema": "Pubblicita 2027",
+  "nota": "Solo sponsorizzazioni di gennaio e aprile: 30.062,64 (R167-R172).",
+  "stato": "Applicato"
+ },
+ {
+  "data": "05/10",
+  "tema": "2028",
+  "nota": "CE e cash flow sulla base del 2027, senza CIG, 3 persone in meno (organico 19), ricavi 2.000k; acconti 2028 = imposte 2027 (R174-R175).",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "15/10",
+  "tema": "Bilancio 30/09 e magazzino",
+  "nota": "Applicati settembre reale e percentuali sui 9 mesi (R199); magazzino ora al 31/10 con 97 righe non determinate; cassa e ferie reali da riverificare.",
+  "stato": "Da rivedere"
+ },
+ {
+  "data": "04/10",
+  "tema": "Margine latente del magazzino",
+  "nota": "Prodotti finiti e semilavorati a costo 73.529 valgono circa 272.631 a listino (margine latente circa 199.100): l'app resta com e, nessun parametro (Alex).",
+  "stato": "Informazione"
+ },
+ {
+  "data": "03/11",
+  "tema": "Prospetto di Verusca",
+  "nota": "Il prospetto mensile di Verusca e un CONTROLLO, non un input: il modello costruisce da solo entrate, uscite e cassa; si segnalano gli errori di Verusca con i numeri (R229).",
+  "stato": "Informazione"
+ }
+]

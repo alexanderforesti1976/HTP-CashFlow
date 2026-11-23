@@ -12,6 +12,7 @@
     // magazzino 31/12/2026 e 2027: valore di partenza = giacenze al 30/06 (indicazione di Alex 03/10), modificabile per categoria
     var F26 = { pf: G.prodotto_finito, sl: G.semilavorato, mp: G.materia_prima, imb: G.imballi };
     return {
+      lav_interno_annuo: 5000, /* R303 (Alex 23/11): PM043 e codici PM025 trattati in interno: circa 5.000 EUR ANNUALI a costo SV in meno di lavorazioni c/terzi dal 01/2027 (non include il costo delle ore interne) */
       dividendo_ritenuta_pct: 1.2, /* R282 (Alex 22/11): imposta sul dividendo 1,2% (5% imponibile x 24% IRES) trattenuta alla fonte, versata il mese dopo */
       dividendo_2026_pct: 1, /* R281 (Alex 22/11): dividendo = 100% dell'utile netto 2026, pagato dopo l'approvazione del bilancio (maggio 2027), a HFA e HFV 50% e 50% */
       ferie_saldo_2026: 3655, /* R204/R209/R210: saldo ferie+ex festivita+ROL MATURATE meno GODUTE 2026 = 168,69 h gen-set (prospetto ratei Paghe Infinity settembre 2026) + 56,2 h stimate per ott-dic (stesso ritmo dei 9 mesi) = 224,9 h x 16,25 EUR/h (valore del rateo 2025: 32.136,45 / 1.977,70 h) */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 432, cig_o_27q1: 360, cig_o_27q2: 360, cig_o_27q3: 360, cig_o_27q4: 360, cig_o_28q1: 0, cig_o_28q2: 0, cig_o_28q3: 0, cig_o_28q4: 0, /* R212: CIG 2028 (ore al mese per trimestre), partenza 0 */ /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
@@ -82,7 +83,7 @@
     var X10 = D.mesi['10'] || { materie: 0, ricavi_operativi: 0 }; // R256: ottobre reale (bilancio 31/10)
     var rCons = (Hh.materie + D.mesi['7'].materie + D.mesi['8'].materie + D.mesi['9'].materie + X10.materie + C.ce2026.esistenze_iniziali - P.giacenza_30_06) / (Hh.ricavi_operativi + D.mesi['7'].ricavi_operativi + D.mesi['8'].ricavi_operativi + D.mesi['9'].ricavi_operativi + X10.ricavi_operativi); // R199: 9 mesi del bilancio 30/09, giacenza = stima Alex
     RT.mat = rCons; RT.mat27 = rCons;
-    var purch = {}; YM.forEach(function (ym) { purch[ym] = (REV[ym] || 0) * ((ym >= '2027-01' ? RT.mat27 : RT.mat) + RT.sub); });
+    var purch = {}; YM.forEach(function (ym) { purch[ym] = (REV[ym] || 0) * ((ym >= '2027-01' ? RT.mat27 : RT.mat) + RT.sub) - (ym >= '2027-01' ? P.lav_interno_annuo / 12 : 0); });
     purch['2026-09'] = D.mesi['9'].materie + D.mesi['9'].lavorazioni_terzi; // R200: acquisti di settembre REALI dal bilancio 30/09 (materie + lavorazioni), non proiettati
     var fvSave = function (ym) { return ym < '2026-11' ? 0 : FV_RISPARMIO[+ym.slice(5) - 1] * fvK; };
     var fvRid = function (ym) { return ym < '2026-11' ? 0 : FV_RID[+ym.slice(5) - 1] * fvK; };
@@ -155,7 +156,7 @@
          c7 = { ricavi: ric27 };
     c7.rim_fin = P.rimanenze_finali_2027; c7.rim_in = P.rimanenze_finali_2026; c7.rimanenze = c7.rim_fin - c7.rim_in;
     c7.a2_in = P.f26_pf + P.f26_sl; c7.a2_fin = P.f27_pf + P.f27_sl; c7.b11_in = P.f26_mp + P.f26_imb; c7.b11_fin = P.f27_mp + P.f27_imb;
-    c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub; c7.provvigioni = ric27 * RT.prov27; c7.royalties = 0.015 * ric27;
+    c7.materie = ric27 * RT.mat27; c7.lavorazioni = ric27 * RT.sub - P.lav_interno_annuo; c7.provvigioni = ric27 * RT.prov27; c7.royalties = 0.015 * ric27;
     c7.personale = sum27 + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * scala;
     c7.affitti = 12 * P.affitti_mese; c7.energia = en27; c7.altri = 12 * (P.altri_ricorrenti_mese + P.costi_irregolari_mese) + (P.pubblicita_2027['2027-01'] + P.pubblicita_2027['2027-04']) + can27;
     c7.consumo_materie = c7.materie + c7.rim_in - c7.rim_fin; c7.acquisti_pct = RT.mat27;
@@ -173,7 +174,7 @@
         c8 = { ricavi: ric28 };
     c8.rim_fin = P.rimanenze_finali_2027; c8.rim_in = P.rimanenze_finali_2027; c8.rimanenze = 0;
     c8.a2_in = P.f27_pf + P.f27_sl; c8.a2_fin = P.f27_pf + P.f27_sl; c8.b11_in = P.f27_mp + P.f27_imb; c8.b11_fin = P.f27_mp + P.f27_imb;
-    c8.materie = ric28 * RT.mat27; c8.lavorazioni = ric28 * RT.sub; c8.provvigioni = ric28 * RT.prov27; c8.royalties = 0.015 * ric28;
+    c8.materie = ric28 * RT.mat27; c8.lavorazioni = ric28 * RT.sub - P.lav_interno_annuo; c8.provvigioni = ric28 * RT.prov27; c8.royalties = 0.015 * ric28;
     c8.personale = 12 * pm28 - ['2028-01','2028-02','2028-03','2028-04','2028-05','2028-06','2028-07','2028-08','2028-09','2028-10','2028-11','2028-12'].reduce(function (a, ym) { return a + oreCig(ym) * cigRisp; }, 0) + (E.integrazioni.tfr_da_aggiungere + E.integrazioni.tredicesima_con_contributi) * pm28 / P.pers_mese;
     c8.affitti = c7.affitti; c8.energia = c7.energia; c8.altri = c7.altri;
     c8.consumo_materie = c8.materie + c8.rim_in - c8.rim_fin; c8.acquisti_pct = RT.mat27;
