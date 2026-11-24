@@ -146,7 +146,7 @@
  {
   "data": "24/11",
   "tema": "Fotovoltaico: contatore immissione",
-  "nota": "Contatore distributore esterno, lettura del 24/11/2026 circa ore 14: A1- 4,251; A2- 7,116; A3- 5,622 kWh, totale A- 16,989 kWh immessi dal 20/10 (prima dell impianto zero, nessun pannello). Produzione telemetria 3,88 MWh: immissione circa 0,4%, autoconsumo circa 99,6% (piano E.ON 70%). Da verificare con seconda lettura ~30/11-01/12 e con E.ON/Sorgenia come si misura e si paga l immesso. Modello non modificato.",
+  "nota": "Contatore distributore esterno, lettura del 24/11/2026 circa ore 15:20: A1- 4,251; A2- 7,116; A3- 5,622 kWh, totale A- 16,989 kWh immessi dal 20/10 (prima dell impianto zero, nessun pannello). Produzione telemetria 3,88 MWh: immissione circa 0,4%, autoconsumo circa 99,6% (piano E.ON 70%). Da verificare con seconda lettura ~30/11-01/12 e con E.ON/Sorgenia come si misura e si paga l immesso. Modello non modificato.",
   "stato": "Informazione"
  }
 ]
