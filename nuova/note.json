@@ -146,7 +146,7 @@
  {
   "data": "24/11",
   "tema": "Fotovoltaico: contatore immissione",
-  "nota": "Contatore distributore esterno, lettura del 24/11/2026 circa ore 15:20: A1- 4,251; A2- 7,116; A3- 5,622 kWh, totale A- 16,989 kWh immessi dal 20/10 (prima dell impianto zero, nessun pannello). Produzione telemetria 3,88 MWh: immissione circa 0,4%, autoconsumo circa 99,6% (piano E.ON 70%). Da verificare con seconda lettura ~30/11-01/12 e con E.ON/Sorgenia come si misura e si paga l immesso. Modello non modificato.",
+  "nota": "Contatore distributore esterno, lettura del 24/11/2026 circa ore 15:20: A1- 4,251; A2- 7,116; A3- 5,622 kWh, totale A- 16,989 kWh immessi dal 20/10 (prima dell impianto zero, nessun pannello). Produzione telemetria 3,88 MWh: immissione circa 0,4%, autoconsumo circa 99,6% (piano E.ON 70%). Da verificare con seconda lettura ~30/11-01/12 e con E.ON/Sorgenia come si misura e si paga l immesso. Modello non modificato. Risposta E.ON (Gianoncelli, 24/11 17:25): il contatore esterno e quello di SCAMBIO (era solo prelievo, bidirezionalita attivata dal distributore il giorno dell allaccio, quindi A- conta l immesso dal 20/10), POD IT001E26777605; sul portale del distributore si vedono prelievo, immissione e curve quartorarie (stesse misure inviate al GSE per il RID). Il secondo e il contatore di PRODUZIONE (POD IT001P26777605), misura solo il fotovoltaico: miglior monitoraggio. Autoconsumo/immissione mensili del calcolo E.ON: promessi entro il 25/11.",
   "stato": "Informazione"
  }
 ]
