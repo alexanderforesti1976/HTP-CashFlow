@@ -1,6 +1,12 @@
 [
  {
   "data": "24/11",
+  "tema": "Turni e fotovoltaico",
+  "nota": "Il turno dello stampaggio, se spostato sul sole (8-16 d'inverno, 10-18 d'estate, 8-16 tutto l'anno), porta il 79-80% della produzione dei giorni feriali dentro il turno contro il 63% del 6-14: nel 2027 con un turno e CIG, produzione al 78%, guadagno stimato 500-1.200 EUR l'anno (mia stima, dipende dal consumo di fondo fuori turno, non misurato). Alex: i forni di post curing, a questo punto, meglio usarli solo di giorno e non di notte, per consumare l'energia del fotovoltaico (ogni kWh consumato in azienda invece che venduto vale circa 0,206 EUR in piu). Quantita' di energia dei forni non nota. Il consumo fuori turno e le ore dei forni vanno misurati col contatore di scambio.",
+  "stato": "Da valutare, non applicato"
+ },
+ {
+  "data": "24/11",
   "tema": "Fotovoltaico: tempo di recupero",
   "nota": "Alex: il recupero del fotovoltaico, previsto in 8 mesi dal prospetto E.ON, sara' in 10 mesi. Calcolo mio (canone 1.393,58 contro risparmio mensile E.ON, da novembre 2026): piano E.ON 6 mesi (aprile 2027); produzione reale al 78-81% dell'atteso 7-8 mesi (maggio-giugno 2027); anche con autoconsumo 57% invece di 70% 10 mesi (agosto 2027). Non c'entra con i 75k del verbale. Non e' nel modello.",
   "stato": "Informazione"
