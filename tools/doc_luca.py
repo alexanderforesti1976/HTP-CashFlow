@@ -11,7 +11,7 @@ const fs=require('fs');const src=fs.readFileSync('nuova/motore.js','utf8');
 const t=src.replace("ym === '2026-11' ? 58012","ym === '2026-11' ? (P._sec != null ? P._sec + 10984.5 : 58012)").replace("base26 = 116024","base26 = (P._sec != null ? 47027.5 + P._sec + 21969 : 116024)");
 fs.writeFileSync('/tmp/_motore_doc.js',t);
 const M=require('/tmp/_motore_doc.js');const D=JSON.parse(fs.readFileSync('nuova/dati.json','utf8'));
-const base=()=>{const P=M.parametriDefault(D);Object.assign(P,{quota_non_confermato:0,cig_o_26q4:0,cig_o_27q1:936,cig_o_27q2:936,cig_o_27q3:936,cig_o_27q4:464});return P};
+const base=()=>{const P=M.parametriDefault(D);Object.assign(P,{quota_non_confermato:0,cig_o_26q4:0},M.cigMensili(2027,[936,936,936,464]));return P};
 const r0=M.calcola(D,base());const c=r0.ce;
 const sc=sec=>{const P=base();P._sec=sec;const r=M.calcola(D,P);const R=r.righe;return {nov:R['2026-11'].chiusura,dic26:R['2026-12'].chiusura,giu27:R['2027-06'].chiusura,dic27:R['2027-12'].chiusura,ott:R['2026-10'].chiusura}};
 const R0=r0.righe;

@@ -91,7 +91,7 @@ fetch('note.json?x='+Date.now(),{cache:'no-store'}).then(function(r){return r.js
 }).catch(function(){});
 </script>
 <div id="tip"></div>
-<script src="motore.js?v=1795539848265"></script>
+<script src="motore.js?v=1795604207710"></script>
 <script>
 var punti=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var EURf=function(v){return (v<0?'-':'')+punti(Math.abs(Math.round(v)))};
@@ -117,15 +117,31 @@ var SPEC=[
  {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_sl',l:'Semilavorato',min:0,max:150000,step:500,u:'€'},
  {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_mp',l:'Materia prima',min:0,max:250000,step:500,u:'€'},
  {g:'Magazzino finale 31/12/2027 (ipotesi: come al 31/12/2026)',id:'f27_imb',l:'Imballi',min:0,max:30000,step:100,u:'€'},
- {g:'CIG per trimestre',id:'cig_o_26q4',l:'CIG ott-dic 2026 — ore al mese',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q1',l:'CIG gen-mar 2027 — ore al mese',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q2',l:'CIG apr-giu 2027 — ore al mese',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q3',l:'CIG lug-set 2027 — ore al mese',min:0,max:3466,step:8,u:'ore'},
- {g:'CIG per trimestre',id:'cig_o_27q4',l:'CIG ott-dic 2027 — ore al mese',min:0,max:3466,step:8,u:'ore'},
-  {g:'CIG per trimestre',id:'cig_o_28q1',l:'CIG gen-mar 2028 — ore al mese (6 persone a tempo pieno = 1.040 ore)',min:0,max:3466,step:8,u:'ore'},
-  {g:'CIG per trimestre',id:'cig_o_28q2',l:'CIG apr-giu 2028 — ore al mese (6 persone a tempo pieno = 1.040 ore)',min:0,max:3466,step:8,u:'ore'},
-  {g:'CIG per trimestre',id:'cig_o_28q3',l:'CIG lug-set 2028 — ore al mese (6 persone a tempo pieno = 1.040 ore)',min:0,max:3466,step:8,u:'ore'},
-  {g:'CIG per trimestre',id:'cig_o_28q4',l:'CIG ott-dic 2028 — ore al mese (6 persone a tempo pieno = 1.040 ore)',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_o_26q4',l:'CIG ott-dic 2026 — ore al mese (valore per ciascun mese)',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_01',l:'CIG gennaio 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_02',l:'CIG febbraio 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_03',l:'CIG marzo 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_04',l:'CIG aprile 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_05',l:'CIG maggio 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_06',l:'CIG giugno 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_07',l:'CIG luglio 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_08',l:'CIG agosto 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_09',l:'CIG settembre 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_10',l:'CIG ottobre 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_11',l:'CIG novembre 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2027_12',l:'CIG dicembre 2027 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_01',l:'CIG gennaio 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_02',l:'CIG febbraio 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_03',l:'CIG marzo 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_04',l:'CIG aprile 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_05',l:'CIG maggio 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_06',l:'CIG giugno 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_07',l:'CIG luglio 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_08',l:'CIG agosto 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_09',l:'CIG settembre 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_10',l:'CIG ottobre 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_11',l:'CIG novembre 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
+ {g:'CIG ore per mese',id:'cig_m_2028_12',l:'CIG dicembre 2028 — ore del mese',min:0,max:3466,step:8,u:'ore'},
  {g:'Personale e CIG',id:'ferie_saldo_2026',l:'Ferie 2026: saldo maturate − godute (costo; da cedolini)',min:-30000,max:100000,step:500,u:'€'},
  {g:'Personale e CIG',id:'persone_in_meno_28',l:'2028: persone in meno rispetto a oggi (organico 19, senza CIG)',min:0,max:10,step:1,u:''},
  {g:'Personale e CIG',id:'cig_addizionale_pct',l:'CIG: contributo addizionale a carico azienda (9%; 6% se nessuna CIG da 24 mesi)',min:0,max:15,step:1,u:'%'},
@@ -149,11 +165,12 @@ var SPEC=[
  {g:'Fotovoltaico',id:'fv_canone',l:'Canone mensile (IVA esclusa)',min:0,max:3000,step:10,u:'€'}
 ];
 var DBS=['https://htp-tools-default-rtdb.europe-west1.firebasedatabase.app/htp_cashflow_nuova.json','https://htp-tools-default-rtdb.europe-west1.firebasedatabase.app/htp_cashflow/nuova.json'], DB=DBS[0], TS_KEY='htp_cashflow_nuova_ts', AGG_KEY='htp_cashflow_nuova_agg', stTimer=0;
-function carica(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):{}}catch(e){return {}}}
+function migraCig(o){ if(!o||typeof o!=='object') return o; Object.keys(o).forEach(function(k){ var m=/^cig_o_(27|28)q([1-4])$/.exec(k); if(!m) return; for(var i=0;i<3;i++){ var mo=(+m[2]-1)*3+1+i, key='cig_m_20'+m[1]+'_'+(mo<10?'0':'')+mo; if(!(key in o)) o[key]=o[k]; } delete o[k]; }); return o; } // R315: valori trimestrali salvati prima -> un valore per ciascun mese
+function carica(){try{var s=localStorage.getItem(KEY);return s?migraCig(JSON.parse(s)):{}}catch(e){return {}}}
 function tsLocale(){try{return +localStorage.getItem(TS_KEY)||0}catch(e){return 0}}
 function stato(cls,txt){var e=document.getElementById('sav'); if(e){e.className='sub '+cls; e.textContent=txt;}}
 var hh=function(){var d=new Date(); return d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})};
-var VER=1795539848265; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
+var VER=1795604207710; var LASTC='', AGG_CLAUDE=null, AGG_ALEX=null;
 function dt(ts){return new Date(ts).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 function mostraAgg(){
   var a=AGG_ALEX, c=AGG_CLAUDE, e=document.getElementById('agg'); if(!e) return;
@@ -172,7 +189,7 @@ function dbPut(body){ // prova il percorso nuovo; se il database lo rifiuta, usa
 function dbGet(){ // legge dal percorso con il salvataggio più recente
   return Promise.all(DBS.map(function(u){ return fetch(u,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).catch(function(e){ return {_err:e}; }); })).then(function(a){
     var ok=a.filter(function(d){return d&&!d._err&&d.P}).sort(function(x,y){return y.ts-x.ts});
-    if(ok.length) return ok[0];
+    if(ok.length){ migraCig(ok[0].P); return ok[0]; }
     var err=a.filter(function(d){return d&&d._err}); if(err.length===a.length) throw err[0]._err;
     return null; });
 }
@@ -209,8 +226,8 @@ function versioneDati(){ // dati nuovi (giacenze, ordini): i valori del magazzin
 function buildPars(){
   var host=document.getElementById('pars'), last='', h='';
   SPEC.forEach(function(s){
-    if(s.g!==last){ if(last) h+='</div>'; h+='<div class="pg"><h3>'+s.g+(/^(g30|f26|f27)_/.test(s.id)?' — totale <span id="tot_'+s.id.split('_')[0]+'"></span> €':'')+'</h3>'+(s.g==='CIG per trimestre'?'<p class="sv" style="margin:0 0 8px">Ore di CIG TOTALI al mese, di tutti i lavoratori insieme. Puoi scrivere il calcolo: 6x16x4 = 384 (6 persone, 16 ore a settimana, 4 settimane).</p>':''); last=s.g; }
-    h+='<div class="par" id="row_'+s.id+'"><label for="n_'+s.id+'">'+s.l+'</label><span class="pm"><button class="b" id="m_'+s.id+'" aria-label="meno">−</button>'+(/^cig_o_/.test(s.id)?'<input type="text" inputmode="text" autocomplete="off" id="n_'+s.id+'">':'<input type="number" id="n_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'">')+'<button class="b" id="p_'+s.id+'" aria-label="più">+</button> '+s.u+'</span><div class="sv" id="sv_'+s.id+'"></div></div>'+(/^(g30|f26|f27)_imb$/.test(s.id)?'<div class="par totm" id="trow_'+s.id.split('_')[0]+'"><label><b>Totale</b></label><span><b id="tv_'+s.id.split('_')[0]+'"></b></span><div class="sv">somma delle quattro categorie = 100%</div></div>':'');
+    if(s.g!==last){ if(last) h+='</div>'; h+='<div class="pg"><h3>'+s.g+(/^(g30|f26|f27)_/.test(s.id)?' — totale <span id="tot_'+s.id.split('_')[0]+'"></span> €':'')+'</h3>'+(s.g==='CIG ore per mese'?'<p class="sv" style="margin:0 0 8px">Ore di CIG TOTALI di ciascun mese, di tutti i lavoratori insieme (un valore per ogni mese da gennaio 2027 a dicembre 2028). Puoi scrivere il calcolo: 6x16x4 = 384 (6 persone, 16 ore a settimana, 4 settimane).</p>':''); last=s.g; }
+    h+='<div class="par" id="row_'+s.id+'"><label for="n_'+s.id+'">'+s.l+'</label><span class="pm"><button class="b" id="m_'+s.id+'" aria-label="meno">−</button>'+(/^cig_(o|m)_/.test(s.id)?'<input type="text" inputmode="text" autocomplete="off" id="n_'+s.id+'">':'<input type="number" id="n_'+s.id+'" min="'+s.min+'" max="'+s.max+'" step="'+s.step+'">')+'<button class="b" id="p_'+s.id+'" aria-label="più">+</button> '+s.u+'</span><div class="sv" id="sv_'+s.id+'"></div></div>'+(/^(g30|f26|f27)_imb$/.test(s.id)?'<div class="par totm" id="trow_'+s.id.split('_')[0]+'"><label><b>Totale</b></label><span><b id="tv_'+s.id.split('_')[0]+'"></b></span><div class="sv">somma delle quattro categorie = 100%</div></div>':'');
   });
   h+='<div class="par" id="row_fv_canone_da"><label for="n_fv_canone_da">Fotovoltaico: primo mese di canone</label><select id="n_fv_canone_da"><option>2026-10</option><option>2026-11</option><option>2026-12</option><option>2027-01</option><option>2027-02</option><option>2027-03</option></select></div></div>';
   CIGSEL.forEach(function(c){ h+='<div class="par" id="row_'+c[0]+'"><label for="n_'+c[0]+'">'+c[1]+'</label><select id="n_'+c[0]+'">'+MESI_SEL+'</select></div>'; });
@@ -218,7 +235,7 @@ function buildPars(){
   SPEC.forEach(function(s){
     var n=document.getElementById('n_'+s.id);
     var on=function(v){ v=parseFloat(v); if(isNaN(v)) return; P[s.id]=v; LASTC=s.l+' = '+v; sync(); };
-    if(/^cig_o_/.test(s.id)){ // si può scrivere anche un calcolo: 6x16x4 diventa 384
+    if(/^cig_(o|m)_/.test(s.id)){ // si può scrivere anche un calcolo: 6x16x4 diventa 384
       var calc=function(){ var t=String(n.value).replace(/[x×X]/g,'*').replace(/,/g,'.'); if(!/^[0-9+\-*\/(). ]+$/.test(t)) return null; try{ var r=Function('"use strict";return ('+t+')')(); return isFinite(r)?Math.max(s.min,Math.min(s.max,Math.round(r*100)/100)):null; }catch(e){ return null; } };
       n.addEventListener('input',function(){ var r=calc(); if(r!==null) on(r); });
       n.addEventListener('change',function(){ var r=calc(); if(r!==null){ on(r); n.value=r; } else n.value=P[s.id]; });
@@ -235,14 +252,14 @@ function buildPars(){
   CIGSEL.forEach(function(c){ document.getElementById('n_'+c[0]).addEventListener('change',function(e){P[c[0]]=e.target.value; LASTC=c[1]+' = '+e.target.value; sync();}); });
   document.getElementById('n_fv_canone_da').addEventListener('change',function(e){P.fv_canone_da=e.target.value; LASTC='primo mese canone fotovoltaico = '+e.target.value; sync();});
 }
-function cigRis(ore){ var rg=D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi/12*13/12, m=ore/(20*173.33)*(P.pers_mese-P.cig_addizionale_pct/100*rg); return ' · risparmio '+EURf(m)+' €/mese, '+EURf(m*3)+' €/trim.'; }
+function cigRis(ore,id){ var rg=D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi/12*13/12, m=ore/(20*173.33)*(P.pers_mese-P.cig_addizionale_pct/100*rg); return ' · risparmio '+EURf(m)+' €'+(/^cig_m_/.test(id)?' nel mese':'/mese, '+EURf(m*3)+' €/trim.'); }
 function syncPars(){
   SPEC.forEach(function(s){
     var v=P[s.id], n=document.getElementById('n_'+s.id);
     if(document.activeElement!==n) n.value=Math.round(v*100)/100;
     document.getElementById('row_'+s.id).className='par'+(Math.abs(v-P0[s.id])>1e-9?' mod':'');
     var _m=/^(g30|f26|f27)_/.exec(s.id), _pct=''; if(_m){var _p=_m[1], _t=['pf','sl','mp','imb'].reduce(function(a,c){return a+(P[_p+'_'+c]||0)},0); _pct=' · '+(_t?(100*v/_t).toFixed(1).replace('.',','):'0')+'% del totale';}
-    document.getElementById('sv_'+s.id).textContent=_pct.replace(/^ · /,'')+(_pct?' · ':'')+'di partenza: '+(function(x){var p=String(Math.abs(x)).split('.');return (x<0?'-':'')+punti(p[0])+(p[1]?','+p[1]:'')})(Math.round(P0[s.id]*100)/100)+(s.u?' '+s.u:'')+(/^cig_o_/.test(s.id)?cigRis(v):'');
+    document.getElementById('sv_'+s.id).textContent=_pct.replace(/^ · /,'')+(_pct?' · ':'')+'di partenza: '+(function(x){var p=String(Math.abs(x)).split('.');return (x<0?'-':'')+punti(p[0])+(p[1]?','+p[1]:'')})(Math.round(P0[s.id]*100)/100)+(s.u?' '+s.u:'')+(/^cig_(o|m)_/.test(s.id)?cigRis(v,s.id):'');
   });
   ['g30','f26','f27'].forEach(function(p){var e2=document.getElementById('tv_'+p); if(e2) e2.textContent=EURf(['pf','sl','mp','imb'].reduce(function(a,c){return a+(P[p+'_'+c]||0)},0))+' €';});
   ['g30','f26','f27'].forEach(function(p){var e=document.getElementById('tot_'+p); if(e) e.textContent=EURf(['pf','sl','mp','imb'].reduce(function(a,c){return a+(P[p+'_'+c]||0)},0));});

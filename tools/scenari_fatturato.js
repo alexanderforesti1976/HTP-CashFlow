@@ -9,7 +9,7 @@ const mod = { exports: {} }; vm.runInNewContext(src, { module: mod, exports: mod
 const M = mod.exports.calcola ? mod.exports : (mod.exports.Motore || mod.exports);
 const D = JSON.parse(fs.readFileSync(path.join(__dirname, '../nuova/dati.json'), 'utf8'));
 // parametri della pagina di Alex del 02/11/2026 13:08 (R221): CIG Q4-26 = 0, 2027 = 936/936/936/464, quota non confermato = 0
-const baseP = Object.assign(M.parametriDefault(D), { cig_o_26q4: 0, quota_non_confermato: 0, cig_o_27q1: 936, cig_o_27q2: 936, cig_o_27q3: 936, cig_o_27q4: 464 });
+const baseP = Object.assign(M.parametriDefault(D), { cig_o_26q4: 0, quota_non_confermato: 0 }, M.cigMensili(2027, [936, 936, 936, 464]));
 const W = 1639;            // ore lavorate al mese nel piano di Alex a 2.000k (19 persone x 135,5 ore - 936 ore di CIG)
 const ORE = 135.5;         // ore lavorabili al mese per persona (prospetto paghe gen-lug 2026)
 const CAP = 26300;         // un terzo delle ore lavorabili nel biennio mobile (19 x 173,33 x 24 / 3), da verificare con lo studio paghe
@@ -17,8 +17,7 @@ const rows = [];
 function run(R, leave) {
   const k = 1 - R / 2000, cap27 = (leave ? 17 : 19) * ORE, cap28 = 16 * ORE;
   const q13 = Math.max(0, cap27 - W * (1 - k)), q4 = Math.max(0, q13 - 472), c28 = Math.max(0, cap28 - W * (1 - k)), c28q4 = Math.max(0, c28 - 472);
-  const P = Object.assign({}, baseP, { ricavi27_k: R, ricavi28_k: R, scen_extra: leave ? -5718 : 0,
-    cig_o_27q1: q13, cig_o_27q2: q13, cig_o_27q3: q13, cig_o_27q4: q4, cig_o_28q1: c28, cig_o_28q2: c28, cig_o_28q3: c28, cig_o_28q4: c28q4 });
+  const P = Object.assign({}, baseP, { ricavi27_k: R, ricavi28_k: R, scen_extra: leave ? -5718 : 0 }, M.cigMensili(2027, [q13, q13, q13, q4]), M.cigMensili(2028, [c28, c28, c28, c28q4]));
   const r = M.calcola(D, P); let min = 1e12, mm = '';
   r.mesi.forEach(function (ym) { if (r.righe[ym].chiusura < min) { min = r.righe[ym].chiusura; mm = ym; } });
   let cum = 0, mesi = 0; for (let m = 0; m < 36; m++) { const y = Math.floor(m / 12), mo = m % 12; cum += y === 0 ? (mo < 9 ? q13 : q4) : (mo < 9 ? c28 : c28q4); mesi++; if (cum >= CAP) break; }

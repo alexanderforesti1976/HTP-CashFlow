@@ -15,7 +15,7 @@
       lav_interno_annuo: 5000, /* R303 (Alex 23/11): PM043 e codici PM025 trattati in interno: circa 5.000 EUR ANNUALI a costo SV in meno di lavorazioni c/terzi dal 01/2027 (non include il costo delle ore interne) */
       dividendo_ritenuta_pct: 1.2, /* R282 (Alex 22/11): imposta sul dividendo 1,2% (5% imponibile x 24% IRES) trattenuta alla fonte, versata il mese dopo */
       dividendo_2026_pct: 1, /* R281 (Alex 22/11): dividendo = 100% dell'utile netto 2026, pagato dopo l'approvazione del bilancio (maggio 2027), a HFA e HFV 50% e 50% */
-      ferie_saldo_2026: 3655, /* R204/R209/R210: saldo ferie+ex festivita+ROL MATURATE meno GODUTE 2026 = 168,69 h gen-set (prospetto ratei Paghe Infinity settembre 2026) + 56,2 h stimate per ott-dic (stesso ritmo dei 9 mesi) = 224,9 h x 16,25 EUR/h (valore del rateo 2025: 32.136,45 / 1.977,70 h) */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 0, cig_o_27q1: 936, cig_o_27q2: 936, cig_o_27q3: 936, cig_o_27q4: 464, /* R305: valori di partenza = parametri della pagina di Alex (prima 432/360/360/360/360) */ cig_o_28q1: 0, cig_o_28q2: 0, cig_o_28q3: 0, cig_o_28q4: 0, /* R212: CIG 2028 (ore al mese per trimestre), partenza 0 */ /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
+      ferie_saldo_2026: 3655, /* R204/R209/R210: saldo ferie+ex festivita+ROL MATURATE meno GODUTE 2026 = 168,69 h gen-set (prospetto ratei Paghe Infinity settembre 2026) + 56,2 h stimate per ott-dic (stesso ritmo dei 9 mesi) = 224,9 h x 16,25 EUR/h (valore del rateo 2025: 32.136,45 / 1.977,70 h) */ cig_addizionale_pct: 9, cig_costo_ora: 19.14, cig_o_26q4: 0, /* R315: CIG MENSILE gen-2027 / dic-2028 (ore TOTALI al mese): 936 gen-set 2027, 464 ott-dic 2027 (valori di Alex, R305), 0 nel 2028 (R212) */ cig_m_2027_01: 936, cig_m_2027_02: 936, cig_m_2027_03: 936, cig_m_2027_04: 936, cig_m_2027_05: 936, cig_m_2027_06: 936, cig_m_2027_07: 936, cig_m_2027_08: 936, cig_m_2027_09: 936, cig_m_2027_10: 464, cig_m_2027_11: 464, cig_m_2027_12: 464, cig_m_2028_01: 0, cig_m_2028_02: 0, cig_m_2028_03: 0, cig_m_2028_04: 0, cig_m_2028_05: 0, cig_m_2028_06: 0, cig_m_2028_07: 0, cig_m_2028_08: 0, cig_m_2028_09: 0, cig_m_2028_10: 0, cig_m_2028_11: 0, cig_m_2028_12: 0, /* R305: valori di partenza = parametri della pagina di Alex (prima 432/360/360/360/360) */  /* CIG di Alex come nella sua pagina del 05/10/2026 17:35 (screenshot CE: personale 712.481 e 589.286), R166; prima 384/384/384/384/0 (R150) */
       ricavi27_k: 2000, ricavi28_k: 2000, persone_in_meno_28: 3, ammortamenti_2028: d.ammortamenti_2027, /* R174: CE 2028 sulla base del 2027, senza CIG, con 3 persone in meno (Alex 05/10) */ quota_non_confermato: 0, /* R305: era 90 */ /* impostati da Alex il 04/10/2026 sera, ricostruiti dal suo screenshot 05/10 13:09 (R158) */
       pct_lavorazioni: d.pct_lavorazioni, pct_provvigioni: d.pct_provvigioni,
       pct_provvigioni27: Math.round(d.pct_provvigioni * (1 - 25786 / 57138) * 1000) / 1000, /* dal 01/2027 senza l'agente Tusa (mastrini 2026: 25.786 su 57.138 = 45,1% delle provvigioni), R160 */
@@ -40,21 +40,21 @@
     // (9%, 6% se nessuna CIG da 24 mesi; 12% e 15% oltre 52 e 104 settimane) sulla retribuzione globale (con ratei di 13a) delle ore non lavorate.
     // Risparmio mensile = lavoratori/20 x % ore x (costo mensile - addizionale% x retribuzione globale mensile).
     var retribGlobale = D.cf.ce2026.integrazioni._calcolo.stipendi_12_mesi / 12 * 13 / 12;
-    // CIG per trimestre: ore TOTALI di CIG al mese, tutti i lavoratori insieme (le stesse in ciascuno dei 3 mesi del trimestre); 20 lavoratori; 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
-    var trim = function (ym) { var y = ym.slice(2, 4), mo = +ym.slice(5); return (ym >= '2026-10') ? y + 'q' + Math.ceil(mo / 3) : null; };
+    // CIG: ore TOTALI di CIG di ciascun mese, tutti i lavoratori insieme (ott-dic 2026 un valore valido per i tre mesi; da gennaio 2027 un valore per ogni mese); 20 lavoratori; 173,33 ore = mese a tempo pieno (40 ore x 52 / 12)
+    var trim = function (ym) { if (ym >= '2027-01') return 'm_' + ym.replace('-', '_'); return (ym >= '2026-10') ? 'o_26q4' : null; }; // R315: da gennaio 2027 un parametro per ogni mese (cig_m_AAAA_MM); ott-dic 2026 resta un valore al mese (cig_o_26q4)
     // due dimissioni senza sostituto (Alex 05/10, R164): uno cessato il 31/05/2026 (3.807 euro/mese = 4.570 x 5/6, già fuori dal costo di giugno-agosto reale) e uno da metà ottobre
     // (2.709 euro/mese = costo medio gen-giu; a ottobre metà). Costi dal prospetto costo orario gen-ago 2026 senza TFR e 13ª. DA RIVEDERE col bilancio al 30/09
     var dimessi = function (ym) { return (ym >= '2026-09' ? 3807 : 0) + (ym === '2026-10' ? 1355 : (ym > '2026-10' ? 2709 : 0)); };
     // ora di CIG (R165): ogni ora non lavorata risparmia il costo reale di un'ora lavorata (retribuzione + contributi + INAIL: 19,14 euro, prospetto costo orario gen-lug 2026,
     // 363.139 euro / 18.969 ore ordinarie) meno il contributo addizionale (9% della retribuzione globale oraria media); prima 15,09 euro/ora (costo mensile / ore teoriche)
-    var oreCig = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_o_' + q] || 0, 20 * 173.33) : 0; };
+    var oreCig = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_' + q] || 0, 20 * 173.33) : 0; };
     var f28 = Math.max(0, 19 - P.persone_in_meno_28) / 19, pm28 = (P.pers_mese - 6516) * f28; // 2028 (R174-R175): senza CIG e con N persone in meno
     var cigRisp = P.cig_costo_ora - P.cig_addizionale_pct / 100 * retribGlobale / (20 * 173.33); // risparmio per ora di CIG
     var persM = function (ym) { if (ym >= '2028-01') return pm28 - oreCig(ym) * cigRisp; /* R212: CIG 2028 (partenza 0) */ return P.pers_mese - dimessi(ym) - oreCig(ym) * cigRisp; };
     // CIG anticipata dall'azienda in busta (voce "Anticipo CIG INPS", come nelle buste di aprile 2020) e recuperata il mese dopo con il conguaglio
     // sui contributi INPS: uscita nel mese e incasso il mese dopo, non è costo (credito verso l'INPS). Importo orario = minore tra 80% della paga
     // oraria media e massimale mensile INPS 2026 (circ. INPS 4/2026: 1.423,69 € lordi) / 176 ore (come in busta: 939,89 / 176 = 5,34 nel 2020); massimale 2027 = quello 2026 (non ancora noto)
-    var cigAnt = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_o_' + q] || 0, 20 * 173.33) * Math.min(0.80 * retribGlobale / (20 * 173.33), 1423.69 / 176) : 0; };
+    var cigAnt = function (ym) { var q = trim(ym); return q ? Math.min(P['cig_' + q] || 0, 20 * 173.33) * Math.min(0.80 * retribGlobale / (20 * 173.33), 1423.69 / 176) : 0; };
     var sumSD = 0, sum27 = 0;
     (D.mesi['10'] ? ['2026-11', '2026-12'] : ['2026-10', '2026-11', '2026-12']).forEach(function (ym) { sumSD += persM(ym); }); // R256: ottobre reale (dati.mesi['10']) come settembre; R199: settembre = bilancio 30/09 (dati.mesi['9']), si proiettano solo ott-dic
     ['2027-01', '2027-02', '2027-03', '2027-04', '2027-05', '2027-06', '2027-07', '2027-08', '2027-09', '2027-10', '2027-11', '2027-12'].forEach(function (ym) { sum27 += persM(ym); });
@@ -280,6 +280,7 @@
     out.forEach(function (o) { o.k = classe(o.p); });
     return out;
   }
-  root.Motore = { calcola: calcola, indici: indici, rating: rating, parametriDefault: parametriDefault, MESI: MESI };
+  function cigMensili(anno, q) { var o = {}; for (var m = 1; m <= 12; m++) o['cig_m_' + anno + '_' + (m < 10 ? '0' : '') + m] = q[Math.floor((m - 1) / 3)]; return o; } // per test e strumenti: stessi valori in ogni mese del trimestre
+  root.Motore = { cigMensili: cigMensili, calcola: calcola, indici: indici, rating: rating, parametriDefault: parametriDefault, MESI: MESI };
   if (typeof module !== 'undefined') module.exports = root.Motore;
 })(typeof window !== 'undefined' ? window : this);

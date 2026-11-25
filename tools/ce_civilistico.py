@@ -16,7 +16,7 @@ D=json.load(open('nuova/dati.json'))
 # valori del modello (parametri Alex)
 js=r"""
 const fs=require('fs');const M=require('./nuova/motore.js');const D=JSON.parse(fs.readFileSync('nuova/dati.json','utf8'));
-const P=M.parametriDefault(D);Object.assign(P,{quota_non_confermato:0,cig_o_26q4:0,cig_o_27q1:936,cig_o_27q2:936,cig_o_27q3:936,cig_o_27q4:464});
+const P=M.parametriDefault(D);Object.assign(P,{quota_non_confermato:0,cig_o_26q4:0},M.cigMensili(2027,[936,936,936,464]));
 const r=M.calcola(D,P);const c=r.ce;
 const g=k=>D.h1[k]+D.mesi['7'][k]+D.mesi['8'][k]+D.mesi['9'][k]+D.mesi['10'][k];
 console.log(JSON.stringify({ce:c,gsum:{materie:g('materie'),lav:g('lavorazioni_terzi'),en:g('energia'),aff:g('affitti'),prov:g('provvigioni'),pers:g('personale'),altri:g('altri_costi')},ricSD:r.ricavi['2026-11']+r.ricavi['2026-12'],I:D.cf.ce2026.integrazioni,P:{pers:P.pers_mese,aff:P.affitti_mese,altri:P.altri_ricorrenti_mese+P.costi_irregolari_mese,fv:P.fv_canone}}))
