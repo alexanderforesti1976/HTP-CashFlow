@@ -58,6 +58,7 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 
 ## "VAI" = SPEDISCI (regola di Alex, 26/11/2026) — R317
 - **Se Alex dice 'vai', 'manda' o 'spedisci' dopo che il testo della mail e' stato mostrato in chat, e' l'OK all'invio: inviare subito, senza richiedere di nuovo conferma.** Il testo si mostra sempre in chat prima (regola R308); la finestra di autorizzazione dell'app sul telefono e' dell'app (testo grezzo) e non si puo' togliere da qui: con 'Consenti una volta' parte. Un solo tentativo per richiesta.
+- **AGGIORNAMENTO 26/11 (Alex, esasperato dalla finestra grezza): NON usare piu' lo strumento di invio mail del Gmail (mcp__Gmail__send_message / create_draft) per mail di Alex, salvo che sia lui a chiederlo esplicitamente.** Si mostra il testo in chat e si da' un LINK `mailto:` gia' compilato (Cc Alex, firma sua: si apre Gmail e invia lui). Mai piu' proporre 'Consenti una volta' o ripetere l'invio.
 
 ## REVISIONI (regola di Alex, 02/10/2026 sera)
 - **Ogni modifica a dati, parametri, formule o conclusioni già comunicate si registra in `docs/REVISIONI.md`** (numero progressivo R0xx, tipo PUBBLICATA/ANALISI/RITRATTATA/RIPRISTINO, prima → dopo, fonte, commit), nello stesso commit. Mai riscrivere o cancellare le righe precedenti. Leggere quel file all'inizio di ogni sessione e prima di ogni verifica richiesta da Alex.
