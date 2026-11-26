@@ -56,6 +56,9 @@ App unica (`index.html`, GitHub Pages) con due tab: **Cash Flow** | **Contabilit
 - **Mail INTERNE (Valentina, Verusca, Raffaella):** come prima, 'ti scrivo per conto di Alex' e firma `Claude, per conto di Alex`. Non cambiare questo uso senza che Alex lo chieda.
 - **Finestra di autorizzazione dell'invio:** sul TELEFONO di Alex mostra il testo grezzo con `\n` (illeggibile); sul PC e' formattata (A, Cc, oggetto, testo). Prima di ogni invio: mostrare in chat destinatario, Cc, oggetto e testo completo; se Alex e' al telefono, dare un LINK `mailto:` gia' compilato (si apre Gmail con la firma sua) oppure aspettare che sia al PC. Mai riprovare l'invio piu' volte di fila dopo un 'Nega'.
 
+## "VAI" = SPEDISCI (regola di Alex, 26/11/2026) — R317
+- **Se Alex dice 'vai', 'manda' o 'spedisci' dopo che il testo della mail e' stato mostrato in chat, e' l'OK all'invio: inviare subito, senza richiedere di nuovo conferma.** Il testo si mostra sempre in chat prima (regola R308); la finestra di autorizzazione dell'app sul telefono e' dell'app (testo grezzo) e non si puo' togliere da qui: con 'Consenti una volta' parte. Un solo tentativo per richiesta.
+
 ## REVISIONI (regola di Alex, 02/10/2026 sera)
 - **Ogni modifica a dati, parametri, formule o conclusioni già comunicate si registra in `docs/REVISIONI.md`** (numero progressivo R0xx, tipo PUBBLICATA/ANALISI/RITRATTATA/RIPRISTINO, prima → dopo, fonte, commit), nello stesso commit. Mai riscrivere o cancellare le righe precedenti. Leggere quel file all'inizio di ogni sessione e prima di ogni verifica richiesta da Alex.
 - **Un risultato si chiama "della pagina di Alex" SOLO se viene da un suo screenshot recente.** Un numero calcolato in headless va scritto "test headless" con i parametri usati (rev26/rev27, magazzino, CIG, otherFixedK...). Il 02/10 un test senza la CIG di Alex fu presentato come stato della pagina (R030).
